@@ -1,0 +1,26 @@
+{
+  "heading": "Alumni Testimonies",
+  "note": "Add or remove testimonies by editing this list.",
+  "testimonies": [
+    {
+      "quote": "I came expecting to memorise rulings and left having learned how the scholars arrived at them. That shift changed the way I read everything.",
+      "name": "Sumayyah Noor",
+      "graduated": "2020"
+    },
+    {
+      "quote": "My teacher went through the same page with me four times without once making me feel slow. I try to teach my own students that way now.",
+      "name": "Abdurrahman Sheikh",
+      "graduated": "2022"
+    },
+    {
+      "quote": "TODO: A third alumni testimony.",
+      "name": "TODO: Name",
+      "graduated": "TODO: Year"
+    },
+    {
+      "quote": "TODO: A fourth alumni testimony.",
+      "name": "TODO: Name",
+      "graduated": "TODO: Year"
+    }
+  ]
+}

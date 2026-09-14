@@ -1,0 +1,174 @@
+/* =====================================================================
+   carousel.js - one sliding carousel used by both Teachers and Alumni.
+   Pages by whole screenfuls; arrows hide at the ends; dots track pages.
+   ===================================================================== */
+(function (global) {
+  "use strict";
+
+  var CHEVRON =
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19"/></svg>';
+
+  /**
+   * @param {Object} opts
+   * @param {HTMLElement} opts.mount     element to render into
+   * @param {Array}       opts.items     data for the slides
+   * @param {Function}    opts.render    (item, index) -> HTMLElement
+   * @param {Function}    opts.perView   () -> how many slides fit at this width
+   * @param {string}      opts.label     accessible name for the carousel
+   */
+  function createCarousel(opts) {
+    var items = opts.items || [];
+    if (!opts.mount || !items.length) return null;
+
+    var root = document.createElement("div");
+    root.className = "carousel";
+    root.setAttribute("role", "group");
+    root.setAttribute("aria-roledescription", "carousel");
+    root.setAttribute("aria-label", opts.label);
+
+    var prev = arrowButton("prev", "Previous " + opts.label);
+    var next = arrowButton("next", "Next " + opts.label);
+
+    var viewport = document.createElement("div");
+    viewport.className = "carousel__viewport";
+
+    var track = document.createElement("div");
+    track.className = "carousel__track";
+
+    items.forEach(function (item, i) {
+      var slide = document.createElement("div");
+      slide.className = "carousel__slide";
+      slide.setAttribute("role", "group");
+      slide.setAttribute("aria-roledescription", "slide");
+      slide.setAttribute("aria-label", i + 1 + " of " + items.length);
+      slide.appendChild(opts.render(item, i));
+      track.appendChild(slide);
+    });
+
+    viewport.appendChild(track);
+
+    var dots = document.createElement("div");
+    dots.className = "carousel__dots";
+
+    root.append(prev, viewport, next, dots);
+    opts.mount.appendChild(root);
+
+    var page = 0;
+    var pageCount = 1;
+
+    function slideWidth() {
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      var first = track.firstElementChild;
+      return (first ? first.getBoundingClientRect().width : 0) + gap;
+    }
+
+    function layout() {
+      var perView = Math.max(1, Math.min(opts.perView(), items.length));
+      // Each slide is sized so `perView` of them plus the gaps fill the viewport.
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      var avail = viewport.getBoundingClientRect().width - gap * (perView - 1);
+      var w = avail / perView;
+
+      Array.prototype.forEach.call(track.children, function (slide) {
+        slide.style.width = w + "px";
+      });
+
+      pageCount = Math.max(1, Math.ceil(items.length / perView));
+      if (page > pageCount - 1) page = pageCount - 1;
+
+      buildDots(perView);
+      apply(perView);
+    }
+
+    function buildDots(perView) {
+      if (dots.childElementCount === pageCount) return;
+      dots.textContent = "";
+      for (var i = 0; i < pageCount; i++) {
+        var dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "carousel__dot";
+        dot.setAttribute("aria-label", "Go to slide group " + (i + 1));
+        dot.dataset.page = String(i);
+        dot.addEventListener("click", function (e) {
+          go(Number(e.currentTarget.dataset.page));
+        });
+        dots.appendChild(dot);
+      }
+      dots.hidden = pageCount < 2;
+    }
+
+    function apply(perView) {
+      var step = slideWidth() * perView;
+      // Never scroll past the last slide.
+      var maxShift = Math.max(0, slideWidth() * items.length - parseFloat(getComputedStyle(track).columnGap || 0) - viewport.getBoundingClientRect().width);
+      var shift = Math.min(page * step, maxShift);
+      track.style.transform = "translateX(" + -shift + "px)";
+
+      prev.disabled = page === 0;
+      next.disabled = page >= pageCount - 1;
+
+      Array.prototype.forEach.call(dots.children, function (dot, i) {
+        if (i === page) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+
+      // Slides scrolled out of view must not be reachable by keyboard.
+      Array.prototype.forEach.call(track.children, function (slide, i) {
+        var visible = i >= page * perView && i < (page + 1) * perView;
+        slide.setAttribute("aria-hidden", visible ? "false" : "true");
+        slide.querySelectorAll("a, button").forEach(function (el) {
+          if (visible) el.removeAttribute("tabindex");
+          else el.setAttribute("tabindex", "-1");
+        });
+      });
+    }
+
+    function go(n) {
+      page = Math.max(0, Math.min(n, pageCount - 1));
+      layout();
+    }
+
+    prev.addEventListener("click", function () { go(page - 1); });
+    next.addEventListener("click", function () { go(page + 1); });
+
+    root.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { go(page + 1); e.preventDefault(); }
+      if (e.key === "ArrowLeft")  { go(page - 1); e.preventDefault(); }
+    });
+
+    // Touch swipe
+    var startX = null;
+    viewport.addEventListener("touchstart", function (e) {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+    viewport.addEventListener("touchend", function (e) {
+      if (startX === null) return;
+      var dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 45) go(dx < 0 ? page + 1 : page - 1);
+      startX = null;
+    });
+
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(layout, 120);
+    });
+
+    layout();
+    // Fonts land after first paint and change slide heights, so re-measure.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+
+    return { go: go, layout: layout };
+  }
+
+  function arrowButton(dir, label) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "carousel__arrow carousel__arrow--" + dir;
+    b.setAttribute("aria-label", label);
+    b.innerHTML = CHEVRON;
+    return b;
+  }
+
+  global.createCarousel = createCarousel;
+})(window);

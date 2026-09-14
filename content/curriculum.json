@@ -1,0 +1,167 @@
+{
+  "label": "Curriculum",
+  "note": "Only Second Year is filled in from the design mockup. Every entry marked TODO is a placeholder — replace the text, keep the shape. Fields: title (English), titleUrdu (Urdu/Arabic script, may be empty), subject, author (may be empty), description.",
+  "years": [
+    {
+      "name": "First Year",
+      "books": [
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        },
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        }
+      ]
+    },
+    {
+      "name": "Second Year",
+      "books": [
+        {
+          "title": "Achi Baatain",
+          "titleUrdu": "اچھی باتیں",
+          "subject": "Urdu",
+          "author": "",
+          "description": "Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar."
+        },
+        {
+          "title": "Tasheel ul-Nahwa",
+          "titleUrdu": "",
+          "subject": "Nahwa",
+          "author": "",
+          "description": "TODO: Description of Tasheel ul-Nahwa."
+        },
+        {
+          "title": "Tasheel ul-Sarf",
+          "titleUrdu": "",
+          "subject": "Sarf",
+          "author": "",
+          "description": "TODO: Description of Tasheel ul-Sarf."
+        },
+        {
+          "title": "Duroos 1",
+          "titleUrdu": "",
+          "subject": "Arabic",
+          "author": "",
+          "description": "TODO: Description of Duroos 1."
+        },
+        {
+          "title": "Qasas 1",
+          "titleUrdu": "",
+          "subject": "Arabic",
+          "author": "",
+          "description": "TODO: Description of Qasas 1."
+        },
+        {
+          "title": "TODO: Sixth book",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: The mockup shows a sixth card here repeating Achi Baatain — replace it with the real sixth book, or delete this entry."
+        }
+      ]
+    },
+    {
+      "name": "Third Year",
+      "books": [
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        },
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        }
+      ]
+    },
+    {
+      "name": "Fourth Year",
+      "books": [
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        },
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        }
+      ]
+    },
+    {
+      "name": "Fifth Year",
+      "books": [
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        },
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        }
+      ]
+    },
+    {
+      "name": "Sixth Year",
+      "books": [
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        },
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        }
+      ]
+    },
+    {
+      "name": "Seventh Year",
+      "books": [
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        },
+        {
+          "title": "TODO: Book title",
+          "titleUrdu": "",
+          "subject": "TODO: Subject",
+          "author": "",
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+        }
+      ]
+    }
+  ]
+}

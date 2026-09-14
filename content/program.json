@@ -1,0 +1,55 @@
+{
+  "site": {
+    "name": "Jamiyah Islamiyyah Abu Bakr",
+    "tagline": "Alimiyyah Program"
+  },
+  "introduction": {
+    "label": "Introduction",
+    "body": "A full course of study in Qur'an, hadith, fiqh, Arabic and the sciences that serve them, taught in the traditional way: text by text, with a teacher, in the company of fellow students."
+  },
+  "program": {
+    "heading": "Our Program",
+    "body": "Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Throughout this course, students will attain a mastery of the Arabic language, through which they will gain a deep understanding of the Qur'an and Hadith."
+  },
+  "timings": {
+    "heading": "Class Timings",
+    "groups": [
+      {
+        "label": "Part-time",
+        "title": "Monday to Friday",
+        "rows": [
+          { "days": "Monday to Friday", "time": "4:30 PM - 7:30 PM" }
+        ]
+      },
+      {
+        "label": "Full-time",
+        "title": "Monday to Saturday",
+        "rows": [
+          { "days": "Monday to Friday", "time": "8:30 AM - 4:15 PM" },
+          { "days": "Saturday", "time": "8:30 AM - 12:30 PM" }
+        ]
+      }
+    ]
+  },
+  "fees": {
+    "heading": "Fees",
+    "tiers": [
+      { "label": "Part-time", "amount": "$125", "period": "/month", "note": "per student" },
+      { "label": "Full-time", "amount": "$325", "period": "/month", "note": "per student" }
+    ],
+    "discounts": {
+      "label": "Family discounts",
+      "rows": [
+        { "count": "2 students", "value": "5% off the total" },
+        { "count": "3 students", "value": "10% off the total" },
+        { "count": "4 or more", "value": "15% off the total" }
+      ]
+    },
+    "cta": null
+  },
+  "footer": {
+    "address": "TODO: masjid street address, city, postal code",
+    "email": "TODO: info@example.org",
+    "phone": "TODO: (000) 000-0000"
+  }
+}

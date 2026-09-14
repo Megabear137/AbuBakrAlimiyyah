@@ -1,0 +1,41 @@
+{
+  "heading": "Our Teachers",
+  "note": "Add or remove teachers by editing this list. 'honorific' is the small line above the name; 'bio' may be left empty.",
+  "teachers": [
+    {
+      "honorific": "Moulana",
+      "name": "Kasim Ingar",
+      "bio": "Imam of our masjid, and teacher for over 30 years"
+    },
+    {
+      "honorific": "Moulana",
+      "name": "Salim Chauhan",
+      "bio": ""
+    },
+    {
+      "honorific": "Moulana",
+      "name": "Zuber Motala",
+      "bio": ""
+    },
+    {
+      "honorific": "Moulana",
+      "name": "TODO: Fourth teacher",
+      "bio": "TODO: Short line about this teacher."
+    },
+    {
+      "honorific": "Moulana",
+      "name": "TODO: Fifth teacher",
+      "bio": "TODO: Short line about this teacher."
+    },
+    {
+      "honorific": "Moulana",
+      "name": "TODO: Sixth teacher",
+      "bio": "TODO: Short line about this teacher."
+    },
+    {
+      "honorific": "Moulana",
+      "name": "TODO: Seventh teacher",
+      "bio": "TODO: Short line about this teacher."
+    }
+  ]
+}

@@ -1,0 +1,867 @@
+/* =====================================================================
+   Jamiyah Islamiyyah Abu Bakr - Alimiyyah Program
+   Colours and proportions are taken from design/wesbite_design.png
+   ---------------------------------------------------------------------
+    1. Tokens
+    2. Reset & base
+    3. Layout helpers
+    4. Motifs (tabbed panel, arch card, base stripe)
+    5. Header & navigation
+    6. Hero
+    7. Introduction & program prose
+    8. Curriculum accordion
+    9. Timings & fees arches
+   10. Carousels (teachers, testimonies)
+   11. Footer
+   12. Responsive
+   ===================================================================== */
+
+/* ------------------------------ 1. Tokens -------------------------- */
+:root {
+  --green:        #134528;
+  --green-deep:   #062707;
+  --gold:         #c9a961;
+  --gold-light:   #d9be78;
+  --mint:         #c9ebdd;
+  --paper:        #ffffff;
+  --ink:          #14251b;
+  --on-green:     #f4efe2;
+  --hairline:     rgba(244, 239, 226, 0.38);
+
+  --display: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
+  --body:    "EB Garamond", Garamond, "Times New Roman", serif;
+  --urdu:    "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+
+  --wrap:        1180px;
+  --wrap-narrow: 900px;
+  --gutter:      clamp(1rem, 4vw, 2.5rem);
+  --header-h:    64px;
+
+  --radius:      18px;
+  --radius-sm:   12px;
+}
+
+/* --------------------------- 2. Reset & base ----------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.075rem);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+}
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--green);
+  color: var(--on-green);
+  padding: 0.6rem 1.1rem;
+}
+.skip-link:focus { left: 0.5rem; top: 0.5rem; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -------------------------- 3. Layout helpers ---------------------- */
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.wrap--narrow { max-width: var(--wrap-narrow); }
+
+.section { padding-block: clamp(2.5rem, 6vw, 4.5rem) 0; }
+.section > .wrap + .wrap { margin-top: clamp(2.5rem, 5vw, 4rem); }
+
+.section__heading {
+  color: var(--green);
+  font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.6rem);
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.section__body {
+  max-width: 62ch;
+  margin-inline: auto;
+}
+.section__body--center { text-align: center; }
+
+.rule {
+  width: min(var(--wrap), 100% - 2 * var(--gutter));
+  margin: clamp(2.5rem, 6vw, 4.5rem) auto 0;
+  border: 0;
+  border-top: 1.5px solid var(--green);
+  opacity: 0.85;
+}
+
+/* ------------------------------ 4. Motifs -------------------------- */
+
+/* 4a. Gilt frame: two gold hairlines set in from the edge, with green
+   showing outside the pair and between them. Measured off the mockup -
+   the outer line is NOT flush with the edge. Tune per element with the
+   --gilt-* properties; --gilt-drop carries any outer drop shadow, since
+   one element cannot have two box-shadow declarations.
+
+   Shadows paint front-to-back, so each ring masks the wider one behind it. */
+.gilt {
+  --gilt-inset: 10px;   /* green margin before the outer line */
+  --gilt-gap:    5px;   /* green between the two lines */
+  --gilt-line:   1.5px;
+  --gilt-drop:   0 0 rgba(0, 0, 0, 0);
+
+  box-shadow:
+    inset 0 0 0 var(--gilt-inset) var(--green),
+    inset 0 0 0 calc(var(--gilt-inset) + var(--gilt-line)) var(--gold),
+    inset 0 0 0 calc(var(--gilt-inset) + var(--gilt-line) + var(--gilt-gap)) var(--green),
+    inset 0 0 0 calc(var(--gilt-inset) + 2 * var(--gilt-line) + var(--gilt-gap)) var(--gold),
+    var(--gilt-drop);
+}
+
+/* 4b. Tabbed panel: a gold-outlined pill straddling the panel top edge */
+.tabbed__label {
+  position: relative;
+  z-index: 2;
+  width: max-content;
+  max-width: min(100%, 26rem);
+  margin: 0 auto;
+  padding: 0.6rem 2.75rem;
+  background: var(--green);
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 6px 18px rgba(6, 39, 7, 0.22);
+
+  color: var(--gold-light);
+  font-family: var(--display);
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+  font-style: italic;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.tabbed__panel {
+  margin-top: -1.55rem;          /* pull the panel up beneath the pill */
+  padding-top: 1.55rem;
+  background: var(--green);
+  border-radius: var(--radius);
+
+  --gilt-inset: 10px;
+  --gilt-gap: 5px;
+  --gilt-drop: 0 10px 30px rgba(6, 39, 7, 0.18);
+}
+
+/* Spacer only - the gold lines belong to the panel, not to this box. */
+.tabbed__inner {
+  margin: 1.1rem;
+  padding: clamp(0.9rem, 2.2vw, 1.4rem);
+}
+
+/* 4c. Arch card: 9999px radii resolve to a true semicircular top */
+.arch {
+  position: relative;
+  background: var(--green);
+  border-radius: 9999px 9999px 0 0;
+  padding: clamp(1.6rem, 3vw, 2.2rem) clamp(1.4rem, 3vw, 2rem) clamp(2rem, 4vw, 2.75rem);
+  color: var(--on-green);
+  box-shadow: 0 12px 34px rgba(6, 39, 7, 0.2);
+}
+
+.arch::before {                  /* concentric gold hairline following the arc */
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid var(--gold);
+  border-radius: 9999px 9999px 0 0;
+  pointer-events: none;
+}
+
+.arch__mark {
+  width: clamp(48px, 6vw, 62px);
+  height: auto;
+  margin: 0 auto 0.6rem;
+}
+
+.arch__heading {
+  color: var(--gold-light);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 1.95rem);
+  text-align: center;
+  margin-bottom: 1.4rem;
+}
+
+.arch__body { padding-inline: clamp(0.4rem, 2vw, 1.1rem); }
+
+/* 4d. Base stripe: the stacked gold lines under teacher/testimony cards */
+.stripe {
+  height: 15px;
+  background:
+    linear-gradient(to bottom,
+      var(--green)      0 2px,
+      var(--gold-light) 2px 5px,
+      var(--green)      5px 7px,
+      var(--gold-light) 7px 11px,
+      var(--green)      11px 12px,
+      var(--gold-light) 12px 15px);
+}
+
+/* -------------------------- 5. Header & nav ------------------------ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--green);
+  border-bottom: 1px solid rgba(201, 169, 97, 0.35);
+}
+
+.site-header__inner {
+  max-width: var(--wrap);
+  min-height: var(--header-h);
+  margin-inline: auto;
+  padding: 0.5rem var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  color: var(--paper);
+  flex: 0 1 auto;
+}
+.brand__mark { width: 38px; height: 38px; flex: none; }
+.brand__name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1rem, 0.85rem + 0.5vw, 1.28rem);
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+
+.nav { margin-left: auto; }
+
+.nav__list {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 1.9rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__list a {
+  display: block;
+  padding: 0.35rem 0.15rem;
+  color: var(--paper);
+  font-family: var(--display);
+  font-size: clamp(0.95rem, 0.85rem + 0.35vw, 1.15rem);
+  text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.nav__list a:hover,
+.nav__list a[aria-current="true"] {
+  color: var(--gold-light);
+  border-bottom-color: var(--gold);
+}
+
+.nav-toggle {
+  display: none;
+  margin-left: auto;
+  padding: 0.55rem;
+  width: 44px;
+  height: 44px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+.nav-toggle__bar {
+  display: block;
+  height: 2px;
+  background: var(--paper);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.2s;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ------------------------------- 6. Hero --------------------------- */
+.hero { position: relative; }
+
+.hero__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1465 / 384;
+  min-height: 220px;
+  overflow: hidden;
+}
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+.hero__media::after {            /* fade the photograph into the page */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 45%, var(--paper) 100%);
+}
+
+.hero__title {
+  position: relative;
+  margin: -1.5rem auto 0;
+  padding-inline: var(--gutter);
+  max-width: var(--wrap);
+  color: var(--green);
+  font-size: clamp(2rem, 1.1rem + 3.6vw, 3.9rem);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* -------------------- 7. Introduction & program prose -------------- */
+.section--intro { padding-top: clamp(1.5rem, 4vw, 2.75rem); }
+
+.intro__body {
+  color: var(--on-green);
+  font-size: clamp(0.98rem, 0.92rem + 0.25vw, 1.08rem);
+  line-height: 1.75;
+  padding: 0.4rem 0.6rem;
+}
+
+/* The mockup runs this paragraph the full width of the content column,
+   flush left with the panels above and below it. */
+.section--program .section__body {
+  max-width: none;
+  margin-inline: 0;
+  margin-bottom: 0;
+  padding-inline: clamp(0.25rem, 1.5vw, 1.1rem);
+}
+
+.section--soon { padding-bottom: 0; }
+.section--soon .section__body { color: #4a5a50; font-style: italic; }
+
+/* ---------------------- 8. Curriculum accordion -------------------- */
+.tabbed--curriculum .tabbed__inner { padding: clamp(0.5rem, 1.5vw, 0.9rem); }
+
+.acc__item + .acc__item { border-top: 1px solid var(--hairline); }
+
+.acc__trigger {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: clamp(0.7rem, 1.6vw, 1rem) clamp(0.6rem, 2vw, 1.4rem);
+  color: var(--gold-light);
+  font-family: var(--display);
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+  font-weight: 600;
+  text-align: center;
+  transition: color 0.2s;
+}
+.acc__trigger:hover { color: var(--paper); }
+.acc__trigger > span:first-child { grid-column: 1 / -1; grid-row: 1; }
+
+.acc__chevron {
+  grid-column: 2;
+  grid-row: 1;
+  width: 1.4em;
+  height: 1.4em;
+  fill: none;
+  stroke: var(--gold-light);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.3s ease;
+}
+.acc__trigger[aria-expanded="true"] .acc__chevron { transform: rotate(180deg); }
+
+.acc__panel[hidden] { display: none; }
+
+.acc__panel {
+  margin: 0 clamp(0.2rem, 1vw, 0.6rem) clamp(0.6rem, 1.5vw, 1rem);
+  padding: clamp(0.7rem, 2vw, 1.1rem);
+  background: var(--green-deep);
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius);
+  animation: acc-in 0.28s ease both;
+}
+
+@keyframes acc-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Book cards */
+.books {
+  display: flex;
+  gap: clamp(0.5rem, 1.4vw, 0.9rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.35rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) transparent;
+}
+.books::-webkit-scrollbar { height: 6px; }
+.books::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+.book {
+  flex: 1 1 0;
+  min-width: 8.5rem;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  padding: clamp(0.7rem, 1.6vw, 1rem) 0.6rem;
+  background: var(--green-deep);
+  border: 1.5px solid var(--gold);
+  color: var(--gold-light);
+  font-family: var(--display);
+  text-align: center;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.book:hover { background: var(--green); transform: translateY(-2px); }
+
+.book__title {
+  font-size: clamp(0.92rem, 0.85rem + 0.28vw, 1.08rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.book__divider {
+  width: 62%;
+  height: 1px;
+  background: var(--gold);
+  margin-block: 0.1rem;
+}
+
+.book__subject {
+  margin-top: auto;
+  font-size: clamp(0.8rem, 0.75rem + 0.2vw, 0.94rem);
+  font-style: italic;
+}
+
+.book[aria-selected="true"] {
+  background: var(--mint);
+  color: var(--green-deep);
+  transform: none;
+}
+.book[aria-selected="true"] .book__divider { background: var(--green-deep); }
+
+/* Selected book detail pane */
+.book-detail {
+  margin-top: clamp(0.7rem, 2vw, 1.1rem);
+  padding: clamp(0.9rem, 2.4vw, 1.5rem);
+  background: var(--green);
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius-sm);
+  color: var(--on-green);
+}
+
+.book-detail__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.book-detail__title {
+  color: var(--gold-light);
+  font-size: clamp(1.2rem, 1.05rem + 0.7vw, 1.65rem);
+}
+
+.book-detail__urdu {
+  font-family: var(--urdu);
+  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.45rem);
+  line-height: 2.1;
+  color: var(--gold-light);
+  direction: rtl;
+}
+
+.book-detail__meta {
+  margin: 0.15rem 0 0;
+  color: var(--gold-light);
+  font-size: 0.86rem;
+  font-style: italic;
+}
+
+.book-detail__rule {
+  margin: 0.85rem 0;
+  border: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.book-detail__body {
+  font-size: clamp(0.9rem, 0.85rem + 0.22vw, 1rem);
+  line-height: 1.7;
+}
+
+/* ---------------------- 9. Timings & fees arches ------------------- */
+/* Fluid columns capped at 460px: fixed-width tracks would overflow the
+   content column in the band just above the single-column breakpoint. */
+.arches {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 5vw, 4.5rem);
+  max-width: calc(2 * 460px + 4.5rem);
+  margin-inline: auto;
+  justify-items: center;
+  align-items: stretch;    /* both arches finish on the same baseline */
+}
+
+.arch { width: 100%; max-width: 460px; }
+
+.timing-group + .timing-group { margin-top: 2rem; }
+.timing-group + .timing-group::before {
+  content: "";
+  display: block;
+  width: 70%;
+  margin: 0 auto 2rem;
+  border-top: 1px solid var(--gold);
+}
+
+.group__label,
+.fee__label,
+.discounts__label {
+  color: var(--gold-light);
+  font-family: var(--display);
+  font-size: clamp(1rem, 0.92rem + 0.35vw, 1.18rem);
+  font-style: italic;
+  font-weight: 600;
+  margin: 0;
+}
+
+.group__title {
+  color: var(--paper);
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.6rem);
+  font-weight: 500;
+  margin: 0.15rem 0 0.4rem;
+}
+
+.datarow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-top: 1px solid var(--hairline);
+  font-size: clamp(0.85rem, 0.8rem + 0.22vw, 0.98rem);
+}
+.datarow:last-child { border-bottom: 1px solid var(--hairline); }
+.datarow__key { font-weight: 600; }
+.datarow__value { color: var(--gold-light); white-space: nowrap; }
+
+/* Fees */
+.fee + .fee { margin-top: 1.5rem; }
+.fee__amount {
+  margin: 0.1rem 0;
+  color: var(--paper);
+  font-family: var(--display);
+  font-size: clamp(1.55rem, 1.25rem + 1.3vw, 2.15rem);
+  font-weight: 500;
+}
+.fee__period { font-size: 0.8em; }
+.fee__note { margin: 0; font-size: 0.82rem; }
+.fee__hr {
+  margin: 1.1rem 0 0;
+  border: 0;
+  border-top: 1px solid var(--gold);
+}
+
+.discounts { margin-top: 1.4rem; }
+.discounts__label { padding-bottom: 0.35rem; }
+
+.arch__cta {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.6rem;
+  background: var(--gold);
+  color: var(--green-deep);
+  border-radius: var(--radius-sm);
+  font-family: var(--display);
+  font-weight: 700;
+  text-decoration: none;
+}
+.arch__cta:hover { background: var(--gold-light); }
+
+/* ---------------------------- 10. Carousels ------------------------ */
+.carousel {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr) 3.25rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.carousel__viewport { overflow: hidden; }
+
+.carousel__track {
+  display: flex;
+  gap: var(--slide-gap, 1.25rem);
+  transition: transform 0.42s cubic-bezier(0.4, 0.1, 0.2, 1);
+  will-change: transform;
+}
+
+.carousel__slide { flex: 0 0 auto; }
+
+.carousel__arrow {
+  width: 2.6rem;
+  height: 2.6rem;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--green);
+  border-radius: 50%;
+  color: var(--green);
+  transition: background 0.2s, color 0.2s;
+}
+.carousel__arrow:hover { background: var(--green); color: var(--paper); }
+.carousel__arrow[disabled] { visibility: hidden; }
+.carousel__arrow svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.carousel__arrow--prev svg { transform: scaleX(-1); }
+
+.carousel__dots {
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 1.5rem;
+}
+.carousel__dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  padding: 0;
+  border: 1.5px solid var(--green);
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+.carousel__dot[aria-current="true"] { background: var(--green); }
+
+/* Teacher card */
+.teacher {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 380 / 650;
+  background: var(--green);
+}
+/* The margin is the green showing outside the pair; --gilt-inset is then 0
+   because the frame edge is where the outer gold line sits. */
+.teacher__frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 17px;
+  padding: clamp(1.4rem, 3vw, 2rem) clamp(1.35rem, 2.5vw, 1.6rem);
+  text-align: center;
+
+  --gilt-inset: 0px;
+  --gilt-gap: 10px;
+}
+.teacher__honorific {
+  color: var(--gold-light);
+  font-family: var(--display);
+  font-size: clamp(0.9rem, 0.85rem + 0.25vw, 1.05rem);
+  font-style: italic;
+  font-weight: 600;
+  margin: 0.4rem 0 0.9rem;
+}
+.teacher__name {
+  color: var(--gold-light);
+  font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.3rem);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.12;
+  margin: 0;
+}
+.teacher__rule {
+  width: 82%;
+  margin: clamp(1rem, 3vw, 1.9rem) 0 1rem;
+  border: 0;
+  border-top: 1.5px solid var(--gold-light);
+}
+.teacher__bio {
+  color: var(--paper);
+  font-size: clamp(0.9rem, 0.85rem + 0.28vw, 1.05rem);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Testimony card */
+.testimony {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 553 / 385;
+  background: var(--green);
+  margin: 0;
+}
+.testimony__frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 14px;
+  padding: clamp(1rem, 3vw, 2rem);
+  text-align: center;
+
+  --gilt-inset: 0px;
+  --gilt-gap: 6px;
+}
+.testimony__quote {
+  color: var(--paper);
+  font-size: clamp(0.95rem, 0.88rem + 0.4vw, 1.18rem);
+  line-height: 1.5;
+  margin: 0;
+}
+.testimony__cite {
+  display: block;
+  margin-top: clamp(1rem, 3vw, 2rem);
+  color: var(--on-green);
+  font-size: clamp(0.75rem, 0.72rem + 0.15vw, 0.85rem);
+  font-style: normal;
+}
+
+/* ------------------------------ 11. Footer ------------------------- */
+.site-footer {
+  margin-top: clamp(3rem, 8vw, 5.5rem);
+  padding-block: clamp(2rem, 5vw, 3rem);
+  background: var(--green);
+  color: var(--on-green);
+  border-top: 3px solid var(--gold);
+}
+.site-footer__inner {
+  display: grid;
+  gap: 1.5rem;
+  justify-items: center;
+  text-align: center;
+}
+.site-footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.site-footer__name {
+  margin: 0;
+  color: var(--gold-light);
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.4rem);
+  font-weight: 700;
+}
+.site-footer__contact {
+  font-style: normal;
+  line-height: 1.9;
+  font-size: 0.95rem;
+}
+.site-footer__contact a { color: var(--gold-light); }
+.site-footer__legal {
+  margin: 0;
+  font-size: 0.82rem;
+  opacity: 0.8;
+}
+
+/* ---------------------------- 12. Responsive ----------------------- */
+@media (max-width: 880px) {
+  .nav-toggle { display: flex; }
+
+  .nav {
+    position: fixed;
+    inset: var(--header-h) 0 auto 0;
+    margin: 0;
+    background: var(--green);
+    border-bottom: 2px solid var(--gold);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .nav[data-open="true"] { max-height: 80vh; overflow-y: auto; }
+
+  .nav__list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem var(--gutter) 1.25rem;
+  }
+  .nav__list a {
+    padding: 0.8rem 0.25rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .arches { grid-template-columns: minmax(0, 1fr); max-width: 460px; }
+
+  .book { flex: 0 0 9rem; }
+}
+
+@media (max-width: 640px) {
+  .carousel { grid-template-columns: 2.5rem minmax(0, 1fr) 2.5rem; gap: 0.25rem; }
+  .book-detail__head { flex-direction: column; align-items: center; text-align: center; }
+  .acc__trigger { font-size: 1.1rem; }
+  .tabbed__label { padding-inline: 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jamiyah Islamiyyah Abu Bakr — Alimiyyah Program</title>
+  <meta name="description" content="A seven year Alimiyyah program in Qur'an, hadith, fiqh and Arabic, taught in the traditional way at Jamiyah Islamiyyah Abu Bakr.">
+
+  <link rel="icon" href="assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================== HEADER ============================== -->
+<header class="site-header" id="top">
+  <div class="site-header__inner">
+    <a class="brand" href="#top">
+      <img class="brand__mark" src="assets/img/logo.png" alt="" width="40" height="40">
+      <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+
+    <nav class="nav" id="primary-nav" aria-label="Primary">
+      <ul class="nav__list">
+        <li><a href="#top">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#program">Program</a></li>
+        <li><a href="#articles">Articles</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#alumni">Alumni</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================== HERO ============================== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__media">
+      <img src="assets/img/hero-masjid.jpg" alt="The prayer hall of the masjid, looking towards the mihrab beneath the central dome." width="1465" height="384">
+    </div>
+    <h1 class="hero__title" id="hero-title">Jamiyah Islamiyyah Abu Bakr</h1>
+  </section>
+
+  <!-- ========================== INTRODUCTION ========================== -->
+  <section class="section section--intro" id="about" aria-labelledby="intro-label">
+    <div class="wrap">
+      <div class="tabbed" data-js="introduction">
+        <p class="tabbed__label" id="intro-label">Introduction</p>
+        <div class="tabbed__panel gilt">
+          <div class="tabbed__inner">
+            <p class="intro__body" data-slot="intro-body"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="rule">
+  </section>
+
+  <!-- ============================ PROGRAM ============================= -->
+  <section class="section section--program" id="program" aria-labelledby="program-heading">
+    <div class="wrap">
+      <h2 class="section__heading" id="program-heading" data-slot="program-heading">Our Program</h2>
+      <p class="section__body" data-slot="program-body"></p>
+    </div>
+
+    <!-- Curriculum accordion (rendered by assets/js/curriculum.js) -->
+    <div class="wrap">
+      <div class="tabbed tabbed--curriculum">
+        <p class="tabbed__label" data-slot="curriculum-label">Curriculum</p>
+        <div class="tabbed__panel gilt">
+          <div class="tabbed__inner">
+            <div class="accordion" data-slot="curriculum"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timings + Fees arch cards -->
+    <div class="wrap">
+      <div class="arches">
+        <section class="arch" aria-labelledby="timings-heading">
+          <img class="arch__mark" src="assets/img/logo.png" alt="" width="56" height="56">
+          <h3 class="arch__heading" id="timings-heading" data-slot="timings-heading">Class Timings</h3>
+          <div class="arch__body" data-slot="timings"></div>
+        </section>
+
+        <section class="arch" aria-labelledby="fees-heading">
+          <img class="arch__mark" src="assets/img/logo.png" alt="" width="56" height="56">
+          <h3 class="arch__heading" id="fees-heading" data-slot="fees-heading">Fees</h3>
+          <div class="arch__body" data-slot="fees"></div>
+        </section>
+      </div>
+    </div>
+    <hr class="rule">
+  </section>
+
+  <!-- ============================ TEACHERS ============================ -->
+  <section class="section section--teachers" id="teachers" aria-labelledby="teachers-heading">
+    <div class="wrap">
+      <h2 class="section__heading" id="teachers-heading" data-slot="teachers-heading">Our Teachers</h2>
+      <div data-slot="teachers"></div>
+    </div>
+    <hr class="rule">
+  </section>
+
+  <!-- =========================== TESTIMONIES ========================== -->
+  <section class="section section--alumni" id="alumni" aria-labelledby="alumni-heading">
+    <div class="wrap">
+      <h2 class="section__heading" id="alumni-heading" data-slot="testimonies-heading">Alumni Testimonies</h2>
+      <div data-slot="testimonies"></div>
+    </div>
+    <hr class="rule">
+  </section>
+
+  <!-- ===================== PLACEHOLDER SECTIONS ======================= -->
+  <section class="section section--soon" id="articles" aria-labelledby="articles-heading">
+    <div class="wrap wrap--narrow">
+      <h2 class="section__heading" id="articles-heading">Articles</h2>
+      <p class="section__body section__body--center">Writing from our teachers and students will be published here.</p>
+    </div>
+  </section>
+
+  <section class="section section--soon" id="videos" aria-labelledby="videos-heading">
+    <div class="wrap wrap--narrow">
+      <h2 class="section__heading" id="videos-heading">Videos</h2>
+      <p class="section__body section__body--center">Recorded lessons and talks will be published here.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="site-footer" id="contact">
+  <div class="wrap site-footer__inner">
+    <div class="site-footer__brand">
+      <img src="assets/img/logo.png" alt="" width="52" height="52">
+      <p class="site-footer__name">Jamiyah Islamiyyah Abu Bakr</p>
+    </div>
+    <address class="site-footer__contact" data-slot="footer-contact"></address>
+    <p class="site-footer__legal">&copy; <span data-slot="year"></span> Jamiyah Islamiyyah Abu Bakr. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="assets/js/carousel.js"></script>
+<script src="assets/js/curriculum.js"></script>
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
