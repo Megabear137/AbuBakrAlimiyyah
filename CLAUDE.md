@@ -6,7 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A static informational website for the seven-year Alimiyyah program at Jamiyah Islamiyyah Abu Bakr
 (a masjid). Plain HTML/CSS/vanilla JS — **no build step, no dependencies, no framework, no tests, no
-package.json**. Not currently a git repository.
+package.json**.
+
+Note: the repo lives on a WSL path accessed from Windows, so `git` may refuse it with "dubious
+ownership". Fix with `git config --global --add safe.directory '%(prefix)///wsl.localhost/Ubuntu/home/zubai/projects/alimiyyah_website'`.
 
 It may gain online enrolment/payment later, which is why content is data-driven rather than hardcoded.
 
@@ -93,6 +96,33 @@ over inventing new border treatments:
 
 Colour tokens in `:root` were sampled from the mockup: `--green #134528`, `--green-deep #062707`,
 `--gold #c9a961`, `--gold-light #d9be78`, `--mint #c9ebdd`.
+
+**`--ground` vs `--paper` — do not conflate them.** `--ground #f5eee0` is the page; `--paper #ffffff`
+is only ink-on-green (nav links, card body copy, the hamburger bars). The mockup's white page was
+replaced by an aged-leaf ground chosen from a later design round.
+
+### The page ground and the divider
+
+Both are later additions, and neither is in `wesbite_design.png` — the mockup shows a plain white page
+and a plain green rule. Don't "restore" them to match it.
+
+- **The ground** is seven stacked `background-image` layers on `body`, topmost first: grain, two edge
+  shadings, two gold-fleck (zarafshan) tiles, two age-bloom (foxing) tiles. The tiles live as real
+  files in `assets/img/ground-*.svg` rather than data URIs, so they stay editable in a no-build project.
+  Two details are load-bearing: the flecks use **two coprime tile sizes** (317px and 523px) at natural
+  scale and the blooms reuse **one tile at two sizes with an offset**, because a single tile shows an
+  obvious repeat down a 5000px page. The edge shading is horizontal only — a top/bottom vignette
+  implies a page that ends, which an infinite scroll does not.
+- **The divider** is a gold khatim medallion (`assets/img/divider-khatim.svg`) between hairlines that
+  fade out at the outer ends. It is drawn entirely in `background` layers so the markup stays a plain
+  `<hr class="rule">`; the two rules are each `calc(50% - 40px)` wide so nothing is drawn behind the
+  medallion.
+- **The hero uses `mix-blend-mode: multiply`** because the placeholder photo was cropped from the
+  mockup and has a fade to *white* baked into its edges. Multiplying against the cream ground maps that
+  white back onto the page exactly (white × ground = ground) instead of leaving a white halo. It fades
+  out via `mask-image`, **not** an overlay — an overlay paints flat colour over the grain and flecks and
+  leaves a visible seam where the hero ends. A replacement photo with no baked-in fade can drop the
+  blend mode.
 
 ### Curriculum accordion
 

@@ -1,0 +1,43 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html",              "title": "Ground · Laid paper",         "x": 0,    "y": 0,    "w": 1180, "h": 740 },
+    { "file": "GroundAgedLeaf.dc.html",    "title": "Ground · Aged leaf",          "x": 1260, "y": 0,    "w": 1180, "h": 740 },
+    { "file": "GroundMistara.dc.html",     "title": "Ground · Mistara ruling",     "x": 2520, "y": 0,    "w": 1180, "h": 740 },
+
+    { "file": "GroundIlluminated.dc.html", "title": "Ground · Illuminated border", "x": 0,    "y": 1060, "w": 1180, "h": 740 },
+    { "file": "GroundZarafshan.dc.html",   "title": "Ground · Zarafshan",          "x": 1260, "y": 1060, "w": 1180, "h": 740 }
+  ],
+  "annotations": [
+    {
+      "id": "row-grounds",
+      "x": 0, "y": -160, "w": 760,
+      "text": "MANUSCRIPT GROUNDS — pick one\nDivider A is settled and appears in all five, so the ground is the only variable. Two work on the paper itself (laid, aged), two add ruling to the page (mistara, illuminated), one sprinkles it (zarafshan)."
+    },
+    {
+      "id": "note-laid",
+      "x": 0, "y": 790, "w": 380,
+      "text": "Laid paper\nIvory with the wire marks of handmade paper — fine horizontal laid lines every 4px, heavier chain lines every 36px, plus grain.\nTradeoff: the chain lines are a regular vertical rhythm behind an already-busy page; if they read as banding, drop them and keep the laid lines."
+    },
+    {
+      "id": "note-aged",
+      "x": 1260, "y": 790, "w": 380,
+      "text": "Aged leaf\nWarmer ivory with soft foxing blooms and a vignette darkening toward the edges — an old page rather than a new one.\nTradeoff: the vignette makes the page feel bounded, which fights an infinitely scrolling site. Best if the blooms stay subtle enough to be felt, not counted."
+    },
+    {
+      "id": "note-mistara",
+      "x": 2520, "y": 790, "w": 380,
+      "text": "Mistara ruling\nPlain cream, with the paired gold rails that frame a manuscript text block running down both margins.\nTradeoff: the rails need somewhere to go on a phone, where there is no margin to spare — they would have to drop out below ~900px."
+    },
+    {
+      "id": "note-illum",
+      "x": 0, "y": 1850, "w": 380,
+      "text": "Illuminated border\nPale ivory inside a gold double rule inset from the page edge, with lozenges at the corners. Echoes the .gilt geometry already on your panels.\nTradeoff: a frame implies a page that ends. On a long scroll the side rules continue but the corners only appear at the very top and bottom."
+    },
+    {
+      "id": "note-zaraf",
+      "x": 1260, "y": 1850, "w": 380,
+      "text": "Zarafshan\nCream sprinkled with fine gold flecks, after the gold-sprinkled paper of Persian and Mughal manuscripts. The only option that puts gold into the white space without drawing a line.\nTradeoff: density is everything — too sparse and it looks like dust on the screen, too dense and it looks like a texture asset."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

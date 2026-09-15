@@ -23,6 +23,10 @@
   --gold:         #c9a961;
   --gold-light:   #d9be78;
   --mint:         #c9ebdd;
+
+  /* --ground is the page; --paper stays white and is only ink-on-green
+     (nav links, card body copy, the hamburger bars). Don't conflate them. */
+  --ground:       #f5eee0;
   --paper:        #ffffff;
   --ink:          #14251b;
   --on-green:     #f4efe2;
@@ -50,9 +54,33 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Aged-leaf ground with zarafshan gold flecks.
+   Layer order is topmost-first: grain, the two edge shadings that stand in for
+   a vignette (horizontal only - a top/bottom vignette implies a page that ends,
+   which a long scroll does not), gold flecks, then the age blooms.
+   The flecks use two coprime tile sizes at natural scale and the blooms reuse
+   one tile at two sizes and an offset; both tricks hide the repeat that a single
+   tile would show down a 5000px page. */
 body {
   margin: 0;
-  background: var(--paper);
+  background-color: var(--ground);
+  background-image:
+    url("../img/ground-grain.svg"),
+    linear-gradient(to right, rgba(122, 96, 54, 0.085), rgba(122, 96, 54, 0)),
+    linear-gradient(to left,  rgba(122, 96, 54, 0.085), rgba(122, 96, 54, 0)),
+    url("../img/ground-specks-a.svg"),
+    url("../img/ground-specks-b.svg"),
+    url("../img/ground-foxing.svg"),
+    url("../img/ground-foxing.svg");
+  background-position: 0 0, left top, right top, 0 0, 0 0, 0 0, 220px 380px;
+  background-size:
+    200px 200px,
+    /* Proportional, so the edge shading does not swallow a phone screen the
+       way a fixed 110px would. */
+    clamp(40px, 9vw, 110px) 100%, clamp(40px, 9vw, 110px) 100%,
+    317px 317px, 523px 523px,
+    1100px 1100px, 1630px 1630px;
+  background-repeat: repeat, repeat-y, repeat-y, repeat, repeat, repeat, repeat;
   color: var(--ink);
   font-family: var(--body);
   font-size: clamp(1rem, 0.95rem + 0.2vw, 1.075rem);
@@ -132,12 +160,21 @@ button {
 }
 .section__body--center { text-align: center; }
 
+/* Divider: a gold khatim medallion between hairlines that fade out at the
+   outer ends. Drawn entirely in background layers so the markup stays a plain
+   <hr> - the two rules each span half the width minus a 40px gap at the
+   medallion, so nothing is drawn behind it. */
 .rule {
   width: min(var(--wrap), 100% - 2 * var(--gutter));
+  height: 36px;
   margin: clamp(2.5rem, 6vw, 4.5rem) auto 0;
   border: 0;
-  border-top: 1.5px solid var(--green);
-  opacity: 0.85;
+  background:
+    url("../img/divider-khatim.svg") center center / 36px 36px no-repeat,
+    linear-gradient(to right, rgba(19, 69, 40, 0) 0%, rgba(19, 69, 40, 0.85) 55%)
+      left center / calc(50% - 40px) 1.5px no-repeat,
+    linear-gradient(to left, rgba(19, 69, 40, 0) 0%, rgba(19, 69, 40, 0.85) 55%)
+      right center / calc(50% - 40px) 1.5px no-repeat;
 }
 
 /* ------------------------------ 4. Motifs -------------------------- */
@@ -343,17 +380,22 @@ button {
   min-height: 220px;
   overflow: hidden;
 }
+/* The placeholder hero was cropped out of the mockup, so its edges already fade
+   to white. Multiplying against the cream ground maps that white back onto the
+   page exactly (white x ground = ground) instead of leaving a white halo, and
+   warms the photograph slightly in the process. A replacement photo without a
+   baked-in fade can drop the blend mode. */
 .hero__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center 40%;
-}
-.hero__media::after {            /* fade the photograph into the page */
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 45%, var(--paper) 100%);
+  mix-blend-mode: multiply;
+  /* Masked, not covered by an overlay: an overlay would paint flat colour over
+     the grain and flecks and leave a visible seam where the hero ends. Fading
+     the image itself lets the ground texture run straight through. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
 }
 
 .hero__title {

@@ -1,0 +1,23 @@
+# Temporary screenshot / measurement harnesses (see CLAUDE.md "Verifying changes").
+# These are copies of index.html with a script appended; they must never be committed.
+__preview.html
+__frame.html
+
+# Headless-Chrome output
+*.png.tmp
+out.png
+shot-*.png
+
+# Seeded design-canvas output: ~2.5MB of generated editor payload, rebuilt from
+# the .dc.html sources and canvas.json beside it. The sources are tracked; this
+# is not.
+design/canvas/*.html
+!design/canvas/*.dc.html
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/
