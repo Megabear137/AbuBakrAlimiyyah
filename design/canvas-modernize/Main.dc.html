@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  :root{
+    --green:#134528; --green-deep:#062707; --gold:#c9a961; --gold-light:#d9be78;
+    --ground:#f5eee0; --paper:#ffffff; --ink:#14251b; --on-green:#f4efe2;
+    --display:"Cormorant Garamond", Garamond, serif; --body:"EB Garamond", Garamond, serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ground); color:var(--ink); font-family:var(--body); font-size:17px; line-height:1.65;}
+  h1,h2,h3{font-family:var(--display); font-weight:600; margin:0; line-height:1.1;}
+  a{color:var(--gold-light); text-decoration:none;}
+  a:hover{color:var(--gold);}
+  .wrap{max-width:1180px; margin-inline:auto; padding-inline:40px;}
+  .mark{color:var(--gold);}
+  .hdr{position:sticky; top:0; z-index:5; background:rgba(19,69,40,0.92); backdrop-filter:blur(6px); border-bottom:1px solid rgba(201,169,97,0.35);}
+  .hdr__inner{display:flex; align-items:center; gap:2.5rem; padding:0.9rem 40px; max-width:1180px; margin-inline:auto;}
+  .brand{display:flex; align-items:center; gap:0.7rem; color:var(--paper);}
+  .brand__name{font-family:var(--display); font-weight:700; font-size:1.15rem; letter-spacing:0.01em;}
+  .navlinks{display:flex; gap:2.1rem; margin-left:auto; list-style:none; padding:0; margin-top:0; margin-bottom:0;}
+  .navlinks a{color:var(--on-green); font-family:var(--display); font-size:1.02rem; letter-spacing:0.02em; padding-bottom:4px; border-bottom:1.5px solid transparent;}
+  .navlinks a:hover{border-bottom-color:var(--gold);}
+
+  .hero{position:relative; background:linear-gradient(160deg, var(--green) 0%, var(--green-deep) 100%); padding:88px 0 96px; overflow:hidden; text-align:center;}
+  .hero__deco{position:absolute; inset:0; opacity:0.16; pointer-events:none;}
+  .kicker{display:inline-block; padding:0.4rem 1.3rem; border:1px solid var(--gold); border-radius:999px; color:var(--gold-light); font-family:var(--display); font-style:italic; font-size:0.95rem; letter-spacing:0.06em; margin-bottom:1.6rem;}
+  .hero h1{position:relative; color:var(--on-green); font-size:3.4rem; font-weight:700; max-width:760px; margin-inline:auto;}
+  .hero__sub{position:relative; max-width:520px; margin:1.1rem auto 2.2rem; color:var(--gold-light); font-style:italic; font-size:1.15rem;}
+  .ctaRow{position:relative; display:flex; gap:1rem; justify-content:center;}
+  .btn{padding:0.85rem 1.9rem; border-radius:10px; font-family:var(--display); font-weight:600; font-size:1.02rem;}
+  .btn--solid{background:var(--gold); color:var(--green-deep);}
+  .btn--solid:hover{background:var(--gold-light);}
+  .btn--outline{border:1.5px solid var(--gold); color:var(--on-green);}
+  .btn--outline:hover{border-color:var(--gold-light); color:var(--gold-light);}
+
+  .section{padding:76px 0;}
+  .center{text-align:center;}
+  .pill{display:inline-block; padding:0.45rem 1.5rem; background:var(--green); color:var(--gold-light); border:1px solid var(--gold); border-radius:999px; font-family:var(--display); font-style:italic; font-size:1.05rem; margin-bottom:1.8rem;}
+  .prose{max-width:640px; margin-inline:auto; font-size:1.08rem; color:#3a4a41;}
+  h2.h2{font-size:2.3rem; color:var(--green); margin-bottom:1.4rem;}
+
+  .cards-row{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2.4rem;}
+  .card{background:var(--paper); border:1px solid rgba(19,69,40,0.14); border-radius:16px; padding:1.7rem 1.5rem; text-align:left;}
+  .card__num{font-family:var(--display); font-style:italic; color:var(--gold); font-size:0.95rem; margin-bottom:0.5rem;}
+  .card__title{font-size:1.3rem; color:var(--green); margin-bottom:0.4rem;}
+  .card__body{color:#4a5a50; font-size:0.98rem;}
+
+  .teachers{background:var(--green); padding:80px 0;}
+  .teachers h2{color:var(--on-green);}
+  .teacher-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem; margin-top:2.6rem;}
+  .teacher-card{position:relative; border:1px solid var(--gold); border-radius:18px; padding:2rem 1.4rem 1.7rem; text-align:center; background:rgba(6,39,7,0.25);}
+  .avatar{width:74px; height:74px; border-radius:50%; background:var(--green-deep); border:1.5px solid var(--gold-light); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; color:var(--gold-light); font-family:var(--display); font-size:1.5rem; font-weight:700;}
+  .teacher-card__honorific{color:var(--gold-light); font-style:italic; font-size:0.92rem; margin-bottom:0.3rem;}
+  .teacher-card__name{color:var(--gold-light); font-size:1.5rem; font-weight:700; font-style:italic;}
+  .teacher-card__bio{color:var(--on-green); font-size:0.92rem; margin-top:0.7rem; opacity:0.85;}
+
+  .testi-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1.6rem; margin-top:2.6rem;}
+  .testi-card{background:var(--paper); border-radius:16px; padding:2rem; position:relative; border-top:3px solid var(--gold);}
+  .testi-card__mark{color:var(--gold); font-family:var(--display); font-size:2.6rem; font-style:italic; line-height:0.5; display:block; margin-bottom:0.8rem;}
+  .testi-card__quote{font-style:italic; color:#3a4a41; font-size:1.02rem;}
+  .testi-card__cite{display:block; margin-top:1.1rem; color:var(--green); font-weight:600; font-size:0.9rem;}
+
+  .ftr{background:var(--green); color:var(--on-green); padding:52px 0 40px; border-top:3px solid var(--gold); margin-top:20px;}
+  .ftr__inner{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1.5rem;}
+  .ftr__brand{display:flex; align-items:center; gap:0.7rem; font-family:var(--display); font-weight:700; color:var(--gold-light);}
+  .ftr__legal{font-size:0.85rem; opacity:0.75; text-align:right;}
+</style>
+</helmet>
+
+<div class="page">
+
+  <header class="hdr">
+    <div class="hdr__inner">
+      <div class="brand">
+        <svg class="mark" width="30" height="30" viewBox="0 0 40 40" fill="currentColor"><path d="M24 6 A14 14 0 1 0 24 34 A11 11 0 1 1 24 6 Z"/><path d="M31 10 l1.2 3.2 3.4 0.3-2.6 2.2 0.8 3.3-2.8-1.9-2.8 1.9 0.8-3.3-2.6-2.2 3.4-0.3z"/></svg>
+        <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
+      </div>
+      <ul class="navlinks">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Program</a></li>
+        <li><a href="#">Alumni</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="hero">
+    <svg class="hero__deco" viewBox="0 0 1180 380" preserveAspectRatio="xMidYMid slice">
+      <circle cx="590" cy="470" r="330" fill="none" stroke="#c9a961" stroke-width="1"/>
+      <circle cx="590" cy="470" r="390" fill="none" stroke="#c9a961" stroke-width="1"/>
+      <circle cx="590" cy="470" r="450" fill="none" stroke="#c9a961" stroke-width="1"/>
+    </svg>
+    <span class="kicker">Seven-Year Alimiyyah Program</span>
+    <h1>Jamiyah Islamiyyah Abu Bakr</h1>
+    <p class="hero__sub">Qur'an, hadith, fiqh and Arabic — taught the traditional way, text by text, with a teacher.</p>
+    <div class="ctaRow">
+      <a class="btn btn--solid" href="#">Begin Your Journey</a>
+      <a class="btn btn--outline" href="#">View Curriculum</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap center">
+      <span class="pill">Introduction</span>
+      <p class="prose">A full course of study in Qur'an, hadith, fiqh, Arabic and the sciences that serve them, taught in the traditional way: text by text, with a teacher, in the company of fellow students.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="wrap center">
+      <h2 class="h2">Our Program</h2>
+      <p class="prose">Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Students attain a mastery of Arabic through which they gain a deep understanding of the Qur'an and Hadith.</p>
+      <div class="cards-row">
+        <div class="card">
+          <div class="card__num">Years I – IV</div>
+          <div class="card__title">Part-time</div>
+          <div class="card__body">Mon – Fri, 4:30 – 7:30 PM. $125/month per student.</div>
+        </div>
+        <div class="card">
+          <div class="card__num">Years V – VII</div>
+          <div class="card__title">Full-time</div>
+          <div class="card__body">Mon – Sat, days at the masjid. $325/month per student.</div>
+        </div>
+        <div class="card">
+          <div class="card__num">Family</div>
+          <div class="card__title">Discounts</div>
+          <div class="card__body">5% off for 2 students, up to 15% off for 4 or more.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="teachers">
+    <div class="wrap center">
+      <h2 class="h2">Our Teachers</h2>
+      <div class="teacher-grid">
+        <div class="teacher-card">
+          <div class="avatar">KI</div>
+          <div class="teacher-card__honorific">Moulana</div>
+          <div class="teacher-card__name">Kasim Ingar</div>
+          <div class="teacher-card__bio">Imam of our masjid, and teacher for over 30 years</div>
+        </div>
+        <div class="teacher-card">
+          <div class="avatar">SC</div>
+          <div class="teacher-card__honorific">Moulana</div>
+          <div class="teacher-card__name">Salim Chauhan</div>
+        </div>
+        <div class="teacher-card">
+          <div class="avatar">ZM</div>
+          <div class="teacher-card__honorific">Moulana</div>
+          <div class="teacher-card__name">Zuber Motala</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-bottom:40px;">
+    <div class="wrap center">
+      <h2 class="h2">Alumni Testimonies</h2>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <span class="testi-card__mark">&ldquo;</span>
+          <p class="testi-card__quote">I came expecting to memorise rulings and left having learned how the scholars arrived at them. That shift changed the way I read everything.</p>
+          <span class="testi-card__cite">Sumayyah Noor &middot; 2020</span>
+        </div>
+        <div class="testi-card">
+          <span class="testi-card__mark">&ldquo;</span>
+          <p class="testi-card__quote">My teacher went through the same page with me four times without once making me feel slow. I try to teach my own students that way now.</p>
+          <span class="testi-card__cite">Abdurrahman Sheikh &middot; 2022</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ftr">
+    <div class="wrap ftr__inner">
+      <div class="ftr__brand">
+        <svg width="26" height="26" viewBox="0 0 40 40" fill="currentColor"><path d="M24 6 A14 14 0 1 0 24 34 A11 11 0 1 1 24 6 Z"/><path d="M31 10 l1.2 3.2 3.4 0.3-2.6 2.2 0.8 3.3-2.8-1.9-2.8 1.9 0.8-3.3-2.6-2.2 3.4-0.3z"/></svg>
+        Jamiyah Islamiyyah Abu Bakr
+      </div>
+      <div class="ftr__legal">&copy; 2026 Jamiyah Islamiyyah Abu Bakr. All rights reserved.</div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>

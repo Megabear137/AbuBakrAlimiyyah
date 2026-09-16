@@ -15,6 +15,8 @@
    * @param {Function}    opts.render    (item, index) -> HTMLElement
    * @param {Function}    opts.perView   () -> how many slides fit at this width
    * @param {string}      opts.label     accessible name for the carousel
+   * @param {HTMLElement} [opts.controls] where the arrows go - a section header,
+   *                                      say; without it they flank the slides
    */
   function createCarousel(opts) {
     var items = opts.items || [];
@@ -50,7 +52,13 @@
     var dots = document.createElement("div");
     dots.className = "carousel__dots";
 
-    root.append(prev, viewport, next, dots);
+    if (opts.controls) {
+      opts.controls.textContent = "";
+      opts.controls.append(prev, next);
+      root.append(viewport, dots);
+    } else {
+      root.append(prev, viewport, next, dots);
+    }
     opts.mount.appendChild(root);
 
     var page = 0;

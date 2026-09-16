@@ -1,0 +1,30 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html",       "title": "A · Refined Manuscript", "x": 0,    "y": 0, "w": 1180, "h": 2760 },
+    { "file": "DirectionB.dc.html", "title": "B · Modern Bento",       "x": 1300, "y": 0, "w": 1220, "h": 2200 },
+    { "file": "DirectionC.dc.html", "title": "C · Minimal Illuminated","x": 2600, "y": 0, "w": 900,  "h": 2200 }
+  ],
+  "annotations": [
+    {
+      "id": "row-directions",
+      "x": 0, "y": -170, "w": 900,
+      "text": "HOMEPAGE MODERNIZATION — three directions, same palette (green/gold/cream) and type stack (Cormorant Garamond + EB Garamond)\nPick one to build out, or mix elements (e.g. B's card structure with A's ornament level)."
+    },
+    {
+      "id": "note-a",
+      "x": 0, "y": 2790, "w": 380,
+      "text": "A · Refined Manuscript\nClosest to the current site — same green panels, gilt lines, arch motifs — but tightened spacing, a frosted sticky header, softer single-line borders instead of double gilt, and a real CTA in the hero.\nLowest risk, most familiar to rebuild from the existing CSS."
+    },
+    {
+      "id": "note-b",
+      "x": 1300, "y": 2230, "w": 380,
+      "text": "B · Modern Bento\nRestructures the page into a modular card grid (SaaS-style), cream header instead of green, and pairs the display serif with Manrope for UI text/labels.\nBiggest structural change — most new components to build, but reads the most 'current'."
+    },
+    {
+      "id": "note-c",
+      "x": 2600, "y": 2230, "w": 380,
+      "text": "C · Minimal Illuminated\nStrips almost all ornament to typography, one thin gold rule, and generous whitespace — an editorial/luxury feel. No cards, no green fills except a hairline.\nHighest risk if the masjid wants the page to feel more 'produced'; best if they want it to feel calmer and more premium."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

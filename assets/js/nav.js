@@ -31,7 +31,7 @@
   });
 
   // Reset state when the drawer breakpoint is left behind.
-  var wide = window.matchMedia("(min-width: 881px)");
+  var wide = window.matchMedia("(min-width: 981px)");
   (wide.addEventListener ? wide.addEventListener.bind(wide, "change") : wide.addListener.bind(wide))(
     function () { setOpen(false); }
   );

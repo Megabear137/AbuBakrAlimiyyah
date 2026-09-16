@@ -1,0 +1,42 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html",        "title": "2 · Triptych",        "x": 0,    "y": 0,    "w": 1400, "h": 1140 },
+    { "file": "OnePanel.dc.html",    "title": "5 · One panel",       "x": 1520, "y": 0,    "w": 1300, "h": 1560 },
+    { "file": "Spine.dc.html",       "title": "8 · Seven-year spine", "x": 2940, "y": 0,    "w": 1300, "h": 1820 },
+    { "file": "TabbedPanel.dc.html", "title": "9 · Tabbed panel",    "x": 0,    "y": 2000, "w": 1300, "h": 920, "is_interactive": true },
+    { "file": "YearRail.dc.html",    "title": "10 · Year rail",      "x": 1520, "y": 2000, "w": 1400, "h": 1010 }
+  ],
+  "annotations": [
+    {
+      "id": "brief",
+      "x": 0, "y": -200, "w": 980,
+      "text": "PLACEMENT STUDIES — the components are unchanged, only where they sit\nAll five use the real Second Year books and the real timings and fees. Numbering follows the list of ten, so the three you skipped are missing on purpose.\nThe tabbed panel (9) is live — click its three pills."
+    },
+    {
+      "id": "note-2",
+      "x": 0, "y": 1170, "w": 420,
+      "text": "2 · Triptych\nA tall central bay flanked by two narrow arches — an actual mihrab façade. The arches at 300px still hold their data, just barely.\nWhat it costs: look at the books row. Five cards do not fit a 640px bay, so the fifth is clipped and the row has to scroll. The side arches also sit short beside a tall accordion, which reads as a gap unless a year is open."
+    },
+    {
+      "id": "note-5",
+      "x": 1520, "y": 1590, "w": 420,
+      "text": "5 · One panel\nEverything on one bordered green surface, seam in the middle. The arches had to be cut in --green-deep, because a green arch on a green panel disappears.\nWhat it costs: it is a very large block of unbroken green — easily the heaviest thing on the page, and the arches lose the drop shadow that made them feel like objects."
+    },
+    {
+      "id": "note-8",
+      "x": 2940, "y": 1850, "w": 420,
+      "text": "8 · Seven-year spine\nYears alternate down a gold line with roman numeral badges; the line runs on past the seventh year into the two arches, so the path ends at a gate.\nWhat it costs: it is tall — roughly double the current section — and the alternating sides have to collapse to one column on mobile, which loses most of the effect. An open year also pushes everything below it down the line."
+    },
+    {
+      "id": "note-9",
+      "x": 0, "y": 2950, "w": 420,
+      "text": "9 · Tabbed panel\nThree pills sharing one footprint. Click them — this artboard is live.\nWhat it costs: exactly what you feel clicking it. Timings and fees are the two things people come to find, and both now sit behind a click. The panel also jumps in height between tabs unless you pin a minimum."
+    },
+    {
+      "id": "note-10",
+      "x": 1520, "y": 3040, "w": 420,
+      "text": "10 · Year rail\nThe seven years become a sticky rail; the right column shows the year you have scrolled to, and the arches resolve at the end (shown here running off the bottom).\nWhat it costs: the most build work by far, and it needs a real answer for reduced-motion and keyboard users. The upside is the books row finally has room — all five cards fit."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

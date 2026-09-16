@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Hanken+Grotesk:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4,p{margin:0;}
+a{color:#c9a961;text-decoration:none;} a:hover{color:#e2c77f;}
+.wrap{width:1180px;margin:0 auto;}
+.serif{font-family:"Cormorant Garamond",Garamond,"Times New Roman",serif;}
+.urdu{font-family:"Noto Nastaliq Urdu",serif;}
+svg.ic{width:18px;height:18px;flex:none;}
+
+/* ---- motion: hero plays on load; everything else rises as it scrolls in.
+   Scroll-driven, so on the canvas (where the whole page is in view) every
+   section simply sits in its final state. ---- */
+@keyframes rise{from{opacity:0;transform:translateY(34px);}to{opacity:1;transform:none;}}
+@keyframes rise-l{from{opacity:0;transform:translateX(-44px);}to{opacity:1;transform:none;}}
+@keyframes rise-r{from{opacity:0;transform:translateX(44px);}to{opacity:1;transform:none;}}
+@keyframes drift{from{transform:scale(1.12);}to{transform:scale(1.02);}}
+.in{animation:rise 1s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0s);}
+.drift{animation:drift 14s ease-out both;}
+@supports (animation-timeline: view()){
+  .rv{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 85%;}
+  .rv-l{animation:rise-l linear both;animation-timeline:view();animation-range:entry 0% entry 85%;}
+  .rv-r{animation:rise-r linear both;animation-timeline:view();animation-range:entry 0% entry 85%;}
+  .rv2{animation-range:entry 12% entry 100%;}
+  .rv3{animation-range:entry 24% entry 100%;}
+}
+
+/* =================================================== the books ==== */
+.bk{--gilt:#dcbb6c;--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.45'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  position:relative;flex:none;width:var(--w);height:var(--h);display:flex;flex-direction:column;
+  border-radius:4px 4px 2px 2px;color:var(--gilt);cursor:pointer;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.58) 0%,rgba(0,0,0,.14) 9%,rgba(255,255,255,.10) 26%,rgba(255,255,255,.24) 37%,rgba(255,255,255,.05) 52%,rgba(0,0,0,.16) 76%,rgba(0,0,0,.62) 100%),
+    var(--grain),var(--c);
+  background-blend-mode:normal,soft-light,normal;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(0,0,0,.4),5px 0 9px -3px rgba(0,0,0,.5);
+  transform-origin:0% 100%;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s,filter .5s;}
+.bk:hover{transform:translateY(-12px) rotate(-8deg);z-index:3;filter:brightness(1.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(0,0,0,.4),14px 16px 24px -8px rgba(0,0,0,.6);}
+.bk.is-tilt{transform:translateY(-12px) rotate(-8deg);z-index:3;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(0,0,0,.4),14px 16px 24px -8px rgba(0,0,0,.6);}
+.bk__cap{flex:0 0 10px;position:relative;}
+.bk__cap--head{border-radius:4px 4px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(0,0,0,.28));border-bottom:1px solid rgba(0,0,0,.35);}
+.bk__cap--head::before{content:"";position:absolute;left:4px;right:4px;top:-3px;height:3px;border-radius:2px 2px 0 0;
+  background:repeating-linear-gradient(90deg,#8e2a22 0 2px,#e9d59c 2px 4px);box-shadow:0 -1px 0 rgba(0,0,0,.25);}
+.bk__cap--tail{border-radius:0 0 2px 2px;background:linear-gradient(0deg,rgba(0,0,0,.34),rgba(255,255,255,.08));border-top:1px solid rgba(0,0,0,.35);}
+.bk__band{flex:0 0 7px;margin:0 -1.5px;position:relative;border-radius:3.5px;
+  background:linear-gradient(180deg,rgba(0,0,0,.38),rgba(255,255,255,.3) 46%,rgba(0,0,0,.42)),var(--c);
+  box-shadow:0 1px 2px rgba(0,0,0,.45);}
+.bk__band::before,.bk__band::after{content:"";position:absolute;left:4px;right:4px;height:1px;background:var(--gilt);opacity:.9;}
+.bk__band::before{top:-4px;} .bk__band::after{bottom:-4px;}
+.bk__panel{flex:0 0 22px;position:relative;}
+.bk__panel--sm{flex-basis:16px;}
+.bk__panel::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;border:1px solid var(--gilt);transform:translate(-50%,-50%) rotate(45deg);}
+.bk__panel::before{content:"";position:absolute;left:50%;top:50%;width:2px;height:2px;margin:-1px 0 0 -1px;background:var(--gilt);}
+.bk__label{flex:1 1 auto;margin:8px 5px;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:linear-gradient(90deg,rgba(0,0,0,.35),rgba(255,255,255,.08) 40%,rgba(0,0,0,.25)),var(--lab);border-radius:1.5px;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 0 0 0 2.5px rgba(220,187,108,.0),inset 0 0 0 3px rgba(220,187,108,.7);}
+.bk__title{writing-mode:vertical-rl;font-family:"Cormorant Garamond",Garamond,serif;font-weight:700;font-size:12.5px;letter-spacing:.03em;
+  white-space:nowrap;line-height:1;text-shadow:0 1px 0 rgba(0,0,0,.55);}
+.bk__foot{flex:0 0 38px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;
+  font-family:"Cormorant Garamond",Garamond,serif;font-style:italic;font-weight:600;font-size:10px;letter-spacing:.08em;opacity:.9;}
+/* book-cloth: no raised bands, gilt double rules, lettered straight onto the cloth */
+.bk--cloth{--grain:repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px);}
+.bk--cloth .bk__band{flex-basis:3px;background:none;box-shadow:none;margin:0;}
+.bk--cloth .bk__band::before{top:-1px;} .bk--cloth .bk__band::after{bottom:-1px;}
+.bk--cloth .bk__label{background:none;box-shadow:none;}
+.bk--cloth .bk__title{font-size:13.5px;letter-spacing:.06em;}
+/* vellum: pale, ink-tooled, a red label */
+.bk--vellum{--ink:#5a3b1c;background:
+    linear-gradient(90deg,rgba(60,40,15,.45) 0%,rgba(60,40,15,.08) 10%,rgba(255,255,255,.35) 34%,rgba(255,255,255,.1) 55%,rgba(60,40,15,.14) 80%,rgba(60,40,15,.5) 100%),
+    var(--grain),var(--c);}
+.bk--vellum .bk__band{background:linear-gradient(180deg,rgba(60,40,15,.3),rgba(255,255,255,.45) 46%,rgba(60,40,15,.35)),var(--c);}
+.bk--vellum .bk__band::before,.bk--vellum .bk__band::after{background:var(--ink);opacity:.7;}
+.bk--vellum .bk__panel::after{border-color:var(--ink);} .bk--vellum .bk__panel::before{background:var(--ink);}
+.bk--vellum .bk__foot{color:var(--ink);}
+.bk--vellum .bk__cap--head{background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(60,40,15,.2));}
+/* a slot the masjid has not filled yet */
+.bk-ghost{flex:none;width:var(--w);height:var(--h);border:1.5px dashed rgba(201,169,97,.42);border-radius:4px 4px 2px 2px;
+  display:flex;align-items:center;justify-content:center;background:rgba(201,169,97,.04);}
+.bk-ghost span{writing-mode:vertical-rl;font:italic 500 10px/1 "Cormorant Garamond",serif;letter-spacing:.24em;color:rgba(201,169,97,.62);}
+
+/* the book turned face-on */
+.cover{position:relative;flex:none;width:150px;height:212px;border-radius:3px 7px 7px 3px;color:#dcbb6c;
+  background:linear-gradient(90deg,rgba(0,0,0,.55) 0,rgba(0,0,0,.15) 9px,rgba(255,255,255,.14) 11px,rgba(255,255,255,.04) 40%,rgba(0,0,0,.2) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.45'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),#5a1916;
+  background-blend-mode:normal,soft-light,normal;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),10px 14px 28px -8px rgba(0,0,0,.55),2px 2px 0 #e8dcc0,3px 3px 0 rgba(0,0,0,.25);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px 16px;}
+.cover::before{content:"";position:absolute;inset:12px 10px 12px 18px;border:1px solid rgba(220,187,108,.8);box-shadow:inset 0 0 0 3px rgba(0,0,0,0),inset 0 0 0 4px rgba(220,187,108,.45);}
+.cover__orn{width:26px;height:26px;margin-left:8px;}
+.cover__t{font:700 17px/1.05 "Cormorant Garamond",serif;text-align:center;margin-left:8px;text-shadow:0 1px 0 rgba(0,0,0,.5);}
+.cover__u{font-family:"Noto Nastaliq Urdu",serif;font-size:13px;line-height:1.9;margin-left:8px;}
+
+body{background:#062707;color:#f4efe2;font-family:"Hanken Grotesk",system-ui,sans-serif;}
+.sheet{padding:64px 72px;}
+h2{font:600 56px/1 "Cormorant Garamond",serif;color:#fbf6e9;}
+.sub{color:rgba(244,239,226,.7);margin-top:12px;font-size:16px;max-width:760px;line-height:1.6;}
+.stage{margin-top:44px;border-radius:28px;padding:50px 40px 0;background:radial-gradient(60% 70% at 50% 0%,rgba(255,222,150,.14),transparent 70%),#041d06;box-shadow:inset 0 0 0 1px rgba(217,190,120,.2);}
+.books{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));justify-items:center;align-items:end;zoom:1.9;height:260px;}
+.plank{height:18px;margin:0 -40px;background:linear-gradient(180deg,#8a6b3e,#5b4627 45%,#34270f);}
+.caps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px;padding:26px 0 32px;}
+.caps div{text-align:center;} .caps b{display:block;font:600 22px/1.1 "Cormorant Garamond",serif;color:#fbf6e9;}
+.caps span{font-size:13px;color:rgba(244,239,226,.62);}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:24px;}
+.panel{border-radius:24px;padding:34px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(217,190,120,.2);}
+.panel h3{font:600 30px/1 "Cormorant Garamond",serif;margin-bottom:18px;}
+.anat{display:flex;gap:40px;align-items:center;}
+.anat .books{zoom:1.6;height:auto;display:flex;}
+.anat ol{margin:0;padding-left:20px;color:rgba(244,239,226,.8);line-height:2;font-size:15px;}
+.anat ol b{color:#f0dca6;font-weight:600;}
+.tiltdemo{display:flex;align-items:flex-end;gap:6px;height:280px;justify-content:center;zoom:1.3;}
+</style>
+</helmet>
+
+<div class="sheet">
+  <h2>The bindings, up close</h2>
+  <p class="sub">Second Year at twice the shelf size. Every spine is built from the same parts, so a new book only needs a colour and a binding type. Hover any spine to tilt it off the shelf.</p>
+  <div class="stage"><div class="books"><div class="bk bk--leather" style="--w:46px;--h:224px;--c:#5a1916;--lab:#17130f;" title="Achi Baatain"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Achi Baatain</span></span><span class="bk__band"></span><span class="bk__foot">Urdu</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--leather" style="--w:52px;--h:238px;--c:#15403b;--lab:#6a1e1a;" title="Tasheel ul-Nahwa"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Tasheel ul-Nahwa</span></span><span class="bk__band"></span><span class="bk__foot">Nahwa</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--cloth" style="--w:44px;--h:226px;--c:#1d2a45;" title="Tasheel ul-Sarf"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Tasheel ul-Sarf</span></span><span class="bk__band"></span><span class="bk__foot">Sarf</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--leather" style="--w:50px;--h:230px;--c:#8a5c31;--lab:#134528;" title="Duroos 1"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Duroos 1</span></span><span class="bk__band"></span><span class="bk__foot">Arabic</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--vellum" style="--w:44px;--h:212px;--c:#e3d6b6;--lab:#7a1f1a;" title="Qasas 1"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Qasas 1</span></span><span class="bk__band"></span><span class="bk__foot">Arabic</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk-ghost" style="--w:44px;--h:214px"><span>TODO</span></div></div><div class="plank"></div><div class="caps"><div><b>Achi Baatain</b><span>Oxblood morocco · raised bands · black title label</span></div><div><b>Tasheel ul-Nahwa</b><span>Bottle-green calf · five bands · oxblood label</span></div><div><b>Tasheel ul-Sarf</b><span>Navy book-cloth · gilt rules · lettered direct</span></div><div><b>Duroos 1</b><span>Tan calf · raised bands · green label</span></div><div><b>Qasas 1</b><span>Limp vellum · ink tooling · red label</span></div><div><b>Empty slot</b><span>Awaiting a title from the masjid</span></div></div></div>
+  <div class="row2">
+    <div class="panel"><h3>Anatomy of a spine</h3>
+      <div class="anat"><div class="books"><div class="bk bk--leather" style="--w:46px;--h:224px;--c:#5a1916;--lab:#17130f;" title="Achi Baatain"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Achi Baatain</span></span><span class="bk__band"></span><span class="bk__foot">Urdu</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div></div>
+      <ol><li><b>Headband</b> — striped silk peeking above the boards</li><li><b>Head cap</b> — the turned-over leather at the top</li>
+      <li><b>Raised bands</b> — the cords the pages are sewn on, each ruled in gilt</li><li><b>Title label</b> — a contrasting leather inlay with a gilt frame</li>
+      <li><b>Subject</b> — lettered in italic between the lower bands</li><li><b>Fleurons</b> — small gilt tools in the end panels</li><li><b>Tail cap</b> — finishes the foot</li></ol></div>
+    </div>
+    <div class="panel"><h3>Hover · the book leans out</h3>
+      <div class="tiltdemo"><div class="bk bk--leather" style="--w:46px;--h:224px;--c:#5a1916;--lab:#17130f;" title="Achi Baatain"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Achi Baatain</span></span><span class="bk__band"></span><span class="bk__foot">Urdu</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--leather is-tilt" style="--w:52px;--h:238px;--c:#15403b;--lab:#6a1e1a;" title="Tasheel ul-Nahwa"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Tasheel ul-Nahwa</span></span><span class="bk__band"></span><span class="bk__foot">Nahwa</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--cloth" style="--w:44px;--h:226px;--c:#1d2a45;" title="Tasheel ul-Sarf"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Tasheel ul-Sarf</span></span><span class="bk__band"></span><span class="bk__foot">Sarf</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--leather" style="--w:50px;--h:230px;--c:#8a5c31;--lab:#134528;" title="Duroos 1"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Duroos 1</span></span><span class="bk__band"></span><span class="bk__foot">Arabic</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--vellum" style="--w:44px;--h:212px;--c:#e3d6b6;--lab:#7a1f1a;" title="Qasas 1"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Qasas 1</span></span><span class="bk__band"></span><span class="bk__foot">Arabic</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div></div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>

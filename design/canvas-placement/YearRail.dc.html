@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Nastaliq+Urdu:wght@400&display=swap">
+<style>
+  :root{
+    --green:#134528; --green-deep:#062707; --gold:#c9a961; --gold-light:#d9be78;
+    --mint:#c9ebdd; --ground:#f5eee0; --on-green:#f4efe2;
+    --hairline:rgba(244,239,226,0.38);
+    --display:"Cormorant Garamond", Garamond, serif;
+    --body:"EB Garamond", Garamond, serif;
+    --urdu:"Noto Nastaliq Urdu", serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ground); color:#14251b; font-family:var(--body); font-size:16px; line-height:1.6;}
+  h2,h3,h4{font-family:var(--display); font-weight:600; margin:0; line-height:1.15;}
+  p{margin:0;}
+  a{color:var(--gold-light); text-decoration:none;}
+  .page{padding:48px 44px;}
+  .sec-head{text-align:center; margin-bottom:2.2rem;}
+  .sec-head h2{color:var(--green); font-size:2.3rem; margin-bottom:0.8rem;}
+  .sec-head p{max-width:640px; margin-inline:auto; color:#3a4a41;}
+
+  .rail-layout{display:grid; grid-template-columns:290px minmax(0,1fr); gap:56px; align-items:start;}
+
+  /* The rail: sticky in the real thing, so the seven years stay put while the
+     right-hand column scrolls through them. */
+  .rail{position:relative; padding-left:26px;}
+  .rail::before{content:""; position:absolute; left:6px; top:8px; bottom:8px; width:1px; background:rgba(19,69,40,0.18);}
+  .rail__progress{position:absolute; left:6px; top:8px; height:26%; width:1px; background:var(--gold);}
+  .rail__label{font-family:var(--display); font-style:italic; font-size:0.9rem; letter-spacing:0.08em; color:#8a7a5e; margin-bottom:1rem;}
+
+  .rail__item{position:relative; padding:0.62rem 0; font-family:var(--display); font-size:1.25rem; color:rgba(19,69,40,0.38);}
+  .rail__item::before{content:""; position:absolute; left:-23px; top:50%; width:7px; height:7px; margin-top:-3.5px; border-radius:50%; background:rgba(19,69,40,0.22);}
+  .rail__item--done{color:rgba(19,69,40,0.55);}
+  .rail__item--done::before{background:var(--gold);}
+  .rail__item--on{color:var(--green); font-size:1.55rem; font-weight:700;}
+  .rail__item--on::before{left:-26px; width:13px; height:13px; margin-top:-6.5px; background:var(--gold); box-shadow:0 0 0 4px rgba(201,169,97,0.22);}
+  .rail__item--last{color:rgba(19,69,40,0.38); font-style:italic;}
+
+  .stage{background:var(--green); border-radius:18px; box-shadow:inset 0 0 0 10px var(--green), inset 0 0 0 11.5px var(--gold), 0 12px 32px rgba(6,39,7,.18); padding:1.1rem;}
+  .stage__inner{margin:1rem; padding:0.6rem;}
+  .stage__year{color:var(--gold-light); font-family:var(--display); font-size:1.9rem; font-style:italic; text-align:center; margin-bottom:1.3rem;}
+
+  .books{display:flex; gap:0.7rem;}
+  .book{flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center; gap:0.45rem; padding:0.9rem 0.5rem; background:var(--green-deep); border:1.5px solid var(--gold); color:var(--gold-light); font-family:var(--display); text-align:center;}
+  .book--on{background:var(--mint); color:var(--green-deep);}
+  .book__title{font-size:1rem; font-weight:600; line-height:1.2;}
+  .book__divider{width:60%; height:1px; background:var(--gold);}
+  .book--on .book__divider{background:var(--green-deep);}
+  .book__subject{font-size:0.86rem; font-style:italic;}
+
+  .book-detail{margin-top:1rem; padding:1.2rem; background:var(--green-deep); border:1.5px solid var(--gold); border-radius:12px; color:var(--on-green);}
+  .book-detail__head{display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap;}
+  .book-detail__title{color:var(--gold-light); font-size:1.5rem;}
+  .book-detail__urdu{font-family:var(--urdu); font-size:1.25rem; line-height:2; color:var(--gold-light); direction:rtl;}
+  .book-detail__meta{color:var(--gold-light); font-size:0.86rem; font-style:italic; margin-top:0.1rem;}
+  .book-detail__rule{margin:0.8rem 0; border:0; border-top:1px solid var(--hairline);}
+  .book-detail__body{font-size:0.94rem; line-height:1.7;}
+
+  /* The next stop, running off the bottom of the frame - what scrolling
+     brings up once the seventh year is done. */
+  .peek{margin-top:2.2rem; display:grid; grid-template-columns:repeat(2,1fr); gap:2.4rem; opacity:0.42;}
+  .arch{position:relative; width:100%; min-height:300px; background:var(--green); border-radius:50% 50% 18px 18px / 30% 30% 18px 18px; padding:15% 8% 8%; color:var(--on-green);}
+  .arch::before{content:""; position:absolute; inset:13px; border:1px solid var(--gold); border-radius:inherit; pointer-events:none;}
+  .arch__mark{display:block; width:34px; height:auto; margin:0 auto 0.5rem; color:var(--gold);}
+  .arch__heading{color:var(--gold-light); font-size:1.5rem; text-align:center;}
+</style>
+</helmet>
+
+<div class="page">
+  <div class="sec-head">
+    <h2>Our Program</h2>
+    <p>Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time.</p>
+  </div>
+
+  <div class="rail-layout">
+
+    <nav class="rail">
+      <div class="rail__progress"></div>
+      <p class="rail__label">THE SEVEN YEARS</p>
+      <div class="rail__item rail__item--done">First Year</div>
+      <div class="rail__item rail__item--on">Second Year</div>
+      <div class="rail__item">Third Year</div>
+      <div class="rail__item">Fourth Year</div>
+      <div class="rail__item">Fifth Year</div>
+      <div class="rail__item">Sixth Year</div>
+      <div class="rail__item">Seventh Year</div>
+      <div class="rail__item rail__item--last">Timings &amp; Fees</div>
+    </nav>
+
+    <div>
+      <div class="stage">
+        <div class="stage__inner">
+          <p class="stage__year">Second Year</p>
+          <div class="books">
+            <div class="book book--on"><span class="book__title">Achi Baatain</span><span class="book__divider"></span><span class="book__subject">Urdu</span></div>
+            <div class="book"><span class="book__title">Tasheel ul-Nahwa</span><span class="book__divider"></span><span class="book__subject">Nahwa</span></div>
+            <div class="book"><span class="book__title">Tasheel ul-Sarf</span><span class="book__divider"></span><span class="book__subject">Sarf</span></div>
+            <div class="book"><span class="book__title">Duroos 1</span><span class="book__divider"></span><span class="book__subject">Arabic</span></div>
+            <div class="book"><span class="book__title">Qasas 1</span><span class="book__divider"></span><span class="book__subject">Arabic</span></div>
+          </div>
+          <div class="book-detail">
+            <div class="book-detail__head">
+              <h4 class="book-detail__title">Achi Baatain</h4>
+              <p class="book-detail__urdu" lang="ur" dir="rtl">اچھی باتیں</p>
+            </div>
+            <p class="book-detail__meta">Urdu</p>
+            <hr class="book-detail__rule">
+            <p class="book-detail__body">Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="peek">
+        <section class="arch">
+          <svg class="arch__mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+            <rect x="9" y="9" width="30" height="30"></rect>
+            <rect x="9" y="9" width="30" height="30" transform="rotate(45 24 24)"></rect>
+            <circle cx="24" cy="24" r="5.5"></circle>
+          </svg>
+          <h3 class="arch__heading">Class Timings</h3>
+        </section>
+        <section class="arch">
+          <svg class="arch__mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+            <rect x="9" y="9" width="30" height="30"></rect>
+            <rect x="9" y="9" width="30" height="30" transform="rotate(45 24 24)"></rect>
+            <circle cx="24" cy="24" r="5.5"></circle>
+          </svg>
+          <h3 class="arch__heading">Fees</h3>
+        </section>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -9,134 +9,146 @@
   <link rel="icon" href="assets/img/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
 </head>
-<body>
+<body id="top">
 
 <a class="skip-link" href="#main">Skip to content</a>
 
 <!-- ============================== HEADER ============================== -->
-<header class="site-header" id="top">
+<!-- A frosted pill floating over the page; it stays readable over the dark
+     banner and the light ground alike. -->
+<header class="site-header">
   <div class="site-header__inner">
     <a class="brand" href="#top">
       <img class="brand__mark" src="assets/img/logo.png" alt="" width="40" height="40">
       <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
     </a>
 
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-    </button>
-
     <nav class="nav" id="primary-nav" aria-label="Primary">
       <ul class="nav__list">
         <li><a href="#top">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#program">Program</a></li>
+        <li><a href="#teachers">Teachers</a></li>
         <li><a href="#articles">Articles</a></li>
         <li><a href="#videos">Videos</a></li>
         <li><a href="#alumni">Alumni</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
+
+    <a class="btn btn--gold btn--sm site-header__cta" href="#curriculum">View Curriculum</a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
   </div>
 </header>
 
 <main id="main">
+  <!-- Pools of mint and sage held to the side margins of the page -->
+  <div class="pools" aria-hidden="true"></div>
 
   <!-- ============================== HERO ============================== -->
   <section class="hero" aria-labelledby="hero-title">
-    <div class="hero__media">
-      <img src="assets/img/hero-masjid.jpg" alt="The prayer hall of the masjid, looking towards the mihrab beneath the central dome." width="1465" height="384">
+    <div class="hero__img" aria-hidden="true"></div>
+    <div class="hero__tint" aria-hidden="true"></div>
+    <div class="wrap hero__body">
+      <p class="eyebrow in" data-slot="hero-eyebrow"></p>
+      <h1 class="hero__title in" id="hero-title" data-slot="hero-title">The Seven-Year Alimiyyah Program</h1>
+      <p class="hero__sub in" data-slot="hero-subtitle"></p>
+      <div class="hero__cta in" data-slot="hero-cta"></div>
     </div>
-    <h1 class="hero__title" id="hero-title">Jamiyah Islamiyyah Abu Bakr</h1>
   </section>
 
   <!-- ========================== INTRODUCTION ========================== -->
-  <section class="section section--intro" id="about" aria-labelledby="intro-label">
+  <section class="section intro" id="about" aria-labelledby="intro-label">
     <div class="wrap">
-      <div class="tabbed" data-js="introduction">
-        <p class="tabbed__label" id="intro-label">Introduction</p>
-        <div class="tabbed__panel gilt">
-          <div class="tabbed__inner">
-            <p class="intro__body" data-slot="intro-body"></p>
-          </div>
-        </div>
+      <p class="kicker rv" id="intro-label" data-slot="intro-label">Introduction</p>
+      <p class="intro__statement rv" data-slot="intro-body"></p>
+      <div class="program-pill glass rv">
+        <h2 class="program-pill__heading" data-slot="program-heading">Our Program</h2>
+        <p class="program-pill__body" data-slot="program-body"></p>
       </div>
     </div>
-    <hr class="rule">
   </section>
 
-  <!-- ============================ PROGRAM ============================= -->
-  <section class="section section--program" id="program" aria-labelledby="program-heading">
-    <div class="wrap">
-      <h2 class="section__heading" id="program-heading" data-slot="program-heading">Our Program</h2>
-      <p class="section__body" data-slot="program-body"></p>
-    </div>
-
-    <!-- Curriculum accordion (rendered by assets/js/curriculum.js) -->
-    <div class="wrap">
-      <div class="tabbed tabbed--curriculum">
-        <p class="tabbed__label" data-slot="curriculum-label">Curriculum</p>
-        <div class="tabbed__panel gilt">
-          <div class="tabbed__inner">
-            <div class="accordion" data-slot="curriculum"></div>
-          </div>
+  <!-- ====================== PROGRAM: the bookshelf ===================== -->
+  <!-- Full-bleed: the shelf runs edge to edge, bolted along both rails. -->
+  <section class="shelf-wall" id="program" aria-labelledby="curriculum-heading">
+    <div class="wrap" id="curriculum">
+      <div class="shelf-wall__head rv">
+        <div>
+          <p class="kicker kicker--on-wood" data-slot="curriculum-kicker"></p>
+          <h2 class="shelf-wall__title" id="curriculum-heading" data-slot="curriculum-label">Curriculum</h2>
         </div>
+        <p class="shelf-wall__intro" data-slot="curriculum-intro"></p>
       </div>
+      <div class="case" data-slot="curriculum"></div>
     </div>
+  </section>
 
-    <!-- Timings + Fees arch cards -->
+  <!-- ============================ DETAILS ============================= -->
+  <section class="section" id="details" aria-labelledby="details-heading">
     <div class="wrap">
-      <div class="arches">
-        <section class="arch" aria-labelledby="timings-heading">
-          <img class="arch__mark" src="assets/img/logo.png" alt="" width="56" height="56">
-          <h3 class="arch__heading" id="timings-heading" data-slot="timings-heading">Class Timings</h3>
-          <div class="arch__body" data-slot="timings"></div>
+      <div class="section__head rv">
+        <h2 class="section__heading" id="details-heading" data-slot="details-heading">Details</h2>
+        <p class="section__lede" data-slot="details-lede"></p>
+      </div>
+      <div class="details">
+        <section class="card card--green rv" aria-labelledby="timings-heading">
+          <h3 class="card__kicker" id="timings-heading" data-slot="timings-heading">Class Timings</h3>
+          <div data-slot="timings"></div>
         </section>
-
-        <section class="arch" aria-labelledby="fees-heading">
-          <img class="arch__mark" src="assets/img/logo.png" alt="" width="56" height="56">
-          <h3 class="arch__heading" id="fees-heading" data-slot="fees-heading">Fees</h3>
-          <div class="arch__body" data-slot="fees"></div>
+        <section class="card card--green rv" aria-labelledby="fees-heading">
+          <h3 class="card__kicker" id="fees-heading" data-slot="fees-heading">Fees</h3>
+          <div data-slot="fees"></div>
         </section>
       </div>
     </div>
-    <hr class="rule">
   </section>
 
   <!-- ============================ TEACHERS ============================ -->
-  <section class="section section--teachers" id="teachers" aria-labelledby="teachers-heading">
+  <section class="section" id="teachers" aria-labelledby="teachers-heading">
     <div class="wrap">
-      <h2 class="section__heading" id="teachers-heading" data-slot="teachers-heading">Our Teachers</h2>
+      <div class="section__head rv">
+        <h2 class="section__heading" id="teachers-heading" data-slot="teachers-heading">Our Teachers</h2>
+        <div class="carousel-controls" data-slot="teachers-controls"></div>
+      </div>
       <div data-slot="teachers"></div>
     </div>
-    <hr class="rule">
   </section>
 
   <!-- =========================== TESTIMONIES ========================== -->
-  <section class="section section--alumni" id="alumni" aria-labelledby="alumni-heading">
+  <section class="section" id="alumni" aria-labelledby="alumni-heading">
     <div class="wrap">
-      <h2 class="section__heading" id="alumni-heading" data-slot="testimonies-heading">Alumni Testimonies</h2>
+      <div class="section__head rv">
+        <h2 class="section__heading" id="alumni-heading" data-slot="testimonies-heading">Alumni Testimonies</h2>
+        <div class="carousel-controls" data-slot="testimonies-controls"></div>
+      </div>
       <div data-slot="testimonies"></div>
-    </div>
-    <hr class="rule">
-  </section>
 
-  <!-- ===================== PLACEHOLDER SECTIONS ======================= -->
-  <section class="section section--soon" id="articles" aria-labelledby="articles-heading">
-    <div class="wrap wrap--narrow">
-      <h2 class="section__heading" id="articles-heading">Articles</h2>
-      <p class="section__body section__body--center">Writing from our teachers and students will be published here.</p>
-    </div>
-  </section>
-
-  <section class="section section--soon" id="videos" aria-labelledby="videos-heading">
-    <div class="wrap wrap--narrow">
-      <h2 class="section__heading" id="videos-heading">Videos</h2>
-      <p class="section__body section__body--center">Recorded lessons and talks will be published here.</p>
+      <!-- Placeholders, so no nav link is dead -->
+      <div class="soon">
+        <section class="card soon__card rv" id="articles" aria-labelledby="articles-heading">
+          <div>
+            <h2 class="soon__title" id="articles-heading">Articles</h2>
+            <p class="soon__body">Writing from our teachers and students.</p>
+          </div>
+          <span class="pill">Coming soon</span>
+        </section>
+        <section class="card soon__card rv" id="videos" aria-labelledby="videos-heading">
+          <div>
+            <h2 class="soon__title" id="videos-heading">Videos</h2>
+            <p class="soon__body">Recorded lessons and talks.</p>
+          </div>
+          <span class="pill">Coming soon</span>
+        </section>
+      </div>
     </div>
   </section>
 
@@ -145,18 +157,18 @@
 <!-- ============================== FOOTER ============================== -->
 <footer class="site-footer" id="contact">
   <div class="wrap site-footer__inner">
-    <div class="site-footer__brand">
-      <img src="assets/img/logo.png" alt="" width="52" height="52">
-      <p class="site-footer__name">Jamiyah Islamiyyah Abu Bakr</p>
-    </div>
+    <a class="brand brand--footer" href="#top">
+      <img class="brand__mark" src="assets/img/logo.png" alt="" width="40" height="40">
+      <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
+    </a>
     <address class="site-footer__contact" data-slot="footer-contact"></address>
-    <p class="site-footer__legal">&copy; <span data-slot="year"></span> Jamiyah Islamiyyah Abu Bakr. All rights reserved.</p>
+    <p class="site-footer__legal">&copy; <span data-slot="year"></span> Jamiyah Islamiyyah Abu Bakr</p>
   </div>
 </footer>
 
-<script src="assets/js/carousel.js"></script>
-<script src="assets/js/curriculum.js"></script>
-<script src="assets/js/nav.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="assets/js/carousel.js?v=2"></script>
+<script src="assets/js/curriculum.js?v=3"></script>
+<script src="assets/js/nav.js?v=2"></script>
+<script src="assets/js/main.js?v=2"></script>
 </body>
 </html>

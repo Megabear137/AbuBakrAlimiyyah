@@ -1,0 +1,36 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html",          "title": "A · Solid arch (refined)", "x": 0,    "y": 0,    "w": 1060, "h": 840 },
+    { "file": "ArchLight.dc.html",     "title": "B · Light arch",           "x": 1180, "y": 0,    "w": 1060, "h": 840 },
+    { "file": "ArchOutline.dc.html",   "title": "C · Outline arch",         "x": 0,    "y": 1160, "w": 1060, "h": 840 },
+    { "file": "ArchGoldCrown.dc.html", "title": "D · Gold crown",           "x": 1180, "y": 1160, "w": 1060, "h": 840 }
+  ],
+  "annotations": [
+    {
+      "id": "brief",
+      "x": 0, "y": -190, "w": 900,
+      "text": "THE ARCH IS BACK — four ways to modernize it\nSame mihrab silhouette and the same real data in all four; what changes is the fill. The semicircular top is the original CSS trick (a radius of exactly half the width), so it stays a true semicircle at any size.\nThe khatim star at the crown is drawn in SVG — it replaces the low-res logo.png crop the old arch used."
+    },
+    {
+      "id": "note-a",
+      "x": 0, "y": 870, "w": 420,
+      "text": "A · Solid arch (refined)\nWhat you had: green fill, one gold hairline following the arc. Modernized by softening the bottom corners, redrawing the mark, and giving the data a real type hierarchy (gold year eyebrow, cream label, gold values).\nTradeoff: two large dark shapes still sit heavily on the page — it is the least changed and the least airy."
+    },
+    {
+      "id": "note-b",
+      "x": 1180, "y": 870, "w": 420,
+      "text": "B · Light arch\nInverts the weight: a warm white card with a gold outline, and only the dome stays green to carry the heading. Green ink on light, so the numbers read much more sharply.\nTradeoff: the page already gained light cards elsewhere — this makes the arch quieter, and it no longer anchors the section the way a dark shape does."
+    },
+    {
+      "id": "note-c",
+      "x": 0, "y": 2030, "w": 420,
+      "text": "C · Outline arch\nNo fill at all — a single gold line on the bare page, so the ground texture runs straight through the arch. Roman numerals and prices in green ink, generous space.\nTradeoff: the most modern and the most fragile. With this much air the two arches need to be near-equal in content or the emptier one looks unfinished."
+    },
+    {
+      "id": "note-d",
+      "x": 1180, "y": 2030, "w": 420,
+      "text": "D · Gold crown\nThe dome is struck in gold with the heading in deep green, over a green body. The most graphic of the four and the closest to an illuminated manuscript headpiece.\nTradeoff: gold is doing a lot of work here. It will fight the gold in the divider medallions and the hero kicker unless those are toned down."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

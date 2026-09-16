@@ -1,0 +1,42 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html",         "title": "1 · Bookshelf",      "x": 0,    "y": 0,    "w": 940,  "h": 1720 },
+    { "file": "Folio.dc.html",        "title": "2 · Manuscript folio", "x": 1060, "y": 0,  "w": 1000, "h": 1520 },
+    { "file": "Mosaic.dc.html",       "title": "3 · Geometric mosaic", "x": 2180, "y": 0,  "w": 1340, "h": 1420 },
+    { "file": "Timetable.dc.html",    "title": "4 · Weekly timetable", "x": 0,    "y": 1900, "w": 1400, "h": 820 },
+    { "file": "SubjectFirst.dc.html", "title": "5 · Subject-first",  "x": 1520, "y": 1900, "w": 1440, "h": 1260 }
+  ],
+  "annotations": [
+    {
+      "id": "brief",
+      "x": 0, "y": -220, "w": 1000,
+      "text": "FIVE FORMS — same data, completely different presentation\nEvery one covers both halves: the curriculum AND the timings and fees.\nA note that applies to all five: only Second Year has real books in content/curriculum.json, so that is the only year filled in. Blank spines, empty tiles and dashed rules are placeholders — and where a form implies a book COUNT (the bookshelf, the mosaic) that count is arbitrary, not a claim about the year."
+    },
+    {
+      "id": "note-1",
+      "x": 0, "y": 1750, "w": 420,
+      "text": "1 · Bookshelf\nBooks stand as spines in a bounded case, a shelf per year; timings and fees are brass plaques mounted on the wall beside it.\nWorth knowing: it needs the case to look like furniture — an unbounded shelf with four books on it just reads as a broken layout. Spine titles are set vertically, so long ones (Tasheel ul-Nahwa) are tight at this width, and the whole thing is the tallest of the five."
+    },
+    {
+      "id": "note-2",
+      "x": 1060, "y": 1550, "w": 420,
+      "text": "2 · Manuscript folio\nOne leaf: an illuminated headpiece, the years as rubricated sections, and the timings and fees written into the tapering colophon at the foot — the way a scribe closes a manuscript.\nWorth knowing: prices set as prose are hard to scan. Someone comparing part-time to full-time has to read a sentence rather than glance at a column. The most beautiful and the least practical."
+    },
+    {
+      "id": "note-3",
+      "x": 2180, "y": 1450, "w": 420,
+      "text": "3 · Geometric mosaic\nEach book is an octagonal tile with gold knots between; the two medallions are sixteen-point stars cut from the same field.\nWorth knowing: tile size caps the title length, and the bands hold different numbers of books so they have to be centred or the right edge looks unfinished. The medallions are strong enough that they could be lifted into any of the other layouts."
+    },
+    {
+      "id": "note-4",
+      "x": 0, "y": 2750, "w": 420,
+      "text": "4 · Weekly timetable\nThe timings stop being a card and become the grid itself — the chosen year lights up its band, the other stays as context. Fees sit underneath as three plain cards.\nWorth knowing: this form wants data you do not have yet. The content files hold hours, not which book meets on which evening, so the chip placement here is illustrative and the page says so."
+    },
+    {
+      "id": "note-5",
+      "x": 1520, "y": 3190, "w": 420,
+      "text": "5 · Subject-first\nRead down a discipline instead of across a year: seven lanes against seven columns, so you can see where Nahwa starts and how far Arabic runs. Timings and fees become the two tracks side by side, which is what part-time and full-time actually are.\nWorth knowing: the matrix is mostly empty until the other six years are filled in — it is the form that most rewards complete content, and looks weakest without it."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

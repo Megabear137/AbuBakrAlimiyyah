@@ -1,0 +1,49 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Bookshelf" },
+    { "id": "page-2", "name": "Studies" }
+  ],
+  "artboards": [
+    { "file": "Main.dc.html",    "page": "page-1", "title": "Curriculum bookshelf",     "x": 0,    "y": 0,    "w": 1400, "h": 1640, "is_interactive": true },
+
+    { "file": "Lintel.dc.html",  "page": "page-2", "title": "B · Plaque as lintel",     "x": 0,    "y": 0,    "w": 1400, "h": 1700, "is_interactive": true },
+    { "file": "Stile.dc.html",   "page": "page-2", "title": "C · Plaque on the stile",  "x": 1520, "y": 0,    "w": 1400, "h": 1580, "is_interactive": true },
+    { "file": "Lectern.dc.html", "page": "page-2", "title": "1 · Lectern",              "x": 0,    "y": 2050, "w": 1300, "h": 1760, "is_interactive": true },
+    { "file": "Drawer.dc.html",  "page": "page-2", "title": "2 · Shelf drawer",         "x": 1420, "y": 2050, "w": 1300, "h": 1900, "is_interactive": true },
+    { "file": "Facing.dc.html",  "page": "page-2", "title": "3 · Facing page",          "x": 2840, "y": 2050, "w": 1500, "h": 1240 },
+    { "file": "PullOut.dc.html", "page": "page-2", "title": "4 · Pulled from the shelf","x": 0,    "y": 4450, "w": 1400, "h": 1700, "is_interactive": true },
+    { "file": "Popover.dc.html", "page": "page-2", "title": "5 · Popover",              "x": 1520, "y": 4450, "w": 1300, "h": 1560 }
+  ],
+  "annotations": [
+    {
+      "id": "settled",
+      "x": 0, "y": -250, "w": 1080, "page": "page-1",
+      "text": "CURRICULUM BOOKSHELF — settled\nFour boards: the top three split in two, the bottom one whole. Seven bays, a year to each, every book standing at once, so the accordion and the two arches become one object.\nEach bay is a wooden frame around a recessed green well with a brass year plate screwed to its bottom rail. Clicking a spine turns that book face-on in its own slot; nothing opens anywhere else on the page. Timings and fees sit above the shelf as mounted plates, each part divided by a short gold rule.\nLive — click a spine. Second Year holds the real books; every other bay is a dashed TODO slot on purpose, awaiting content from the masjid."
+    },
+    {
+      "id": "carry",
+      "x": 0, "y": 1690, "w": 560, "page": "page-1",
+      "text": "Carried into the build\n· Wood is the ground's own edge-shading hue (rgba(122,96,54) on body) at furniture weight, #4a3a22 — the one value here not already in :root. Grain is a repeating-linear-gradient, no image to maintain.\n· The turned book is 268×182 and holds a title, the Urdu, a subject and about two sentences. Book descriptions in curriculum.json need to stay near that length.\n· The bottom bay is mostly empty — one year across the full width leaves bare board. Seventh Year's slots are centred rather than stretched.\n· Still open for the build: what the four rows do below ~880px, and keyboard order across 42 spines (the accordion's tablist pattern does not survive a 2-D grid unchanged)."
+    },
+    {
+      "id": "studies-brief",
+      "x": 0, "y": -250, "w": 1020, "page": "page-2",
+      "text": "STUDIES — kept for the record, not for the build\nTop row: the two unchosen year-plate treatments. Below: the five original placement studies, which still carry the bookend plate and gold shelf boards the framed version replaces."
+    },
+    { "id": "note-b", "x": 0,    "y": 1750, "w": 430, "page": "page-2",
+      "text": "B · Plaque as lintel\nFrames hung on the ground with no cabinet, plate straddling the top rail.\nWhy not: with nothing holding them together the seven bays stop reading as one bookshelf." },
+    { "id": "note-c", "x": 1520, "y": 1630, "w": 430, "page": "page-2",
+      "text": "C · Plaque on the stile\nOne carcass, bays routed out of it, plate a vertical strip on the left stile.\nWhy not: the 46px stile costs every bay 33px, and VII · SEVENTH YEAR set vertically was already at its size ceiling." },
+    { "id": "note-1", "x": 0,    "y": 3860, "w": 430, "page": "page-2",
+      "text": "1 · Lectern — panel under the whole shelf\nWhy not: a top-row book moves the text ~900px away, with nothing in between to carry the eye." },
+    { "id": "note-2", "x": 1420, "y": 4000, "w": 430, "page": "page-2",
+      "text": "2 · Shelf drawer — opens in its own row\nWhy not: the shelf changes height on every click — the same complaint the accordion already has." },
+    { "id": "note-3", "x": 2840, "y": 3340, "w": 430, "page": "page-2",
+      "text": "3 · Facing page — shelf left, open book right\nWhy not: a permanent 400px column, and no mobile form under ~880px." },
+    { "id": "note-4", "x": 0,    "y": 6200, "w": 430, "page": "page-2",
+      "text": "4 · Pulled from the shelf — CHOSEN\nThe spine turns face-on in its own slot. Carried forward on the Bookshelf page, where the bookend plate became a plate on the frame." },
+    { "id": "note-5", "x": 1520, "y": 6060, "w": 430, "page": "page-2",
+      "text": "5 · Popover — the book speaks where it stands\nWhy not: it covers neighbouring books, needs a dismiss affordance and a focus-trap answer, and has to flip sides near a bay edge." }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

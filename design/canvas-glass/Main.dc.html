@@ -1,0 +1,279 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4,p{margin:0;}
+a{color:#c9a961;text-decoration:none;} a:hover{color:#e2c77f;}
+.wrap{width:1180px;margin:0 auto;}
+.serif{font-family:"Cormorant Garamond",Garamond,"Times New Roman",serif;}
+.urdu{font-family:"Noto Nastaliq Urdu",serif;}
+svg.ic{width:18px;height:18px;flex:none;}
+
+/* ---- motion: hero plays on load; everything else rises as it scrolls in.
+   Scroll-driven, so on the canvas (where the whole page is in view) every
+   section simply sits in its final state. ---- */
+@keyframes rise{from{opacity:0;transform:translateY(34px);}to{opacity:1;transform:none;}}
+@keyframes rise-l{from{opacity:0;transform:translateX(-44px);}to{opacity:1;transform:none;}}
+@keyframes rise-r{from{opacity:0;transform:translateX(44px);}to{opacity:1;transform:none;}}
+@keyframes drift{from{transform:scale(1.12);}to{transform:scale(1.02);}}
+.in{animation:rise 1s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0s);}
+.drift{animation:drift 14s ease-out both;}
+@supports (animation-timeline: view()){
+  .rv{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 85%;}
+  .rv-l{animation:rise-l linear both;animation-timeline:view();animation-range:entry 0% entry 85%;}
+  .rv-r{animation:rise-r linear both;animation-timeline:view();animation-range:entry 0% entry 85%;}
+  .rv2{animation-range:entry 12% entry 100%;}
+  .rv3{animation-range:entry 24% entry 100%;}
+}
+
+/* =================================================== the books ==== */
+.bk{--gilt:#dcbb6c;--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.45'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  position:relative;flex:none;width:var(--w);height:var(--h);display:flex;flex-direction:column;
+  border-radius:4px 4px 2px 2px;color:var(--gilt);cursor:pointer;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.58) 0%,rgba(0,0,0,.14) 9%,rgba(255,255,255,.10) 26%,rgba(255,255,255,.24) 37%,rgba(255,255,255,.05) 52%,rgba(0,0,0,.16) 76%,rgba(0,0,0,.62) 100%),
+    var(--grain),var(--c);
+  background-blend-mode:normal,soft-light,normal;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(0,0,0,.4),5px 0 9px -3px rgba(0,0,0,.5);
+  transform-origin:0% 100%;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s,filter .5s;}
+.bk:hover{transform:translateY(-12px) rotate(-8deg);z-index:3;filter:brightness(1.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(0,0,0,.4),14px 16px 24px -8px rgba(0,0,0,.6);}
+.bk.is-tilt{transform:translateY(-12px) rotate(-8deg);z-index:3;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(0,0,0,.4),14px 16px 24px -8px rgba(0,0,0,.6);}
+.bk__cap{flex:0 0 10px;position:relative;}
+.bk__cap--head{border-radius:4px 4px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(0,0,0,.28));border-bottom:1px solid rgba(0,0,0,.35);}
+.bk__cap--head::before{content:"";position:absolute;left:4px;right:4px;top:-3px;height:3px;border-radius:2px 2px 0 0;
+  background:repeating-linear-gradient(90deg,#8e2a22 0 2px,#e9d59c 2px 4px);box-shadow:0 -1px 0 rgba(0,0,0,.25);}
+.bk__cap--tail{border-radius:0 0 2px 2px;background:linear-gradient(0deg,rgba(0,0,0,.34),rgba(255,255,255,.08));border-top:1px solid rgba(0,0,0,.35);}
+.bk__band{flex:0 0 7px;margin:0 -1.5px;position:relative;border-radius:3.5px;
+  background:linear-gradient(180deg,rgba(0,0,0,.38),rgba(255,255,255,.3) 46%,rgba(0,0,0,.42)),var(--c);
+  box-shadow:0 1px 2px rgba(0,0,0,.45);}
+.bk__band::before,.bk__band::after{content:"";position:absolute;left:4px;right:4px;height:1px;background:var(--gilt);opacity:.9;}
+.bk__band::before{top:-4px;} .bk__band::after{bottom:-4px;}
+.bk__panel{flex:0 0 22px;position:relative;}
+.bk__panel--sm{flex-basis:16px;}
+.bk__panel::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;border:1px solid var(--gilt);transform:translate(-50%,-50%) rotate(45deg);}
+.bk__panel::before{content:"";position:absolute;left:50%;top:50%;width:2px;height:2px;margin:-1px 0 0 -1px;background:var(--gilt);}
+.bk__label{flex:1 1 auto;margin:8px 5px;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:linear-gradient(90deg,rgba(0,0,0,.35),rgba(255,255,255,.08) 40%,rgba(0,0,0,.25)),var(--lab);border-radius:1.5px;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 0 0 0 2.5px rgba(220,187,108,.0),inset 0 0 0 3px rgba(220,187,108,.7);}
+.bk__title{writing-mode:vertical-rl;font-family:"Cormorant Garamond",Garamond,serif;font-weight:700;font-size:12.5px;letter-spacing:.03em;
+  white-space:nowrap;line-height:1;text-shadow:0 1px 0 rgba(0,0,0,.55);}
+.bk__foot{flex:0 0 38px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;
+  font-family:"Cormorant Garamond",Garamond,serif;font-style:italic;font-weight:600;font-size:10px;letter-spacing:.08em;opacity:.9;}
+/* book-cloth: no raised bands, gilt double rules, lettered straight onto the cloth */
+.bk--cloth{--grain:repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px);}
+.bk--cloth .bk__band{flex-basis:3px;background:none;box-shadow:none;margin:0;}
+.bk--cloth .bk__band::before{top:-1px;} .bk--cloth .bk__band::after{bottom:-1px;}
+.bk--cloth .bk__label{background:none;box-shadow:none;}
+.bk--cloth .bk__title{font-size:13.5px;letter-spacing:.06em;}
+/* vellum: pale, ink-tooled, a red label */
+.bk--vellum{--ink:#5a3b1c;background:
+    linear-gradient(90deg,rgba(60,40,15,.45) 0%,rgba(60,40,15,.08) 10%,rgba(255,255,255,.35) 34%,rgba(255,255,255,.1) 55%,rgba(60,40,15,.14) 80%,rgba(60,40,15,.5) 100%),
+    var(--grain),var(--c);}
+.bk--vellum .bk__band{background:linear-gradient(180deg,rgba(60,40,15,.3),rgba(255,255,255,.45) 46%,rgba(60,40,15,.35)),var(--c);}
+.bk--vellum .bk__band::before,.bk--vellum .bk__band::after{background:var(--ink);opacity:.7;}
+.bk--vellum .bk__panel::after{border-color:var(--ink);} .bk--vellum .bk__panel::before{background:var(--ink);}
+.bk--vellum .bk__foot{color:var(--ink);}
+.bk--vellum .bk__cap--head{background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(60,40,15,.2));}
+/* a slot the masjid has not filled yet */
+.bk-ghost{flex:none;width:var(--w);height:var(--h);border:1.5px dashed rgba(201,169,97,.42);border-radius:4px 4px 2px 2px;
+  display:flex;align-items:center;justify-content:center;background:rgba(201,169,97,.04);}
+.bk-ghost span{writing-mode:vertical-rl;font:italic 500 10px/1 "Cormorant Garamond",serif;letter-spacing:.24em;color:rgba(201,169,97,.62);}
+
+/* the book turned face-on */
+.cover{position:relative;flex:none;width:150px;height:212px;border-radius:3px 7px 7px 3px;color:#dcbb6c;
+  background:linear-gradient(90deg,rgba(0,0,0,.55) 0,rgba(0,0,0,.15) 9px,rgba(255,255,255,.14) 11px,rgba(255,255,255,.04) 40%,rgba(0,0,0,.2) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.45'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),#5a1916;
+  background-blend-mode:normal,soft-light,normal;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),10px 14px 28px -8px rgba(0,0,0,.55),2px 2px 0 #e8dcc0,3px 3px 0 rgba(0,0,0,.25);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px 16px;}
+.cover::before{content:"";position:absolute;inset:12px 10px 12px 18px;border:1px solid rgba(220,187,108,.8);box-shadow:inset 0 0 0 3px rgba(0,0,0,0),inset 0 0 0 4px rgba(220,187,108,.45);}
+.cover__orn{width:26px;height:26px;margin-left:8px;}
+.cover__t{font:700 17px/1.05 "Cormorant Garamond",serif;text-align:center;margin-left:8px;text-shadow:0 1px 0 rgba(0,0,0,.5);}
+.cover__u{font-family:"Noto Nastaliq Urdu",serif;font-size:13px;line-height:1.9;margin-left:8px;}
+
+body{background:#041d08;color:#f4efe2;font-family:"Instrument Sans",system-ui,sans-serif;font-size:16px;line-height:1.6;}
+.page{position:relative;overflow:hidden;
+  background:radial-gradient(900px 700px at 12% 1250px,rgba(201,169,97,.16),transparent 70%),
+             radial-gradient(800px 800px at 92% 2100px,rgba(47,122,78,.45),transparent 70%),
+             radial-gradient(700px 600px at 20% 3300px,rgba(47,122,78,.4),transparent 70%),
+             radial-gradient(900px 700px at 85% 4300px,rgba(201,169,97,.12),transparent 70%),
+             linear-gradient(180deg,#062707,#041d08);}
+.glass{background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025));
+  -webkit-backdrop-filter:blur(22px) saturate(1.3);backdrop-filter:blur(22px) saturate(1.3);
+  border:1px solid rgba(217,190,120,.28);border-radius:26px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 24px 60px -24px rgba(0,0,0,.55);}
+.hero{position:relative;height:860px;overflow:hidden;}
+.hero__img{position:absolute;inset:0;background:url(./masjid.jpg) center 30%/cover;filter:saturate(.75) contrast(1.05);}
+.hero__tint{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(6,39,7,.72) 0%,rgba(6,39,7,.18) 30%,rgba(6,39,7,.55) 62%,#062707 100%),
+  linear-gradient(90deg,rgba(6,39,7,.75),rgba(6,39,7,0) 60%);}
+.nav{position:absolute;z-index:5;top:26px;left:0;right:0;margin:0 auto;width:1240px;height:66px;padding:0 12px 0 16px;
+  display:flex;align-items:center;justify-content:space-between;border-radius:999px;}
+.brand{display:flex;align-items:center;gap:12px;font:600 20px/1 "Cormorant Garamond",serif;color:#f4efe2;}
+.brand img{width:40px;height:40px;}
+.nav__links{display:flex;gap:6px;}
+.nav__a{padding:9px 16px;border-radius:999px;color:rgba(244,239,226,.82);font-size:14.5px;}
+.nav__a:first-child{background:rgba(217,190,120,.16);color:#f0dca6;}
+.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;font-weight:600;font-size:15px;}
+.btn--gold{background:linear-gradient(180deg,#e0c57f,#c29e52);color:#062707;box-shadow:0 10px 30px -10px rgba(201,169,97,.7);}
+.btn--gold:hover{color:#062707;}
+.btn--sm{height:46px;padding:0 20px;font-size:14px;}
+.hero__body{position:absolute;left:100px;bottom:120px;width:780px;z-index:2;}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;color:#d9be78;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;}
+.eyebrow::before{content:"";width:34px;height:1px;background:#c9a961;}
+.hero h1{font:600 104px/.94 "Cormorant Garamond",serif;letter-spacing:-.01em;margin:22px 0 26px;color:#fbf6e9;text-wrap:balance;}
+.hero h1 em{font-style:italic;color:#e2c77f;font-weight:500;}
+.hero__sub{font-size:19px;color:rgba(244,239,226,.85);max-width:560px;margin-bottom:36px;}
+.hero__card{position:absolute;right:100px;bottom:120px;width:330px;padding:24px 26px;z-index:2;}
+.hero__card h4{font:600 13px/1 "Instrument Sans",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#d9be78;margin-bottom:16px;}
+.split{display:flex;gap:4px;margin-bottom:14px;}
+.split i{flex:1;height:8px;border-radius:4px;background:rgba(201,169,97,.85);}
+.split i.ft{background:#f4efe2;}
+.legend{display:flex;justify-content:space-between;font-size:14px;color:rgba(244,239,226,.8);}
+.legend b{display:block;font:600 26px/1.1 "Cormorant Garamond",serif;color:#fbf6e9;}
+
+.sec{padding:120px 0 0;}
+.sec__head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;}
+.sec__head h2{font:600 60px/1 "Cormorant Garamond",serif;color:#fbf6e9;}
+.sec__head p{max-width:420px;color:rgba(244,239,226,.7);font-size:15.5px;}
+.bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;}
+.tile{padding:34px 36px;transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .4s;}
+.tile:hover{transform:translateY(-4px);border-color:rgba(217,190,120,.55);}
+.tile__k{font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#d9be78;margin-bottom:18px;}
+.intro{grid-column:span 7;}
+.intro p{font:500 34px/1.28 "Cormorant Garamond",serif;color:#fbf6e9;text-wrap:pretty;}
+.stat{grid-column:span 5;display:flex;flex-direction:column;justify-content:space-between;}
+.stat__n{font:600 150px/.8 "Cormorant Garamond",serif;color:#e2c77f;}
+.stat__n small{font-size:34px;color:#f4efe2;margin-left:10px;font-style:italic;font-weight:500;}
+.prog{grid-column:span 12;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:60px;align-items:center;}
+.prog p{color:rgba(244,239,226,.82);font-size:17px;}
+.prog h3{font:500 30px/1.2 "Cormorant Garamond",serif;font-style:italic;color:#e2c77f;}
+
+.case{padding:22px;border-radius:32px;display:flex;flex-direction:column;gap:18px;}
+.s-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+.s-row--one{grid-template-columns:minmax(0,1fr);}
+.s-bay{position:relative;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.12));
+  border:1px solid rgba(217,190,120,.14);padding:0 0 48px;}
+.s-bay::before{content:"";position:absolute;left:10%;right:10%;top:0;height:120px;background:radial-gradient(closest-side,rgba(233,207,140,.22),transparent);pointer-events:none;}
+.s-well{height:290px;display:flex;align-items:flex-end;justify-content:center;gap:5px;padding:0 24px;position:relative;}
+.s-plank{height:10px;margin:0 14px;border-radius:3px;background:linear-gradient(180deg,rgba(233,207,140,.55),rgba(201,169,97,.18) 40%,rgba(255,255,255,.04));
+  box-shadow:0 -1px 0 rgba(255,255,255,.35),0 16px 30px rgba(233,207,140,.12);}
+.s-tag{position:absolute;left:24px;bottom:13px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.06em;color:rgba(244,239,226,.78);}
+.s-tag span{display:inline-grid;place-items:center;min-width:30px;height:22px;padding:0 6px;border-radius:999px;border:1px solid rgba(217,190,120,.5);color:#e2c77f;font-size:11px;}
+
+.fee{grid-column:span 3;}
+.fee__amt{font:600 76px/1 "Cormorant Garamond",serif;color:#fbf6e9;}
+.fee__amt small{font:500 16px/1 "Instrument Sans",sans-serif;color:rgba(244,239,226,.65);margin-left:6px;}
+.fee__note{color:rgba(244,239,226,.6);font-size:14px;margin-top:8px;}
+.times{grid-column:span 6;grid-row:span 2;}
+.tgroup+.tgroup{margin-top:28px;padding-top:28px;border-top:1px solid rgba(217,190,120,.2);}
+.tgroup__h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;}
+.tgroup__h b{font:600 32px/1 "Cormorant Garamond",serif;color:#fbf6e9;}
+.tgroup__h span{font-size:13px;color:#d9be78;letter-spacing:.08em;}
+.trow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:16px;color:rgba(244,239,226,.85);}
+.trow .t{display:inline-flex;align-items:center;gap:8px;color:#f0dca6;font-variant-numeric:tabular-nums;}
+.disc{grid-column:span 6;}
+.drow{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-top:1px solid rgba(217,190,120,.16);font-size:16px;}
+.drow:first-of-type{border-top:0;}
+.drow b{font-weight:600;color:#f0dca6;}
+
+.teach{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;}
+.tcard{padding:32px;display:flex;flex-direction:column;gap:16px;min-height:250px;}
+.mono{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font:600 24px/1 "Cormorant Garamond",serif;color:#062707;
+  background:linear-gradient(145deg,#e6cc88,#b8924a);box-shadow:0 0 0 5px rgba(217,190,120,.14);}
+.tcard small{color:#d9be78;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;}
+.tcard h3{font:600 32px/1.05 "Cormorant Garamond",serif;color:#fbf6e9;}
+.tcard p{color:rgba(244,239,226,.7);font-size:15px;}
+.ctrls{display:flex;gap:10px;}
+.cbtn{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#e2c77f;}
+
+.quotes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;}
+.q{padding:40px 42px;color:#d9be78;}
+.q p{font:italic 500 27px/1.35 "Cormorant Garamond",serif;color:#fbf6e9;margin:22px 0 28px;}
+.q cite{font-style:normal;font-size:14.5px;color:rgba(244,239,226,.75);} .q cite b{color:#f0dca6;font-weight:600;}
+
+.soon{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:120px;}
+.soon .tile{display:flex;justify-content:space-between;align-items:center;}
+.soon h3{font:600 34px/1 "Cormorant Garamond",serif;color:#fbf6e9;margin-bottom:6px;}
+.soon p{color:rgba(244,239,226,.6);font-size:15px;}
+.pill{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#d9be78;border:1px solid rgba(217,190,120,.4);border-radius:999px;padding:7px 14px;}
+.foot{margin-top:120px;border-top:1px solid rgba(217,190,120,.2);padding:48px 0 56px;display:flex;justify-content:space-between;align-items:center;color:rgba(244,239,226,.62);font-size:14.5px;}
+.foot .brand{font-size:22px;}
+</style>
+</helmet>
+
+<div class="page">
+<header class="hero">
+  <div class="hero__img drift"></div><div class="hero__tint"></div>
+  <nav class="nav glass in">
+    <a class="brand" href="#"><img src="./logo.png" alt="">Jamiyah Islamiyyah Abu Bakr</a>
+    <div class="nav__links"><a class="nav__a" href="#">Home</a><a class="nav__a" href="#">About</a><a class="nav__a" href="#">Program</a><a class="nav__a" href="#">Articles</a><a class="nav__a" href="#">Videos</a><a class="nav__a" href="#">Alumni</a><a class="nav__a" href="#">Contact</a></div>
+    <a class="btn btn--gold btn--sm" href="#">View Curriculum</a>
+  </nav>
+  <div class="hero__body">
+    <div class="eyebrow in" style="--d:.15s">Jamiyah Islamiyyah Abu Bakr</div>
+    <h1 class="in" style="--d:.3s">The Seven-Year <em>Alimiyyah</em> Program</h1>
+    <p class="hero__sub in" style="--d:.45s">Qur'an, hadith, fiqh and Arabic — taught the traditional way, text by text, with a teacher.</p>
+    <a class="btn btn--gold in" style="--d:.6s" href="#">View Curriculum <svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10h12M11 5l5 5-5 5"></path></svg></a>
+  </div>
+  <div class="hero__card glass in" style="--d:.8s">
+    <h4>Seven years</h4>
+    <div class="split"><i></i><i></i><i></i><i></i><i class="ft"></i><i class="ft"></i><i class="ft"></i></div>
+    <div class="legend"><div><b>Years I – IV</b>Part-time</div><div style="text-align:right"><b>Years V – VII</b>Full-time</div></div>
+  </div>
+</header>
+
+<section class="wrap sec" style="padding-top:40px">
+  <div class="bento">
+    <div class="tile glass intro rv"><div class="tile__k">Introduction</div><p>A full course of study in Qur'an, hadith, fiqh, Arabic and the sciences that serve them, taught in the traditional way: text by text, with a teacher, in the company of fellow students.</p></div>
+    <div class="tile glass stat rv rv2"><div class="tile__k">The course</div><div class="stat__n">7<small>years</small></div>
+      <div class="legend" style="margin-top:22px"><div><b>4</b>part-time</div><div style="text-align:right"><b>3</b>full-time</div></div></div>
+    <div class="tile glass prog rv"><h3>Our Program</h3><p>Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Throughout this course, students will attain a mastery of the Arabic language, through which they will gain a deep understanding of the Qur'an and Hadith.</p></div>
+  </div>
+</section>
+
+<section class="wrap sec">
+  <div class="sec__head rv"><h2>Curriculum</h2><p>Every book in the course stands on the shelf at once. Select a spine to turn it face-on.</p></div>
+  <div class="case glass"><div class="s-row rv"><div class="s-bay"><div class="s-well"><div class="bk-ghost" style="--w:48px;--h:226px"><span>TODO</span></div><div class="bk-ghost" style="--w:40px;--h:210px"><span>TODO</span></div></div><div class="s-plank"></div><div class="s-tag"><span>I</span>First Year</div></div><div class="s-bay"><div class="s-well"><div class="bk bk--leather" style="--w:46px;--h:224px;--c:#5a1916;--lab:#17130f;" title="Achi Baatain"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Achi Baatain</span></span><span class="bk__band"></span><span class="bk__foot">Urdu</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--leather" style="--w:52px;--h:238px;--c:#15403b;--lab:#6a1e1a;" title="Tasheel ul-Nahwa"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Tasheel ul-Nahwa</span></span><span class="bk__band"></span><span class="bk__foot">Nahwa</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--cloth" style="--w:44px;--h:226px;--c:#1d2a45;" title="Tasheel ul-Sarf"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Tasheel ul-Sarf</span></span><span class="bk__band"></span><span class="bk__foot">Sarf</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--leather is-tilt" style="--w:50px;--h:230px;--c:#8a5c31;--lab:#134528;" title="Duroos 1"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Duroos 1</span></span><span class="bk__band"></span><span class="bk__foot">Arabic</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk bk--vellum" style="--w:44px;--h:212px;--c:#e3d6b6;--lab:#7a1f1a;" title="Qasas 1"><span class="bk__cap bk__cap--head"></span><span class="bk__panel"></span><span class="bk__band"></span><span class="bk__label"><span class="bk__title">Qasas 1</span></span><span class="bk__band"></span><span class="bk__foot">Arabic</span><span class="bk__band"></span><span class="bk__panel bk__panel--sm"></span><span class="bk__cap bk__cap--tail"></span></div><div class="bk-ghost" style="--w:44px;--h:214px"><span>TODO</span></div></div><div class="s-plank"></div><div class="s-tag"><span>II</span>Second Year</div></div></div><div class="s-row rv rv2"><div class="s-bay"><div class="s-well"><div class="bk-ghost" style="--w:48px;--h:226px"><span>TODO</span></div><div class="bk-ghost" style="--w:40px;--h:210px"><span>TODO</span></div></div><div class="s-plank"></div><div class="s-tag"><span>III</span>Third Year</div></div><div class="s-bay"><div class="s-well"><div class="bk-ghost" style="--w:48px;--h:226px"><span>TODO</span></div><div class="bk-ghost" style="--w:40px;--h:210px"><span>TODO</span></div></div><div class="s-plank"></div><div class="s-tag"><span>IV</span>Fourth Year</div></div></div><div class="s-row rv"><div class="s-bay"><div class="s-well"><div class="bk-ghost" style="--w:48px;--h:226px"><span>TODO</span></div><div class="bk-ghost" style="--w:40px;--h:210px"><span>TODO</span></div></div><div class="s-plank"></div><div class="s-tag"><span>V</span>Fifth Year</div></div><div class="s-bay"><div class="s-well"><div class="bk-ghost" style="--w:48px;--h:226px"><span>TODO</span></div><div class="bk-ghost" style="--w:40px;--h:210px"><span>TODO</span></div></div><div class="s-plank"></div><div class="s-tag"><span>VI</span>Sixth Year</div></div></div><div class="s-row s-row--one rv rv2"><div class="s-bay"><div class="s-well"><div class="bk-ghost" style="--w:48px;--h:226px"><span>TODO</span></div><div class="bk-ghost" style="--w:40px;--h:210px"><span>TODO</span></div></div><div class="s-plank"></div><div class="s-tag"><span>VII</span>Seventh Year</div></div></div></div>
+</section>
+
+<section class="wrap sec">
+  <div class="sec__head rv"><h2>Details</h2><p>Class timings, monthly fees and the family discount.</p></div>
+  <div class="bento">
+    <div class="tile glass times rv-l"><div class="tile__k">Class timings</div><div class="tgroup"><div class="tgroup__h"><b>Part-time</b><span>Years I – IV</span></div><div class="trow"><span class="d">Monday to Friday</span><span class="t"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7.2"></circle><path d="M10 6v4.3l2.8 1.7"></path></svg>4:30 PM – 7:30 PM</span></div></div><div class="tgroup"><div class="tgroup__h"><b>Full-time</b><span>Years V – VII</span></div><div class="trow"><span class="d">Monday to Friday</span><span class="t"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7.2"></circle><path d="M10 6v4.3l2.8 1.7"></path></svg>8:30 AM – 4:15 PM</span></div><div class="trow"><span class="d">Saturday</span><span class="t"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7.2"></circle><path d="M10 6v4.3l2.8 1.7"></path></svg>8:30 AM – 12:30 PM</span></div></div></div>
+    <div class="tile glass fee rv"><div class="tile__k">Part-time</div><div class="fee__amt">$125<small>/month</small></div><div class="fee__note">per student</div></div>
+    <div class="tile glass fee rv rv2"><div class="tile__k">Full-time</div><div class="fee__amt">$325<small>/month</small></div><div class="fee__note">per student</div></div>
+    <div class="tile glass disc rv-r"><div class="tile__k">Family discounts</div><div class="drow"><span>2 students</span><b>5% off the total</b></div><div class="drow"><span>3 students</span><b>10% off the total</b></div><div class="drow"><span>4 or more</span><b>15% off the total</b></div></div>
+  </div>
+</section>
+
+<section class="wrap sec">
+  <div class="sec__head rv"><h2>Our Teachers</h2><div class="ctrls"><a class="cbtn glass" href="#"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 10H4M9 5l-5 5 5 5"></path></svg></a><a class="cbtn glass" href="#"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10h12M11 5l5 5-5 5"></path></svg></a></div></div>
+  <div class="teach"><div class="tile glass tcard rv"><div class="mono">KI</div><small>Moulana</small><h3>Kasim Ingar</h3><p>Imam of our masjid, and teacher for over 30 years</p></div><div class="tile glass tcard rv rv2"><div class="mono">SC</div><small>Moulana</small><h3>Salim Chauhan</h3></div><div class="tile glass tcard rv rv3"><div class="mono">ZM</div><small>Moulana</small><h3>Zuber Motala</h3></div></div>
+</section>
+
+<section class="wrap sec">
+  <div class="sec__head rv"><h2>Alumni Testimonies</h2></div>
+  <div class="quotes"><figure class="tile glass q rv" style="margin:0"><svg viewBox="0 0 40 32" width="40" height="32" fill="currentColor"><path d="M0 32V19C0 8 6 1.5 16 0l1.6 4C11.6 5.8 9 9.4 8.8 14H16v18H0zm22 0V19C22 8 28 1.5 38 0l1.6 4C33.6 5.8 31 9.4 30.8 14H38v18H22z"></path></svg><p>I came expecting to memorise rulings and left having learned how the scholars arrived at them. That shift changed the way I read everything.</p><cite><b>Sumayyah Noor</b> · Class of 2020</cite></figure><figure class="tile glass q rv rv2" style="margin:0"><svg viewBox="0 0 40 32" width="40" height="32" fill="currentColor"><path d="M0 32V19C0 8 6 1.5 16 0l1.6 4C11.6 5.8 9 9.4 8.8 14H16v18H0zm22 0V19C22 8 28 1.5 38 0l1.6 4C33.6 5.8 31 9.4 30.8 14H38v18H22z"></path></svg><p>My teacher went through the same page with me four times without once making me feel slow. I try to teach my own students that way now.</p><cite><b>Abdurrahman Sheikh</b> · Class of 2022</cite></figure></div>
+  <div class="soon">
+    <div class="tile glass rv"><div><h3>Articles</h3><p>Writing from our teachers and students.</p></div><span class="pill">Coming soon</span></div>
+    <div class="tile glass rv rv2"><div><h3>Videos</h3><p>Recorded lessons and talks.</p></div><span class="pill">Coming soon</span></div>
+  </div>
+  <footer class="foot"><a class="brand" href="#"><img src="./logo.png" alt="">Jamiyah Islamiyyah Abu Bakr</a><span>[Masjid address] · [Email] · [Phone]</span><span>© 2026</span></footer>
+</section>
+</div>
+
+</x-dc>
+</body>
+</html>

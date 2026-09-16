@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@500;600;700;800&display=swap">
+<style>
+  :root{
+    --green:#134528; --green-deep:#062707; --gold:#c9a961; --gold-light:#d9be78;
+    --ground:#f5eee0; --paper:#ffffff; --ink:#14251b;
+    --display:"Cormorant Garamond", Garamond, serif; --body:"EB Garamond", Garamond, serif; --ui:"Manrope", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ground); color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.6;}
+  h1,h2,h3{font-family:var(--display); font-weight:700; margin:0; line-height:1.1;}
+  a{color:var(--green); text-decoration:none;}
+  .wrap{max-width:1220px; margin-inline:auto; padding-inline:40px;}
+  .eyebrow{font-family:var(--ui); font-weight:700; font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold);}
+
+  .hdr{position:sticky; top:0; z-index:5; background:rgba(245,238,224,0.9); backdrop-filter:blur(6px); border-bottom:1px solid rgba(19,69,40,0.12);}
+  .hdr__inner{display:flex; align-items:center; gap:2.5rem; padding:1rem 40px; max-width:1220px; margin-inline:auto;}
+  .brand{display:flex; align-items:center; gap:0.6rem; color:var(--green);}
+  .brand__name{font-family:var(--ui); font-weight:800; font-size:1.02rem; letter-spacing:0.01em;}
+  .navlinks{display:flex; gap:1.8rem; margin-left:auto; list-style:none; padding:0; margin-top:0; margin-bottom:0;}
+  .navlinks a{color:var(--ink); font-family:var(--ui); font-weight:600; font-size:0.88rem; letter-spacing:0.02em; text-transform:uppercase;}
+  .navlinks a:hover{color:var(--green);}
+  .navcta{background:var(--green); color:var(--paper) !important; padding:0.55rem 1.3rem; border-radius:999px; font-size:0.82rem !important;}
+
+  .bento-wrap{padding:44px 0 0;}
+  .bento{display:grid; grid-template-columns:1.7fr 1fr; gap:1.3rem;}
+  .heroCard{background:linear-gradient(150deg, var(--green) 0%, var(--green-deep) 100%); border-radius:24px; padding:3rem 2.6rem; color:#f4efe2; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden;}
+  .heroCard h1{font-size:2.7rem; color:#f4efe2; max-width:480px;}
+  .heroCard p{font-family:var(--body); font-style:italic; color:var(--gold-light); max-width:420px; margin:1rem 0 1.6rem;}
+  .heroCard .btn{display:inline-block; width:max-content; background:var(--gold); color:var(--green-deep); font-family:var(--ui); font-weight:700; font-size:0.9rem; padding:0.8rem 1.6rem; border-radius:999px;}
+  .stackCol{display:flex; flex-direction:column; gap:1.3rem;}
+  .statCard{background:var(--gold); border-radius:24px; padding:1.8rem; color:var(--green-deep); flex:1; display:flex; flex-direction:column; justify-content:center;}
+  .statCard .big{font-family:var(--display); font-size:2.6rem; font-weight:700; line-height:1;}
+  .statCard .lbl{font-family:var(--ui); font-weight:700; font-size:0.85rem; margin-top:0.4rem;}
+  .infoCard{background:var(--paper); border:1px solid rgba(19,69,40,0.14); border-radius:24px; padding:1.8rem; flex:1;}
+  .infoCard .eyebrow{margin-bottom:0.5rem; display:block;}
+  .infoCard .t{font-family:var(--display); font-weight:700; font-size:1.3rem; color:var(--green);}
+  .infoCard .d{font-size:0.92rem; color:#4a5a50; margin-top:0.3rem;}
+
+  .chips{display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:1.3rem;}
+  .chip{background:var(--paper); border:1px solid rgba(19,69,40,0.14); border-radius:16px; padding:1.2rem 1rem; text-align:center;}
+  .chip svg{margin-bottom:0.5rem;}
+  .chip .t{font-family:var(--ui); font-weight:700; font-size:0.88rem; color:var(--green);}
+
+  .section{padding:64px 0;}
+  h2.h2{font-family:var(--display); font-size:2.1rem; color:var(--green); margin-bottom:1.6rem;}
+
+  .prog-bento{display:grid; grid-template-columns:1.5fr 1fr; gap:1.3rem;}
+  .prog-main{background:var(--paper); border:1px solid rgba(19,69,40,0.14); border-radius:24px; padding:2.2rem;}
+  .prog-main p{color:#4a5a50; font-size:1rem; max-width:520px;}
+  .prog-main a{font-family:var(--ui); font-weight:700; color:var(--green); font-size:0.9rem;}
+  .prog-side{display:flex; flex-direction:column; gap:1.3rem;}
+  .tagCard{background:var(--green); border-radius:24px; padding:1.6rem; color:#f4efe2; flex:1;}
+  .tagCard .tag{display:inline-block; background:var(--gold); color:var(--green-deep); font-family:var(--ui); font-weight:700; font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; padding:0.3rem 0.8rem; border-radius:999px; margin-bottom:0.7rem;}
+  .tagCard .row{display:flex; justify-content:space-between; font-size:0.88rem; padding:0.35rem 0; border-top:1px solid rgba(244,239,226,0.18);}
+  .tagCard .row:first-of-type{border-top:0;}
+
+  .teach-bento{display:grid; grid-template-columns:repeat(3,1fr); gap:1.3rem; margin-top:1.6rem;}
+  .teach-card{background:var(--paper); border-radius:20px; padding:1.6rem; border-top:4px solid var(--gold);}
+  .teach-card .hon{font-family:var(--ui); font-weight:700; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold);}
+  .teach-card .name{font-family:var(--display); font-style:italic; font-weight:700; font-size:1.5rem; color:var(--green); margin-top:0.3rem;}
+  .teach-card .bio{font-size:0.9rem; color:#4a5a50; margin-top:0.5rem;}
+
+  .testi-bento{background:var(--paper); border-radius:24px; margin-top:1.6rem; padding:2.4rem; display:grid; grid-template-columns:1fr 1fr; gap:2.4rem;}
+  .testi-col{position:relative;}
+  .testi-col + .testi-col{border-left:1px solid rgba(19,69,40,0.14); padding-left:2.4rem;}
+  .testi-col p{font-style:italic; color:#3a4a41; font-size:1rem;}
+  .testi-col .cite{font-family:var(--ui); font-weight:700; font-size:0.82rem; color:var(--green); margin-top:0.8rem; display:block;}
+
+  .ftr{border-top:1px solid rgba(19,69,40,0.14); padding:36px 0; margin-top:16px;}
+  .ftr__inner{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;}
+  .ftr__brand{display:flex; align-items:center; gap:0.6rem; font-family:var(--ui); font-weight:800; color:var(--green); font-size:0.95rem;}
+  .ftr__legal{font-family:var(--ui); font-size:0.78rem; color:#6a7a70;}
+</style>
+</helmet>
+
+<div class="page">
+
+  <header class="hdr">
+    <div class="hdr__inner">
+      <div class="brand">
+        <svg width="26" height="26" viewBox="0 0 40 40" fill="currentColor"><path d="M24 6 A14 14 0 1 0 24 34 A11 11 0 1 1 24 6 Z"/><path d="M31 10 l1.2 3.2 3.4 0.3-2.6 2.2 0.8 3.3-2.8-1.9-2.8 1.9 0.8-3.3-2.6-2.2 3.4-0.3z"/></svg>
+        <span class="brand__name">JAMIYAH ISLAMIYYAH ABU BAKR</span>
+      </div>
+      <ul class="navlinks">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Program</a></li>
+        <li><a href="#">Alumni</a></li>
+        <li><a class="navcta" href="#">Enroll Now</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="wrap bento-wrap">
+    <div class="bento">
+      <div class="heroCard">
+        <span class="eyebrow" style="color:var(--gold-light)">Alimiyyah Program</span>
+        <h1>Seven years of traditional Islamic scholarship</h1>
+        <p>Qur'an, hadith, fiqh and Arabic — taught text by text, with a teacher, in the company of fellow students.</p>
+        <a class="btn" href="#">Begin Your Journey</a>
+      </div>
+      <div class="stackCol">
+        <div class="statCard">
+          <div class="big">7</div>
+          <div class="lbl">YEAR STRUCTURED CURRICULUM</div>
+        </div>
+        <div class="infoCard">
+          <span class="eyebrow">Next Intake</span>
+          <div class="t">Rolling admissions</div>
+          <div class="d">Part-time &amp; full-time tracks available</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chips">
+      <div class="chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#134528" stroke-width="1.6"><path d="M4 5h16M4 12h16M4 19h10"/></svg><div class="t">Qur'an</div></div>
+      <div class="chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#134528" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 3"/></svg><div class="t">Hadith</div></div>
+      <div class="chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#134528" stroke-width="1.6"><path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11z"/><path d="M15 4v5h5"/></svg><div class="t">Fiqh</div></div>
+      <div class="chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#134528" stroke-width="1.6"><path d="M5 4l6 16 2-7 7-2-16-6z"/></svg><div class="t">Arabic</div></div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h2">Our Program</h2>
+      <div class="prog-bento">
+        <div class="prog-main">
+          <p>Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Students attain a mastery of Arabic through which they gain a deep understanding of the Qur'an and Hadith.</p>
+          <a href="#">View full curriculum &rarr;</a>
+        </div>
+        <div class="prog-side">
+          <div class="tagCard">
+            <span class="tag">Part-time</span>
+            <div class="row"><span>Mon &ndash; Fri</span><span>4:30 &ndash; 7:30 PM</span></div>
+            <div class="row"><span>Fee</span><span>$125/mo</span></div>
+          </div>
+          <div class="tagCard">
+            <span class="tag">Full-time</span>
+            <div class="row"><span>Mon &ndash; Fri</span><span>8:30 &ndash; 4:15 PM</span></div>
+            <div class="row"><span>Fee</span><span>$325/mo</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <h2 class="h2">Our Teachers</h2>
+      <div class="teach-bento">
+        <div class="teach-card">
+          <div class="hon">Moulana</div>
+          <div class="name">Kasim Ingar</div>
+          <div class="bio">Imam of our masjid, and teacher for over 30 years</div>
+        </div>
+        <div class="teach-card">
+          <div class="hon">Moulana</div>
+          <div class="name">Salim Chauhan</div>
+        </div>
+        <div class="teach-card">
+          <div class="hon">Moulana</div>
+          <div class="name">Zuber Motala</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0; padding-bottom:36px;">
+    <div class="wrap">
+      <h2 class="h2">Alumni Testimonies</h2>
+      <div class="testi-bento">
+        <div class="testi-col">
+          <p>&ldquo;I came expecting to memorise rulings and left having learned how the scholars arrived at them. That shift changed the way I read everything.&rdquo;</p>
+          <span class="cite">SUMAYYAH NOOR &middot; 2020</span>
+        </div>
+        <div class="testi-col">
+          <p>&ldquo;My teacher went through the same page with me four times without once making me feel slow. I try to teach my own students that way now.&rdquo;</p>
+          <span class="cite">ABDURRAHMAN SHEIKH &middot; 2022</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ftr">
+    <div class="wrap ftr__inner">
+      <div class="ftr__brand">
+        <svg width="20" height="20" viewBox="0 0 40 40" fill="currentColor"><path d="M24 6 A14 14 0 1 0 24 34 A11 11 0 1 1 24 6 Z"/><path d="M31 10 l1.2 3.2 3.4 0.3-2.6 2.2 0.8 3.3-2.8-1.9-2.8 1.9 0.8-3.3-2.6-2.2 3.4-0.3z"/></svg>
+        Jamiyah Islamiyyah Abu Bakr
+      </div>
+      <div class="ftr__legal">&copy; 2026 Jamiyah Islamiyyah Abu Bakr. All rights reserved.</div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+  :root{
+    --green:#134528; --green-deep:#062707; --gold:#c9a961; --gold-light:#d9be78;
+    --mint:#c9ebdd; --ground:#f5eee0; --on-green:#f4efe2; --paper:#fffdf8;
+    --display:"Cormorant Garamond", Garamond, serif;
+    --body:"EB Garamond", Garamond, serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ground); color:#14251b; font-family:var(--body); font-size:16px; line-height:1.6;}
+  h2,h3{font-family:var(--display); font-weight:600; margin:0; line-height:1.15;}
+  p{margin:0;}
+  .page{padding:46px 44px;}
+  .sec-head{text-align:center; margin-bottom:2rem;}
+  .sec-head h2{color:var(--green); font-size:2.3rem; margin-bottom:0.8rem;}
+  .sec-head p{max-width:660px; margin-inline:auto; color:#3a4a41;}
+
+  .matrix{background:var(--paper); border:1px solid rgba(19,69,40,.16); border-radius:16px; overflow:hidden;}
+  .row{display:grid; grid-template-columns:186px repeat(7, minmax(0,1fr)); align-items:stretch;}
+  .row + .row{border-top:1px solid rgba(19,69,40,.1);}
+
+  .row__head{display:flex; align-items:center; padding:0.55rem 1rem; background:rgba(19,69,40,.05); font-family:var(--display); font-size:0.95rem; font-weight:600; color:var(--green);}
+  .col{padding:0.5rem 0.4rem; text-align:center; border-left:1px solid rgba(19,69,40,.08); font-family:var(--display); font-size:0.98rem; font-weight:600; color:var(--green);}
+  .col em{display:block; font-size:0.7rem; font-style:italic; font-weight:400; color:#6a7a70;}
+
+  /* The part-time / full-time split is a property of the years, so it reads
+     straight off the column headers. */
+  .row--head .col{background:rgba(19,69,40,.05); padding:0.6rem 0.4rem;}
+  .row--head .col--full{background:rgba(19,69,40,.1);}
+
+  .lane__name{display:flex; flex-direction:column; justify-content:center; padding:0.8rem 1rem;}
+  .lane__name b{font-family:var(--display); font-size:1.12rem; font-weight:600; color:var(--green);}
+  .lane__name span{font-size:0.8rem; color:#6a7a70; font-style:italic;}
+
+  .slot{display:flex; align-items:center; justify-content:center; padding:0.55rem 0.35rem; border-left:1px solid rgba(19,69,40,.08); min-height:62px;}
+  .mark{width:100%; padding:0.45rem 0.3rem; background:var(--green); border:1px solid var(--gold); color:var(--gold-light); font-family:var(--display); font-size:0.82rem; font-weight:600; line-height:1.15; text-align:center;}
+  .mark--on{background:var(--mint); border-color:var(--green-deep); color:var(--green-deep);}
+  .pending{width:22px; height:1px; background:rgba(19,69,40,.16);}
+
+  .tracks{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:1.6rem; margin-top:2.4rem;}
+  .track{border-radius:16px; overflow:hidden; border:1px solid rgba(19,69,40,.16); background:var(--paper);}
+  .track--full{background:var(--green); border-color:var(--green);}
+  .track__head{padding:1.1rem 1.4rem; background:rgba(19,69,40,.05); font-family:var(--display);}
+  .track--full .track__head{background:var(--green-deep);}
+  .track__name{font-size:1.4rem; font-weight:600; color:var(--green);}
+  .track--full .track__name{color:var(--gold-light);}
+  .track__years{font-size:0.88rem; font-style:italic; color:#6a7a70;}
+  .track--full .track__years{color:rgba(244,239,226,.7);}
+  .track__row{display:flex; align-items:baseline; justify-content:space-between; gap:1rem; padding:0.6rem 1.4rem; border-top:1px solid rgba(19,69,40,.1); font-size:0.94rem;}
+  .track--full .track__row{border-color:rgba(244,239,226,.16); color:var(--on-green);}
+  .track__row span:first-child{color:#6a7a70;}
+  .track--full .track__row span:first-child{color:rgba(244,239,226,.65);}
+  .track__row b{color:var(--green); font-weight:600; white-space:nowrap;}
+  .track--full .track__row b{color:var(--gold-light);}
+  .track__fee{padding:0.9rem 1.4rem 1.2rem; border-top:1px solid rgba(19,69,40,.1);}
+  .track--full .track__fee{border-color:rgba(244,239,226,.16);}
+  .track__amount{font-family:var(--display); font-size:2rem; font-weight:600; color:var(--green); line-height:1.15;}
+  .track--full .track__amount{color:var(--on-green);}
+  .track__amount em{font-size:.46em; font-style:italic;}
+  .track__note{font-size:0.82rem; color:#6a7a70;}
+  .track--full .track__note{color:rgba(244,239,226,.7);}
+
+  .discounts{display:flex; align-items:center; justify-content:center; gap:2.4rem; flex-wrap:wrap; margin-top:1.4rem; padding:1rem 1.4rem; border:1px solid rgba(201,169,97,.55); border-radius:14px;}
+  .discounts__label{color:var(--gold); font-family:var(--display); font-style:italic; font-size:0.95rem;}
+  .discounts__item{font-size:0.92rem; color:#3a4a41;}
+  .discounts__item b{color:var(--green); font-family:var(--display); font-size:1.15rem; font-weight:600;}
+</style>
+</helmet>
+
+<div class="page">
+  <div class="sec-head">
+    <h2>Our Program</h2>
+    <p>Read down a subject instead of across a year &mdash; where each discipline starts, and how far it runs.</p>
+  </div>
+
+  <div class="matrix">
+    <div class="row row--head">
+      <div class="row__head">Subject</div>
+      <div class="col">I<em>part-time</em></div>
+      <div class="col">II<em>part-time</em></div>
+      <div class="col">III<em>part-time</em></div>
+      <div class="col">IV<em>part-time</em></div>
+      <div class="col col--full">V<em>full-time</em></div>
+      <div class="col col--full">VI<em>full-time</em></div>
+      <div class="col col--full">VII<em>full-time</em></div>
+    </div>
+
+    <div class="row">
+      <div class="lane__name"><b>Urdu</b><span>the language of instruction</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="mark mark--on">Achi Baatain</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+    </div>
+
+    <div class="row">
+      <div class="lane__name"><b>Nahwa</b><span>Arabic syntax</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="mark">Tasheel ul-Nahwa</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+    </div>
+
+    <div class="row">
+      <div class="lane__name"><b>Sarf</b><span>Arabic morphology</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="mark">Tasheel ul-Sarf</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+    </div>
+
+    <div class="row">
+      <div class="lane__name"><b>Arabic</b><span>reading and composition</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="mark">Duroos 1 &middot; Qasas 1</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+    </div>
+
+    <div class="row">
+      <div class="lane__name"><b>Qur'an</b><span>recitation and tafsir</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+    </div>
+
+    <div class="row">
+      <div class="lane__name"><b>Hadith</b><span>the prophetic corpus</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+    </div>
+
+    <div class="row">
+      <div class="lane__name"><b>Fiqh</b><span>jurisprudence</span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+      <div class="slot"><span class="pending"></span></div>
+    </div>
+  </div>
+
+  <div class="tracks">
+    <div class="track">
+      <div class="track__head">
+        <p class="track__name">Part-time</p>
+        <p class="track__years">Years I &ndash; IV</p>
+      </div>
+      <div class="track__row"><span>Monday to Friday</span><b>4:30 PM &ndash; 7:30 PM</b></div>
+      <div class="track__row"><span>Saturday</span><b>&mdash;</b></div>
+      <div class="track__fee">
+        <p class="track__amount">$125 <em>/month</em></p>
+        <p class="track__note">per student</p>
+      </div>
+    </div>
+
+    <div class="track track--full">
+      <div class="track__head">
+        <p class="track__name">Full-time</p>
+        <p class="track__years">Years V &ndash; VII</p>
+      </div>
+      <div class="track__row"><span>Monday to Friday</span><b>8:30 AM &ndash; 4:15 PM</b></div>
+      <div class="track__row"><span>Saturday</span><b>8:30 AM &ndash; 12:30 PM</b></div>
+      <div class="track__fee">
+        <p class="track__amount">$325 <em>/month</em></p>
+        <p class="track__note">per student</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="discounts">
+    <span class="discounts__label">Family discounts</span>
+    <span class="discounts__item"><b>5%</b> &nbsp;2 students</span>
+    <span class="discounts__item"><b>10%</b> &nbsp;3 students</span>
+    <span class="discounts__item"><b>15%</b> &nbsp;4 or more</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+  :root{
+    --green:#134528; --green-deep:#062707; --gold:#c9a961; --gold-light:#b6934f;
+    --ground:#f5eee0; --ink:#14251b;
+    --display:"Cormorant Garamond", Garamond, serif; --body:"EB Garamond", Garamond, serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ground); color:var(--ink); font-family:var(--body); font-size:17px; line-height:1.7;}
+  h1,h2,h3{font-family:var(--display); font-weight:500; margin:0; line-height:1.1;}
+  a{color:var(--green); text-decoration:none; border-bottom:1px solid transparent;}
+  a:hover{border-bottom-color:var(--gold);}
+  .wrap{max-width:900px; margin-inline:auto; padding-inline:40px;}
+  .rule{border:0; border-top:1px solid var(--gold); width:64px; margin:0 auto;}
+
+  .hdr{padding:2rem 0 1.4rem;}
+  .hdr__inner{display:flex; align-items:baseline; justify-content:center; gap:2.6rem; max-width:1000px; margin-inline:auto;}
+  .brand__name{font-family:var(--display); font-weight:600; font-size:1.2rem; letter-spacing:0.02em; color:var(--green);}
+  .navlinks{display:flex; gap:1.8rem; list-style:none; padding:0; margin:0;}
+  .navlinks a{font-family:var(--display); font-style:italic; font-size:1rem; color:#4a5a50; border:0;}
+  .navlinks a:hover{color:var(--green);}
+
+  .hero{padding:96px 0 84px; text-align:center;}
+  .hero svg{opacity:0.5; margin-bottom:1.6rem;}
+  .kicker{display:block; font-family:var(--display); font-style:italic; font-size:1rem; letter-spacing:0.08em; color:var(--gold-light); margin-bottom:1.4rem;}
+  .hero h1{font-size:3.6rem; font-weight:500; color:var(--green); max-width:680px; margin-inline:auto;}
+  .hero__rule{margin:1.8rem auto;}
+  .hero__sub{max-width:440px; margin:0 auto 1.8rem; color:#4a5a50; font-size:1.08rem;}
+  .hero__link{font-family:var(--display); font-style:italic; font-size:1.05rem; border-bottom:1px solid var(--gold);}
+
+  .section{padding:60px 0; text-align:center;}
+  .prose{max-width:600px; margin-inline:auto; font-size:1.08rem; color:#3a4a41;}
+  h2.h2{font-size:2rem; font-weight:500; color:var(--green); margin-bottom:1.6rem;}
+
+  .timeline{display:flex; justify-content:center; align-items:center; gap:0; margin:2.6rem 0 1.2rem; flex-wrap:wrap;}
+  .yr{font-family:var(--display); font-style:italic; font-size:1.5rem; color:var(--green); padding:0 1rem;}
+  .yr--full{color:var(--gold-light);}
+  .yr-sep{width:34px; height:1px; background:var(--gold);}
+  .timeline-lbl{display:flex; justify-content:center; gap:2.6rem; font-family:var(--display); font-style:italic; font-size:0.9rem; letter-spacing:0.04em; color:#6a7a70; margin-bottom:0.4rem;}
+
+  .names{display:flex; justify-content:center; gap:2.4rem; margin-top:2.2rem; flex-wrap:wrap;}
+  .name-item{text-align:center;}
+  .name-item + .name-item{border-left:1px solid var(--gold); padding-left:2.4rem;}
+  .name-item .hon{display:block; font-family:var(--display); font-style:italic; font-size:0.92rem; color:var(--gold-light); margin-bottom:0.3rem;}
+  .name-item .nm{font-family:var(--display); font-size:1.5rem; color:var(--green);}
+
+  .quote-block{max-width:640px; margin:2.2rem auto 0;}
+  .quote-block .mark{font-family:var(--display); font-size:3.4rem; color:var(--gold); display:block; line-height:0.4; margin-bottom:1rem;}
+  .quote-block p{font-family:var(--display); font-style:italic; font-size:1.4rem; color:var(--green); line-height:1.4;}
+  .quote-block .cite{display:block; margin-top:1.4rem; font-size:0.85rem; letter-spacing:0.08em; text-transform:uppercase; color:#6a7a70;}
+  .quote-sep{width:34px; height:1px; background:var(--gold); margin:2.6rem auto;}
+
+  .ftr{padding:44px 0 40px; text-align:center;}
+  .ftr .rule{margin-bottom:1.4rem;}
+  .ftr__contact{font-size:0.95rem; color:#4a5a50; line-height:1.9;}
+  .ftr__legal{margin-top:1rem; font-size:0.8rem; color:#8a9a90;}
+</style>
+</helmet>
+
+<div class="page">
+
+  <header class="hdr">
+    <div class="hdr__inner">
+      <ul class="navlinks" style="justify-content:flex-end; flex:1;">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Program</a></li>
+      </ul>
+      <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
+      <ul class="navlinks" style="flex:1;">
+        <li><a href="#">Alumni</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="hero">
+    <svg width="46" height="46" viewBox="0 0 40 40" fill="none" stroke="#c9a961" stroke-width="1.2"><path d="M24 6 A14 14 0 1 0 24 34 A11 11 0 1 1 24 6 Z"/></svg>
+    <span class="kicker">Seven-Year Alimiyyah Program</span>
+    <h1>A traditional course in Qur'an, hadith, fiqh and Arabic</h1>
+    <hr class="rule hero__rule">
+    <p class="hero__sub">Text by text, with a teacher, in the company of fellow students.</p>
+    <a class="hero__link" href="#">Learn about the program &darr;</a>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="prose">A full course of study in Qur'an, hadith, fiqh, Arabic and the sciences that serve them, taught in the traditional way: text by text, with a teacher, in the company of fellow students.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h2">Our Program</h2>
+      <p class="prose">Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Students attain a mastery of Arabic through which they gain a deep understanding of the Qur'an and Hadith.</p>
+      <div class="timeline">
+        <span class="yr">I</span><span class="yr-sep"></span>
+        <span class="yr">II</span><span class="yr-sep"></span>
+        <span class="yr">III</span><span class="yr-sep"></span>
+        <span class="yr">IV</span><span class="yr-sep"></span>
+        <span class="yr yr--full">V</span><span class="yr-sep"></span>
+        <span class="yr yr--full">VI</span><span class="yr-sep"></span>
+        <span class="yr yr--full">VII</span>
+      </div>
+      <div class="timeline-lbl">
+        <span>Part-time &middot; 4:30&ndash;7:30 PM</span>
+        <span>Full-time &middot; days at the masjid</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h2">Our Teachers</h2>
+      <div class="names">
+        <div class="name-item"><span class="hon">Moulana</span><span class="nm">Kasim Ingar</span></div>
+        <div class="name-item"><span class="hon">Moulana</span><span class="nm">Salim Chauhan</span></div>
+        <div class="name-item"><span class="hon">Moulana</span><span class="nm">Zuber Motala</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-bottom:20px;">
+    <div class="wrap">
+      <div class="quote-block">
+        <span class="mark">&ldquo;</span>
+        <p>I came expecting to memorise rulings and left having learned how the scholars arrived at them.</p>
+        <span class="cite">Sumayyah Noor &middot; 2020</span>
+      </div>
+      <div class="quote-sep"></div>
+      <div class="quote-block">
+        <span class="mark">&ldquo;</span>
+        <p>My teacher went through the same page with me four times without once making me feel slow.</p>
+        <span class="cite">Abdurrahman Sheikh &middot; 2022</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ftr">
+    <hr class="rule">
+    <div class="wrap">
+      <div class="ftr__contact">Jamiyah Islamiyyah Abu Bakr</div>
+      <div class="ftr__legal">&copy; 2026 Jamiyah Islamiyyah Abu Bakr. All rights reserved.</div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>

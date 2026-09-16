@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Nastaliq+Urdu:wght@400&display=swap">
+<style>
+  :root{
+    --green:#134528; --green-deep:#062707; --gold:#c9a961; --gold-light:#d9be78;
+    --mint:#c9ebdd; --ground:#f5eee0; --on-green:#f4efe2;
+    --hairline:rgba(244,239,226,0.38);
+    --display:"Cormorant Garamond", Garamond, serif;
+    --body:"EB Garamond", Garamond, serif;
+    --urdu:"Noto Nastaliq Urdu", serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ground); color:#14251b; font-family:var(--body); font-size:16px; line-height:1.6;}
+  h2,h3,h4{font-family:var(--display); font-weight:600; margin:0; line-height:1.15;}
+  p{margin:0;}
+  a{color:var(--gold-light); text-decoration:none;}
+  a:hover{color:var(--gold);}
+  .page{padding:52px 44px;}
+  .sec-head{text-align:center; margin-bottom:2.4rem;}
+  .sec-head h2{color:var(--green); font-size:2.3rem; margin-bottom:0.9rem;}
+  .sec-head p{max-width:640px; margin-inline:auto; color:#3a4a41;}
+
+  /* Three bays: a narrow arch, the curriculum, a narrow arch. */
+  .triptych{display:grid; grid-template-columns:300px minmax(0,1fr) 300px; gap:36px; align-items:start;}
+
+  .tabbed__label{position:relative; z-index:2; width:max-content; max-width:min(100%,26rem); margin:0 auto; padding:0.55rem 2.4rem; background:var(--green); border:1.5px solid var(--gold); border-radius:12px; box-shadow:0 6px 18px rgba(6,39,7,.22); color:var(--gold-light); font-family:var(--display); font-size:1.4rem; font-style:italic; font-weight:600; text-align:center; line-height:1.2;}
+  .tabbed__panel{margin-top:-1.5rem; padding-top:1.5rem; background:var(--green); border-radius:18px; box-shadow:inset 0 0 0 10px var(--green), inset 0 0 0 11.5px var(--gold), 0 10px 30px rgba(6,39,7,.18);}
+  .tabbed__inner{margin:1.1rem; padding:0.8rem;}
+
+  .acc__item + .acc__item{border-top:1px solid var(--hairline);}
+  .acc__trigger{display:grid; grid-template-columns:1fr auto; align-items:center; gap:1rem; width:100%; padding:0.7rem 1rem; color:var(--gold-light); font-family:var(--display); font-size:1.25rem; font-weight:600; text-align:center;}
+  .acc__trigger > span:first-child{grid-column:1/-1; grid-row:1;}
+  .acc__chevron{grid-column:2; grid-row:1; width:1.2em; height:1.2em; fill:none; stroke:var(--gold-light); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round;}
+  .acc__panel{margin:0 0.3rem 0.7rem; padding:0.9rem; background:var(--green-deep); border:1.5px solid var(--gold); border-radius:16px;}
+
+  /* The books row cannot fit five cards in a 640px bay, so it scrolls -
+     the fifth card is clipped here deliberately. */
+  .books{display:flex; gap:0.6rem; overflow:hidden;}
+  .book{flex:0 0 108px; display:flex; flex-direction:column; align-items:center; gap:0.45rem; padding:0.8rem 0.4rem; background:var(--green-deep); border:1.5px solid var(--gold); color:var(--gold-light); font-family:var(--display); text-align:center;}
+  .book--on{background:var(--mint); color:var(--green-deep);}
+  .book__title{font-size:0.95rem; font-weight:600; line-height:1.2;}
+  .book__divider{width:62%; height:1px; background:var(--gold);}
+  .book--on .book__divider{background:var(--green-deep);}
+  .book__subject{font-size:0.84rem; font-style:italic;}
+
+  .book-detail{margin-top:0.9rem; padding:1.1rem; background:var(--green); border:1.5px solid var(--gold); border-radius:12px; color:var(--on-green);}
+  .book-detail__head{display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap;}
+  .book-detail__title{color:var(--gold-light); font-size:1.4rem;}
+  .book-detail__urdu{font-family:var(--urdu); font-size:1.2rem; line-height:2; color:var(--gold-light); direction:rtl;}
+  .book-detail__meta{color:var(--gold-light); font-size:0.84rem; font-style:italic; margin-top:0.1rem;}
+  .book-detail__rule{margin:0.7rem 0; border:0; border-top:1px solid var(--hairline);}
+  .book-detail__body{font-size:0.92rem; line-height:1.7;}
+
+  .arch{position:relative; width:300px; background:var(--green); border-radius:150px 150px 18px 18px; padding:19% 9% 10%; color:var(--on-green); box-shadow:0 14px 38px rgba(6,39,7,.18);}
+  .arch::before{content:""; position:absolute; inset:12px; border:1px solid var(--gold); border-radius:inherit; pointer-events:none;}
+  .arch__mark{display:block; width:34px; height:auto; margin:0 auto 0.5rem; color:var(--gold);}
+  .arch__heading{color:var(--gold-light); font-size:1.45rem; text-align:center; margin-bottom:1.3rem;}
+  .arch__body{display:flex; flex-direction:column; gap:1.2rem;}
+  .arch__row{display:flex; align-items:baseline; justify-content:space-between; gap:0.7rem; padding:0.35rem 0; border-top:1px solid var(--hairline); font-size:0.82rem;}
+  .arch__row-value{color:var(--gold-light); white-space:nowrap;}
+  .group__years,.fee__label,.discounts__label{color:var(--gold); font-family:var(--display); font-style:italic; font-size:0.85rem; margin:0;}
+  .group__label{color:var(--on-green); font-family:var(--display); font-size:1.1rem; font-weight:600; margin:0 0 0.25rem;}
+  .fee__amount{color:var(--on-green); font-family:var(--display); font-size:1.7rem; font-weight:500; line-height:1.1; margin:0;}
+  .fee__period{font-size:0.5em; font-style:italic;}
+  .fee__note{font-size:0.78rem; opacity:0.75; margin:0;}
+  .arch__divider{height:1px; background:var(--gold); opacity:0.5;}
+</style>
+</helmet>
+
+<div class="page">
+  <div class="sec-head">
+    <h2>Our Program</h2>
+    <p>Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time.</p>
+  </div>
+
+  <div class="triptych">
+
+    <section class="arch">
+      <svg class="arch__mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+        <rect x="9" y="9" width="30" height="30"></rect>
+        <rect x="9" y="9" width="30" height="30" transform="rotate(45 24 24)"></rect>
+        <circle cx="24" cy="24" r="5.5"></circle>
+      </svg>
+      <h3 class="arch__heading">Class Timings</h3>
+      <div class="arch__body">
+        <div>
+          <p class="group__years">Years I &ndash; IV</p>
+          <p class="group__label">Part-time</p>
+          <div class="arch__row"><span>Mon &ndash; Fri</span><span class="arch__row-value">4:30 &ndash; 7:30 PM</span></div>
+        </div>
+        <div>
+          <p class="group__years">Years V &ndash; VII</p>
+          <p class="group__label">Full-time</p>
+          <div class="arch__row"><span>Mon &ndash; Fri</span><span class="arch__row-value">8:30 &ndash; 4:15</span></div>
+          <div class="arch__row"><span>Saturday</span><span class="arch__row-value">8:30 &ndash; 12:30</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="tabbed">
+      <p class="tabbed__label">Curriculum</p>
+      <div class="tabbed__panel">
+        <div class="tabbed__inner">
+          <div class="acc__item">
+            <div class="acc__trigger"><span>First Year</span>
+              <svg class="acc__chevron" viewBox="0 0 24 24"><polyline points="5 9 12 16 19 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="acc__item">
+            <div class="acc__trigger"><span>Second Year</span>
+              <svg class="acc__chevron" viewBox="0 0 24 24" style="transform:rotate(180deg)"><polyline points="5 9 12 16 19 9"></polyline></svg>
+            </div>
+            <div class="acc__panel">
+              <div class="books">
+                <div class="book book--on"><span class="book__title">Achi Baatain</span><span class="book__divider"></span><span class="book__subject">Urdu</span></div>
+                <div class="book"><span class="book__title">Tasheel ul-Nahwa</span><span class="book__divider"></span><span class="book__subject">Nahwa</span></div>
+                <div class="book"><span class="book__title">Tasheel ul-Sarf</span><span class="book__divider"></span><span class="book__subject">Sarf</span></div>
+                <div class="book"><span class="book__title">Duroos 1</span><span class="book__divider"></span><span class="book__subject">Arabic</span></div>
+                <div class="book"><span class="book__title">Qasas 1</span><span class="book__divider"></span><span class="book__subject">Arabic</span></div>
+              </div>
+              <div class="book-detail">
+                <div class="book-detail__head">
+                  <h4 class="book-detail__title">Achi Baatain</h4>
+                  <p class="book-detail__urdu" lang="ur" dir="rtl">اچھی باتیں</p>
+                </div>
+                <p class="book-detail__meta">Urdu</p>
+                <hr class="book-detail__rule">
+                <p class="book-detail__body">Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar.</p>
+              </div>
+            </div>
+          </div>
+          <div class="acc__item">
+            <div class="acc__trigger"><span>Third Year</span>
+              <svg class="acc__chevron" viewBox="0 0 24 24"><polyline points="5 9 12 16 19 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="acc__item">
+            <div class="acc__trigger"><span>Fourth Year</span>
+              <svg class="acc__chevron" viewBox="0 0 24 24"><polyline points="5 9 12 16 19 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="acc__item">
+            <div class="acc__trigger"><span>Fifth Year</span>
+              <svg class="acc__chevron" viewBox="0 0 24 24"><polyline points="5 9 12 16 19 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="acc__item">
+            <div class="acc__trigger"><span>Sixth Year</span>
+              <svg class="acc__chevron" viewBox="0 0 24 24"><polyline points="5 9 12 16 19 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="acc__item">
+            <div class="acc__trigger"><span>Seventh Year</span>
+              <svg class="acc__chevron" viewBox="0 0 24 24"><polyline points="5 9 12 16 19 9"></polyline></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="arch">
+      <svg class="arch__mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+        <rect x="9" y="9" width="30" height="30"></rect>
+        <rect x="9" y="9" width="30" height="30" transform="rotate(45 24 24)"></rect>
+        <circle cx="24" cy="24" r="5.5"></circle>
+      </svg>
+      <h3 class="arch__heading">Fees</h3>
+      <div class="arch__body">
+        <div>
+          <p class="fee__label">Part-time</p>
+          <p class="fee__amount">$125 <span class="fee__period">/month</span></p>
+          <p class="fee__note">per student</p>
+        </div>
+        <div>
+          <p class="fee__label">Full-time</p>
+          <p class="fee__amount">$325 <span class="fee__period">/month</span></p>
+          <p class="fee__note">per student</p>
+        </div>
+        <div class="arch__divider"></div>
+        <div>
+          <p class="discounts__label">Family discounts</p>
+          <div class="arch__row"><span>2 students</span><span class="arch__row-value">5% off</span></div>
+          <div class="arch__row"><span>3 students</span><span class="arch__row-value">10% off</span></div>
+          <div class="arch__row"><span>4 or more</span><span class="arch__row-value">15% off</span></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

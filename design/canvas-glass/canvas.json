@@ -1,0 +1,377 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "title": "1 \u00b7 Glass Nave",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 5440,
+      "page": "page-1"
+    },
+    {
+      "file": "DaylightBento.dc.html",
+      "title": "2 \u00b7 Daylight Bento",
+      "x": 1600,
+      "y": 0,
+      "w": 1440,
+      "h": 4460,
+      "page": "page-1"
+    },
+    {
+      "file": "MihrabSplit.dc.html",
+      "title": "3 \u00b7 Mihrab Split",
+      "x": 3200,
+      "y": 0,
+      "w": 1440,
+      "h": 5840,
+      "page": "page-1"
+    },
+    {
+      "file": "ThroughTheWindow.dc.html",
+      "title": "4 \u00b7 Through the Window",
+      "x": 0,
+      "y": 6300,
+      "w": 1440,
+      "h": 5100,
+      "page": "page-1"
+    },
+    {
+      "file": "ShelfFirst.dc.html",
+      "title": "5 \u00b7 Shelf First",
+      "x": 1600,
+      "y": 6300,
+      "w": 1440,
+      "h": 4440,
+      "page": "page-1"
+    },
+    {
+      "file": "NightMosaic.dc.html",
+      "title": "6 \u00b7 Night Mosaic",
+      "x": 3200,
+      "y": 6300,
+      "w": 1440,
+      "h": 4760,
+      "page": "page-1"
+    },
+    {
+      "file": "Bindings.dc.html",
+      "title": "The bindings, up close",
+      "x": 4800,
+      "y": 0,
+      "w": 1440,
+      "h": 1460,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "CombinedAntiquarian.dc.html",
+      "page": "page-2",
+      "title": "A \u00b7 Antiquarian calf",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 5300
+    },
+    {
+      "file": "CombinedKitab.dc.html",
+      "page": "page-2",
+      "title": "B \u00b7 Islamic kitab",
+      "x": 1600,
+      "y": 0,
+      "w": 1440,
+      "h": 5340
+    },
+    {
+      "file": "CombinedPress.dc.html",
+      "page": "page-2",
+      "title": "C \u00b7 Madrasa press",
+      "x": 3200,
+      "y": 0,
+      "w": 1440,
+      "h": 5340
+    },
+    {
+      "file": "TraditionalBindings.dc.html",
+      "page": "page-2",
+      "title": "Traditional bindings, up close",
+      "x": 4800,
+      "y": 0,
+      "w": 1440,
+      "h": 1840,
+      "is_interactive": true
+    },
+    {
+      "file": "LightSageWash.dc.html",
+      "page": "page-3",
+      "title": "B1 \u00b7 Sage wash",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 5340
+    },
+    {
+      "file": "LightBands.dc.html",
+      "page": "page-3",
+      "title": "B2 \u00b7 Bands",
+      "x": 1600,
+      "y": 0,
+      "w": 1440,
+      "h": 5850
+    },
+    {
+      "file": "LightWatercolour.dc.html",
+      "page": "page-3",
+      "title": "B3 \u00b7 Mint watercolour",
+      "x": 3200,
+      "y": 0,
+      "w": 1440,
+      "h": 5340
+    },
+    {
+      "file": "WatercolourMounted.dc.html",
+      "page": "page-3",
+      "title": "B3 \u00b7 revised: mounted shelf, green details",
+      "x": 4800,
+      "y": 0,
+      "w": 1440,
+      "h": 5390
+    },
+    {
+      "file": "MarginsNow.dc.html",
+      "page": "page-4",
+      "title": "Now \u00b7 bare margins at 1920px",
+      "x": 0,
+      "y": 0,
+      "w": 1920,
+      "h": 1920
+    },
+    {
+      "file": "MarginsCabinet.dc.html",
+      "page": "page-4",
+      "title": "2 \u00b7 Manuscript cabinets",
+      "x": 2080,
+      "y": 0,
+      "w": 1920,
+      "h": 1920
+    },
+    {
+      "file": "MarginsCalligraphy.dc.html",
+      "page": "page-4",
+      "title": "4 \u00b7 Calligraphy panels",
+      "x": 4160,
+      "y": 0,
+      "w": 1920,
+      "h": 1920
+    },
+    {
+      "file": "MarginsOverflow.dc.html",
+      "page": "page-4",
+      "title": "6 \u00b7 Ledges of loose books",
+      "x": 6240,
+      "y": 0,
+      "w": 1920,
+      "h": 1920
+    }
+  ],
+  "annotations": [
+    {
+      "id": "brief",
+      "x": 0,
+      "y": -300,
+      "w": 1100,
+      "text": "MODERN DIRECTIONS \u2014 six full pages mixing frosted glass (2), bento tiles (4), motion (6) and a photo-led hero (10). The bookshelf, green/gold palette and Cormorant Garamond stay; each pairs it with a clean sans for UI text.\nMotion: the hero plays in on load; sections rise as they scroll in (open an artboard full-screen and scroll to see it); spines lean out on hover; tiles lift on hover.\nThe hero photo is the low-res crop already in the repo \u2014 a real photo will sharpen every hero a lot.",
+      "page": "page-1"
+    },
+    {
+      "id": "n1",
+      "x": 0,
+      "y": 5480,
+      "w": 700,
+      "text": "1 \u00b7 Glass Nave \u2014 full-bleed photo fading into a deep-green page; every panel is frosted glass on soft gold/green glows.\nFor: most atmospheric, closest to the current colour weight. Against: all-dark pages are harder for long reading; glass needs the glows behind it or it looks flat.",
+      "page": "page-1"
+    },
+    {
+      "id": "n2",
+      "x": 1600,
+      "y": 4500,
+      "w": 700,
+      "text": "2 \u00b7 Daylight Bento \u2014 light page, photo in a rounded inset card, glass only over the photo. Everything else is one tile grid.\nFor: brightest, most 'current', easiest to read. Against: least manuscript feeling; the walnut shelf tile is the only warmth.",
+      "page": "page-1"
+    },
+    {
+      "id": "n3",
+      "x": 3200,
+      "y": 5880,
+      "w": 700,
+      "text": "3 \u00b7 Mihrab Split \u2014 headline beside the photo cut as a mihrab arch; shelf bays become arches; teacher cards are arch-topped.\nFor: most distinctive and most Islamic in form. Against: the arch motif everywhere can feel themed; the hero needs a portrait-friendly photo.",
+      "page": "page-1"
+    },
+    {
+      "id": "n4",
+      "x": 0,
+      "y": 11440,
+      "w": 700,
+      "text": "4 \u00b7 Through the Window \u2014 the photo, blurred, becomes the backdrop for the whole page; content sits on large glass sheets with glass shelves lit from below.\nFor: the purest glass look. Against: heaviest to render on older phones (large backdrop blurs); depends entirely on photo colour.",
+      "page": "page-1"
+    },
+    {
+      "id": "n5",
+      "x": 1600,
+      "y": 10780,
+      "w": 700,
+      "text": "5 \u00b7 Shelf First \u2014 short photo band; the bookshelf rises into it on a glass stage with year tabs, making the curriculum the first thing seen.\nFor: puts the program's substance up front. Against: intro and program copy move below the fold.",
+      "page": "page-1"
+    },
+    {
+      "id": "n6",
+      "x": 3200,
+      "y": 11100,
+      "w": 700,
+      "text": "6 \u00b7 Night Mosaic \u2014 duotone photo, faint geometric pattern, glass tiles with gold edges that fade around the corners. The shelf sits beside an open-book tile showing the selected spine face-on.\nFor: richest, and the side panel gives the open book room to breathe. Against: most ornament; the gold edges can feel busy.",
+      "page": "page-1"
+    },
+    {
+      "id": "n7",
+      "x": 4800,
+      "y": 1500,
+      "w": 700,
+      "text": "The new books, shared by all six. Each spine has a headband, head and tail caps, raised bands ruled in gilt, a leather title label and gilt fleurons, over a leather grain. Four binding types: morocco/calf leather, book-cloth, vellum, and the dashed TODO slot. Hover a spine to see it lean out.",
+      "page": "page-1"
+    },
+    {
+      "id": "combined-brief",
+      "page": "page-2",
+      "x": 0,
+      "y": -300,
+      "w": 1100,
+      "text": "COMBINED: the banner, background and teachers from 1 (Glass Nave), the bookshelf from 2 (Daylight Bento) and the testimonies from 6 (Night Mosaic).\nThe three pages differ in two ways only: the binding tradition of the books, and how the sections the brief left open (Introduction / Our Program, Details) are arranged."
+    },
+    {
+      "id": "ca",
+      "page": "page-2",
+      "x": 0,
+      "y": 5340,
+      "w": 700,
+      "text": "A \u00b7 Antiquarian calf: raised bands, tooled compartments and two leather labels, like an old library set.\nIntro and program as two glass tiles; Details as 1's bento (timings tall, two fee tiles, discounts).\nFor: the richest spines. Against: labels are small at shelf size."
+    },
+    {
+      "id": "cb",
+      "page": "page-2",
+      "x": 1600,
+      "y": 5380,
+      "w": 700,
+      "text": "B \u00b7 Islamic kitab: flat spines, gilt frame, a pointed cartouche and chevron headbands, as Islamic bindings are made.\nIntro as a large centred statement with the program in a glass pill; Details as two panels, timings beside fees.\nFor: most rooted in the tradition, titles read clearly. Against: tall, narrow spines look alike from far away."
+    },
+    {
+      "id": "cc",
+      "page": "page-2",
+      "x": 3200,
+      "y": 5380,
+      "w": 700,
+      "text": "C \u00b7 Madrasa press: book-cloth with blocked gilt rules, like the printed texts used in the dars today; two carry pasted paper labels.\nIntro and program in one glass panel split by a gold rule; Details as a strip of four tiles with the discounts as one row of figures.\nFor: familiar to students, most restrained. Against: least ornamental."
+    },
+    {
+      "id": "light-brief",
+      "page": "page-3",
+      "x": 0,
+      "y": -260,
+      "w": 1100,
+      "text": "LIGHT BLENDS: B's layout and kitab bindings, with the year panel removed from the banner. The banner and bookshelf stay dark; everything else moves to soft white and green, with green ink and frosted white glass."
+    },
+    {
+      "id": "l1",
+      "page": "page-3",
+      "x": 0,
+      "y": 5380,
+      "w": 700,
+      "text": "B1 \u00b7 Sage wash: one continuous gradient. The banner's green thins through sage to soft white, with mint glows along the way, and gathers to sage again at the foot.\nFor: calm, and no hard edges anywhere. Against: the sections run together, with nothing marking where one ends."
+    },
+    {
+      "id": "l2",
+      "page": "page-3",
+      "x": 1600,
+      "y": 5890,
+      "w": 700,
+      "text": "B2 \u00b7 Bands: full-width alternating bands of soft white, sage, white, green (teachers) and mint, with a gold hairline under the banner.\nFor: the clearest structure, and the green band breaks up a long page. Against: the most conventional, and the least glass effect on the light bands."
+    },
+    {
+      "id": "l3",
+      "page": "page-3",
+      "x": 3200,
+      "y": 5380,
+      "w": 700,
+      "text": "B3 \u00b7 Mint watercolour: soft white with large pools of mint, sage and pale olive, and the banner fading straight into the page. Panels are true frosted glass that pick up the colour behind them.\nFor: the most modern, and glass works best here. Against: the page's colour depends on where the pools sit, so it needs care when content moves."
+    },
+    {
+      "id": "l3r",
+      "page": "page-3",
+      "x": 4800,
+      "y": 5430,
+      "w": 700,
+      "text": "B3 revised\n\u00b7 The bookshelf runs edge to edge, with thick top and bottom rails and a row of brass bolts along each, as if fixed to the wall.\n\u00b7 The mint and sage pools are kept to the side margins, and the cards are near-opaque white, so no tint crosses the information.\n\u00b7 The Details cards are green with gold and cream text, as on the dark pages."
+    },
+    {
+      "id": "margins-brief",
+      "page": "page-4",
+      "x": 0,
+      "y": -360,
+      "w": 1900,
+      "text": "SHELF MARGINS: on a 1920px screen the full-bleed wall leaves ~370px of bare wood either side of the bays. Three ways to fill it, each drawn with the site's real shelf CSS and curriculum.json (python3 generate_margins.py).\nAll three are margin-only: they'd be hidden once the viewport is too narrow to hold them, the way the pools are, so nothing changes on laptops and phones."
+    },
+    {
+      "id": "margins-now",
+      "page": "page-4",
+      "x": 0,
+      "y": 1980,
+      "w": 900,
+      "text": "Now: the site as it is today, for comparison."
+    },
+    {
+      "id": "margins-cabinet",
+      "page": "page-4",
+      "x": 2080,
+      "y": 1980,
+      "w": 900,
+      "text": "2 \u00b7 Manuscript cabinets: a tall cabinet in each margin, built from the bay's own frame, green well and plank, with one compartment per shelf row so the planks line up. It holds stacked kitabs, a rehal with an open book, pigeonholes of scrolls, and an inkwell and pen box.\nFor: reads as one continuous library wall; richest and most on-theme.\nAgainst: needs ~230px of margin, so it shows only on screens \u2265 ~1800px wide. Heaviest to draw and maintain (SVG illustration), and it competes most with the real books for attention."
+    },
+    {
+      "id": "margins-callig",
+      "page": "page-4",
+      "x": 4160,
+      "y": 1980,
+      "w": 900,
+      "text": "4 \u00b7 Calligraphy panels: each margin holds one very tall kitab spine: the same finials, pointed cartouche and medallion as the books, with a phrase in gilt Arabic and its translation. Left: \u0631\u064e\u0628\u0650\u0651 \u0632\u0650\u062f\u0652\u0646\u0650\u064a \u0639\u0650\u0644\u0652\u0645\u064b\u0627 (\u1e6c\u0101 H\u0101 20:114). Right: \u0637\u064e\u0644\u064e\u0628\u064f \u0627\u0644\u0652\u0639\u0650\u0644\u0652\u0645\u0650 \u0641\u064e\u0631\u0650\u064a\u0636\u064e\u0629\u064c \u0639\u064e\u0644\u064e\u0649 \u0643\u064f\u0644\u0650\u0651 \u0645\u064f\u0633\u0652\u0644\u0650\u0645\u064d (Ibn M\u0101jah 224).\nFor: calm, gives the wall meaning, and is the cheapest to build (CSS and a font). At 156px wide it fits screens \u2265 ~1540px.\nAgainst: the wording is content the masjid should choose and approve (it would live in curriculum.json). Vertical Arabic has to be read sideways."
+    },
+    {
+      "id": "margins-overflow",
+      "page": "page-4",
+      "x": 6240,
+      "y": 1980,
+      "w": 900,
+      "text": "6 \u00b7 Ledges of loose books: some planks run on past the bay and out onto the wall as bracketed ledges, alternating sides by row, holding a few spare bindings, a flat stack, an inkwell and a pen box.\nFor: the most playful and lived-in, and it reuses the real spine component. Ledges can shorten gracefully, so it can start showing from ~1440px.\nAgainst: loose books next to real ones may look clickable (they're dimmed, untitled and inert here). Being asymmetric, it fills the space less evenly than 2 or 4."
+    }
+  ],
+  "launch": {
+    "view": "canvas",
+    "page": "page-4"
+  },
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Six directions"
+    },
+    {
+      "id": "page-2",
+      "name": "Combined"
+    },
+    {
+      "id": "page-3",
+      "name": "Light blends"
+    },
+    {
+      "id": "page-4",
+      "name": "Shelf margins"
+    }
+  ]
+}

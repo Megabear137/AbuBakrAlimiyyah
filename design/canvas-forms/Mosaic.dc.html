@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+  :root{
+    --green:#134528; --green-deep:#062707; --gold:#c9a961; --gold-light:#d9be78;
+    --mint:#c9ebdd; --ground:#f5eee0; --on-green:#f4efe2;
+    --display:"Cormorant Garamond", Garamond, serif;
+    --body:"EB Garamond", Garamond, serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ground); color:#14251b; font-family:var(--body); font-size:16px; line-height:1.6;}
+  h2,h3{font-family:var(--display); font-weight:600; margin:0; line-height:1.15;}
+  p{margin:0;}
+  .page{padding:46px 44px;}
+  .sec-head{text-align:center; margin-bottom:2rem;}
+  .sec-head h2{color:var(--green); font-size:2.3rem; margin-bottom:0.8rem;}
+  .sec-head p{max-width:640px; margin-inline:auto; color:#3a4a41;}
+
+  .layout{display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:48px; align-items:start;}
+
+  .band{margin-bottom:1.5rem;}
+  .band__label{display:flex; align-items:center; gap:0.8rem; margin-bottom:0.7rem; color:var(--green); font-family:var(--display); font-style:italic; font-size:1.05rem;}
+  .band__label::after{content:""; flex:1; height:1px; background:rgba(201,169,97,.55);}
+
+  /* Centred, because the bands hold different numbers of books and a ragged
+     right edge reads as unfinished rather than as pattern. */
+  .tiles{display:flex; flex-wrap:wrap; gap:9px; justify-content:center;}
+
+  /* Each book is one octagonal tile; the small squares are the mortar shapes
+     that fall between octagons in the classic tessellation. */
+  .tile{width:104px; height:104px; flex:none; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; padding:10px; text-align:center;
+    clip-path:polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+    background:var(--green); color:var(--gold-light); font-family:var(--display);}
+  .tile--deep{background:var(--green-deep);}
+  .tile--on{background:var(--mint); color:var(--green-deep);}
+  .tile--empty{background:rgba(19,69,40,.14);}
+  .tile__title{font-size:0.82rem; font-weight:600; line-height:1.15;}
+  .tile__sub{font-size:0.7rem; font-style:italic; opacity:.85;}
+
+  .knot{width:34px; height:34px; flex:none; align-self:center; background:var(--gold); opacity:.5;
+    clip-path:polygon(50% 0, 100% 50%, 50% 100%, 0 50%);}
+
+  /* Timings and fees are two medallions cut from the same pattern. */
+  .medallions{display:flex; flex-direction:column; gap:36px;}
+  .medallion{position:relative; width:320px; height:320px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:52px 44px; text-align:center; color:var(--on-green);
+    background:var(--green);
+    clip-path:polygon(50% 0, 68% 11%, 89% 11%, 89% 32%, 100% 50%, 89% 68%, 89% 89%, 68% 89%, 50% 100%, 32% 89%, 11% 89%, 11% 68%, 0 50%, 11% 32%, 11% 11%, 32% 11%);}
+  .medallion__inner{position:absolute; inset:9px; background:var(--green-deep);
+    clip-path:polygon(50% 0, 68% 11%, 89% 11%, 89% 32%, 100% 50%, 89% 68%, 89% 89%, 68% 89%, 50% 100%, 32% 89%, 11% 89%, 11% 68%, 0 50%, 11% 32%, 11% 11%, 32% 11%);}
+  .medallion__content{position:relative; z-index:1;}
+  .medallion__title{color:var(--gold-light); font-size:1.4rem; margin-bottom:0.7rem;}
+  .medallion__label{color:var(--gold); font-family:var(--display); font-style:italic; font-size:0.8rem;}
+  .medallion__row{display:flex; justify-content:space-between; gap:0.7rem; font-size:0.78rem; padding:0.16rem 0;}
+  .medallion__row span:last-child{color:var(--gold-light); white-space:nowrap;}
+  .medallion__amount{color:var(--on-green); font-family:var(--display); font-size:1.5rem; font-weight:600; line-height:1.15;}
+  .medallion__amount em{font-size:.48em; font-style:italic;}
+  .medallion__sep{width:52px; height:1px; background:var(--gold); opacity:.6; margin:0.55rem auto;}
+  .medallion__fine{font-size:0.72rem; opacity:.8;}
+</style>
+</helmet>
+
+<div class="page">
+  <div class="sec-head">
+    <h2>Our Program</h2>
+    <p>Every book is a tile. Seven bands of pattern, and two medallions cut from the same field.</p>
+  </div>
+
+  <div class="layout">
+    <div>
+
+      <div class="band">
+        <p class="band__label">First Year</p>
+        <div class="tiles">
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <p class="band__label">Second Year</p>
+        <div class="tiles">
+          <div class="tile tile--on"><span class="tile__title">Achi Baatain</span><span class="tile__sub">Urdu</span></div><span class="knot"></span>
+          <div class="tile"><span class="tile__title">Tasheel ul-Nahwa</span><span class="tile__sub">Nahwa</span></div><span class="knot"></span>
+          <div class="tile tile--deep"><span class="tile__title">Tasheel ul-Sarf</span><span class="tile__sub">Sarf</span></div><span class="knot"></span>
+          <div class="tile"><span class="tile__title">Duroos 1</span><span class="tile__sub">Arabic</span></div><span class="knot"></span>
+          <div class="tile tile--deep"><span class="tile__title">Qasas 1</span><span class="tile__sub">Arabic</span></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <p class="band__label">Third Year</p>
+        <div class="tiles">
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <p class="band__label">Fourth Year</p>
+        <div class="tiles">
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <p class="band__label">Fifth Year</p>
+        <div class="tiles">
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <p class="band__label">Sixth Year</p>
+        <div class="tiles">
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <p class="band__label">Seventh Year</p>
+        <div class="tiles">
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div><span class="knot"></span>
+          <div class="tile tile--empty"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="medallions">
+      <div class="medallion">
+        <div class="medallion__inner"></div>
+        <div class="medallion__content">
+          <h3 class="medallion__title">Class Timings</h3>
+          <p class="medallion__label">Part-time &middot; I&ndash;IV</p>
+          <div class="medallion__row"><span>Mon &ndash; Fri</span><span>4:30 &ndash; 7:30 PM</span></div>
+          <div class="medallion__sep"></div>
+          <p class="medallion__label">Full-time &middot; V&ndash;VII</p>
+          <div class="medallion__row"><span>Mon &ndash; Fri</span><span>8:30 &ndash; 4:15</span></div>
+          <div class="medallion__row"><span>Saturday</span><span>8:30 &ndash; 12:30</span></div>
+        </div>
+      </div>
+
+      <div class="medallion">
+        <div class="medallion__inner"></div>
+        <div class="medallion__content">
+          <h3 class="medallion__title">Fees</h3>
+          <p class="medallion__label">Part-time</p>
+          <p class="medallion__amount">$125 <em>/month</em></p>
+          <div class="medallion__sep"></div>
+          <p class="medallion__label">Full-time</p>
+          <p class="medallion__amount">$325 <em>/month</em></p>
+          <div class="medallion__sep"></div>
+          <p class="medallion__fine">Families save 5%, 10% or 15%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

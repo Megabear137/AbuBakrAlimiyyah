@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Nastaliq+Urdu:wght@400&display=swap">
+<style>
+  :root{
+    --green:#134528; --green-deep:#062707; --gold:#c9a961; --gold-light:#d9be78;
+    --mint:#c9ebdd; --ground:#f5eee0; --on-green:#f4efe2;
+    --hairline:rgba(244,239,226,0.38);
+    --display:"Cormorant Garamond", Garamond, serif;
+    --body:"EB Garamond", Garamond, serif;
+    --urdu:"Noto Nastaliq Urdu", serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ground); color:#14251b; font-family:var(--body); font-size:16px; line-height:1.6;}
+  h2,h3,h4{font-family:var(--display); font-weight:600; margin:0; line-height:1.15;}
+  p{margin:0;}
+  a{color:var(--gold-light); text-decoration:none;}
+  .page{padding:52px 44px;}
+  .sec-head{text-align:center; margin-bottom:2.6rem;}
+  .sec-head h2{color:var(--green); font-size:2.3rem; margin-bottom:0.9rem;}
+  .sec-head p{max-width:640px; margin-inline:auto; color:#3a4a41;}
+
+  /* The spine itself: one gold line down the middle, behind every row. */
+  .spine{position:relative; max-width:1120px; margin-inline:auto;}
+  .spine::before{content:""; position:absolute; top:0; bottom:0; left:50%; width:1px; margin-left:-0.5px; background:var(--gold); opacity:0.55;}
+
+  .stop{display:grid; grid-template-columns:1fr 84px 1fr; align-items:center; margin-bottom:1.1rem;}
+  .stop__badge{grid-column:2; justify-self:center; width:52px; height:52px; border-radius:50%; background:var(--ground); border:1.5px solid var(--gold); display:flex; align-items:center; justify-content:center; color:var(--green); font-family:var(--display); font-size:1.15rem; font-weight:700; letter-spacing:0.03em;}
+  .stop__badge--on{background:var(--green); border-color:var(--gold); color:var(--gold-light);}
+
+  .stop__card{background:var(--green); border-radius:14px; box-shadow:inset 0 0 0 8px var(--green), inset 0 0 0 9px var(--gold), 0 8px 22px rgba(6,39,7,.14); padding:0.95rem 1.5rem; color:var(--gold-light); font-family:var(--display); font-size:1.3rem; font-weight:600;}
+  .stop--left .stop__card{grid-column:1; text-align:right;}
+  .stop--right .stop__card{grid-column:3; text-align:left;}
+
+  .stop--open .stop__card{font-size:1.35rem; padding:1.2rem 1.4rem;}
+  .stop__books{display:flex; gap:0.55rem; margin-top:0.9rem;}
+  .book{flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center; gap:0.4rem; padding:0.7rem 0.4rem; background:var(--green-deep); border:1.5px solid var(--gold); color:var(--gold-light); text-align:center;}
+  .book--on{background:var(--mint); color:var(--green-deep);}
+  .book__title{font-size:0.9rem; font-weight:600; line-height:1.2;}
+  .book__divider{width:60%; height:1px; background:var(--gold);}
+  .book--on .book__divider{background:var(--green-deep);}
+  .book__subject{font-size:0.8rem; font-style:italic; font-weight:400;}
+  .stop__detail{margin-top:0.85rem; padding:1rem; background:var(--green-deep); border:1.5px solid var(--gold); border-radius:12px; color:var(--on-green); font-family:var(--body); font-size:0.9rem; font-weight:400; line-height:1.65; text-align:left;}
+  .stop__detail h4{color:var(--gold-light); font-size:1.2rem; margin-bottom:0.35rem;}
+
+  /* The line carries on past the last year and runs into the gate. */
+  .spine__tail{width:1px; height:74px; margin:0 auto; background:var(--gold); opacity:0.55;}
+  .gate{display:grid; grid-template-columns:repeat(2, 1fr); gap:2.6rem; max-width:940px; margin:0 auto; align-items:stretch;}
+  .arch{position:relative; width:100%; height:100%; background:var(--green); border-radius:50% 50% 18px 18px / 30% 30% 18px 18px; padding:16% 8% 9%; color:var(--on-green); box-shadow:0 14px 38px rgba(6,39,7,.18);}
+  .arch::before{content:""; position:absolute; inset:13px; border:1px solid var(--gold); border-radius:inherit; pointer-events:none;}
+  .arch__mark{display:block; width:36px; height:auto; margin:0 auto 0.5rem; color:var(--gold);}
+  .arch__heading{color:var(--gold-light); font-size:1.6rem; text-align:center; margin-bottom:1.3rem;}
+  .arch__body{display:flex; flex-direction:column; gap:1.25rem;}
+  .arch__row{display:flex; align-items:baseline; justify-content:space-between; gap:0.8rem; padding:0.38rem 0; border-top:1px solid var(--hairline); font-size:0.88rem;}
+  .arch__row-value{color:var(--gold-light); white-space:nowrap;}
+  .group__years,.fee__label,.discounts__label{color:var(--gold); font-family:var(--display); font-style:italic; font-size:0.86rem; margin:0;}
+  .group__label{color:var(--on-green); font-family:var(--display); font-size:1.15rem; font-weight:600; margin:0 0 0.28rem;}
+  .fee__amount{color:var(--on-green); font-family:var(--display); font-size:1.8rem; font-weight:500; line-height:1.1; margin:0;}
+  .fee__period{font-size:0.5em; font-style:italic;}
+  .fee__note{font-size:0.8rem; opacity:0.75; margin:0;}
+  .arch__divider{height:1px; background:var(--gold); opacity:0.5;}
+</style>
+</helmet>
+
+<div class="page">
+  <div class="sec-head">
+    <h2>Our Program</h2>
+    <p>Seven years, one path &mdash; four part time, then three full time.</p>
+  </div>
+
+  <div class="spine">
+
+    <div class="stop stop--left">
+      <div class="stop__card">First Year</div>
+      <div class="stop__badge">I</div>
+    </div>
+
+    <div class="stop stop--right stop--open">
+      <div class="stop__badge stop__badge--on">II</div>
+      <div class="stop__card">
+        Second Year
+        <div class="stop__books">
+          <div class="book book--on"><span class="book__title">Achi Baatain</span><span class="book__divider"></span><span class="book__subject">Urdu</span></div>
+          <div class="book"><span class="book__title">Tasheel ul-Nahwa</span><span class="book__divider"></span><span class="book__subject">Nahwa</span></div>
+          <div class="book"><span class="book__title">Tasheel ul-Sarf</span><span class="book__divider"></span><span class="book__subject">Sarf</span></div>
+          <div class="book"><span class="book__title">Duroos 1</span><span class="book__divider"></span><span class="book__subject">Arabic</span></div>
+        </div>
+        <div class="stop__detail">
+          <h4>Achi Baatain</h4>
+          <p>Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="stop stop--left">
+      <div class="stop__card">Third Year</div>
+      <div class="stop__badge">III</div>
+    </div>
+
+    <div class="stop stop--right">
+      <div class="stop__badge">IV</div>
+      <div class="stop__card">Fourth Year</div>
+    </div>
+
+    <div class="stop stop--left">
+      <div class="stop__card">Fifth Year</div>
+      <div class="stop__badge">V</div>
+    </div>
+
+    <div class="stop stop--right">
+      <div class="stop__badge">VI</div>
+      <div class="stop__card">Sixth Year</div>
+    </div>
+
+    <div class="stop stop--left">
+      <div class="stop__card">Seventh Year</div>
+      <div class="stop__badge">VII</div>
+    </div>
+
+  </div>
+
+  <div class="spine__tail"></div>
+
+  <div class="gate">
+    <section class="arch">
+      <svg class="arch__mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+        <rect x="9" y="9" width="30" height="30"></rect>
+        <rect x="9" y="9" width="30" height="30" transform="rotate(45 24 24)"></rect>
+        <circle cx="24" cy="24" r="5.5"></circle>
+      </svg>
+      <h3 class="arch__heading">Class Timings</h3>
+      <div class="arch__body">
+        <div>
+          <p class="group__years">Years I &ndash; IV</p>
+          <p class="group__label">Part-time</p>
+          <div class="arch__row"><span>Monday to Friday</span><span class="arch__row-value">4:30 PM - 7:30 PM</span></div>
+        </div>
+        <div>
+          <p class="group__years">Years V &ndash; VII</p>
+          <p class="group__label">Full-time</p>
+          <div class="arch__row"><span>Monday to Friday</span><span class="arch__row-value">8:30 AM - 4:15 PM</span></div>
+          <div class="arch__row"><span>Saturday</span><span class="arch__row-value">8:30 AM - 12:30 PM</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="arch">
+      <svg class="arch__mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+        <rect x="9" y="9" width="30" height="30"></rect>
+        <rect x="9" y="9" width="30" height="30" transform="rotate(45 24 24)"></rect>
+        <circle cx="24" cy="24" r="5.5"></circle>
+      </svg>
+      <h3 class="arch__heading">Fees</h3>
+      <div class="arch__body">
+        <div>
+          <p class="fee__label">Part-time</p>
+          <p class="fee__amount">$125 <span class="fee__period">/month</span></p>
+          <p class="fee__note">per student</p>
+        </div>
+        <div>
+          <p class="fee__label">Full-time</p>
+          <p class="fee__amount">$325 <span class="fee__period">/month</span></p>
+          <p class="fee__note">per student</p>
+        </div>
+        <div class="arch__divider"></div>
+        <div>
+          <p class="discounts__label">Family discounts</p>
+          <div class="arch__row"><span>2 students</span><span class="arch__row-value">5% off the total</span></div>
+          <div class="arch__row"><span>3 students</span><span class="arch__row-value">10% off the total</span></div>
+          <div class="arch__row"><span>4 or more</span><span class="arch__row-value">15% off the total</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

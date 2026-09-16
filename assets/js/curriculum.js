@@ -1,151 +1,261 @@
 /* =====================================================================
-   curriculum.js - the seven-year accordion and its book selector.
-   One year open at a time; opening a year selects its first book.
+   curriculum.js - the seven-year bookshelf.
+
+   Years are paired two to a row, and a lone trailing year takes a whole
+   row to itself - seven years therefore give the four boards of the
+   mockup. Each bay is one year; every book in the course stands on the
+   shelf at once as a spine.
+
+   Clicking a spine turns that book face-on in its own slot. The button
+   IS the card, so focus never moves, aria-expanded carries the state and
+   there is no panel to label. One book is open across the whole shelf.
+
+   Spines are drawn as Islamic kitab bindings - see "8. Kitab spines" in
+   styles.css for the parts.
    ===================================================================== */
 (function (global) {
   "use strict";
 
-  var CHEVRON =
-    '<svg class="acc__chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="5 9 12 16 19 9"/></svg>';
+  /* Bindings are varied so a bay reads as books rather than a bar chart,
+     and are indexed by the book's position in its year - so a given book
+     keeps the same binding on every load. Each is [leather, cartouche]. */
+  var BINDINGS = [
+    ["#4a1813", "#1a1210"],   // oxblood, black cartouche
+    ["#2c1d13", "#5a1916"],   // dark brown, red
+    ["#1c2a22", "#4a1813"],   // green-black, oxblood
+    ["#5e3b1f", "#1c2a22"],   // tan, green-black
+    ["#16120f", "#5a1916"],   // black, red
+    ["#3b2416", "#16120f"]    // chestnut, black
+  ];
+  var WIDTHS = [48, 54, 48, 52, 46, 50, 46, 52];
 
-  var uid = 0;
+  /* The tallest spine has to clear .bay__well's 300px once its headband and
+     the hover lift are counted - see "7. Curriculum bookshelf" in styles.css. */
+  var HEIGHTS = [254, 268, 262, 256, 240, 250, 236, 260];
+
+  /* Wide screens only: some planks run on past the bays and out onto the wall
+     as a ledge of spare books - one per row, alternating sides. Pure
+     decoration, so it is keyed to the row, not the data, and hidden from
+     assistive tech. Items are listed nearest the bay first; `fit` is the
+     ledge width (see .ledge in styles.css) an item needs before it shows, so
+     a narrower margin drops the outermost things rather than clipping them.
+     A book gives the binding to borrow and whether it leans; an image gives
+     its file and width. */
+  var LEDGES = [
+    [{ book: 5 }, { book: 0 }, { book: 3, fit: 1 }, { book: 1, lean: true, fit: 3 }],
+    [{ book: 2 }, { img: "ledge-stack-ink.svg", width: 124, fit: 2 }],
+    [{ book: 1 }, { book: 4, fit: 1 }, { img: "ledge-stack-pens.svg", width: 124, fit: 3 }],
+    [{ book: 0 }, { book: 2, lean: true, fit: 1 }]
+  ];
+
+  var NUMERALS = [[10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"]];
+
+  function roman(n) {
+    var out = "";
+    NUMERALS.forEach(function (pair) {
+      while (n >= pair[0]) { out += pair[1]; n -= pair[0]; }
+    });
+    return out;
+  }
+
+  /* A slot awaiting real content from the masjid. content/curriculum.json
+     marks these by prefixing the copy with TODO:, so that is the test. */
+  function isTodo(book) {
+    return /^\s*TODO/i.test(String(book && book.title));
+  }
 
   function renderCurriculum(mount, data) {
     if (!mount || !data || !data.years) return;
     mount.textContent = "";
 
-    data.years.forEach(function (year) {
-      mount.appendChild(buildYear(year));
-    });
+    var open = null;   // the one open spine, shelf-wide
+
+    function toggle(spine) {
+      if (open && open !== spine) fill(open, false);
+      var wasOpen = open === spine;
+      open = wasOpen ? null : spine;
+      fill(spine, !wasOpen);
+    }
+
+    function closeOpen() {
+      if (!open) return;
+      fill(open, false);
+      open.focus();
+      open = null;
+    }
+
+    var years = data.years;
+    for (var i = 0; i < years.length; i += 2) {
+      var pair = years.slice(i, i + 2);
+      var row = document.createElement("div");
+      row.className = "shelf" + (pair.length === 1 ? " shelf--single" : "");
+      pair.forEach(function (year, j) {
+        row.appendChild(buildBay(year, i + j, toggle, closeOpen));
+      });
+      row.appendChild(buildLedge(i / 2));
+      mount.appendChild(row);
+    }
   }
 
-  function buildYear(year) {
-    var id = "yr-" + ++uid;
+  function buildLedge(r) {
+    var side = r % 2 ? "r" : "l";
+    var ledge = document.createElement("div");
+    ledge.className = "ledge ledge--" + side;
+    ledge.setAttribute("aria-hidden", "true");
 
-    var item = document.createElement("div");
-    item.className = "acc__item";
+    var items = document.createElement("div");
+    items.className = "ledge__items";
+    LEDGES[r % LEDGES.length].forEach(function (item) {
+      var el;
+      if (item.img) {
+        el = document.createElement("img");
+        el.src = "assets/img/" + item.img;
+        el.alt = "";
+        el.width = item.width;
+        el.className = "ledge__art";
+      } else {
+        // A spare binding: the spine's parts with an empty cartouche.
+        el = document.createElement("div");
+        el.className = "spine spine--loose" + (item.lean ? " spine--lean" : "");
+        setBinding(el, item.book);
+        el.innerHTML = '<span class="spine__fin"></span><span class="spine__cart"><span class="spine__cart-in"></span></span>' +
+          '<span class="spine__fin spine__fin--foot"></span><span class="spine__medal"></span>';
+      }
+      if (item.fit) el.classList.add("ledge__far" + item.fit);
+      items.appendChild(el);
+    });
 
-    var trigger = document.createElement("button");
-    trigger.type = "button";
-    trigger.className = "acc__trigger";
-    trigger.id = id + "-trigger";
-    trigger.setAttribute("aria-expanded", "false");
-    trigger.setAttribute("aria-controls", id + "-panel");
-    trigger.innerHTML = "<span>" + esc(year.name) + "</span>" + CHEVRON;
+    ledge.appendChild(items);
+    return ledge;
+  }
 
-    var panel = document.createElement("div");
-    panel.className = "acc__panel";
-    panel.id = id + "-panel";
-    panel.setAttribute("role", "region");
-    panel.setAttribute("aria-labelledby", id + "-trigger");
-    panel.hidden = true;
+  function setBinding(el, i) {
+    var binding = BINDINGS[i % BINDINGS.length];
+    el.style.setProperty("--w", WIDTHS[i % WIDTHS.length] + "px");
+    el.style.setProperty("--h", HEIGHTS[i % HEIGHTS.length] + "px");
+    el.style.setProperty("--c", binding[0]);
+    el.style.setProperty("--lab", binding[1]);
+  }
+
+  function buildBay(year, index, toggle, closeOpen) {
+    var bay = document.createElement("div");
+    bay.className = "bay";
+
+    var well = document.createElement("div");
+    well.className = "bay__well";
+    well.setAttribute("role", "group");
+    well.setAttribute("aria-label", year.name);
 
     var books = year.books || [];
     if (books.length) {
-      panel.appendChild(buildBooks(books, id));
-    } else {
-      panel.innerHTML = '<p class="book-detail__body">Curriculum for this year is being finalised.</p>';
-    }
-
-    trigger.addEventListener("click", function () {
-      var isOpen = trigger.getAttribute("aria-expanded") === "true";
-      closeAll(item.parentNode);
-      if (!isOpen) {
-        trigger.setAttribute("aria-expanded", "true");
-        panel.hidden = false;
-      }
-    });
-
-    item.append(trigger, panel);
-    return item;
-  }
-
-  function closeAll(container) {
-    if (!container) return;
-    container.querySelectorAll(".acc__trigger").forEach(function (t) {
-      t.setAttribute("aria-expanded", "false");
-    });
-    container.querySelectorAll(".acc__panel").forEach(function (p) {
-      p.hidden = true;
-    });
-  }
-
-  function buildBooks(books, id) {
-    var frag = document.createDocumentFragment();
-
-    var list = document.createElement("div");
-    list.className = "books";
-    list.setAttribute("role", "tablist");
-    list.setAttribute("aria-label", "Books");
-
-    var detail = document.createElement("div");
-    detail.className = "book-detail";
-    detail.id = id + "-detail";
-    detail.setAttribute("role", "tabpanel");
-    detail.setAttribute("tabindex", "0");
-
-    var tabs = books.map(function (book, i) {
-      var tab = document.createElement("button");
-      tab.type = "button";
-      tab.className = "book";
-      tab.id = id + "-book-" + i;
-      tab.setAttribute("role", "tab");
-      tab.setAttribute("aria-controls", detail.id);
-      tab.setAttribute("aria-selected", i === 0 ? "true" : "false");
-      tab.tabIndex = i === 0 ? 0 : -1;
-      tab.innerHTML =
-        '<span class="book__title">' + esc(book.title) + "</span>" +
-        '<span class="book__divider"></span>' +
-        '<span class="book__subject">' + esc(book.subject || "") + "</span>";
-
-      tab.addEventListener("click", function () { select(i); });
-      list.appendChild(tab);
-      return tab;
-    });
-
-    // Roving tabindex: arrow keys move between book cards.
-    list.addEventListener("keydown", function (e) {
-      var current = tabs.findIndex(function (t) { return t === document.activeElement; });
-      if (current < 0) return;
-      var nextIndex = null;
-      if (e.key === "ArrowRight") nextIndex = (current + 1) % tabs.length;
-      if (e.key === "ArrowLeft")  nextIndex = (current - 1 + tabs.length) % tabs.length;
-      if (e.key === "Home")       nextIndex = 0;
-      if (e.key === "End")        nextIndex = tabs.length - 1;
-      if (nextIndex === null) return;
-      e.preventDefault();
-      select(nextIndex);
-      tabs[nextIndex].focus();
-    });
-
-    function select(i) {
-      tabs.forEach(function (t, j) {
-        t.setAttribute("aria-selected", j === i ? "true" : "false");
-        t.tabIndex = j === i ? 0 : -1;
+      books.forEach(function (book, i) {
+        well.appendChild(buildSpine(book, i, toggle));
       });
-      detail.setAttribute("aria-labelledby", tabs[i].id);
-      fillDetail(detail, books[i]);
+      wireKeys(well, closeOpen);
+    } else {
+      var empty = document.createElement("p");
+      empty.className = "bay__empty";
+      empty.textContent = "Being finalised";
+      well.appendChild(empty);
     }
 
-    fillDetail(detail, books[0]);
-    detail.setAttribute("aria-labelledby", tabs[0].id);
+    var plank = document.createElement("div");
+    plank.className = "bay__plank";
 
-    frag.append(list, detail);
-    return frag;
+    var label = document.createElement("p");
+    label.className = "bay__year";
+    label.innerHTML = '<span class="bay__numeral">' + roman(index + 1) + "</span>" + esc(year.name);
+
+    bay.append(well, plank, label);
+    return bay;
   }
 
-  function fillDetail(el, book) {
-    var meta = [book.subject, book.author].filter(Boolean).join(" - ");
-    el.innerHTML =
-      '<div class="book-detail__head">' +
-        '<h4 class="book-detail__title">' + esc(book.title) + "</h4>" +
+  function buildSpine(book, i, toggle) {
+    var todo = isTodo(book);
+
+    var spine = document.createElement("button");
+    spine.type = "button";
+    spine.className = "spine" + (todo ? " spine--todo" : "");
+    spine.setAttribute("aria-expanded", "false");
+    spine.tabIndex = i === 0 ? 0 : -1;   // one tab stop per bay; arrows do the rest
+    setBinding(spine, i);
+
+    spine._book = book;
+    spine._todo = todo;
+    fill(spine, false);
+    if (todo) {
+      // Nothing to open yet: announce it as unavailable rather than collapsed.
+      spine.removeAttribute("aria-expanded");
+      spine.setAttribute("aria-disabled", "true");
+    }
+
+    spine.addEventListener("click", function () { if (!spine._todo) toggle(spine); });
+    return spine;
+  }
+
+  /* Roving tabindex within a bay: the group is one tab stop, arrows move
+     between its books. Opening is deliberate (Enter or Space), because it
+     changes the width of the slot underneath the pointer. */
+  function wireKeys(well, closeOpen) {
+    well.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { closeOpen(); return; }
+
+      var spines = Array.prototype.slice.call(well.querySelectorAll(".spine"));
+      var current = spines.indexOf(document.activeElement);
+      if (current < 0) return;
+
+      var next = null;
+      if (e.key === "ArrowRight") next = (current + 1) % spines.length;
+      else if (e.key === "ArrowLeft") next = (current - 1 + spines.length) % spines.length;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = spines.length - 1;
+      else return;
+
+      e.preventDefault();
+      spines.forEach(function (s, i) { s.tabIndex = i === next ? 0 : -1; });
+      spines[next].focus();
+      spines[next].scrollIntoView({ block: "nearest", inline: "nearest" });
+    });
+  }
+
+  /* Both faces of a spine. Closed it is a title read down the spine with the
+     subject at its foot; open it is the same button turned to face the reader. */
+  function fill(spine, open) {
+    var book = spine._book;
+    spine.setAttribute("aria-expanded", open ? "true" : "false");
+    spine.classList.toggle("spine--open", open);
+
+    if (!open) {
+      spine.innerHTML = spine._todo
+        ? '<span class="spine__title">TODO</span>'
+        : '<span class="spine__fin"></span>' +
+          '<span class="spine__cart"><span class="spine__cart-in">' +
+            '<span class="spine__title gilt-text">' + esc(book.title) + "</span>" +
+          "</span></span>" +
+          '<span class="spine__fin spine__fin--foot"></span>' +
+          (book.subject ? '<span class="spine__subject gilt-text">' + esc(book.subject) + "</span>" : "") +
+          '<span class="spine__medal"></span>';
+
+      // The spine reads vertically a letter at a time; give it a flat label.
+      spine.setAttribute("aria-label",
+        spine._todo
+          ? "A book still to be confirmed"
+          : book.title + (book.subject ? ", " + book.subject : ""));
+      return;
+    }
+
+    var meta = [book.subject, book.author].filter(Boolean).join(" · ");
+    spine.removeAttribute("aria-label");
+    spine.innerHTML =
+      '<span class="face__head">' +
+        '<span class="face__title">' + esc(book.title) + "</span>" +
         (book.titleUrdu
-          ? '<p class="book-detail__urdu" lang="ur" dir="rtl">' + esc(book.titleUrdu) + "</p>"
+          ? '<span class="face__urdu" lang="ur" dir="rtl">' + esc(book.titleUrdu) + "</span>"
           : "") +
-      "</div>" +
-      (meta ? '<p class="book-detail__meta">' + esc(meta) + "</p>" : "") +
-      '<hr class="book-detail__rule">' +
-      '<p class="book-detail__body">' + esc(book.description || "") + "</p>";
+      "</span>" +
+      (meta ? '<span class="face__meta">' + esc(meta) + "</span>" : "") +
+      '<span class="face__rule"></span>' +
+      '<span class="face__body">' + esc(book.description || "") + "</span>";
   }
 
   function esc(s) {
