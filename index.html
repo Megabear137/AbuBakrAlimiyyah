@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=6">
+  <link rel="stylesheet" href="assets/css/styles.css?v=11">
 </head>
 <body id="top">
 
@@ -123,6 +123,37 @@
     </div>
   </section>
 
+  <!-- ============================ ARTICLES ============================ -->
+  <!-- Brothers' and sisters' libraries; the switch in each head swaps both
+       Articles (a featured article over a carousel) and Videos (a carousel) together. -->
+  <section class="section" id="articles" aria-labelledby="articles-heading">
+    <div class="wrap">
+      <div class="section__head rv">
+        <h2 class="section__heading" id="articles-heading" data-slot="articles-heading">Articles</h2>
+        <div class="section__tools">
+          <a class="more-link" data-slot="articles-more" hidden></a>
+          <div data-slot="articles-audience"></div>
+        </div>
+      </div>
+      <div data-slot="articles"></div>
+    </div>
+  </section>
+
+  <!-- ============================= VIDEOS ============================= -->
+  <section class="section" id="videos" aria-labelledby="videos-heading">
+    <div class="wrap">
+      <div class="section__head rv">
+        <h2 class="section__heading" id="videos-heading" data-slot="videos-heading">Videos</h2>
+        <div class="section__tools">
+          <a class="more-link" data-slot="videos-more" hidden></a>
+          <div data-slot="videos-audience"></div>
+          <div class="carousel-controls" data-slot="videos-controls"></div>
+        </div>
+      </div>
+      <div data-slot="videos"></div>
+    </div>
+  </section>
+
   <!-- =========================== TESTIMONIES ========================== -->
   <section class="section" id="alumni" aria-labelledby="alumni-heading">
     <div class="wrap">
@@ -131,24 +162,6 @@
         <div class="carousel-controls" data-slot="testimonies-controls"></div>
       </div>
       <div data-slot="testimonies"></div>
-
-      <!-- Placeholders, so no nav link is dead -->
-      <div class="soon">
-        <section class="card soon__card rv" id="articles" aria-labelledby="articles-heading">
-          <div>
-            <h2 class="soon__title" id="articles-heading">Articles</h2>
-            <p class="soon__body">Writing from our teachers and students.</p>
-          </div>
-          <span class="pill">Coming soon</span>
-        </section>
-        <section class="card soon__card rv" id="videos" aria-labelledby="videos-heading">
-          <div>
-            <h2 class="soon__title" id="videos-heading">Videos</h2>
-            <p class="soon__body">Recorded lessons and talks.</p>
-          </div>
-          <span class="pill">Coming soon</span>
-        </section>
-      </div>
     </div>
   </section>
 
@@ -166,9 +179,9 @@
   </div>
 </footer>
 
-<script src="assets/js/carousel.js?v=2"></script>
+<script src="assets/js/carousel.js?v=4"></script>
 <script src="assets/js/curriculum.js?v=4"></script>
 <script src="assets/js/nav.js?v=2"></script>
-<script src="assets/js/main.js?v=2"></script>
+<script src="assets/js/main.js?v=6"></script>
 </body>
 </html>

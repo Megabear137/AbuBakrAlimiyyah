@@ -56,9 +56,9 @@ not. Don't restore them.
 ### Content is data, markup is a shell
 
 `index.html` contains no copy, no book lists, no teacher names. It provides empty elements tagged
-`data-slot="…"`; `assets/js/main.js` fetches the four `content/*.json` files and fills them in. Adding a
-book, teacher, testimony or price is a JSON edit only. (The few strings in the HTML — "Curriculum",
-"Details", the Articles/Videos placeholders — are fallbacks or placeholders.)
+`data-slot="…"`; `assets/js/main.js` fetches the five `content/*.json` files and fills them in. Adding a
+book, teacher, testimony, article, video or price is a JSON edit only. (The few strings in the HTML —
+"Curriculum", "Details", "Articles" — are fallbacks.)
 
 Changing what is displayed therefore usually means editing **both** the JSON shape and the matching
 render function in `main.js` — not the HTML. JSON fields that shape presentation:
@@ -77,10 +77,12 @@ render function in `main.js` — not the HTML. JSON fields that shape presentati
 - `nav.js` is self-contained (mobile drawer + IntersectionObserver scrollspy). Its drawer-reset media
   query (`min-width: 981px`) must stay in step with the `980px` breakpoint in `styles.css`.
 
-One carousel serves Teachers and Alumni. It pages by whole screenfuls, sizes slides in px from the
+One carousel serves Teachers, Articles, Videos and Alumni; its arrows hide when every slide fits. It pages by whole screenfuls, sizes slides in px from the
 measured viewport (re-layouts on resize and `document.fonts.ready`), and sets `tabindex="-1"` on
-off-screen slides. **`controls`** is an element to put the arrows in — both sections pass their
-section-head `.carousel-controls` slot; without it the arrows flank the slides (a `:has()` fallback
+off-screen slides. It returns `{go, layout, destroy}`; `destroy()` removes the carousel, its arrows and
+its resize listener, so a section can rebuild it with other items. **`controls`** is an element to put
+the arrows in — every section passes a `.carousel-controls` element (its section-head slot, or for
+Articles the small head above the carousel); without it the arrows flank the slides (a `:has()` fallback
 grid in `styles.css`). Don't give `.carousel__viewport` horizontal padding: slide widths are
 measured from its box. Its vertical padding (16px top, 64px bottom, cancelled by negative margins)
 exists so the cards' hover lift and shadow aren't clipped into a hard line; keep the top shallow or
@@ -102,6 +104,22 @@ it covers the arrows in the section head.
   There is deliberately **no `backdrop-filter`**: it drew a visible rectangle inside the carousels'
   transformed tracks. `.card--green` is the Details variant.
 - **Bookshelf** (`.shelf-wall`) — see below.
+- **Articles & Videos** — two sections between Teachers and Alumni, from `content/media.json`, which
+  keeps a `brothers` and a `sisters` list for each. Each section head holds a Brothers ○ Sisters switch
+  (one `<button role="switch">`, checked = sisters). **The two switches are one choice**: flipping
+  either rebuilds *both* sections (`renderMedia` in `main.js`; the videos carousel is `destroy()`ed
+  first), and the choice is remembered in `localStorage` (`alimiyyah.audience`, wrapped in try/catch).
+  Clicking a side's label picks that side; clicking the track flips. An empty list shows a
+  "No sisters' videos yet." card. An optional `moreHref`/`moreLabel` shows an "All …" link in the head.
+  - **Articles**: the first article in the list is a full-width green feature (plain gradient — the
+    star lattice was removed on request); the rest follow in a carousel of white cards under a small
+    "More articles" head that `renderArticles` builds, **with the carousel's arrows in that head, not
+    the section head**, so they sit next to what they move. One article shows the feature alone. This
+    grew out of option D of `design/canvas-media/articles.html`, minus its pull quote and bento grid.
+  - **Videos** are a two-up carousel of wide cards with the caption over the picture; without a
+    `thumbnail` they alternate the masjid photo and a star lattice. Option 3 of
+    `design/canvas-media/index.html`.
+  - The other mockups on those two pages are historical.
 - **Testimonies** — white cards with a gold edge that fades around the corners: a masked `::after`
   ring (`mask-composite: exclude`) so only 1px paints.
 - **Motion** — `.rv` rises as it scrolls into view using `animation-timeline: view()` inside
@@ -194,8 +212,9 @@ with `--dump-dom`: click a spine and assert `aria-expanded`, dispatch `ArrowRigh
 - `assets/img/ground-*.svg` and `divider-khatim.svg` belong to the old aged-leaf page and are no longer
   referenced. Delete them unless that ground comes back.
 - Anything in `content/*.json` marked `TODO:` awaits real content from the masjid — most of the
-  curriculum (only Second Year is specified), teachers 4–7, testimonies 3–4, and the footer contact
-  details. Do not invent curriculum book lists or teacher details. The shelf reads those markers, which
+  curriculum (only Second Year is specified), teachers 4–7, testimonies 3–4, every article and video
+  in `media.json`, and the footer contact details. Do not invent curriculum book lists, teacher
+  details, articles or videos. The shelf reads those markers, which
   is why most bays show two dashed slots — that is the data, not the layout.
 - `fees.cta` in `program.json` is the hook for future purchasing: set it to
   `{"label": "…", "href": "…"}` and a gold button renders at the foot of the Fees card; it stays hidden
@@ -208,4 +227,6 @@ with `--dump-dom`: click a spine and assert `aria-expanded`, dispatch `ArrowRigh
   static rows. At `perView` 3 and 2 a full page looks like the mockup; the arrows sit in the section
   head, as drawn.
 - The header is **fixed** and stays with you down the page; the mockup draws it only over the banner.
-- Page dots under each carousel, and a blank monogram for a TODO teacher, aren't in the mockup.
+- Page dots under each carousel aren't in the mockup.
+- Teacher cards have **no gold monogram circle** (removed on request); the name is the focus — set
+  large, with the honorific as a small label above and a short gold rule beneath.

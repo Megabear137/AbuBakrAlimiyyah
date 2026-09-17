@@ -114,6 +114,8 @@
 
       prev.disabled = page === 0;
       next.disabled = page >= pageCount - 1;
+      // Nothing to page through when every slide already fits.
+      prev.hidden = next.hidden = pageCount < 2;
 
       Array.prototype.forEach.call(dots.children, function (dot, i) {
         if (i === page) dot.setAttribute("aria-current", "true");
@@ -157,16 +159,27 @@
     });
 
     var resizeTimer;
-    window.addEventListener("resize", function () {
+    function onResize() {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(layout, 120);
-    });
+    }
+    window.addEventListener("resize", onResize);
 
     layout();
     // Fonts land after first paint and change slide heights, so re-measure.
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
 
-    return { go: go, layout: layout };
+    // Removes the carousel, its arrows and its resize listener, so a section
+    // can rebuild it with different items (the Brothers / Sisters switch).
+    function destroy() {
+      window.removeEventListener("resize", onResize);
+      clearTimeout(resizeTimer);
+      root.remove();
+      prev.remove();
+      next.remove();
+    }
+
+    return { go: go, layout: layout, destroy: destroy };
   }
 
   function arrowButton(dir, label) {

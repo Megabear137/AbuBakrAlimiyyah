@@ -1,0 +1,165 @@
+{
+  "note": "Articles and videos, each kept as a separate list for brothers and sisters. The switch in each section head swaps between them. The first article in a list is the large featured one; the rest follow beneath it in a carousel, so put the newest first. 'href' links the card (leave empty for no link). A video's 'thumbnail' is an image path; leave it empty for the patterned placeholder. Set 'moreHref' (and optionally 'moreLabel') on articles or videos to show an 'All …' link in the section head. An empty list shows a 'nothing yet' card.",
+  "audiences": {
+    "brothers": "Brothers",
+    "sisters": "Sisters"
+  },
+  "articles": {
+    "heading": "Articles",
+    "brothers": [
+      {
+        "title": "TODO: Article title",
+        "subject": "TODO: Subject",
+        "author": "TODO: Author",
+        "readMinutes": 5,
+        "excerpt": "TODO: A sentence or two introducing the article.",
+        "href": ""
+      },
+      {
+        "title": "TODO: Article title",
+        "subject": "TODO: Subject",
+        "author": "TODO: Author",
+        "readMinutes": 5,
+        "excerpt": "TODO: A sentence or two introducing the article.",
+        "href": ""
+      },
+      {
+        "title": "TODO: Article title",
+        "subject": "TODO: Subject",
+        "author": "TODO: Author",
+        "readMinutes": 5,
+        "excerpt": "TODO: A sentence or two introducing the article.",
+        "href": ""
+      },
+      {
+        "title": "TODO: Article title",
+        "subject": "TODO: Subject",
+        "author": "TODO: Author",
+        "readMinutes": 5,
+        "excerpt": "TODO: A sentence or two introducing the article.",
+        "href": ""
+      },
+      {
+        "title": "TODO: Article title",
+        "subject": "TODO: Subject",
+        "author": "TODO: Author",
+        "readMinutes": 5,
+        "excerpt": "TODO: A sentence or two introducing the article.",
+        "href": ""
+      }
+    ],
+    "sisters": [
+      {
+        "title": "TODO: Sisters' article title",
+        "subject": "TODO: Subject",
+        "author": "TODO: Author",
+        "readMinutes": 5,
+        "excerpt": "TODO: A sentence or two introducing the article.",
+        "href": ""
+      },
+      {
+        "title": "TODO: Sisters' article title",
+        "subject": "TODO: Subject",
+        "author": "TODO: Author",
+        "readMinutes": 5,
+        "excerpt": "TODO: A sentence or two introducing the article.",
+        "href": ""
+      },
+      {
+        "title": "TODO: Sisters' article title",
+        "subject": "TODO: Subject",
+        "author": "TODO: Author",
+        "readMinutes": 5,
+        "excerpt": "TODO: A sentence or two introducing the article.",
+        "href": ""
+      },
+      {
+        "title": "TODO: Sisters' article title",
+        "subject": "TODO: Subject",
+        "author": "TODO: Author",
+        "readMinutes": 5,
+        "excerpt": "TODO: A sentence or two introducing the article.",
+        "href": ""
+      },
+      {
+        "title": "TODO: Sisters' article title",
+        "subject": "TODO: Subject",
+        "author": "TODO: Author",
+        "readMinutes": 5,
+        "excerpt": "TODO: A sentence or two introducing the article.",
+        "href": ""
+      }
+    ]
+  },
+  "videos": {
+    "heading": "Videos",
+    "brothers": [
+      {
+        "title": "TODO: Video title",
+        "subject": "TODO: Subject",
+        "duration": "00:00",
+        "date": "TODO: Date",
+        "thumbnail": "",
+        "href": ""
+      },
+      {
+        "title": "TODO: Video title",
+        "subject": "TODO: Subject",
+        "duration": "00:00",
+        "date": "TODO: Date",
+        "thumbnail": "",
+        "href": ""
+      },
+      {
+        "title": "TODO: Video title",
+        "subject": "TODO: Subject",
+        "duration": "00:00",
+        "date": "TODO: Date",
+        "thumbnail": "",
+        "href": ""
+      },
+      {
+        "title": "TODO: Video title",
+        "subject": "TODO: Subject",
+        "duration": "00:00",
+        "date": "TODO: Date",
+        "thumbnail": "",
+        "href": ""
+      }
+    ],
+    "sisters": [
+      {
+        "title": "TODO: Sisters' video title",
+        "subject": "TODO: Subject",
+        "duration": "00:00",
+        "date": "TODO: Date",
+        "thumbnail": "",
+        "href": ""
+      },
+      {
+        "title": "TODO: Sisters' video title",
+        "subject": "TODO: Subject",
+        "duration": "00:00",
+        "date": "TODO: Date",
+        "thumbnail": "",
+        "href": ""
+      },
+      {
+        "title": "TODO: Sisters' video title",
+        "subject": "TODO: Subject",
+        "duration": "00:00",
+        "date": "TODO: Date",
+        "thumbnail": "",
+        "href": ""
+      },
+      {
+        "title": "TODO: Sisters' video title",
+        "subject": "TODO: Subject",
+        "duration": "00:00",
+        "date": "TODO: Date",
+        "thumbnail": "",
+        "href": ""
+      }
+    ]
+  }
+}

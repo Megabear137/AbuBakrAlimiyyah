@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Articles — More Mockups</title>
+  <link rel="icon" href="../../assets/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+  <!-- The live site's stylesheet: tokens, section heads and the real Brothers / Sisters switch -->
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=7">
+  <style>
+    /* ============================ canvas chrome ============================ */
+    .canvas-head { padding: 4.5rem 0 1rem; }
+    .canvas-head h1 { color: var(--green); font-family: var(--display); font-size: clamp(2.8rem, 2rem + 3vw, 4.4rem); line-height: 1; margin-top: 0.6rem; }
+    .canvas-head h1 em { color: var(--gold-ink); font-weight: 500; }
+    .canvas-head__lede { max-width: 660px; margin-top: 1rem; color: var(--ink-muted); }
+    .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.6rem; }
+    .jump a { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid rgba(154, 122, 46, 0.4); color: var(--green); font-size: 0.88rem; font-weight: 600; text-decoration: none; background: rgba(255,255,255,.7); }
+    .jump a:hover { background: var(--green); color: var(--cream); }
+    .mock { padding: 5rem 0 6rem; }
+    .mock + .mock { border-top: 1px dashed rgba(19, 69, 40, 0.22); }
+    .mock__label { display: flex; gap: 1.1rem; align-items: flex-start; margin-bottom: 3.2rem; }
+    .mock__num { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(145deg, #e6cc88, #b8924a); box-shadow: 0 0 0 5px rgba(201,169,97,.22); color: var(--green-deep); font-family: var(--display); font-size: 1.6rem; font-weight: 700; }
+    .mock__title { color: var(--green); font-family: var(--display); font-size: 2rem; line-height: 1.1; }
+    .mock__desc { max-width: 760px; margin-top: 0.3rem; color: var(--ink-muted); font-size: 0.94rem; }
+    .mock__try { color: var(--gold-ink); font-weight: 600; }
+
+    .swap { animation: rise 0.5s var(--ease-out) both; }
+    .more { color: var(--gold-ink); font-size: 0.9rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .more:hover { color: var(--green); }
+    .star { width: 24px; height: 24px; color: var(--gold); flex: none; }
+
+    /* ================= A · Front page ================= */
+    .fp { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
+    .fp-rule { border-top: 2px solid var(--green); box-shadow: 0 5px 0 -4px var(--gold); padding-top: 1.8rem; }
+    .fp-lead__title { margin: .6rem 0 1.1rem; color: var(--green); font-family: var(--display); font-size: clamp(2.4rem, 1.8rem + 2vw, 3.5rem); line-height: 1.02; }
+    .fp-orn { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.3rem; }
+    .fp-orn::before, .fp-orn::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+    .fp-orn::after { background: linear-gradient(90deg, var(--gold), transparent); }
+    .fp-lead__body { color: var(--ink-soft); font-size: 1.05rem; line-height: 1.75; }
+    .fp-lead__body::first-letter { float: left; margin: .35rem .6rem 0 0; color: var(--gold-ink); font-family: var(--display); font-size: 4.6rem; font-weight: 600; line-height: .7; }
+    .fp-lead__foot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.6rem; padding-top: 1.1rem; border-top: 1px solid rgba(19,69,40,.12); color: var(--ink-muted); font-size: .88rem; }
+    .fp-lead__foot b { color: var(--green); }
+    .fp-index__h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .4rem; }
+    .fp-index ol { list-style: none; margin: 0; padding: 0; }
+    .fp-index li { display: grid; grid-template-columns: 46px 1fr; gap: .9rem; padding: 1.05rem 0; border-top: 1px solid rgba(19,69,40,.1); }
+    .fp-index li:first-child { border-top: 0; }
+    .fp-index__n { color: var(--gold); font-family: var(--display); font-size: 1.9rem; font-style: italic; line-height: 1; }
+    .fp-index h4 { color: var(--green); font-family: var(--display); font-size: 1.4rem; line-height: 1.12; font-weight: 600; margin-top: .15rem; }
+    .fp-index p { color: var(--ink-muted); font-size: .82rem; margin-top: .25rem; }
+    .fp-index a { color: inherit; text-decoration: none; }
+    .fp-index li:hover h4 { color: var(--gold-ink); }
+
+    /* ================= B · Open kitab ================= */
+    .kb {
+      position: relative; display: grid; grid-template-columns: 1fr 1fr; max-width: 1100px; margin: 0 auto;
+      padding: 12px; border-radius: 18px;
+      background: linear-gradient(160deg, var(--green-card), #0f3b21);
+      box-shadow: inset 0 0 0 1px rgba(217,190,120,.45), 0 40px 70px -40px rgba(6,39,7,.7);
+    }
+    .kb-page { position: relative; padding: clamp(1.8rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.2rem) 3.5rem; background: #fffcf3; }
+    .kb-page--l { border-radius: 8px 2px 2px 8px; background: linear-gradient(270deg, rgba(90,70,30,.14), transparent 9%), #fffcf3; }
+    .kb-page--r { border-radius: 2px 8px 8px 2px; background: linear-gradient(90deg, rgba(90,70,30,.16), transparent 9%), #fffcf3; }
+    .kb-page::before { content: ""; position: absolute; inset: 14px; border: 1px solid rgba(201,169,97,.65); box-shadow: inset 0 0 0 3px #fffcf3, inset 0 0 0 4px rgba(201,169,97,.4); pointer-events: none; }
+    .kb-page--l::before { right: 22px; }
+    .kb-page--r::before { left: 22px; }
+    .kb-unwan { position: relative; display: grid; place-items: center; height: 66px; margin-bottom: 1.6rem; border-radius: 4px; background: linear-gradient(160deg, var(--green-card), #0f3b21); box-shadow: inset 0 0 0 3px #0f3b21, inset 0 0 0 4px var(--gold); }
+    .kb-unwan span { padding: .35rem 1.8rem; background: #fffcf3; color: var(--green); font-size: .72rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0 50%); }
+    .kb-title { color: var(--green); font-family: var(--display); font-size: clamp(2rem, 1.6rem + 1.4vw, 2.7rem); line-height: 1.05; text-align: center; }
+    .kb-by { margin: .7rem 0 1.4rem; color: var(--gold-ink); font-family: var(--display); font-size: 1.15rem; font-style: italic; text-align: center; }
+    .kb-body { color: var(--ink-soft); line-height: 1.8; text-align: justify; hyphens: auto; }
+    .kb-body::first-letter { float: left; margin: .3rem .55rem 0 0; color: var(--green); font-family: var(--display); font-size: 4rem; font-weight: 700; line-height: .72; }
+    .kb-read { display: block; margin-top: 1.4rem; text-align: center; }
+    .kb-folio { position: absolute; bottom: 1.1rem; left: 0; right: 0; text-align: center; color: var(--gold-ink); font-family: var(--urdu); font-size: 1.7rem; line-height: 1; }
+    .kb-h { display: flex; align-items: center; justify-content: center; gap: .7rem; margin: .4rem 0 1.5rem; color: var(--green); font-family: var(--display); font-size: 2.1rem; }
+    .kb-toc { list-style: none; margin: 0; padding: 0; }
+    .kb-toc li + li { margin-top: 1.1rem; }
+    .kb-toc a { display: block; color: inherit; text-decoration: none; }
+    .kb-toc__row { display: flex; align-items: baseline; gap: .5rem; }
+    .kb-toc__t { color: var(--green); font-family: var(--display); font-size: 1.3rem; font-weight: 600; line-height: 1.15; }
+    .kb-toc__dots { flex: 1; min-width: 20px; border-bottom: 1.5px dotted rgba(154,122,46,.55); transform: translateY(-5px); }
+    .kb-toc__min { color: var(--gold-ink); font-size: .82rem; font-weight: 600; white-space: nowrap; }
+    .kb-toc__s { color: var(--ink-muted); font-size: .8rem; }
+    .kb-toc a:hover .kb-toc__t { color: var(--gold-ink); }
+
+    /* ================= C · Reading timeline ================= */
+    .tl { position: relative; list-style: none; margin: 0; padding: 0; }
+    .tl::before { content: ""; position: absolute; top: 10px; bottom: 10px; left: 118px; width: 1px; background: linear-gradient(transparent, var(--gold) 6%, var(--gold) 94%, transparent); }
+    .tl li { position: relative; display: grid; grid-template-columns: 90px 56px 1fr 56px; align-items: center; gap: 0 0; padding: 1.4rem 1.2rem 1.4rem 0; border-radius: 22px; transition: background .35s, box-shadow .35s; }
+    .tl li:hover { background: rgba(255,255,255,.9); box-shadow: 0 24px 50px -34px rgba(19,69,40,.45); }
+    .tl-date { text-align: right; line-height: 1; }
+    .tl-date b { display: block; color: var(--green); font-family: var(--display); font-size: 2.6rem; font-weight: 600; }
+    .tl-date span { color: var(--gold-ink); font-size: .74rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+    .tl-dot { justify-self: center; width: 22px; height: 22px; margin-left: 0; display: grid; place-items: center; border-radius: 50%; background: var(--ground); box-shadow: 0 0 0 1px var(--gold); transform: translateX(1px); }
+    .tl-dot::after { content: ""; width: 10px; height: 10px; background: var(--gold); transform: rotate(45deg); transition: background .3s, transform .4s var(--ease-out); }
+    .tl li:hover .tl-dot::after { background: var(--green); transform: rotate(135deg); }
+    .tl-body h3 { margin: .25rem 0 .35rem; color: var(--green); font-family: var(--display); font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem); line-height: 1.05; }
+    .tl-body h3 a { color: inherit; text-decoration: none; }
+    .tl-body p { max-width: 640px; color: var(--ink-muted); font-size: .94rem; }
+    .tl-body .tl-meta { margin-top: .45rem; font-size: .82rem; }
+    .tl-body .tl-meta b { color: var(--green); }
+    .tl-go { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgba(201,169,97,.6); color: var(--green); transition: background .3s, color .3s; }
+    .tl-go svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .tl li:hover .tl-go { background: var(--green); color: var(--cream); border-color: var(--green); }
+    .tl-foot { margin-top: 1.4rem; padding-left: 146px; }
+
+    /* ================= D · Bento with pull quote ================= */
+    .bn { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: minmax(210px, auto); gap: 20px; }
+    .bn > * { position: relative; border-radius: var(--radius); padding: clamp(1.4rem, 3vw, 2rem); display: flex; flex-direction: column; gap: .6rem; overflow: hidden; }
+    .bn-feature { grid-column: span 5; grid-row: span 2; color: var(--on-green); background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23d9be78' stroke-opacity='.16'%3E%3Crect x='17' y='17' width='30' height='30'/%3E%3Crect x='17' y='17' width='30' height='30' transform='rotate(45 32 32)'/%3E%3C/g%3E%3C/svg%3E"),
+        linear-gradient(160deg, var(--green-card), #0f3b21); border: 1px solid rgba(217,190,120,.35); }
+    .bn-feature h3 { color: var(--cream); font-family: var(--display); font-size: clamp(2.2rem, 1.7rem + 1.6vw, 3rem); line-height: 1.02; }
+    .bn-feature p { color: rgba(244,239,226,.8); }
+    .bn-feature .bn-meta { color: var(--gold-light); }
+    .bn-feature .bn-meta b { color: var(--cream); }
+    .bn-feature .btn { align-self: flex-start; margin-top: .6rem; }
+    .bn-feature__mark { margin-bottom: auto; }
+    .bn-white { background: rgba(255,255,255,.94); border: 1px solid rgba(19,69,40,.08); box-shadow: inset 0 1px 0 #fff, 0 30px 60px -36px rgba(19,69,40,.4); transition: transform .4s var(--ease-out); }
+    .bn-white:hover { transform: translateY(-4px); }
+    .bn-wide { grid-column: span 7; }
+    .bn-quote { grid-column: span 3; background: linear-gradient(160deg, #dff3ea, var(--mint)); border: 1px solid rgba(19,69,40,.08); justify-content: space-between; }
+    .bn-quote blockquote { margin: 0; color: var(--green); font-family: var(--display); font-size: 1.45rem; font-style: italic; font-weight: 500; line-height: 1.25; }
+    .bn-quote blockquote::before { content: "\201C"; display: block; height: 2.2rem; color: var(--gold-ink); font-size: 4rem; line-height: 1; }
+    .bn-quote cite { color: var(--ink-muted); font-size: .8rem; font-style: normal; }
+    .bn-quote cite b { color: var(--green); }
+    .bn-small { grid-column: span 4; }
+    .bn h4 { color: var(--green); font-family: var(--display); font-size: 1.65rem; line-height: 1.08; font-weight: 600; }
+    .bn-wide h4 { font-size: 2rem; }
+    .bn-meta { margin-top: auto; color: var(--ink-muted); font-size: .84rem; }
+    .bn-meta b { color: var(--green); }
+    .bn-ex { color: var(--ink-muted); font-size: .94rem; }
+
+    /* ================= E · Folios on the desk ================= */
+    .dk { position: relative; padding: 4.2rem clamp(1.5rem, 4vw, 3.5rem) 3.5rem; border-radius: var(--radius); background:
+        radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,.07), transparent 60%),
+        linear-gradient(160deg, var(--green-card), #0f3b21);
+      border: 1px solid rgba(217,190,120,.35); box-shadow: 0 40px 70px -40px rgba(6,39,7,.7); }
+    .dk::after { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(217,190,120,.25); border-radius: 18px; pointer-events: none; }
+    .dk-sheets { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 2vw, 26px); align-items: start; }
+    .folio {
+      position: relative; display: flex; flex-direction: column; align-items: center; gap: .55rem; min-height: 330px;
+      padding: 3rem 1.3rem 1.5rem; text-align: center; color: var(--ink);
+      background: linear-gradient(180deg, #fffdf6, #f6efdc); border-radius: 3px;
+      box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 22px 40px -18px rgba(0,0,0,.55);
+      transform: rotate(var(--tilt, 0deg)); transition: transform .5s var(--ease-out), box-shadow .5s;
+    }
+    .folio:nth-child(4n+1) { --tilt: -2.2deg; margin-top: 10px; }
+    .folio:nth-child(4n+2) { --tilt: 1.4deg; }
+    .folio:nth-child(4n+3) { --tilt: -0.8deg; margin-top: 18px; }
+    .folio:nth-child(4n+4) { --tilt: 2deg; margin-top: 4px; }
+    .folio:hover { transform: rotate(0) translateY(-10px); box-shadow: 0 34px 50px -20px rgba(0,0,0,.6); z-index: 2; }
+    .folio::before { content: ""; position: absolute; top: 0; right: 0; width: 26px; height: 26px; background: linear-gradient(225deg, #0f3b21 50%, #e9dfc4 50%); box-shadow: -2px 2px 4px rgba(0,0,0,.12); }
+    .folio__seal { position: absolute; top: -22px; left: 50%; translate: -50% 0; width: 50px; height: 50px; display: grid; place-items: center; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ecd392, #b8924a 70%); box-shadow: 0 0 0 4px rgba(217,190,120,.25), 0 6px 12px rgba(0,0,0,.35); color: var(--green-deep); font-family: var(--display); font-size: 1.35rem; font-weight: 700; }
+    .folio__sub { color: var(--gold-ink); font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+    .folio h3 { color: var(--green); font-family: var(--display); font-size: 1.55rem; line-height: 1.08; }
+    .folio__rule { width: 70%; border-top: 1.5px dotted rgba(154,122,46,.6); margin: .2rem 0; }
+    .folio__ex { color: var(--ink-muted); font-size: .88rem; line-height: 1.55; }
+    .folio__sig { margin-top: auto; padding-top: .6rem; color: var(--green); font-family: var(--display); font-size: 1.15rem; font-style: italic; }
+    .folio__min { color: var(--ink-muted); font-size: .76rem; }
+    .dk-foot { position: relative; z-index: 1; margin-top: 2.6rem; text-align: center; }
+    .dk-foot a { color: var(--gold-light); font-weight: 600; text-decoration: none; }
+
+    /* ================= responsive ================= */
+    @media (max-width: 980px) {
+      .fp, .kb { grid-template-columns: minmax(0, 1fr); }
+      .kb-page--l, .kb-page--r { border-radius: 8px; background: #fffcf3; }
+      .kb-page--l { margin-bottom: 12px; }
+      .kb-page--l::before, .kb-page--r::before { left: 14px; right: 14px; }
+      .bn-feature { grid-column: span 12; grid-row: span 1; min-height: 380px; }
+      .bn-wide { grid-column: span 12; }
+      .bn-quote, .bn-small { grid-column: span 6; }
+      .dk-sheets { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; }
+    }
+    @media (max-width: 640px) {
+      .tl::before { left: 14px; }
+      .tl li { grid-template-columns: 30px 1fr; padding: 1.2rem 1rem 1.2rem 0; }
+      .tl-dot { grid-row: 1 / span 2; align-self: start; margin-top: .4rem; transform: none; }
+      .tl-date { grid-column: 2; text-align: left; display: flex; align-items: baseline; gap: .5rem; }
+      .tl-date b { font-size: 1.4rem; }
+      .tl-body { grid-column: 2; }
+      .tl-go { display: none; }
+      .tl-foot { padding-left: 30px; }
+      .bn-quote, .bn-small { grid-column: span 12; }
+      .dk-sheets { grid-template-columns: minmax(0, 1fr); }
+      .folio { min-height: 0; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="pools" aria-hidden="true"></div>
+
+  <header class="wrap canvas-head">
+    <p class="kicker">Design round 2 · Articles</p>
+    <h1>Five more ways to set out <em>Articles</em></h1>
+    <p class="canvas-head__lede">None of these is a row of cards like Teachers. Each one keeps the Brothers / Sisters switch that is
+      already on the site, and every switch works. Titles, dates and authors are sample placeholders, not real content.
+      For comparison, the current version is option 3 on <a href="index.html#m3">the first mockups page</a>.</p>
+    <nav class="jump" aria-label="Options">
+      <a href="#a">A · Front page</a>
+      <a href="#b">B · Open kitab</a>
+      <a href="#c">C · Reading timeline</a>
+      <a href="#d">D · Bento &amp; pull quote</a>
+      <a href="#e">E · Folios on the desk</a>
+    </nav>
+  </header>
+
+  <!-- ===================================================== A · FRONT PAGE -->
+  <section class="mock" id="a" data-aud="brothers">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">A</span>
+        <div>
+          <h2 class="mock__title">Front page</h2>
+          <p class="mock__desc">Set like the front page of a journal, with no cards at all. The newest article leads on the left
+            under a double green-and-gold rule, with a gold drop capital. The rest are listed in a numbered index on the right.
+            <span class="mock__try">Typographic and calm. The latest article gets most of the attention.</span></p>
+        </div>
+      </div>
+      <div class="section__head">
+        <h2 class="section__heading">Articles</h2>
+        <div class="section__tools" data-switch></div>
+      </div>
+      <div class="fp" data-r="a"></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== B · OPEN KITAB -->
+  <section class="mock" id="b" data-aud="brothers">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">B</span>
+        <div>
+          <h2 class="mock__title">Open kitab</h2>
+          <p class="mock__desc">A book lying open in its green binding, which ties it to the curriculum shelf. The left page holds the
+            latest article under an illuminated heading band, with a justified opening paragraph. The right page is a table of
+            contents with dotted leaders to the reading time. Page numbers are Arabic numerals.
+            <span class="mock__try">The most traditional option. On a phone the two pages stack.</span></p>
+        </div>
+      </div>
+      <div class="section__head">
+        <h2 class="section__heading">Articles</h2>
+        <div class="section__tools" data-switch></div>
+      </div>
+      <div class="kb" data-r="b"></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== C · READING TIMELINE -->
+  <section class="mock" id="c" data-aud="brothers">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">C</span>
+        <div>
+          <h2 class="mock__title">Reading timeline</h2>
+          <p class="mock__desc">Full-width rows down a gold thread, newest first. Each row has a large date, a diamond on the
+            line, the title and a short excerpt. Hovering a row lays a white panel behind it, turns the diamond and fills the
+            arrow. <span class="mock__try">Best when articles are posted regularly, because the dates show the rhythm.</span></p>
+        </div>
+      </div>
+      <div class="section__head">
+        <h2 class="section__heading">Articles</h2>
+        <div class="section__tools" data-switch></div>
+      </div>
+      <ol class="tl" data-r="c"></ol>
+      <p class="tl-foot"><a class="more" href="#c">Older articles →</a></p>
+    </div>
+  </section>
+
+  <!-- ===================================================== D · BENTO -->
+  <section class="mock" id="d" data-aud="brothers">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">D</span>
+        <div>
+          <h2 class="mock__title">Bento &amp; pull quote</h2>
+          <p class="mock__desc">Tiles of different sizes. A tall green feature with a faint star lattice sits beside a wide white
+            tile, a mint tile quoting a line from one of the articles, and a small tile.
+            <span class="mock__try">The liveliest option. The pull quote draws readers in without a picture.</span></p>
+        </div>
+      </div>
+      <div class="section__head">
+        <h2 class="section__heading">Articles</h2>
+        <div class="section__tools" data-switch></div>
+      </div>
+      <div class="bn" data-r="d"></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== E · FOLIOS -->
+  <section class="mock" id="e" data-aud="brothers">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">E</span>
+        <div>
+          <h2 class="mock__title">Folios on the desk</h2>
+          <p class="mock__desc">Cream sheets laid slightly askew on a green desk. Each has a gold seal with its subject's initial, a
+            folded corner and the author's name as an italic signature. Hovering a sheet straightens it and lifts it off the desk.
+            <span class="mock__try">The most tactile option: it feels like handwritten letters rather than web cards.</span></p>
+        </div>
+      </div>
+      <div class="section__head">
+        <h2 class="section__heading">Articles</h2>
+        <div class="section__tools" data-switch></div>
+      </div>
+      <div class="dk">
+        <div class="dk-sheets" data-r="e"></div>
+        <p class="dk-foot"><a href="#e">All articles →</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* Sample content only — none of this is real. */
+const LIB = {
+  brothers: [
+    { t: "Why the program begins with Arabic grammar", s: "Nahw", by: "Program faculty", min: 6, d: [12, "Sep"],
+      ex: "Every later book is read in Arabic. The first year builds the tool that opens all the others, and that is why it comes before everything else.",
+      q: "Grammar is not a subject we pass through. It is the lamp we carry into every other book." },
+    { t: "The etiquette of the student of knowledge", s: "Adab", by: "Program faculty", min: 8, d: [29, "Aug"],
+      ex: "Before the texts, the manners: how the tradition asks a student to sit, listen and ask." },
+    { t: "Reading hadith slowly", s: "Hadith", by: "A fourth-year student", min: 5, d: [14, "Aug"],
+      ex: "What changes when a single narration is studied for a whole lesson." },
+    { t: "What seven years asks of you", s: "Program", by: "Program faculty", min: 4, d: [2, "Aug"],
+      ex: "A frank look at the commitment, week by week and year by year." },
+    { t: "Keeping a revision notebook", s: "Method", by: "A second-year student", min: 5, d: [18, "Jul"],
+      ex: "One notebook, three columns, ten minutes a day." }
+  ],
+  sisters: [
+    { t: "Balancing study with family life", s: "Adab", by: "Sisters' faculty", min: 7, d: [10, "Sep"],
+      ex: "Practical ways students have made room for daily revision alongside a full household, and what to let go of.",
+      q: "The lesson does not end at the door of the class. It continues at the kitchen table." },
+    { t: "Memorising the core texts: a method", s: "Method", by: "Sisters' faculty", min: 6, d: [27, "Aug"],
+      ex: "How to commit a short text to memory, and keep it, across the seven years." },
+    { t: "Women in the hadith tradition", s: "History", by: "A sixth-year student", min: 9, d: [15, "Aug"],
+      ex: "Narrators and teachers whose names appear in the chains we study today." },
+    { t: "Notes from the first year", s: "Reflections", by: "A first-year student", min: 5, d: [30, "Jul"],
+      ex: "What surprised me, what was hard, and what I would tell someone about to begin." },
+    { t: "Tajwid at home", s: "Qur'an", by: "Sisters' faculty", min: 4, d: [16, "Jul"],
+      ex: "Short daily drills to keep recitation sharp between classes." }
+  ]
+};
+
+const STAR = '<svg class="star" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="8" y="8" width="16" height="16"/><rect x="8" y="8" width="16" height="16" transform="rotate(45 16 16)"/><circle cx="16" cy="16" r="3"/></svg>';
+const ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const ARABIC = ["١", "٢"];
+const date = a => `${a.d[0]} ${a.d[1]}`;
+
+const R = {
+  a: ([lead, ...rest]) => `
+    <article class="fp-rule">
+      <p class="kicker">Latest · ${lead.s}</p>
+      <h3 class="fp-lead__title">${lead.t}</h3>
+      <div class="fp-orn">${STAR}</div>
+      <p class="fp-lead__body">${lead.ex}</p>
+      <div class="fp-lead__foot"><span><b>${lead.by}</b> · ${date(lead)} · ${lead.min} min read</span><a class="more" href="#a">Read the article →</a></div>
+    </article>
+    <aside class="fp-rule fp-index">
+      <div class="fp-index__h"><p class="kicker">Also in the journal</p><a class="more" href="#a">All →</a></div>
+      <ol>${rest.map((a, i) => `
+        <li><span class="fp-index__n">${["i", "ii", "iii", "iv"][i]}.</span>
+          <a href="#a"><h4>${a.t}</h4><p>${a.s} · ${a.by} · ${a.min} min</p></a></li>`).join("")}
+      </ol>
+    </aside>`,
+
+  b: ([lead, ...rest]) => `
+    <div class="kb-page kb-page--l">
+      <div class="kb-unwan"><span>${lead.s}</span></div>
+      <h3 class="kb-title">${lead.t}</h3>
+      <p class="kb-by">${lead.by}</p>
+      <p class="kb-body">${lead.ex}</p>
+      <a class="more kb-read" href="#b">Continue reading →</a>
+      <span class="kb-folio">${ARABIC[0]}</span>
+    </div>
+    <div class="kb-page kb-page--r">
+      <h3 class="kb-h">${STAR} Contents ${STAR}</h3>
+      <ol class="kb-toc">${[lead, ...rest].map(a => `
+        <li><a href="#b"><span class="kb-toc__row"><span class="kb-toc__t">${a.t}</span><span class="kb-toc__dots"></span><span class="kb-toc__min">${a.min} min</span></span>
+          <span class="kb-toc__s">${a.s} · ${a.by}</span></a></li>`).join("")}
+      </ol>
+      <span class="kb-folio">${ARABIC[1]}</span>
+    </div>`,
+
+  c: list => list.slice(0, 4).map(a => `
+    <li>
+      <span class="tl-date"><b>${a.d[0]}</b><span>${a.d[1]}</span></span>
+      <span class="tl-dot" aria-hidden="true"></span>
+      <div class="tl-body">
+        <p class="kicker">${a.s}</p>
+        <h3><a href="#c">${a.t}</a></h3>
+        <p>${a.ex}</p>
+        <p class="tl-meta"><b>${a.by}</b> · ${a.min} min read</p>
+      </div>
+      <a class="tl-go" href="#c" aria-label="Read ${a.t}">${ARROW}</a>
+    </li>`).join(""),
+
+  d: ([lead, b, c, d]) => `
+    <article class="bn-feature">
+      <span class="bn-feature__mark">${STAR}</span>
+      <p class="card__kicker" style="margin:0">Featured · ${lead.s}</p>
+      <h3>${lead.t}</h3>
+      <p>${lead.ex}</p>
+      <p class="bn-meta"><b>${lead.by}</b> · ${lead.min} min read</p>
+      <a class="btn btn--gold btn--sm" href="#d">Read article</a>
+    </article>
+    <article class="bn-white bn-wide">
+      <p class="kicker">${b.s}</p><h4>${b.t}</h4><p class="bn-ex">${b.ex}</p>
+      <p class="bn-meta"><b>${b.by}</b> · ${b.min} min read</p>
+    </article>
+    <figure class="bn-quote" style="margin:0">
+      <blockquote>${lead.q}</blockquote>
+      <cite>From <b>${lead.t}</b></cite>
+    </figure>
+    <article class="bn-white bn-small">
+      <p class="kicker">${c.s}</p><h4>${c.t}</h4><p class="bn-ex">${c.ex}</p>
+      <p class="bn-meta"><b>${c.by}</b> · ${c.min} min read</p>
+    </article>`,
+
+  e: list => list.slice(0, 4).map(a => `
+    <article class="folio">
+      <span class="folio__seal" aria-hidden="true">${a.s.charAt(0)}</span>
+      <p class="folio__sub">${a.s}</p>
+      <h3>${a.t}</h3>
+      <span class="folio__rule"></span>
+      <p class="folio__ex">${a.ex}</p>
+      <p class="folio__sig">${a.by}</p>
+      <p class="folio__min">${a.min} min read · ${date(a)}</p>
+    </article>`).join("")
+};
+
+/* The same switch markup the live site renders (styled by styles.css) */
+function switchHTML() {
+  return `<button class="aud-toggle" type="button" role="switch" aria-checked="false" aria-label="Show sisters' articles">
+    <span class="aud-toggle__side" data-aud="brothers">Brothers</span>
+    <span class="aud-toggle__track" aria-hidden="true"><span class="aud-toggle__knob"></span></span>
+    <span class="aud-toggle__side" data-aud="sisters">Sisters</span></button>`;
+}
+
+function render(root, swap) {
+  const el = root.querySelector("[data-r]");
+  el.innerHTML = R[el.dataset.r](LIB[root.dataset.aud]);
+  root.querySelector(".aud-toggle").setAttribute("aria-checked", String(root.dataset.aud === "sisters"));
+  if (swap) { el.classList.remove("swap"); void el.offsetWidth; el.classList.add("swap"); }
+}
+
+document.querySelectorAll(".mock").forEach(root => {
+  root.querySelector("[data-switch]").innerHTML = switchHTML();
+  root.querySelector(".aud-toggle").addEventListener("click", e => {
+    const side = e.target.closest(".aud-toggle__side");   // not [data-aud]: the section carries that too
+    const next = side ? side.dataset.aud : root.dataset.aud === "sisters" ? "brothers" : "sisters";
+    if (next === root.dataset.aud) return;
+    root.dataset.aud = next;
+    render(root, true);
+  });
+  render(root, false);
+});
+</script>
+</body>
+</html>

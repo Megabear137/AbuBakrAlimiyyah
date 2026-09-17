@@ -1,6 +1,6 @@
 /* =====================================================================
    main.js - loads content/*.json and renders every data-driven section.
-   Everything on the page comes from those four files; edit them, not
+   Everything on the page comes from those five files; edit them, not
    the HTML.
    ===================================================================== */
 (function () {
@@ -11,7 +11,9 @@
   var ICONS = {
     arrow: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>',
     clock: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="7.2"/><path d="M10 6v4.3l2.8 1.7"/></svg>',
-    quote: '<svg class="testimony__mark" viewBox="0 0 40 32" fill="currentColor" aria-hidden="true"><path d="M0 32V19C0 8 6 1.5 16 0l1.6 4C11.6 5.8 9 9.4 8.8 14H16v18H0zm22 0V19C22 8 28 1.5 38 0l1.6 4C33.6 5.8 31 9.4 30.8 14H38v18H22z"/></svg>'
+    quote: '<svg class="testimony__mark" viewBox="0 0 40 32" fill="currentColor" aria-hidden="true"><path d="M0 32V19C0 8 6 1.5 16 0l1.6 4C11.6 5.8 9 9.4 8.8 14H16v18H0zm22 0V19C22 8 28 1.5 38 0l1.6 4C33.6 5.8 31 9.4 30.8 14H38v18H22z"/></svg>',
+    star:  '<svg class="article-feature__mark" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="8" y="8" width="16" height="16"/><rect x="8" y="8" width="16" height="16" transform="rotate(45 16 16)"/><circle cx="16" cy="16" r="3"/></svg>',
+    play:  '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>'
   };
 
   function esc(s) {
@@ -158,14 +160,6 @@
   }
 
   /* ---------------------------- teachers ---------------------------- */
-  // Two initials for the monogram; a TODO placeholder gets none.
-  function initials(name) {
-    if (/^\s*TODO/i.test(name || "")) return "";
-    return String(name || "").split(/\s+/).filter(Boolean)
-      .map(function (w) { return w.charAt(0).toUpperCase(); })
-      .slice(0, 2).join("");
-  }
-
   function renderTeachers(data) {
     var mount = slot("teachers");
     if (!mount) return;
@@ -184,13 +178,184 @@
       },
       render: function (t) {
         var card = el("article", "card teacher");
-        card.appendChild(el("span", "teacher__mono", esc(initials(t.name))));
         if (t.honorific) card.appendChild(el("p", "teacher__honorific", esc(t.honorific)));
         card.appendChild(el("h3", "teacher__name", esc(t.name)));
         if (t.bio) card.appendChild(el("p", "teacher__bio", esc(t.bio)));
         return card;
       }
     });
+  }
+
+  /* ------------------------ articles & videos ----------------------- */
+  // Each section holds a brothers' and a sisters' list. The two sections share
+  // one choice: flipping the switch in either head rebuilds both sections. The
+  // choice is remembered per viewer, and the page works without storage.
+  var AUDIENCE_KEY = "alimiyyah.audience";
+
+  function savedAudience() {
+    try {
+      return localStorage.getItem(AUDIENCE_KEY) === "sisters" ? "sisters" : "brothers";
+    } catch (e) {
+      return "brothers";
+    }
+  }
+
+  // The title links the whole card when there is an href (a stretched link).
+  function cardTitle(className, title, href) {
+    var text = esc(title);
+    if (href) text = '<a class="stretched" href="' + esc(href) + '">' + text + "</a>";
+    return '<h3 class="' + className + '">' + text + "</h3>";
+  }
+
+  // The first article is a full-width green feature; the rest follow beneath it
+  // in a carousel of white cards under their own small head, so the arrows sit
+  // next to what they move rather than above the feature.
+  function articleTile(a, feature) {
+    var kicker = feature ? ["Featured", a.subject].filter(Boolean).join(" · ") : a.subject;
+    return el("article", feature ? "article-feature" : "article-card",
+      (feature ? ICONS.star : "") +
+      (kicker ? '<p class="' + (feature ? "card__kicker" : "kicker") + '">' + esc(kicker) + "</p>" : "") +
+      cardTitle("article__title", a.title, a.href) +
+      (a.excerpt ? '<p class="article__excerpt">' + esc(a.excerpt) + "</p>" : "") +
+      '<p class="article__meta"><b>' + esc(a.author) + "</b>" +
+        (a.readMinutes ? " · " + esc(a.readMinutes) + " min read" : "") + "</p>" +
+      // The stretched title link already covers the card; this only looks like a button.
+      (feature && a.href ? '<span class="btn btn--gold btn--sm article-feature__cta" aria-hidden="true">Read article</span>' : ""));
+  }
+
+  function renderArticles(mount, items, label) {
+    mount.appendChild(articleTile(items[0], true));
+    if (items.length < 2) return null;
+
+    var controls = el("div", "carousel-controls");
+    var head = el("div", "articles__rest-head", '<p class="kicker">More articles</p>');
+    head.appendChild(controls);
+    var rest = el("div", "articles__rest");
+    mount.append(head, rest);
+    return createCarousel({
+      mount: rest,
+      controls: controls,
+      items: items.slice(1),
+      label: label,
+      perView: function () {
+        var w = window.innerWidth;
+        if (w < 620) return 1;
+        if (w < 940) return 2;
+        return 3;
+      },
+      render: function (a) { return articleTile(a, false); }
+    });
+  }
+
+  function videoCard(v, i) {
+    var card = el("article", "video-card");
+    // Without a thumbnail, alternate the masjid photo and the star lattice.
+    var thumb = el("div", "video-card__thumb" +
+      (v.thumbnail ? "" : i % 2 ? " video-card__thumb--pattern" : " video-card__thumb--photo"),
+      '<span class="video-card__play">' + ICONS.play + "</span>" +
+      (v.duration ? '<span class="video-card__dur">' + esc(v.duration) + "</span>" : ""));
+    if (v.thumbnail) thumb.style.backgroundImage = "url(" + JSON.stringify(v.thumbnail) + ")";
+    card.appendChild(thumb);
+    card.appendChild(el("div", "video-card__cap",
+      cardTitle("video-card__title", v.title, v.href) +
+      '<p class="video-card__meta">' + esc([v.subject, v.date].filter(Boolean).join(" · ")) + "</p>"));
+    return card;
+  }
+
+  function renderMedia(data) {
+    var names = data.audiences || {};
+    var audience = savedAudience();
+
+    // `render` fills the mount and returns a carousel to destroy on the next swap, or null.
+    var sections = [
+      {
+        key: "articles", noun: "articles",
+        render: renderArticles
+      },
+      {
+        key: "videos", noun: "videos",
+        render: function (mount, items, label) {
+          return createCarousel({
+            mount: mount,
+            controls: slot("videos-controls"),
+            items: items,
+            label: label,
+            perView: function () { return window.innerWidth < 760 ? 1 : 2; },
+            render: videoCard
+          });
+        }
+      }
+    ].filter(function (s) { return data[s.key] && slot(s.key); });
+
+    // An optional link to the full list, e.g. "articles": {"moreHref": "articles/"}.
+    sections.forEach(function (s) {
+      var more = slot(s.key + "-more");
+      if (more && data[s.key].moreHref) {
+        more.href = data[s.key].moreHref;
+        more.textContent = data[s.key].moreLabel || "All " + s.noun + " →";
+        more.hidden = false;
+      }
+    });
+
+    function name(id) { return names[id] || (id === "sisters" ? "Sisters" : "Brothers"); }
+
+    function build(s, swap) {
+      var mount = slot(s.key);
+      if (s.carousel) s.carousel.destroy();
+      s.carousel = null;
+      mount.textContent = "";
+
+      var items = data[s.key][audience] || [];
+      var label = name(audience) + "' " + s.noun;
+      if (items.length) {
+        s.carousel = s.render(mount, items, label);
+      } else {
+        mount.appendChild(el("p", "card media-empty", "No " + esc(label.toLowerCase()) + " yet."));
+      }
+
+      if (swap) {
+        mount.classList.remove("media-swap");
+        void mount.offsetWidth;            // restart the animation
+        mount.classList.add("media-swap");
+      }
+    }
+
+    // One button with role="switch"; checked means sisters. A click on either
+    // side's label picks that side, a click anywhere else flips it.
+    var switches = sections.map(function (s) {
+      setText(s.key + "-heading", data[s.key].heading);
+      var mount = slot(s.key + "-audience");
+      if (!mount) return null;
+      var b = el("button", "aud-toggle",
+        '<span class="aud-toggle__side" data-aud="brothers">' + esc(name("brothers")) + "</span>" +
+        '<span class="aud-toggle__track" aria-hidden="true"><span class="aud-toggle__knob"></span></span>' +
+        '<span class="aud-toggle__side" data-aud="sisters">' + esc(name("sisters")) + "</span>");
+      b.type = "button";
+      b.setAttribute("role", "switch");
+      b.setAttribute("aria-label", "Show " + name("sisters").toLowerCase() + "' articles and videos");
+      b.addEventListener("click", function (e) {
+        var side = e.target.closest(".aud-toggle__side");
+        setAudience(side ? side.dataset.aud : audience === "sisters" ? "brothers" : "sisters");
+      });
+      mount.textContent = "";
+      mount.appendChild(b);
+      return b;
+    }).filter(Boolean);
+
+    function sync() {
+      switches.forEach(function (b) { b.setAttribute("aria-checked", String(audience === "sisters")); });
+    }
+
+    function setAudience(next) {
+      if (next === audience) return;
+      audience = next;
+      try { localStorage.setItem(AUDIENCE_KEY, audience); } catch (e) { /* storage blocked: not remembered */ }
+      sync();
+      sections.forEach(function (s) { build(s, true); });
+    }
+
+    sync();
+    sections.forEach(function (s) { build(s, false); });
   }
 
   /* --------------------------- testimonies -------------------------- */
@@ -239,6 +404,7 @@
       renderCurriculum(slot("curriculum"), data);
     }),
     loadJSON("content/teachers.json").then(renderTeachers),
+    loadJSON("content/media.json").then(renderMedia),
     loadJSON("content/testimonies.json").then(renderTestimonies)
   ]).catch(function (err) {
     console.error("Content failed to load.", err);
