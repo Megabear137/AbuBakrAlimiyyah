@@ -2,7 +2,7 @@
   "label": "Curriculum",
   "kicker": "The books",
   "intro": "Every book in the course stands on the shelf at once. Select a spine to turn it face-on.",
-  "note": "Only Second Year is filled in from the design mockup. Every entry marked TODO is a placeholder — replace the text, keep the shape. Fields: title (English), titleUrdu (Urdu/Arabic script, may be empty), subject, author (may be empty), description.",
+  "note": "Only Second Year is filled in from the design mockup. Every entry marked TODO is a placeholder — replace the text, keep the shape. Fields: title (English), titleUrdu (Urdu/Arabic script, may be empty), subject, author (may be empty), description, book_size (small, medium or large — how big the book stands on the shelf; defaults to medium).",
   "years": [
     {
       "name": "First Year",
@@ -12,14 +12,16 @@
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "medium"
         },
         {
           "title": "TODO: Book title",
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "large"
         }
       ]
     },
@@ -31,42 +33,48 @@
           "titleUrdu": "اچھی باتیں",
           "subject": "Urdu",
           "author": "",
-          "description": "Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar."
+          "description": "Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar.",
+          "book_size": "medium"
         },
         {
           "title": "Tasheel ul-Nahwa",
           "titleUrdu": "",
           "subject": "Nahwa",
           "author": "",
-          "description": "TODO: Description of Tasheel ul-Nahwa."
+          "description": "TODO: Description of Tasheel ul-Nahwa.",
+          "book_size": "large"
         },
         {
           "title": "Tasheel ul-Sarf",
           "titleUrdu": "",
           "subject": "Sarf",
           "author": "",
-          "description": "TODO: Description of Tasheel ul-Sarf."
+          "description": "TODO: Description of Tasheel ul-Sarf.",
+          "book_size": "large"
         },
         {
           "title": "Duroos 1",
           "titleUrdu": "",
           "subject": "Arabic",
           "author": "",
-          "description": "TODO: Description of Duroos 1."
+          "description": "TODO: Description of Duroos 1.",
+          "book_size": "medium"
         },
         {
           "title": "Qasas 1",
           "titleUrdu": "",
           "subject": "Arabic",
           "author": "",
-          "description": "TODO: Description of Qasas 1."
+          "description": "TODO: Description of Qasas 1.",
+          "book_size": "small"
         },
         {
           "title": "TODO: Sixth book",
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: The mockup shows a sixth card here repeating Achi Baatain — replace it with the real sixth book, or delete this entry."
+          "description": "TODO: The mockup shows a sixth card here repeating Achi Baatain — replace it with the real sixth book, or delete this entry.",
+          "book_size": "medium"
         }
       ]
     },
@@ -78,14 +86,16 @@
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "medium"
         },
         {
           "title": "TODO: Book title",
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "large"
         }
       ]
     },
@@ -97,14 +107,16 @@
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "medium"
         },
         {
           "title": "TODO: Book title",
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "large"
         }
       ]
     },
@@ -116,14 +128,16 @@
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "medium"
         },
         {
           "title": "TODO: Book title",
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "large"
         }
       ]
     },
@@ -135,14 +149,16 @@
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "medium"
         },
         {
           "title": "TODO: Book title",
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "large"
         }
       ]
     },
@@ -154,14 +170,16 @@
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "medium"
         },
         {
           "title": "TODO: Book title",
           "titleUrdu": "",
           "subject": "TODO: Subject",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage."
+          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "book_size": "large"
         }
       ]
     }

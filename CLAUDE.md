@@ -125,14 +125,17 @@ produce four boards**. A bay is a wooden frame, a green well, a plank (`.bay__pl
   double gilt frame, the title in a pointed cartouche (a `clip-path` polygon in `--cart`) between two
   finials, the subject, a medallion, and a two-colour chevron headband on `::before`. Keep them
   traditional; the glossy raised-band spines of the exploration rounds were rejected.
-- **Width, height, leather and cartouche colour come from JS as `--w`, `--h`, `--c`, `--lab`**, keyed
-  to the book's *position in its year* (`WIDTHS`, `HEIGHTS`, `BINDINGS`), so a book keeps its binding on
-  every load. `.spine.spine--open` outranks `.spine` and overrides them.
+- **Width, height, leather and cartouche colour come from JS as `--w`, `--h`, `--c`, `--lab`.** Size is
+  data: each book's `book_size` (`small`/`medium`/`large`, default medium) picks from `SIZES`. Colour is
+  keyed to the book's *position in its year* (`BINDINGS`), so a book keeps its binding on every load.
+  Ledge books name their own `size` in `LEDGES`. `.spine.spine--open` outranks `.spine` and overrides them.
 - **The 300px well height is derived**: the tallest spine (268) plus its 4px headband and the hover
-  lift. Lengthen `HEIGHTS` and the well must grow with it.
+  lift. Make `large` taller in `SIZES` and the well must grow with it; don't make `small`
+  shorter than 236, or the open card clips its text.
 - **A well scrolls sideways; it never wraps.** `justify-content: safe center` keeps the left-hand
   books reachable once a centred row overflows.
-- **The open card is small on purpose** — 256×236 holds a title, the Urdu, a subject and about two
+- **The open card is small on purpose, and as tall as its book** — it keeps the spine's `--h`, so it
+  is 256 wide and 236–268 tall. The shortest, 256×236, holds a title, the Urdu, a subject and about two
   sentences. **Descriptions in `curriculum.json` should stay near that length**; longer ones are
   clipped by `.face__body { overflow: hidden }`.
 - **Hover leans the book out** (`rotate(-6deg)` about its bottom-left corner). Not on TODO or open spines.

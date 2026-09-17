@@ -27,11 +27,16 @@
     ["#16120f", "#5a1916"],   // black, red
     ["#3b2416", "#16120f"]    // chestnut, black
   ];
-  var WIDTHS = [48, 54, 48, 52, 46, 50, 46, 52];
-
-  /* The tallest spine has to clear .bay__well's 300px once its headband and
-     the hover lift are counted - see "7. Curriculum bookshelf" in styles.css. */
-  var HEIGHTS = [254, 268, 262, 256, 240, 250, 236, 260];
+  /* A book's footprint on the shelf comes from `book_size` in
+     curriculum.json; anything missing or unrecognised stands as medium.
+     The large height has to clear .bay__well's 300px once its headband and
+     the hover lift are counted - see "7. Curriculum bookshelf" in styles.css -
+     and the small one is the least an open book needs for its text. */
+  var SIZES = {
+    small:  { w: 46, h: 236 },
+    medium: { w: 50, h: 252 },
+    large:  { w: 54, h: 268 }
+  };
 
   /* Wide screens only: some planks run on past the bays and out onto the wall
      as a ledge of spare books - one per row, alternating sides. Pure
@@ -39,13 +44,13 @@
      assistive tech. Items are listed nearest the bay first; `fit` is the
      ledge width (see .ledge in styles.css) an item needs before it shows, so
      a narrower margin drops the outermost things rather than clipping them.
-     A book gives the binding to borrow and whether it leans; an image gives
+     A book gives the binding to borrow, its size and whether it leans; an image gives
      its file and width. */
   var LEDGES = [
-    [{ book: 5 }, { book: 0 }, { book: 3, fit: 1 }, { book: 1, lean: true, fit: 3 }],
-    [{ book: 2 }, { img: "ledge-stack-ink.svg", width: 124, fit: 2 }],
-    [{ book: 1 }, { book: 4, fit: 1 }, { img: "ledge-stack-pens.svg", width: 124, fit: 3 }],
-    [{ book: 0 }, { book: 2, lean: true, fit: 1 }]
+    [{ book: 5, size: "medium" }, { book: 0, size: "medium" }, { book: 3, size: "medium", fit: 1 }, { book: 1, size: "large", lean: true, fit: 3 }],
+    [{ book: 2, size: "large" }, { img: "ledge-stack-ink.svg", width: 124, fit: 2 }],
+    [{ book: 1, size: "large" }, { book: 4, size: "small", fit: 1 }, { img: "ledge-stack-pens.svg", width: 124, fit: 3 }],
+    [{ book: 0, size: "medium" }, { book: 2, size: "large", lean: true, fit: 1 }]
   ];
 
   var NUMERALS = [[10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"]];
@@ -117,7 +122,7 @@
         // A spare binding: the spine's parts with an empty cartouche.
         el = document.createElement("div");
         el.className = "spine spine--loose" + (item.lean ? " spine--lean" : "");
-        setBinding(el, item.book);
+        setBinding(el, item.book, item.size);
         el.innerHTML = '<span class="spine__fin"></span><span class="spine__cart"><span class="spine__cart-in"></span></span>' +
           '<span class="spine__fin spine__fin--foot"></span><span class="spine__medal"></span>';
       }
@@ -129,10 +134,11 @@
     return ledge;
   }
 
-  function setBinding(el, i) {
+  function setBinding(el, i, size) {
     var binding = BINDINGS[i % BINDINGS.length];
-    el.style.setProperty("--w", WIDTHS[i % WIDTHS.length] + "px");
-    el.style.setProperty("--h", HEIGHTS[i % HEIGHTS.length] + "px");
+    var dims = SIZES[String(size || "").toLowerCase()] || SIZES.medium;
+    el.style.setProperty("--w", dims.w + "px");
+    el.style.setProperty("--h", dims.h + "px");
     el.style.setProperty("--c", binding[0]);
     el.style.setProperty("--lab", binding[1]);
   }
@@ -178,7 +184,7 @@
     spine.className = "spine" + (todo ? " spine--todo" : "");
     spine.setAttribute("aria-expanded", "false");
     spine.tabIndex = i === 0 ? 0 : -1;   // one tab stop per bay; arrows do the rest
-    setBinding(spine, i);
+    setBinding(spine, i, book.book_size);
 
     spine._book = book;
     spine._todo = todo;

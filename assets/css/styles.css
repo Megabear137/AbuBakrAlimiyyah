@@ -499,7 +499,7 @@ main { position: relative; }
 }
 
 /* 300px: the tallest spine (268) plus its 4px headband, the hover lift and a
-   little air. Lengthen HEIGHTS in curriculum.js and this has to grow with it.
+   little air. Lengthen SIZES in curriculum.js and this has to grow with it.
    The well scrolls sideways rather than wrapping, so a narrow bay stays one
    shelf; `safe center` keeps the left-hand books reachable once it overflows. */
 .bay__well {
@@ -612,7 +612,8 @@ main { position: relative; }
    gilt frame down its length, the title in a pointed cartouche between two
    finials, a small medallion at the foot and a two-colour chevron headband.
    Width, height, leather and cartouche colour arrive from curriculum.js as
-   --w, --h, --c and --lab, keyed to the book's position in its year. */
+   --w, --h, --c and --lab: size from the book's `book_size`, colours from its
+   position in its year. */
 .spine {
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.45'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
   --cart: polygon(50% 0, 100% 12%, 100% 88%, 50% 100%, 0 88%, 0 12%);
@@ -787,11 +788,12 @@ main { position: relative; }
 }
 
 /* The same button, turned to face the reader: a small cream page inside a
-   gilt rule. 256x236 holds a title, the Urdu, a subject and about two
-   sentences, so descriptions in curriculum.json should stay near that. */
+   gilt rule. It keeps the book's own height (--h), so the shelf line doesn't
+   jump when a book opens. The shortest book, 256x236, holds a title, the Urdu,
+   a subject and about two sentences, so descriptions in curriculum.json
+   should stay near that. */
 .spine.spine--open {
   width: min(256px, 100%);
-  height: 236px;
   align-items: stretch;
   justify-content: flex-start;
   gap: 0;
