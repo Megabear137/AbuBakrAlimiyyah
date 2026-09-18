@@ -1,0 +1,38 @@
+/* 4 · Engraved bands — only the lines of type are darkened: each row, each
+   timing head and each fee tier sits in a shallow routed channel, dark and
+   slightly recessed, with a lit bottom lip. The panel between them stays
+   bright wood, so the section keeps its colour. */
+
+.tgroup__head,
+.row,
+.tier {
+  padding: 0.6rem 0.85rem;
+  border-radius: 7px;
+  background: linear-gradient(180deg, rgba(20, 8, 2, 0.62), rgba(20, 8, 2, 0.5));
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 228, 184, 0.22);
+}
+.row { margin-bottom: 5px; }
+.tgroup__head { margin-bottom: 0.55rem; }
+.tier { display: flex; flex-direction: column; justify-content: flex-start; }
+.row--rule { border-top: 0; }
+.tgroup + .tgroup { margin-top: 1.3rem; padding-top: 1.3rem; }
+
+.card__kicker { color: #ffd98b; }
+.row, .tier__label, .tier__period, .tier__note { color: #fff6ea; }
+.row__value, .tgroup__years { color: #ffd98b; }
+.tgroup__label, .tier__amount { color: #ffe6ad; }
+
+/* The featured article has no rows to rout, so it takes a scrim instead: the
+   board darkens from the text side and stays bright at the far edge. */
+.article-feature {
+  background-image:
+    linear-gradient(100deg, rgba(20, 8, 2, 0.72), rgba(20, 8, 2, 0.5) 55%, rgba(20, 8, 2, 0.12)),
+    var(--grain),
+    linear-gradient(160deg, var(--choc), var(--choc-deep));
+  background-size: 100% 100%, var(--grain-size), 100% 100%;
+}
+.article-feature .article__title { color: #ffe6ad; }
+.article-feature .article__excerpt { color: #fff6ea; }

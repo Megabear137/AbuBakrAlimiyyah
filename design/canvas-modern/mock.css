@@ -1,0 +1,72 @@
+/* =====================================================================
+   mock.css - shared by the four "modernise" mockups.
+
+   The only photograph the site has is a 1447×374 strip, so it can fill
+   a wide banner but not a card. Where a mockup wants a picture it uses a
+   plain board panel instead: the dark board brown (or rust) with a warm
+   light in one corner. No gold star lattice or other pattern - see the
+   rule in design/canvas-modern/index.html.
+   ===================================================================== */
+
+/* A plain board panel with a warm light in one corner and a darker foot. */
+.m-board {
+  position: relative;
+  background:
+    radial-gradient(120% 90% at 20% 10%, rgba(238, 194, 90, 0.22), transparent 60%),
+    linear-gradient(180deg, transparent 55%, rgba(20, 9, 2, 0.45)),
+    linear-gradient(155deg, var(--board), var(--board-deep));
+}
+.m-board > * { position: relative; }
+
+/* A rust board, for variety beside the brown one. */
+.m-board--rust {
+  background:
+    radial-gradient(120% 90% at 80% 10%, rgba(247, 224, 164, 0.24), transparent 60%),
+    linear-gradient(180deg, transparent 55%, rgba(36, 18, 5, 0.4)),
+    linear-gradient(155deg, #a2521a, #5b2c0c);
+}
+
+/* The shelf in the mockups. Each mockup redraws the wall, the bays, the plank
+   and the year label in its own style (see its "The shelf" block); here the
+   parts of the live look that none of them keep are switched off: the
+   wooden wall with its rails and brass bolts, and the decorative ledges of
+   spare books on wide screens. The books, the open card, the folio and the
+   keyboard model are the live curriculum.js, unchanged. */
+.shelf-wall { background: none; box-shadow: none; }
+.shelf-wall::before,
+.shelf-wall::after { display: none; }
+.shelf .ledge { display: none; }
+
+/* Sections fade up as they scroll into view (mock.js adds both classes). */
+.m-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.m-reveal.m-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .m-reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* The mockup switcher pinned to the bottom-left corner of every mockup. */
+.m-switch {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 100;
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 999px;
+  background: rgba(36, 18, 5, 0.88);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  font: 600 0.78rem/1 "Instrument Sans", system-ui, sans-serif;
+}
+.m-switch a {
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  color: #fbeedd;
+  text-decoration: none;
+}
+.m-switch a[aria-current="page"] { background: #e3b34a; color: #241205; }
+.m-switch a:hover:not([aria-current]) { background: rgba(255, 255, 255, 0.1); }

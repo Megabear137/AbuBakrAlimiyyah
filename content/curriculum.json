@@ -2,7 +2,7 @@
   "label": "Curriculum",
   "kicker": "The books",
   "intro": "Every book in the course stands on the shelf at once. Select a spine to turn it face-on.",
-  "note": "Only Second Year is filled in from the design mockup. Every entry marked TODO is a placeholder — replace the text, keep the shape. Fields: title (English), titleUrdu (Urdu/Arabic script, may be empty), subject, author (may be empty), description, book_size (small, medium or large — how big the book stands on the shelf; defaults to medium).",
+  "note": "Only Second Year is filled in from the design mockup. Every entry marked TODO is a placeholder — replace the text, keep the shape. Fields: title (English), titleUrdu (Urdu/Arabic script, may be empty), subject, author (may be empty), description, book_size (small, medium or large — how big the book stands on the shelf; defaults to medium). Optional, for the full view a reader opens with See more: cover (path to a photograph of the book, ideally about 3:4, e.g. assets/img/books/achi-baatain.jpg — without one the binding is drawn instead) and long (a longer description; blank lines separate paragraphs; without it the description is used).",
   "years": [
     {
       "name": "First Year",

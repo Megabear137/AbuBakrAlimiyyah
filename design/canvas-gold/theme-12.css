@@ -1,0 +1,33 @@
+/* 12 · Chocolate & Bright Gold — the brown darkened to chocolate for the
+   bands, with bright gold titles and cream type; the true brown carries
+   the headings and the switch on the light ground. The darkest of round 3. */
+:root {
+  --ground: #fbf7f0;
+  --gold: #e3b34a; --gold-light: #eec25a; --gold-pale: #f7e0a4; --gold-ink: #9a6508; --gilt: #d9aa48;
+  --ink: #241205; --ink-soft: #46301e; --ink-muted: #5a4230; --cream: #fcf4e6;
+
+  --t-heading: #bd5d0f; --t-ink-deep: #241205; --t-light-brown: #ecd8c2;
+  --t-pool-1: rgba(232, 190, 140, 0.75); --t-pool-2: rgba(240, 212, 150, 0.75); --t-pool-3: rgba(226, 198, 170, 0.85);
+  --t-shadow-rgb: 70, 34, 6;  --t-glass-rgb: 40, 18, 4;  --t-line-rgb: 238, 194, 90;
+  --t-btn-1: #f3cf6e; --t-btn-2: #d49a2a; --t-btn-ink: #241205;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(30, 14, 2, 0.76) 0%, rgba(30, 14, 2, 0.24) 28%, rgba(94, 46, 8, 0.64) 62%,
+      rgba(70, 34, 6, 0.9) 86%, rgba(200, 170, 140, 0.9) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(30, 14, 2, 0.72), rgba(30, 14, 2, 0) 60%);
+  --t-hero-em: #f0c55e;
+
+  --t-well-1: #2e1706; --t-well-2: #1a0c02; --t-well-glow: 0.24; --t-todo-rgb: 230, 186, 90;
+
+  --t-band-1: #5e2e08; --t-band-2: #361a04; --t-band-glow: 0.14;
+  --t-on-band: #fbeedd; --t-on-band-rgb: 251, 238, 221; --t-on-band-strong: #fdf6ea;
+  --t-band-accent: #f0c35c; --t-band-value: #f6d88e;
+  --t-teacher-1: #fdf6ea; --t-teacher-2: #f3e3c6;
+
+  --t-card-tint: rgba(250, 242, 230, 0.9);
+  --t-track-1: #bd5d0f; --t-track-2: #8a4009; --t-knob: linear-gradient(180deg, #f3cf6e, #d49a2a);
+  --t-scrim-rgb: 30, 14, 2; --t-scrim-solid: #361a04; --t-video-1: #6e3708; --t-video-2: #2e1604;
+}
+/* Gold titles on the chocolate bands, with a rust rule under the kickers */
+.tgroup__label, .tier__amount, .article-feature .article__title, .teachers-band .section__heading { color: #eec25a; }
+.teachers-band .section__heading em { color: var(--cream); }
+.card--green, .article-feature { border-color: rgba(189, 93, 15, 0.7); }

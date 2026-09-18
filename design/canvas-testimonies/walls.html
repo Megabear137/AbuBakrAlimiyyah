@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Testimonies — Walls</title>
+  <link rel="icon" href="../../assets/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+  <!-- The live site's stylesheet: tokens, the walnut grain, the carousel -->
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=18">
+  <style>
+    /* ============================ canvas chrome ============================ */
+    .canvas-head { padding: 4.5rem 0 1rem; }
+    .canvas-head h1 { color: var(--brown-ink); font-family: var(--display); font-size: clamp(2.8rem, 2rem + 3vw, 4.4rem); line-height: 1; margin-top: 0.6rem; }
+    .canvas-head h1 em { font-weight: 500; }
+    .canvas-head__lede { max-width: 700px; margin-top: 1rem; color: var(--brown-ink); }
+    .canvas-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; margin-top: 1.6rem; }
+    .jump { display: flex; flex-wrap: wrap; gap: 8px; }
+    .jump a, .seg button { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid rgba(154, 101, 8, 0.4); color: var(--brown-ink); font-size: 0.88rem; font-weight: 600; text-decoration: none; background: rgba(255, 255, 255, 0.7); }
+    .jump a:hover, .seg button[aria-pressed="true"] { background: var(--rust); border-color: var(--rust); color: #fff; }
+    .seg { display: flex; align-items: center; gap: 6px; }
+    .seg span { margin-right: 4px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+
+    .mock { padding-top: 5rem; }
+    .mock__label { display: flex; gap: 1.1rem; align-items: flex-start; }
+    .mock__num { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(180deg, #f3cf6e, #d49a2a); color: var(--espresso); font-family: var(--display); font-size: 1.6rem; font-weight: 700; }
+    .mock__title { color: var(--brown-ink); font-family: var(--display); font-size: 2rem; line-height: 1.1; }
+    .mock__desc { max-width: 780px; margin-top: 0.3rem; color: var(--brown-ink); font-size: 0.94rem; }
+    .mock__try { color: var(--gold-ink); font-weight: 600; }
+    .mock .shelf-wall { margin-top: 2.5rem; }
+    .mock .wall { margin-top: 2.5rem; }
+
+    /* ============================ the walls ============================ */
+    /* Round 2 of index.html: the mihrab niche from option 1 on four walls that
+       aren't the bookshelf's (horizontal grain, heavy rails, brass bolts). */
+    .wall {
+      --pb: clamp(4rem, 8vw, 5.5rem);
+      position: relative;
+      padding-block: clamp(4rem, 8vw, 5.5rem) var(--pb);
+      overflow-x: clip;
+      color: var(--on-choc);
+      box-shadow: 0 40px 70px -40px rgba(70, 34, 6, 0.55), 0 -18px 40px -30px rgba(70, 34, 6, 0.35);
+    }
+    .wall > .wrap { position: relative; }
+    .wall-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem 2.5rem; margin-bottom: clamp(1.75rem, 4vw, 2.5rem); }
+    .wall-head .section__heading { color: var(--gold-light); }
+    .wall-head .section__heading em { color: var(--cream); }
+    .wall .carousel__arrow { background: rgba(255, 255, 255, 0.1); color: var(--gold-light); border-color: rgba(238, 194, 90, 0.5); box-shadow: none; }
+    .wall .carousel__arrow:hover { background: var(--gold-light); color: var(--choc-deep); }
+    .wall .carousel__dot { border-color: var(--gold-light); }
+    .wall .carousel__dot[aria-current="true"] { background: var(--gold-light); }
+
+    /* ---------- 1 · Upright boards: tongue-and-groove, a cornice and a skirting ---------- */
+    .wall--boards {
+      padding-block: calc(clamp(4rem, 8vw, 5.5rem) + 12px) calc(var(--pb) + 20px);
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0) 140px, rgba(0, 0, 0, 0) calc(100% - 160px), rgba(0, 0, 0, 0.45)),
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0 2px, rgba(255, 228, 184, 0.12) 2px 3px, rgba(0, 0, 0, 0) 3px 104px, rgba(0, 0, 0, 0.2) 104px 106px),
+        repeating-linear-gradient(90deg, rgba(255, 220, 170, 0.05) 0 106px, rgba(0, 0, 0, 0.12) 106px 212px, rgba(255, 220, 170, 0) 212px 318px, rgba(0, 0, 0, 0.06) 318px 424px),
+        var(--grain-v),
+        linear-gradient(180deg, #56361d, #341f0e);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 450px 900px, 100% 100%;
+    }
+    .wall--boards::before,
+    .wall--boards::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+    }
+    .wall--boards::before {           /* the cornice */
+      top: 0;
+      height: 26px;
+      background:
+        linear-gradient(180deg, rgba(255, 232, 196, 0.22), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.1) 60%, rgba(255, 232, 196, 0.16) 70%, rgba(0, 0, 0, 0.5)),
+        var(--grain-streaks),
+        linear-gradient(180deg, #74502e, #3a2412);
+      background-size: 100% 100%, 900px 450px, 100% 100%;
+      border-bottom: 1px solid rgba(238, 194, 90, 0.55);
+      box-shadow: 0 8px 14px -6px rgba(0, 0, 0, 0.6);
+    }
+    .wall--boards::after {            /* the skirting */
+      bottom: 0;
+      height: 38px;
+      background:
+        linear-gradient(180deg, rgba(255, 232, 196, 0.28), rgba(0, 0, 0, 0) 16%, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.45)),
+        var(--grain-streaks),
+        linear-gradient(180deg, #6e4a2a, #2e1c0c);
+      background-size: 100% 100%, 900px 450px, 100% 100%;
+      border-top: 1px solid rgba(238, 194, 90, 0.55);
+    }
+
+    /* ---------- 2 · Wainscot: a plain field above, a chair rail the niches stand on, panels below ---------- */
+    /* The rail runs level with the sills: they sit at the foot of the slides,
+       which is the dots' margin and height above the foot of the mount. */
+    .wall--wainscot {
+      --pb: 8rem;
+      --under: calc(1.75rem + 9px);           /* the dots under the slides */
+      --dado: calc(var(--pb) + var(--under) - 22px);
+      background:
+        radial-gradient(1000px 460px at 50% 0%, rgba(255, 222, 170, 0.14), transparent 70%),
+        var(--grain-v),
+        linear-gradient(180deg, #62401f, #432811);
+      background-size: 100% 100%, 450px 900px, 100% 100%;
+    }
+    .wall--wainscot::before {         /* a thin gilt picture rail */
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 18px;
+      height: 6px;
+      border-block: 1px solid rgba(238, 194, 90, 0.5);
+    }
+    .wall--wainscot::after {          /* the panelled dado */
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--dado);
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 30px),
+        var(--panel),
+        var(--grain),
+        linear-gradient(180deg, #3e2612, #26160a);
+      background-size: 100% 100%, 240px calc(var(--dado) - 56px), var(--grain-size), 100% 100%;
+      background-position: 0 0, 50% 34px, 0 0, 0 0;
+      background-repeat: no-repeat, repeat-x, repeat, no-repeat;
+    }
+    .wall--wainscot .mount { position: relative; isolation: isolate; }
+    .wall--wainscot .mount::before {  /* the chair rail, full bleed */
+      content: "";
+      position: absolute;
+      z-index: -1;
+      left: 50%;
+      width: 100vw;
+      margin-left: -50vw;
+      bottom: calc(var(--under) - 22px);
+      height: 36px;
+      background:
+        linear-gradient(180deg, rgba(255, 232, 196, 0.35), rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.12) 50%, rgba(255, 232, 196, 0.2) 60%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.55)),
+        var(--grain-streaks),
+        linear-gradient(180deg, #8a6038, #4a2e16);
+      border-bottom: 1px solid rgba(238, 194, 90, 0.5);
+      background-size: 100% 100%, 900px 450px, 100% 100%;
+      box-shadow: 0 10px 16px -6px rgba(0, 0, 0, 0.6);
+    }
+    .wall--wainscot .carousel__dots { z-index: 1; }
+
+    /* ---------- 3 · Chevron parquet: short boards laid in zigzag columns ---------- */
+    .wall--parquet {
+      background:
+        radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.42)),
+        var(--grain),
+        var(--chevron) 0 0 / 240px 240px,
+        linear-gradient(180deg, #5e3c20, #3c2512);
+      background-size: 100% 100%, var(--grain-size), 240px 240px, 100% 100%;
+    }
+    .wall--parquet::before,
+    .wall--parquet::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: linear-gradient(180deg, #2a180a, #1a0f06);
+      border-block: 1px solid rgba(238, 194, 90, 0.45);
+    }
+    .wall--parquet::before { top: 0; border-top: 0; }
+    .wall--parquet::after { bottom: 0; border-bottom: 0; }
+
+    /* ---------- 4 · Honey shiplap: light planks, so the dark niches stand out ---------- */
+    .wall--honey {
+      color: var(--espresso);
+      background:
+        linear-gradient(180deg, rgba(255, 240, 210, 0.12), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.12)),
+        var(--shiplap) 0 0 / 1200px 288px,
+        linear-gradient(rgba(190, 140, 88, 0.45), rgba(160, 110, 64, 0.45)),
+        var(--grain),
+        linear-gradient(180deg, #c49260, #9e6d42);
+      background-size: 100% 100%, 1200px 288px, 100% 100%, var(--grain-size), 100% 100%;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 40px 70px -40px rgba(70, 34, 6, 0.45);
+    }
+    .wall--honey .wall-head .section__heading { color: var(--espresso); }
+    .wall--honey .wall-head .section__heading em { color: var(--espresso); }
+    .wall--honey .carousel__arrow { background: rgba(255, 248, 235, 0.3); color: var(--espresso); border-color: rgba(36, 18, 5, 0.35); }
+    .wall--honey .carousel__arrow:hover { background: var(--espresso); color: var(--gold-light); }
+    .wall--honey .carousel__dot { border-color: var(--espresso); }
+    .wall--honey .carousel__dot[aria-current="true"] { background: var(--espresso); }
+    .wall--honey .niche-slot { filter: drop-shadow(0 20px 18px rgba(50, 24, 4, 0.45)); }
+
+    /* ============================== a niche ============================== */
+    /* The shape is one SVG path (see SHAPES below) in a 100 x 600 box, laid on
+       at 100% width, so an arch keeps its proportions at any card width. From
+       it come four data URIs, set per niche as custom properties:
+         --mask   the opening (masks the moulding and the recess)
+         --shade  a blurred stroke clipped inside the path: an inner shadow
+                  that follows the arch, which box-shadow can't
+         --edge   a hairline tracing the opening
+         --rim    the moulding's lit outer edge
+       --arch is how far the curve drops and --pad where the text may start, both
+       in % of the width (0 for a rectangle). */
+    .niche-slot {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      padding-inline: 8px;
+      /* on the parent, so the shadow follows the mask of the moulding */
+      filter: drop-shadow(0 18px 16px rgba(0, 0, 0, 0.5));
+    }
+    .niche {
+      flex: 1;
+      display: flex;
+      padding: var(--frame-top, 13px) 13px 0;
+      background:
+        var(--rim) top / 100% auto no-repeat,
+        linear-gradient(90deg, rgba(255, 228, 184, 0.16), rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.32)),
+        var(--grain),
+        linear-gradient(180deg, #6a4526, var(--wood-lo));
+      background-size: 100% auto, 100% 100%, var(--grain-size), 100% 100%;
+      -webkit-mask: var(--mask) top / 100% auto no-repeat;
+      mask: var(--mask) top / 100% auto no-repeat;
+    }
+    .niche__recess {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* % padding is of the width, so the text starts below the curve */
+      padding: calc(var(--pad) * 1% + 1.6rem) clamp(1.4rem, 3vw, 2rem) 1.8rem;
+      text-align: center;
+      background:
+        var(--edge) top / 100% auto no-repeat,
+        var(--shade) top / 100% auto no-repeat,
+        linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1) 35%, rgba(0, 0, 0, 0.35)),
+        var(--grain-v),
+        linear-gradient(90deg, var(--wood-dark), #2c1b0d 50%, var(--wood-dark));
+      background-size: 100% auto, 100% auto, 100% 100%, 450px 900px, 100% 100%;
+      -webkit-mask: var(--mask) top / 100% auto no-repeat;
+      mask: var(--mask) top / 100% auto no-repeat;
+      color: var(--on-choc);
+    }
+    /* A warm glow at the foot, as if lit from the sill; brighter on hover. */
+    .niche__recess::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(70% 45% at 50% 100%, rgba(255, 206, 130, 0.2), transparent 75%);
+      opacity: 0.7;
+      transition: opacity 0.5s var(--ease-out);
+      pointer-events: none;
+    }
+    .niche-slot:hover .niche__recess::before { opacity: 1; }
+    .niche__recess > * { position: relative; }
+
+    .niche .testimony__mark { width: 34px; height: 27px; color: var(--gold); }
+    .niche__quote {
+      margin: 1rem 0 1.4rem;
+      font-family: var(--display);
+      font-size: clamp(1.3rem, 1.15rem + 0.5vw, 1.55rem);
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1.32;
+    }
+    .niche__cite {
+      align-self: stretch;
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(238, 194, 90, 0.35);
+      font-size: 0.9rem;
+      font-style: normal;
+      color: rgba(251, 238, 221, 0.72);
+    }
+    .niche__cite b { display: block; color: var(--gold-light); font-family: var(--display); font-size: 1.35rem; font-weight: 600; }
+
+    /* The sill: a plank the niche stands on, like the shelf's. */
+    .niche__sill {
+      height: 14px;
+      margin-inline: -8px;
+      border-radius: 2px;
+      background:
+        linear-gradient(180deg, rgba(255, 232, 196, 0.3), rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.45)),
+        var(--grain-streaks),
+        linear-gradient(180deg, #6e4a2a, #3a2412);
+      background-size: 100% 100%, 900px 450px, 100% 100%;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+
+    .is-todo .niche__recess > * { opacity: 0.45; }
+
+    /* ======================= interior: lit cream ======================= */
+    [data-interior="lit"] .niche__recess {
+      background:
+        var(--edge-lit) top / 100% auto no-repeat,
+        var(--shade-lit) top / 100% auto no-repeat,
+        linear-gradient(180deg, #e4cfaa, #f4e6cf 38%, #faf1e2 80%, #efdcbc);
+      background-size: 100% auto, 100% auto, 100% 100%;
+      color: var(--brown-ink);
+    }
+    [data-interior="lit"] .niche__recess::before { background: radial-gradient(70% 50% at 50% 0%, rgba(255, 255, 255, 0.5), transparent 75%); }
+    [data-interior="lit"] .niche .testimony__mark { color: var(--gold-ink); }
+    [data-interior="lit"] .niche__cite { color: var(--brown-ink); border-top-color: rgba(154, 101, 8, 0.3); }
+    [data-interior="lit"] .niche__cite b { color: var(--brown-ink); }
+  </style>
+</head>
+<body data-interior="dark">
+<main>
+  <div class="pools" aria-hidden="true"></div>
+
+  <header class="wrap canvas-head">
+    <p class="kicker">Design round 2 · Alumni testimonies</p>
+    <h1>The mihrab on <em>four walls</em></h1>
+    <p class="canvas-head__lede">Option 1 of <a href="index.html">round 1</a>, the pointed mihrab niche, set into four walls
+      that don't repeat the bookshelf's horizontal grain, heavy rails and brass bolts. The niche is unchanged; only the
+      wall behind it changes. Every wall uses the site's walnut grain. The <code>TODO</code> testimonies are dimmed.</p>
+    <div class="canvas-bar">
+      <nav class="jump" aria-label="Options">
+        <a href="#w1">1 · Upright boards</a>
+        <a href="#w2">2 · Wainscot</a>
+        <a href="#w3">3 · Chevron parquet</a>
+        <a href="#w4">4 · Honey shiplap</a>
+      </nav>
+      <div class="seg" role="group" aria-label="Inside the niches">
+        <span>Inside</span>
+        <button type="button" data-interior-set="dark" aria-pressed="true">Dark walnut</button>
+        <button type="button" data-interior-set="lit" aria-pressed="false">Lit cream</button>
+      </div>
+    </div>
+  </header>
+
+  <div data-mocks></div>
+</main>
+
+<script src="../../assets/js/carousel.js"></script>
+<script>
+const MOCKS = [
+  { id: "w1", wall: "boards", title: "Upright boards",
+    desc: "Tongue-and-groove boards running floor to ceiling, in the upright grain of the shelf's wells, with a moulded cornice and skirting edged in a gold hairline. The grain runs the other way from the bookshelf's, so the two walls don't read as one.",
+    tryIt: "The closest to a real panelled room." },
+  { id: "w2", wall: "wainscot", title: "Wainscot",
+    desc: "A plain, warmer walnut field above a chair rail that runs the full width at the height of the niches' sills, with a row of framed panels below it and a thin gilt picture rail at the top.",
+    tryIt: "The niches look built in: they stand on the rail." },
+  { id: "w3", wall: "parquet", title: "Chevron parquet",
+    desc: "Short boards laid in zigzag columns, each a slightly different shade, darkened towards the edges so the niches stay the brightest thing on the wall. Thin dark bands with a gold edge close it top and bottom.",
+    tryIt: "The most pattern, and the most unlike the shelf." },
+  { id: "w4", wall: "honey", title: "Honey shiplap",
+    desc: "Lighter honey-toned planks with staggered joints, a step lighter than the rest of the site's wood, so the dark mihrabs stand out strongly. The heading turns espresso to read on the light wood.",
+    tryIt: "A lighter section between the white articles and the footer." }
+];
+
+/* ---------- the mihrab (option 1 of index.html) ---------- */
+const MIHRAB = { arch: 71, pad: 26, d: "M0,71 A75,75 0 0 1 50,0 A75,75 0 0 1 100,71 V600 H0 Z" };
+const svg = (inner, w = 100, h = 600) => `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${inner}</svg>`)}")`;
+const clip = d => `<defs><clipPath id="c"><path d="${d}"/></clipPath><filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.6"/></filter></defs>`;
+const line = (d, colour, px) => svg(`${clip(d)}<path d="${d}" fill="none" stroke="${colour}" stroke-width="${px * 2}" vector-effect="non-scaling-stroke" clip-path="url(#c)"/>`);
+const shade = (d, colour, opacity) => svg(`${clip(d)}<g clip-path="url(#c)"><path d="${d}" fill="none" stroke="${colour}" stroke-opacity="${opacity}" stroke-width="9" filter="url(#b)"/></g>`);
+const VARS = {
+  "--arch": MIHRAB.arch,
+  "--pad": MIHRAB.pad,
+  "--mask": svg(`<path d="${MIHRAB.d}"/>`),
+  "--shade": shade(MIHRAB.d, "#000", 0.85),
+  "--shade-lit": shade(MIHRAB.d, "#5a3418", 0.55),
+  "--edge": line(MIHRAB.d, "rgba(238,194,90,0.7)", 1),
+  "--edge-lit": line(MIHRAB.d, "rgba(154,101,8,0.55)", 1),
+  "--rim": line(MIHRAB.d, "rgba(255,228,184,0.3)", 1)
+};
+
+/* ---------- wall tiles: black-with-alpha, laid over a gradient like the grain ---------- */
+// Chevron parquet: a 160 x 160 tile of two columns of boards at +45 and -45 degrees.
+function chevron() {
+  const s = 40, tone = [0, 0.22, 0.08, 0.34];
+  let out = "";
+  for (let k = -4; k <= 4; k++) {
+    const f = `fill="#000" fill-opacity="${tone[((k % 4) + 4) % 4]}" stroke="#000" stroke-opacity="0.55" stroke-width="1.2"`;
+    out += `<polygon ${f} points="0,${k * s} 80,${k * s + 80} 80,${(k + 1) * s + 80} 0,${(k + 1) * s}"/>`;
+    out += `<polygon ${f} points="80,${k * s + 80} 160,${k * s} 160,${(k + 1) * s} 80,${(k + 1) * s + 80}"/>`;
+  }
+  return svg(out, 160, 160);
+}
+// Shiplap: four 72px planks in a 1200 x 288 tile, each a shade apart, with staggered butt joints.
+function shiplap() {
+  const tone = [0, 0.08, 0.03, 0.13], joints = [[380, 1010], [150, 760], [560, 1130], [260, 890]];
+  let out = "";
+  tone.forEach((t, r) => {
+    const y = r * 72;
+    out += `<rect y="${y}" width="1200" height="72" fill="#000" fill-opacity="${t}"/>`;
+    out += `<rect y="${y}" width="1200" height="1" fill="#fff" fill-opacity="0.22"/>`;
+    out += `<rect y="${y + 69}" width="1200" height="3" fill="#000" fill-opacity="0.4"/>`;
+    joints[r].forEach(x => { out += `<rect x="${x}" y="${y}" width="2" height="72" fill="#000" fill-opacity="0.4"/><rect x="${x + 2}" y="${y}" width="1" height="72" fill="#fff" fill-opacity="0.15"/>`; });
+  });
+  return svg(out, 1200, 288);
+}
+// Wainscot: one raised panel between stiles, stretched to the dado's height.
+function panel() {
+  const bevel = `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe4b8" stop-opacity="0.2"/><stop offset="0.5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.45"/></linearGradient>`;
+  return svg(`<defs>${bevel}</defs>
+    <rect x="16" y="0" width="208" height="100" fill="#000" fill-opacity="0.35"/>
+    <rect x="18" y="2" width="204" height="96" fill="url(#g)"/>
+    <rect x="30" y="14" width="180" height="72" fill="#ffe4b8" fill-opacity="0.05" stroke="#000" stroke-opacity="0.35" stroke-width="1" vector-effect="non-scaling-stroke"/>`, 240, 100)
+    .replace('width%3D%22240%22%20height%3D%22100%22', 'width%3D%22240%22%20height%3D%22100%22%20preserveAspectRatio%3D%22none%22');
+}
+document.documentElement.style.setProperty("--panel", panel());
+document.documentElement.style.setProperty("--chevron", chevron());
+document.documentElement.style.setProperty("--shiplap", shiplap());
+
+const QUOTE = '<svg class="testimony__mark" viewBox="0 0 40 32" fill="currentColor" aria-hidden="true"><path d="M0 32V19C0 8 6 1.5 16 0l1.6 4C11.6 5.8 9 9.4 8.8 14H16v18H0zm22 0V19C22 8 28 1.5 38 0l1.6 4C33.6 5.8 31 9.4 30.8 14H38v18H22z"/></svg>';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const clean = s => esc(String(s || "").replace(/^TODO:\s*/, ""));
+const perView = () => innerWidth < 700 ? 1 : innerWidth < 1040 ? 2 : 3;
+
+fetch("../../content/testimonies.json", { cache: "no-cache" }).then(r => r.json()).then(data => {
+  const host = document.querySelector("[data-mocks]");
+  const lead = data.heading.replace(/\s+\S+$/, ""), last = data.heading.match(/\S+$/)[0];
+
+  MOCKS.forEach((m, n) => {
+    const section = document.createElement("section");
+    section.className = "mock";
+    section.id = m.id;
+    section.innerHTML = `
+      <div class="wrap"><div class="mock__label"><span class="mock__num">${n + 1}</span><div>
+        <h2 class="mock__title">${m.title}</h2>
+        <p class="mock__desc">${m.desc} <span class="mock__try">${m.tryIt}</span></p></div></div></div>
+      <div class="wall wall--${m.wall}"><div class="wrap">
+        <div class="wall-head">
+          <h2 class="section__heading">${esc(lead)} <em>${esc(last)}</em></h2>
+          <div class="carousel-controls"></div>
+        </div>
+        <div class="mount"></div>
+      </div></div>`;
+    Object.entries(VARS).forEach(([k, v]) => section.style.setProperty(k, v));
+    host.appendChild(section);
+
+    createCarousel({
+      mount: section.querySelector(".mount"),
+      controls: section.querySelector(".carousel-controls"),
+      items: data.testimonies,
+      label: "Alumni testimonies",
+      perView,
+      render(t) {
+        const slot = document.createElement("figure");
+        slot.className = `niche-slot${/^TODO/.test(t.name) ? " is-todo" : ""}`;
+        slot.innerHTML = `<div class="niche"><div class="niche__recess">${QUOTE}
+            <blockquote class="niche__quote">${clean(t.quote)}</blockquote>
+            <figcaption class="niche__cite"><b>${clean(t.name)}</b>${t.graduated ? `Class of ${clean(t.graduated)}` : ""}</figcaption>
+          </div></div><div class="niche__sill"></div>`;
+        return slot;
+      }
+    });
+  });
+});
+
+document.querySelectorAll("[data-interior-set]").forEach(b => b.addEventListener("click", () => {
+  document.body.dataset.interior = b.dataset.interiorSet;
+  document.querySelectorAll("[data-interior-set]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+}));
+</script>
+</body>
+</html>

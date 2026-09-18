@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teachers — Mockups</title>
+  <link rel="icon" href="../../assets/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+  <!-- The live site's stylesheet, so every mockup is built from the real tokens and pieces -->
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    /* ============================ canvas chrome ============================ */
+    .canvas-head { padding: 4.5rem 0 1rem; }
+    .canvas-head h1 { color: var(--green); font-family: var(--display); font-size: clamp(2.8rem, 2rem + 3vw, 4.4rem); line-height: 1; margin-top: 0.6rem; }
+    .canvas-head h1 em { color: var(--gold-ink); font-weight: 500; }
+    .canvas-head__lede { max-width: 680px; margin-top: 1rem; color: var(--ink-muted); }
+    .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.6rem; }
+    .jump a { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid rgba(154, 122, 46, 0.4); color: var(--green); font-size: 0.88rem; font-weight: 600; text-decoration: none; background: rgba(255,255,255,.7); }
+    .jump a:hover { background: var(--green); color: var(--cream); }
+
+    .mock { padding: 5rem 0 6rem; }
+    .mock + .mock { border-top: 1px dashed rgba(19, 69, 40, 0.22); }
+    .mock__label { display: flex; gap: 1.1rem; align-items: flex-start; margin-bottom: 3.2rem; }
+    .mock__num { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(145deg, #e6cc88, #b8924a); box-shadow: 0 0 0 5px rgba(201,169,97,.22); color: var(--green-deep); font-family: var(--display); font-size: 1.6rem; font-weight: 700; }
+    .mock__title { color: var(--green); font-family: var(--display); font-size: 2rem; line-height: 1.1; }
+    .mock__desc { max-width: 780px; margin-top: 0.3rem; color: var(--ink-muted); font-size: 0.94rem; }
+    .mock__try { color: var(--gold-ink); font-weight: 600; }
+
+    /* A sliver of the neighbours, so each option is judged in place:
+       the green Details cards above, the dark cork board below. */
+    .ctx { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; opacity: .55; pointer-events: none; }
+    .ctx--above { margin-bottom: var(--section-gap); }
+    .ctx--above .card--green { height: 70px; border-radius: 0 0 var(--radius) var(--radius); padding: 0; border-top: 0; }
+    .ctx--below { display: block; margin-top: var(--section-gap); }
+    .ctx--below .section__heading { margin-bottom: 1.2rem; }
+    .ctx--below .cork { height: 70px; border-radius: 18px 18px 0 0; background: linear-gradient(180deg, var(--wood-hi), var(--wood)); padding: 16px 16px 0; }
+    .ctx--below .cork span { display: block; height: 100%; border-radius: 6px 6px 0 0; background: #b48a57; }
+
+    .is-todo { opacity: .5; }
+    .kicker--gold-light { color: var(--gold-light); }
+    .section__heading--cream { color: var(--cream); }
+    .section__heading--cream em { color: var(--gold-light); }
+
+    /* Eight-point star, the one ornament every option shares */
+    .star8 { width: 22px; height: 22px; flex: none; }
+
+    /* Arrows and dots over a dark ground */
+    .on-dark .carousel__arrow { background: rgba(255,255,255,.06); color: var(--gold-light); border-color: rgba(217,190,120,.45); box-shadow: none; }
+    .on-dark .carousel__arrow:hover { background: var(--gold-light); color: var(--green-deep); }
+    .on-dark .carousel__dot { border-color: var(--gold-light); }
+    .on-dark .carousel__dot[aria-current="true"] { background: var(--gold-light); }
+
+    /* ======================= 1 · Green hall ======================= */
+    .m1-band {
+      position: relative;
+      padding: clamp(4rem, 8vw, 6rem) 0 clamp(4rem, 8vw, 5.5rem);
+      color: var(--on-green);
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='none' stroke='%23d9be78' stroke-opacity='.10'%3E%3Crect x='20' y='20' width='32' height='32'/%3E%3Crect x='20' y='20' width='32' height='32' transform='rotate(45 36 36)'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 72px 72px,
+        radial-gradient(900px 420px at 50% 0%, rgba(217,190,120,.14), transparent 70%),
+        linear-gradient(180deg, #0f3b21, var(--green-deep));
+      box-shadow: 0 40px 70px -40px rgba(6,39,7,.6);
+    }
+    /* Gilt rails, a thin double line top and bottom */
+    .m1-band::before, .m1-band::after {
+      content: ""; position: absolute; left: 0; right: 0; height: 7px;
+      border-block: 1px solid rgba(217,190,120,.55);
+    }
+    .m1-band::before { top: 14px; }
+    .m1-band::after { bottom: 14px; }
+    .m1-head { text-align: left; }
+    .m1-lede { max-width: 440px; color: rgba(244,239,226,.75); font-size: .97rem; }
+    .m1-card {
+      height: 100%; min-height: 250px; display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 2.2rem 1.6rem 2rem; border-radius: var(--radius);
+      background: linear-gradient(170deg, var(--cream), #f3e9cf);
+      box-shadow: inset 0 0 0 1px rgba(154,122,46,.35), inset 0 0 0 6px var(--cream), inset 0 0 0 7px rgba(154,122,46,.35), 0 30px 60px -30px rgba(0,0,0,.6);
+      transition: transform .4s var(--ease-out);
+    }
+    .m1-card:hover { transform: translateY(-6px); }
+    .m1-card .star8 { color: var(--gold-ink); margin-bottom: 1rem; }
+    .m1-card__hon { color: var(--gold-ink); font-size: .76rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+    .m1-card__name { margin-top: .35rem; color: var(--green); font-family: var(--display); font-size: clamp(2.2rem, 1.9rem + 1vw, 2.8rem); line-height: 1; }
+    .m1-card__bio { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(154,122,46,.3); color: var(--ink-muted); font-size: .93rem; }
+
+    /* ======================= 2 · Imam spotlight ======================= */
+    .m2-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; align-items: stretch; }
+    .m2-feature {
+      position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
+      min-height: 480px; padding: clamp(1.8rem, 4vw, 2.8rem); border-radius: var(--radius); color: var(--on-green);
+      background: url("../../assets/img/hero-masjid.jpg") 70% 40% / cover;
+      border: 1px solid rgba(217,190,120,.4);
+      box-shadow: 0 40px 70px -36px rgba(6,39,7,.65);
+    }
+    .m2-feature::before { content: ""; position: absolute; inset: 0; background: linear-gradient(185deg, rgba(19,69,40,.25) 0%, rgba(15,59,33,.8) 45%, var(--green-deep) 100%); }
+    .m2-feature > * { position: relative; }
+    .m2-feature__role { display: inline-flex; align-items: center; gap: .6rem; align-self: flex-start; padding: .4rem .9rem; border-radius: 999px; background: rgba(217,190,120,.16); border: 1px solid rgba(217,190,120,.45); color: var(--gold-pale); font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+    .m2-feature__role .star8 { width: 14px; height: 14px; color: var(--gold-light); }
+    .m2-feature__hon { margin-top: 1.4rem; color: var(--gold-light); font-size: .8rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+    .m2-feature__name { margin-top: .3rem; color: var(--cream); font-family: var(--display); font-size: clamp(3.2rem, 2.4rem + 3vw, 5rem); line-height: .95; }
+    .m2-feature__bio { max-width: 420px; margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid rgba(217,190,120,.35); color: rgba(244,239,226,.85); font-size: 1.02rem; }
+    .m2-roster { display: flex; flex-direction: column; padding: .6rem clamp(1.2rem, 3vw, 2rem); border: 1px solid rgba(201,169,97,.5); }
+    .m2-roster:hover { transform: none; }
+    .m2-row { display: grid; grid-template-columns: 34px 1fr; gap: .9rem; align-items: center; flex: 1; padding: 1rem 0; }
+    .m2-row + .m2-row { border-top: 1px solid rgba(19,69,40,.1); }
+    .m2-row__n { color: var(--gold-ink); font-family: var(--display); font-size: 1.3rem; font-weight: 600; text-align: center; }
+    .m2-row__hon { color: var(--gold-ink); font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+    .m2-row__name { color: var(--green); font-family: var(--display); font-size: 1.9rem; line-height: 1; }
+    .m2-row__bio { margin-top: .25rem; color: var(--ink-muted); font-size: .88rem; }
+
+    /* ======================= 3 · The chain (isnad) ======================= */
+    .m3 { text-align: center; }
+    .m3-head { max-width: 640px; margin: 0 auto clamp(2.5rem, 6vw, 4rem); }
+    .m3-head .section__heading { margin-top: .6rem; }
+    .m3-head p:last-child { margin-top: 1rem; color: var(--ink-muted); }
+    .m3-chain { position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 0 12px; padding-block: 8.5rem; }
+    .m3-chain::before { /* the gilt cord */
+      content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; translate: 0 -50%;
+      background: linear-gradient(90deg, transparent, var(--gold) 6%, var(--gold-light) 50%, var(--gold) 94%, transparent);
+      box-shadow: 0 0 0 1px rgba(154,122,46,.15);
+    }
+    .m3-link { position: relative; display: flex; justify-content: center; }
+    .m3-node {
+      position: relative; z-index: 1; width: 58px; height: 58px; display: grid; place-items: center; border-radius: 50%;
+      background: linear-gradient(160deg, var(--green-card), var(--green-deep));
+      box-shadow: 0 0 0 3px var(--ground), 0 0 0 4.5px var(--gold), 0 14px 26px -12px rgba(6,39,7,.6);
+      color: var(--gold-light); transition: transform .35s var(--ease-out);
+    }
+    .m3-node .star8 { width: 26px; height: 26px; }
+    .m3-link:hover .m3-node { transform: scale(1.12); }
+    .m3-tag { position: absolute; left: 50%; width: max(170px, 100%); translate: -50% 0; }
+    .m3-link:nth-child(odd)  .m3-tag { bottom: calc(100% + 1.4rem); }
+    .m3-link:nth-child(even) .m3-tag { top: calc(100% + 1.4rem); }
+    .m3-tag::before { content: ""; position: absolute; left: 50%; width: 1px; height: 1.1rem; background: rgba(154,122,46,.55); }
+    .m3-link:nth-child(odd)  .m3-tag::before { top: calc(100% + .2rem); }
+    .m3-link:nth-child(even) .m3-tag::before { bottom: calc(100% + .2rem); }
+    .m3-tag__hon { color: var(--gold-ink); font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+    .m3-tag__name { color: var(--green); font-family: var(--display); font-size: 1.75rem; line-height: 1; }
+    .m3-tag__bio { margin-top: .4rem; color: var(--ink-muted); font-size: .84rem; line-height: 1.45; }
+    .m3-foot { margin-top: 1rem; color: var(--gold-ink); font-family: var(--display); font-style: italic; font-size: 1.35rem; }
+
+    /* ======================= 4 · Ijazah plates ======================= */
+    .m4-wall { position: relative; padding: clamp(2rem, 4vw, 3rem); border-radius: 32px; background: linear-gradient(170deg, rgba(201,235,221,.75), rgba(201,235,221,.35)); border: 1px solid rgba(19,69,40,.08); }
+    .m4-plate {
+      position: relative; height: 100%; min-height: 330px; display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 2.8rem 1.8rem 4.2rem; border-radius: 6px;
+      background:
+        radial-gradient(120% 80% at 50% 0%, #fffdf6, #f6ecd2);
+      /* double gilt frame, as on the kitab spines */
+      box-shadow: inset 0 0 0 10px #f6ecd2, inset 0 0 0 11px var(--gilt), inset 0 0 0 15px #f6ecd2, inset 0 0 0 16px rgba(201,164,87,.6), 0 28px 50px -28px rgba(19,69,40,.55);
+      transition: transform .4s var(--ease-out);
+    }
+    .m4-plate:hover { transform: translateY(-5px); }
+    .m4-cart { /* the pointed cartouche from the spines, turned on its side */
+      margin-top: .4rem; padding: .45rem 2.2rem; color: var(--gold-pale); font-size: .72rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+      background: linear-gradient(180deg, var(--green-card), #0f3b21);
+      clip-path: polygon(0 50%, 14px 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 14px 100%);
+    }
+    .m4-plate__name { margin-top: 1.1rem; color: var(--green); font-family: var(--display); font-size: clamp(2.2rem, 1.9rem + 1vw, 2.7rem); line-height: 1; }
+    .m4-rule { display: flex; align-items: center; gap: .6rem; width: 70%; margin: 1rem 0; color: var(--gilt); }
+    .m4-rule::before, .m4-rule::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: .7; }
+    .m4-rule .star8 { width: 12px; height: 12px; }
+    .m4-plate__bio { color: var(--ink-soft); font-family: var(--display); font-style: italic; font-size: 1.2rem; line-height: 1.3; }
+    .m4-seal { /* wax-gold seal on the foot of the plate */
+      position: absolute; bottom: -22px; left: 50%; translate: -50% 0; width: 58px; height: 58px; display: grid; place-items: center; border-radius: 50%;
+      background: radial-gradient(circle at 38% 32%, #f3dca0, #c29e52 55%, #8a6a28);
+      box-shadow: 0 0 0 4px rgba(201,169,97,.25), 0 10px 20px -8px rgba(0,0,0,.45); color: var(--green-deep);
+    }
+    .m4-seal .star8 { width: 26px; height: 26px; }
+    .m4 .carousel__viewport { padding-bottom: 80px; margin-bottom: -80px; }
+    .m4 .carousel__dots { margin-top: 3rem; }
+    .m4 .carousel__slide { padding-bottom: 22px; }
+
+    /* ======================= 5 · Names over the masjid ======================= */
+    .m5-band {
+      position: relative; padding: clamp(4rem, 8vw, 6rem) 0; color: var(--on-green);
+      background: url("../../assets/img/hero-masjid.jpg") center 35% / cover fixed;
+    }
+    .m5-band::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,39,7,.92), rgba(15,59,33,.86) 50%, rgba(6,39,7,.94)); }
+    .m5-band > .wrap { position: relative; }
+    .m5-grid { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+    .m5-intro { position: sticky; top: 6rem; }
+    .m5-intro .section__heading { margin-top: .6rem; }
+    .m5-intro p:last-child { margin-top: 1.1rem; color: rgba(244,239,226,.75); }
+    .m5-count { display: flex; align-items: baseline; gap: .7rem; margin-top: 2rem; padding-top: 1.4rem; border-top: 1px solid rgba(217,190,120,.3); }
+    .m5-count b { color: var(--gold-light); font-family: var(--display); font-size: 4rem; font-weight: 600; line-height: .8; }
+    .m5-count span { color: rgba(244,239,226,.75); font-size: .9rem; }
+    .m5-list { list-style: none; margin: 0; padding: 0; counter-reset: t; }
+    .m5-item { border-top: 1px solid rgba(217,190,120,.25); }
+    .m5-item:last-child { border-bottom: 1px solid rgba(217,190,120,.25); }
+    .m5-btn { width: 100%; display: grid; grid-template-columns: 3rem 1fr auto; align-items: baseline; gap: 1rem; padding: 1.1rem 0; text-align: left; }
+    .m5-btn__n { color: var(--gold-light); font-family: var(--display); font-size: 1.2rem; font-weight: 600; }
+    .m5-btn__hon { display: block; color: var(--gold-light); font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+    .m5-btn__name { display: block; color: var(--cream); font-family: var(--display); font-size: clamp(2.2rem, 1.6rem + 2.2vw, 3.4rem); line-height: 1.05; transition: color .3s, transform .4s var(--ease-out); }
+    .m5-btn__plus { width: 34px; height: 34px; display: grid; place-items: center; align-self: center; border-radius: 50%; border: 1px solid rgba(217,190,120,.5); color: var(--gold-light); transition: transform .35s var(--ease-out), background .3s; }
+    .m5-btn:hover .m5-btn__name, .m5-btn[aria-expanded="true"] .m5-btn__name { color: var(--gold-light); transform: translateX(8px); }
+    .m5-btn[aria-expanded="true"] .m5-btn__plus { transform: rotate(45deg); background: rgba(217,190,120,.15); }
+    .m5-btn:disabled { cursor: default; }
+    .m5-btn:disabled .m5-btn__plus { visibility: hidden; }
+    .m5-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s var(--ease-out); }
+    .m5-panel > p { overflow: hidden; padding-left: 4rem; color: rgba(244,239,226,.8); }
+    .m5-btn[aria-expanded="true"] + .m5-panel { grid-template-rows: 1fr; }
+    .m5-btn[aria-expanded="true"] + .m5-panel > p { padding-bottom: 1.2rem; }
+
+    /* ============================ responsive ============================ */
+    @media (max-width: 980px) {
+      .m2-grid, .m5-grid { grid-template-columns: 1fr; }
+      .m2-feature { min-height: 400px; }
+      .m5-intro { position: static; }
+      /* The chain stands upright */
+      .m3-chain { grid-template-columns: 1fr; gap: 2.2rem; padding-block: 0; max-width: 460px; margin-inline: auto; }
+      .m3-chain::before { left: 29px; right: auto; top: 0; bottom: 0; width: 3px; height: auto; translate: none; background: linear-gradient(180deg, transparent, var(--gold) 4%, var(--gold) 96%, transparent); }
+      .m3-link { justify-content: flex-start; align-items: center; gap: 1.2rem; text-align: left; }
+      .m3-node { flex: none; }
+      .m3-link .m3-tag { position: static; translate: none; width: auto; }
+      .m3-tag::before { display: none; }
+    }
+    @media (max-width: 640px) {
+      .ctx--above { grid-template-columns: 1fr; }
+      .ctx--above .card--green:last-child { display: none; }
+      .m5-band { background-attachment: scroll; }
+      .m5-btn { grid-template-columns: 2rem 1fr auto; gap: .6rem; }
+      .m5-panel > p { padding-left: 2.6rem; }
+      .m4-wall { padding: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="pools" aria-hidden="true"></div>
+
+  <header class="wrap canvas-head">
+    <p class="kicker">Design round · Teachers</p>
+    <h1>Five ways to make <em>Our Teachers</em> stand out</h1>
+    <p class="canvas-head__lede">Today the section is three white cards on the white ground, between the green Details cards and the
+      dark cork board, so it's the quietest part of the page. Each option below is built on the live stylesheet and reads
+      <code>content/teachers.json</code>. Placeholder teachers (the <code>TODO</code> entries) are shown dimmed. A faded sliver of
+      Details above and Articles below shows each option in place.</p>
+    <nav class="jump" aria-label="Options">
+      <a href="#m1">1 · Green hall</a>
+      <a href="#m2">2 · Imam spotlight</a>
+      <a href="#m3">3 · The chain</a>
+      <a href="#m4">4 · Ijazah plates</a>
+      <a href="#m5">5 · Names over the masjid</a>
+    </nav>
+  </header>
+
+  <!-- ===================================================== 1 · GREEN HALL -->
+  <section class="mock m1" id="m1">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">1</span>
+        <div>
+          <h2 class="mock__title">Green hall</h2>
+          <p class="mock__desc">The section becomes a full-bleed deep-green band with gilt rails and a faint star lattice, answering the
+            full-bleed bookshelf. The teachers sit on it as cream cards with a double gold frame. The carousel and its arrows stay
+            as they are. <span class="mock__try">The smallest change: same carousel, new ground.</span></p>
+        </div>
+      </div>
+      <div class="ctx ctx--above" aria-hidden="true"><div class="card--green"></div><div class="card--green"></div></div>
+    </div>
+
+    <div class="m1-band on-dark">
+      <div class="wrap">
+        <div class="section__head m1-head">
+          <div>
+            <p class="kicker kicker--gold-light">Taught by text, with a teacher</p>
+            <h2 class="section__heading section__heading--cream" style="margin-top:.6rem">Our <em>Teachers</em></h2>
+          </div>
+          <div class="carousel-controls" data-controls="m1"></div>
+        </div>
+        <div data-mount="m1"></div>
+      </div>
+    </div>
+
+    <div class="wrap"><div class="ctx ctx--below" aria-hidden="true"><h2 class="section__heading">Articles</h2><div class="cork"><span></span></div></div></div>
+  </section>
+
+  <!-- ===================================================== 2 · IMAM SPOTLIGHT -->
+  <section class="mock m2" id="m2">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">2</span>
+        <div>
+          <h2 class="mock__title">Imam spotlight</h2>
+          <p class="mock__desc">The first teacher in the list gets a large panel over the masjid photo, with a label taken from their
+            bio. The rest form a numbered roster beside it, so all seven show at once and no carousel is needed. A
+            <code>featured: true</code> flag in the JSON could choose who leads.
+            <span class="mock__try">Gives the page a face: the imam people already know.</span></p>
+        </div>
+      </div>
+      <div class="ctx ctx--above" aria-hidden="true"><div class="card--green"></div><div class="card--green"></div></div>
+
+      <div class="section__head">
+        <h2 class="section__heading">Our <em>Teachers</em></h2>
+      </div>
+      <div class="m2-grid" data-mount="m2"></div>
+
+      <div class="ctx ctx--below" aria-hidden="true"><h2 class="section__heading">Articles</h2><div class="cork"><span></span></div></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== 3 · THE CHAIN -->
+  <section class="mock m3" id="m3">
+    <div class="wrap">
+      <div class="mock__label" style="text-align:left">
+        <span class="mock__num">3</span>
+        <div>
+          <h2 class="mock__title">The chain</h2>
+          <p class="mock__desc">The teachers are strung along a gilt cord as medallions, names alternating above and below, like an
+            isnad. It picks up the intro's line, "text by text, with a teacher". Below 980px the cord turns upright into a list.
+            <span class="mock__try">The most distinctive of the five, and the most Islamic in feel.</span></p>
+        </div>
+      </div>
+      <div class="ctx ctx--above" aria-hidden="true"><div class="card--green"></div><div class="card--green"></div></div>
+
+      <div class="m3-head">
+        <p class="kicker">Text by text, with a teacher</p>
+        <h2 class="section__heading">Our <em>Teachers</em></h2>
+      </div>
+      <div class="m3-chain" data-mount="m3"></div>
+
+      <div class="ctx ctx--below" aria-hidden="true" style="text-align:left"><h2 class="section__heading">Articles</h2><div class="cork"><span></span></div></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== 4 · IJAZAH PLATES -->
+  <section class="mock m4" id="m4">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">4</span>
+        <div>
+          <h2 class="mock__title">Ijazah plates</h2>
+          <p class="mock__desc">Each teacher gets a cream plate modelled on an ijazah, with the spines' double gilt frame, the honorific
+            in the kitab's pointed cartouche, the bio set in italic and a gold seal at the foot. The carousel sits in a mint
+            panel so the section has its own colour. <span class="mock__try">Ties the teachers to the bookshelf above.</span></p>
+        </div>
+      </div>
+      <div class="ctx ctx--above" aria-hidden="true"><div class="card--green"></div><div class="card--green"></div></div>
+
+      <div class="section__head">
+        <h2 class="section__heading">Our <em>Teachers</em></h2>
+        <div class="carousel-controls" data-controls="m4"></div>
+      </div>
+      <div class="m4-wall"><div data-mount="m4"></div></div>
+
+      <div class="ctx ctx--below" aria-hidden="true"><h2 class="section__heading">Articles</h2><div class="cork"><span></span></div></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== 5 · NAMES OVER THE MASJID -->
+  <section class="mock m5" id="m5">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">5</span>
+        <div>
+          <h2 class="mock__title">Names over the masjid</h2>
+          <p class="mock__desc">A full-bleed band over the masjid photo, fixed so it shifts as you scroll, echoing the banner. The names
+            are set large as a numbered list, and clicking one opens its bio. The heading and a count stay pinned on the left.
+            <span class="mock__try">The boldest: names treated like a title page. Try clicking one.</span></p>
+        </div>
+      </div>
+      <div class="ctx ctx--above" aria-hidden="true"><div class="card--green"></div><div class="card--green"></div></div>
+    </div>
+
+    <div class="m5-band">
+      <div class="wrap m5-grid">
+        <div class="m5-intro">
+          <p class="kicker kicker--gold-light">The scholars who teach</p>
+          <h2 class="section__heading section__heading--cream">Our <em>Teachers</em></h2>
+          <div class="m5-count"><b data-count></b><span>teachers in<br>the program</span></div>
+        </div>
+        <ol class="m5-list" data-mount="m5"></ol>
+      </div>
+    </div>
+
+    <div class="wrap"><div class="ctx ctx--below" aria-hidden="true"><h2 class="section__heading">Articles</h2><div class="cork"><span></span></div></div></div>
+  </section>
+</main>
+
+<script src="../../assets/js/carousel.js"></script>
+<script>
+const STAR = `<svg class="star8" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><rect x="5" y="5" width="14" height="14"/><rect x="5" y="5" width="14" height="14" transform="rotate(45 12 12)"/></g></svg>`;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const isTodo = t => /^TODO/.test(t.name);
+const clean = s => esc(String(s || "").replace(/^TODO:\s*/, ""));
+const todo = t => isTodo(t) ? " is-todo" : "";
+const $ = s => document.querySelector(s);
+const html = s => { const d = document.createElement("div"); d.innerHTML = s.trim(); return d.firstChild; };
+const perView = () => innerWidth < 620 ? 1 : innerWidth < 940 ? 2 : 3;
+
+fetch("../../content/teachers.json", { cache: "no-cache" }).then(r => r.json()).then(({ teachers }) => {
+  // 1 · Green hall
+  createCarousel({
+    mount: $('[data-mount="m1"]'), controls: $('[data-controls="m1"]'), items: teachers, label: "Our teachers", perView,
+    render: t => html(`<article class="m1-card${todo(t)}">${STAR}
+      <p class="m1-card__hon">${clean(t.honorific)}</p><h3 class="m1-card__name">${clean(t.name)}</h3>
+      ${t.bio ? `<p class="m1-card__bio">${clean(t.bio)}</p>` : ""}</article>`)
+  });
+
+  // 2 · Imam spotlight
+  const [lead, ...rest] = teachers;
+  $('[data-mount="m2"]').innerHTML = `
+    <article class="m2-feature">
+      <span class="m2-feature__role">${STAR} Imam of our masjid</span>
+      <p class="m2-feature__hon">${clean(lead.honorific)}</p>
+      <h3 class="m2-feature__name">${clean(lead.name)}</h3>
+      ${lead.bio ? `<p class="m2-feature__bio">${clean(lead.bio)}</p>` : ""}
+    </article>
+    <div class="card m2-roster">${rest.map((t, i) => `
+      <div class="m2-row${todo(t)}"><span class="m2-row__n">${i + 2}</span>
+        <div><p class="m2-row__hon">${clean(t.honorific)}</p><h3 class="m2-row__name">${clean(t.name)}</h3>
+        ${t.bio && !isTodo(t) ? `<p class="m2-row__bio">${clean(t.bio)}</p>` : ""}</div></div>`).join("")}
+    </div>`;
+
+  // 3 · The chain
+  const chain = $('[data-mount="m3"]');
+  chain.style.setProperty("--n", teachers.length);
+  chain.innerHTML = teachers.map(t => `
+    <div class="m3-link${todo(t)}"><span class="m3-node">${STAR}</span>
+      <div class="m3-tag"><p class="m3-tag__hon">${clean(t.honorific)}</p><h3 class="m3-tag__name">${clean(t.name)}</h3>
+      ${t.bio && !isTodo(t) ? `<p class="m3-tag__bio">${clean(t.bio)}</p>` : ""}</div></div>`).join("");
+
+  // 4 · Ijazah plates
+  createCarousel({
+    mount: $('[data-mount="m4"]'), controls: $('[data-controls="m4"]'), items: teachers, label: "Our teachers", perView,
+    render: t => html(`<article class="m4-plate${todo(t)}">
+      <span class="m4-cart">${clean(t.honorific)}</span><h3 class="m4-plate__name">${clean(t.name)}</h3>
+      <span class="m4-rule">${STAR}</span>
+      ${t.bio ? `<p class="m4-plate__bio">${clean(t.bio)}</p>` : ""}
+      <span class="m4-seal">${STAR}</span></article>`)
+  });
+
+  // 5 · Names over the masjid
+  $("[data-count]").textContent = teachers.length;
+  const list = $('[data-mount="m5"]');
+  list.innerHTML = teachers.map((t, i) => {
+    const bio = t.bio && !isTodo(t);
+    return `<li class="m5-item${todo(t)}">
+      <button type="button" class="m5-btn" ${bio ? `aria-expanded="${i === 0}" aria-controls="m5-p${i}"` : "disabled"}>
+        <span class="m5-btn__n">${String(i + 1).padStart(2, "0")}</span>
+        <span><span class="m5-btn__hon">${clean(t.honorific)}</span><span class="m5-btn__name">${clean(t.name)}</span></span>
+        <span class="m5-btn__plus" aria-hidden="true">+</span>
+      </button>
+      ${bio ? `<div class="m5-panel" id="m5-p${i}"><p>${clean(t.bio)}</p></div>` : ""}</li>`;
+  }).join("");
+  list.addEventListener("click", e => {
+    const b = e.target.closest(".m5-btn[aria-expanded]");
+    if (!b) return;
+    const open = b.getAttribute("aria-expanded") !== "true";
+    list.querySelectorAll(".m5-btn[aria-expanded]").forEach(x => x.setAttribute("aria-expanded", "false"));
+    b.setAttribute("aria-expanded", String(open));
+  });
+});
+</script>
+</body>
+</html>

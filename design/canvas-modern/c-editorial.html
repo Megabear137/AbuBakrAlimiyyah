@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Resolve the live stylesheet, scripts, content and images from the site root. -->
+<base href="../../">
+<title>C · Editorial — Alimiyyah modernise mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Figtree:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=26">
+<link rel="stylesheet" href="design/canvas-modern/mock.css">
+<style>
+/* =====================================================================
+   C · EDITORIAL — after isnacanada.com
+   Flared Roman capitals (Marcellus) set very large, a script line beneath the
+   biggest of them, square buttons in a gold gradient, a light grey ground
+   broken by dark full-bleed bands, big figures laid out like an impact
+   report, tiles with a thin inset frame and the label at their foot, and
+   dark cards with a square figure tile. Their teal becomes our board
+   brown. Content is the site's own; the shelf keeps its behaviour but is drawn in this style.
+   ===================================================================== */
+:root {
+  --c-caps: "Marcellus", "Cormorant Garamond", serif;
+  --c-script: "Pinyon Script", cursive;
+  --c-ui: "Figtree", "Instrument Sans", system-ui, sans-serif;
+  --c-ground: #f4efe8;
+  --c-dark: #2a170b;       /* the band colour: the board, a shade deeper */
+  --c-dark-2: #1c0f06;
+  --c-frame: rgba(247, 224, 164, 0.35);
+}
+body { background: var(--c-ground); color: var(--brown-ink); font-family: var(--c-ui); }
+.c-caps { font-family: var(--c-caps); font-weight: 400; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.05; }
+.c-label { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* Square buttons */
+.c-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 1.5rem; font-weight: 700; font-size: 0.92rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18); transition: transform .2s, filter .2s; }
+.c-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+.c-btn--gold { background: linear-gradient(100deg, #e9a83a, #f6cf6a 45%, #e3a43a 60%, #f3c563); color: var(--espresso); }
+.c-btn--dark { background: var(--c-dark); color: #fff6ea; }
+.c-btn--line { border: 1px solid var(--c-frame); color: #fff6ea; box-shadow: none; }
+.c-btn--sm { padding: 0.55rem 0.9rem; font-size: 0.72rem; }
+
+/* ---- Header: logo left, button top right, nav beneath it, a hairline under all ---- */
+.c-head { position: absolute; inset: 0 0 auto; z-index: 5; border-bottom: 1px solid rgba(255, 246, 234, 0.2); }
+.c-head .wrap { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; align-items: center; column-gap: 2rem; padding-block: 1.2rem 1rem; }
+.c-brand { grid-row: span 2; display: flex; align-items: center; gap: 1rem; color: #fff; text-decoration: none; }
+.c-brand img { width: 68px; height: 68px; border-radius: 50%; }
+.c-brand span { font-family: var(--c-caps); font-size: 1.35rem; line-height: 1.05; text-transform: uppercase; }
+.c-brand span small { display: block; margin-top: 0.3rem; font-family: var(--c-ui); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.34em; }
+.c-head .c-btn { justify-self: end; }
+.c-nav { justify-self: end; display: flex; gap: 2rem; margin-top: 1rem; }
+.c-nav a { color: #fff; font-size: 1.05rem; font-weight: 500; text-decoration: none; }
+.c-nav a:hover { color: var(--gold-light); }
+
+/* ---- Hero ---- */
+.c-hero { position: relative; min-height: 700px; display: flex; align-items: flex-end; overflow: hidden; background: var(--c-dark-2); }
+.c-hero__img { position: absolute; inset: 0; background: url("assets/img/hero-masjid.jpg") center 30% / cover; }
+.c-hero__img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(28, 15, 6, 0.85), rgba(28, 15, 6, 0.45) 60%, rgba(28, 15, 6, 0.2)), linear-gradient(180deg, rgba(28, 15, 6, 0.55), transparent 35%, rgba(28, 15, 6, 0.6)); }
+.c-hero .wrap { position: relative; padding-block: 220px 110px; }
+.c-hero h1 { max-width: 11ch; font-size: clamp(3.4rem, 1.8rem + 5.6vw, 7rem); color: #fff; }
+.c-hero h1 em { font-style: normal; color: var(--gold-light); }
+.c-hero__eyebrow { margin-bottom: 1.2rem; color: var(--gold-light); }
+.c-hero p { max-width: 34rem; margin: 1.6rem 0 2rem; color: rgba(255, 246, 234, 0.92); font-size: 1.15rem; }
+
+/* ---- Welcome: big capitals and a script line, centred ---- */
+.c-welcome { padding-block: clamp(5rem, 10vw, 130px); text-align: center; }
+.c-welcome h2 { font-size: clamp(3rem, 1.8rem + 4.4vw, 6rem); color: var(--c-dark); }
+.c-welcome .c-script { display: block; margin-top: 0.1em; font-family: var(--c-script); font-size: clamp(3rem, 2rem + 3.6vw, 5.4rem); line-height: 1.2; color: #8a5a3a; }
+.c-welcome .c-label { color: var(--gold-ink); }
+.c-welcome p { max-width: 50rem; margin: 1.6rem auto 0; font-size: 1.2rem; line-height: 1.75; color: var(--ink-soft); }
+.c-welcome p.c-lead { font-size: 1.4rem; color: var(--brown-ink); }
+.c-welcome .c-btn { margin-top: 2.4rem; }
+
+/* ---- The shelf: square dark tiles set edge to edge, each in a thin inset frame ---- */
+.shelf-wall { padding-top: 0; color: #fff6ea; }
+.case, .shelf { gap: 0; }
+@media (min-width: 881px) {
+  .shelf:not(.shelf--single) { grid-template-columns: 50% 50%; }
+  .shelf.shelf--reading-l { grid-template-columns: calc(100% - var(--narrow)) var(--narrow); }
+  .shelf.shelf--reading-r { grid-template-columns: var(--narrow) calc(100% - var(--narrow)); }
+}
+.bay { position: relative; padding: 36px 36px 0; border-radius: 0; background: var(--c-dark); box-shadow: none; }
+.bay ~ .bay, .case > .shelf:nth-child(even) .bay { background: #36200f; }
+.case > .shelf:nth-child(even) .bay ~ .bay { background: var(--c-dark); }
+.bay::after { content: ""; position: absolute; inset: 18px; border: 1px solid var(--c-frame); pointer-events: none; }
+.bay__well { border-radius: 0; background: rgba(0, 0, 0, 0.26); box-shadow: inset 0 10px 24px rgba(0, 0, 0, 0.45); }
+.bay__plank { height: 3px; margin-inline: 0; background: linear-gradient(100deg, #e9a83a, #f6cf6a 45%, #e3a43a 60%, #f3c563); box-shadow: none; }
+.bay__year { height: 66px; justify-content: flex-start; color: rgba(255, 246, 234, 0.8); font-family: var(--c-ui); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; }
+.bay__numeral { color: var(--gold); font-family: var(--c-caps); font-size: 1.45rem; }
+.book--open { border-radius: 0; background: #fff; box-shadow: 0 0 0 1px var(--gold), 0 18px 34px rgba(0, 0, 0, 0.5); font-family: var(--c-ui); }
+.face__title { font-family: var(--c-caps); font-size: 1.1rem; font-weight: 400; text-transform: uppercase; }
+.face__more, .spine.spine--open { font-family: var(--c-ui); }
+/* A neighbour tile stretches to the reading tile's height, so the mosaic stays whole. */
+.shelf { align-items: stretch; }
+/* The full view: a square white leaf with a thin inset frame. */
+.folio { border-radius: 0; background: #fff; color: var(--c-dark); box-shadow: 0 0 0 1px var(--gold); }
+.folio::before { inset: 12px; border: 1px solid rgba(154, 101, 8, 0.35); box-shadow: none; }
+.folio__cover { box-shadow: none; }
+.folio__subject, .folio__catch { color: var(--gold-ink); }
+.folio__title { font-family: var(--c-caps); font-weight: 400; text-transform: uppercase; }
+.folio__rule { background: rgba(154, 101, 8, 0.35); }
+.folio__body { color: var(--ink-soft); font-family: var(--c-ui); }
+.folio__close { border-radius: 0; background: #fff; color: var(--c-dark); box-shadow: 0 0 0 1px var(--gold); }
+.c-shelf-head { padding-top: 0; }
+
+/* ---- Details: an impact band on the dark board ---- */
+.c-band { display: grid; grid-template-columns: 1fr 1fr 360px; background: var(--c-dark); color: #fff6ea; }
+.c-band > div { padding: clamp(3rem, 6vw, 80px) clamp(1.5rem, 4vw, 64px); }
+.c-band__intro h2 { font-size: clamp(2.6rem, 1.8rem + 2.6vw, 4rem); color: #fff; }
+.c-band__intro p { max-width: 22rem; margin-top: 1rem; color: rgba(255, 246, 234, 0.75); }
+.c-stat { margin-top: 2.6rem; }
+.c-stat .c-label { color: var(--gold); }
+.c-stat b { display: block; margin: 0.35rem 0 0.2rem; font-family: var(--c-caps); font-weight: 400; font-size: clamp(3rem, 2rem + 2.8vw, 4.6rem); line-height: 1; color: #fff; }
+.c-stat b small { font-size: 0.4em; color: rgba(255, 246, 234, 0.65); }
+.c-stat span { color: rgba(255, 246, 234, 0.7); font-size: 1.05rem; }
+.c-band__times { border-left: 1px solid rgba(247, 224, 164, 0.14); }
+.c-time { padding: 1.3rem 0; border-bottom: 1px solid rgba(247, 224, 164, 0.14); }
+.c-time:first-of-type { margin-top: 1.4rem; }
+.c-time .c-label { color: var(--gold); }
+.c-time p { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.4rem; color: rgba(255, 246, 234, 0.75); }
+.c-time p b { font-family: var(--c-caps); font-weight: 400; font-size: 1.5rem; color: #fff; }
+.c-band__side { background: var(--c-dark-2); text-align: center; }
+.c-band__side .c-stat b { font-size: clamp(3.2rem, 2rem + 3vw, 4.8rem); }
+.c-band__side h3 { color: var(--gold); }
+
+/* ---- Teachers: an editorial list on the grey ---- */
+.c-sec { padding-top: clamp(5rem, 10vw, 130px); }
+.c-sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.6rem; }
+.c-sec-head h2 { font-size: clamp(3rem, 1.8rem + 4vw, 5.6rem); color: var(--c-dark); }
+.c-sec-head .c-label { display: block; margin-bottom: 0.8rem; color: var(--gold-ink); }
+.c-teachers { display: grid; grid-template-columns: 1fr 1fr; column-gap: 4rem; border-top: 1px solid #d9ccbb; }
+.c-teacher { display: grid; grid-template-columns: 110px 1fr; gap: 1.4rem; padding: 1.8rem 0; border-bottom: 1px solid #d9ccbb; }
+.c-teacher small { padding-top: 0.6rem; color: var(--gold-ink); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.c-teacher h3 { font-size: clamp(1.8rem, 1.4rem + 1.2vw, 2.5rem); color: var(--c-dark); }
+.c-teacher p { margin-top: 0.5rem; color: var(--ink-soft); }
+.c-teacher--todo h3, .c-teacher--todo p { color: #a2917e; }
+
+/* ---- Articles: tiles with an inset frame and the label at the foot ---- */
+.c-dark { margin-top: clamp(5rem, 10vw, 130px); padding-block: clamp(4rem, 8vw, 100px); background: var(--c-dark); color: #fff6ea; }
+.c-dark .c-sec-head h2 { color: #fff; }
+.c-dark .c-sec-head .c-label { color: var(--gold); }
+.c-seg { display: inline-flex; border: 1px solid var(--c-frame); }
+.c-seg button { padding: 0.7rem 1.2rem; color: rgba(255, 246, 234, 0.75); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.c-seg button[aria-pressed="true"] { background: linear-gradient(100deg, #e9a83a, #f6cf6a 45%, #e3a43a 60%, #f3c563); color: var(--espresso); }
+.c-tiles { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 250px 250px; gap: 0; }
+.c-tile { position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; }
+.c-tile::after { content: ""; position: absolute; inset: 20px; border: 1px solid var(--c-frame); pointer-events: none; }
+.c-tile > div { padding: 1.4rem 1.5rem; }
+.c-tile:first-child { grid-row: span 2; }
+.c-tile small { color: var(--gold); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.c-tile h3 { margin-top: 0.3rem; font-family: var(--c-ui); font-weight: 500; font-size: 1.5rem; color: #f7e0a4; }
+.c-tile:first-child h3 { font-family: var(--c-caps); font-weight: 400; font-size: clamp(2.2rem, 1.6rem + 1.8vw, 3.4rem); text-transform: uppercase; color: #fff; }
+.c-tile p { margin-top: 0.6rem; max-width: 30rem; color: rgba(255, 246, 234, 0.8); }
+.c-tile .c-by { margin-top: 0.4rem; color: rgba(255, 246, 234, 0.65); font-size: 0.9rem; }
+.c-tile .c-btn { margin-top: 1.2rem; }
+
+/* ---- Videos: dark cards led by a square figure tile ---- */
+.c-cards { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * 1.5rem) / 4); gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.c-cards::-webkit-scrollbar { display: none; }
+.c-card { scroll-snap-align: start; display: flex; flex-direction: column; background: var(--c-dark-2); }
+.c-card__art { position: relative; aspect-ratio: 16 / 10; }
+.c-card__art--photo { background: url("assets/img/hero-masjid.jpg") center / cover; }
+.c-card__art .play { position: absolute !important; inset: 0; margin: auto; width: 52px; height: 52px; display: grid; place-items: center; background: linear-gradient(100deg, #e9a83a, #f6cf6a); color: var(--espresso); }
+.c-card__body { display: flex; flex-direction: column; gap: 0.7rem; padding: 1.6rem; }
+.c-figure { align-self: flex-start; display: grid; place-items: center; width: 80px; height: 80px; margin-top: -3.6rem; position: relative; background: var(--c-dark); color: #fff; text-align: center; }
+.c-figure b { font-family: var(--c-caps); font-weight: 400; font-size: 1.5rem; line-height: 1; }
+.c-figure small { display: block; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+.c-card h3 { font-family: var(--c-ui); font-weight: 500; font-size: 1.3rem; color: #fff; }
+.c-card p { color: rgba(255, 246, 234, 0.65); font-size: 0.9rem; }
+.c-card .c-btn { align-self: flex-start; margin-top: 0.4rem; }
+.c-arrows { display: flex; gap: 0.5rem; }
+.c-arrows button { width: 44px; height: 44px; border: 1px solid var(--c-frame); color: #fff6ea; }
+.c-arrows button:hover { background: rgba(255, 246, 234, 0.08); }
+
+/* ---- Alumni Testimonies: side-by-side panels, like their closing call-outs ---- */
+.c-quotes { display: grid; grid-auto-flow: column; grid-auto-columns: 50%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.c-quotes::-webkit-scrollbar { display: none; }
+.c-quote { scroll-snap-align: start; margin: 0; padding: clamp(2.4rem, 5vw, 64px); background: var(--c-dark); color: #fff6ea; }
+.c-quote:nth-child(even) { background: #36200f; }
+.c-quote .c-label { color: rgba(255, 246, 234, 0.6); }
+.c-quote blockquote { margin: 0.9rem 0 1.4rem; font-family: var(--c-ui); font-weight: 500; font-size: clamp(1.3rem, 1rem + 0.9vw, 1.8rem); line-height: 1.4; color: #fff; }
+.c-quote cite { font-style: normal; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+.c-quote--todo blockquote, .c-quote--todo cite { color: rgba(255, 246, 234, 0.5); }
+.c-alumni .c-sec-head { margin-bottom: 1.8rem; }
+.c-alumni .c-arrows button { border-color: #c9b69b; color: var(--c-dark); }
+
+/* ---- Footer: grey columns, a panel for the contact, a logo bar ---- */
+.c-foot { margin-top: 0; background: #fff; }
+.c-foot__cols { display: grid; grid-template-columns: 1fr 380px; }
+.c-foot .c-foot__nav ul { grid-template-columns: repeat(2, max-content); column-gap: 5rem; }
+.c-foot__cols > * { padding: 3.5rem clamp(1.5rem, 4vw, 64px); }
+.c-foot h4 { margin-bottom: 1.2rem; font-family: var(--c-ui); font-weight: 500; font-size: 1.7rem; color: #6b5a4a; }
+.c-foot ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.8rem; }
+.c-foot a { color: #6b5a4a; text-decoration: none; font-size: 1.05rem; }
+.c-foot a:hover { color: var(--rust); }
+.c-foot__contact { background: var(--c-ground); }
+.c-foot__contact address { display: grid; gap: 0.7rem; font-style: normal; color: #8f7f6e; font-size: 1.05rem; }
+.c-foot__contact svg { margin-bottom: 1rem; color: #b0a08e; }
+.c-foot__bar { display: flex; align-items: center; gap: 1.5rem; padding: 1.4rem clamp(1.5rem, 4vw, 64px); border-top: 1px solid #e7ddd0; }
+.c-foot__bar img { width: 60px; height: 60px; border-radius: 50%; }
+.c-foot__bar span { font-family: var(--c-caps); font-size: 1.3rem; text-transform: uppercase; color: var(--c-dark); }
+.c-foot__legal { padding: 1rem clamp(1.5rem, 4vw, 64px); background: var(--c-ground); color: #6b5a4a; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+@media (max-width: 1100px) { .c-nav { display: none; } .c-band { grid-template-columns: 1fr 1fr; } .c-band__side { grid-column: 1 / -1; } }
+@media (max-width: 880px) {
+  .c-teachers, .c-band { grid-template-columns: 1fr; }
+  .c-band__times { border-left: 0; border-top: 1px solid rgba(247, 224, 164, 0.14); }
+  .c-tiles { grid-template-columns: 1fr 1fr; grid-template-rows: 300px 220px 220px; }
+  .c-tile:first-child { grid-column: span 2; grid-row: auto; }
+  .c-cards { grid-auto-columns: 75%; }
+  .c-quotes { grid-auto-columns: 100%; }
+  .c-foot__cols { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .c-brand span { font-size: 1rem; }
+  .c-head .c-btn { display: none; }
+  .c-teacher { grid-template-columns: 1fr; gap: 0.3rem; }
+  .c-tiles { grid-template-columns: 1fr; grid-template-rows: none; }
+  .c-tile { min-height: 220px; }
+  .c-tile:first-child { grid-column: auto; min-height: 320px; }
+}
+</style>
+</head>
+<body id="top">
+
+<header class="c-head">
+  <div class="wrap">
+    <a class="c-brand" href="#top"><img src="assets/img/logo.png" alt=""><span>Jamiyah Islamiyyah<br>Abu Bakr</span></a>
+    <a class="c-btn c-btn--gold c-btn--sm" href="#program">View Curriculum</a>
+    <nav class="c-nav" aria-label="Primary">
+      <a href="#top">Home</a><a href="#about">About</a><a href="#program">Program</a><a href="#teachers">Teachers</a><a href="#articles">Articles</a><a href="#videos">Videos</a><a href="#alumni">Alumni</a><a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="c-hero">
+    <div class="c-hero__img" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="c-label c-hero__eyebrow">Jamiyah Islamiyyah Abu Bakr</p>
+      <h1 class="c-caps">The Seven-Year <em>Alimiyyah</em> Program</h1>
+      <p>Qur'an, hadith, fiqh and Arabic — taught the traditional way, text by text, with a teacher.</p>
+      <a class="c-btn c-btn--gold" href="#program">View Curriculum</a>
+    </div>
+  </section>
+
+  <section class="c-welcome" id="about">
+    <div class="wrap">
+      <p class="c-label">Introduction</p>
+      <p class="c-lead">A full course of study in Qur'an, hadith, fiqh, Arabic and the sciences that serve them, taught in the traditional way: text by text, with a teacher, in the company of fellow students.</p>
+      <h2 class="c-caps" style="margin-top:clamp(3.5rem,7vw,90px)">Our Program</h2>
+      <span class="c-script">Alimiyyah</span>
+      <p>Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Throughout this course, students will attain a mastery of the Arabic language, through which they will gain a deep understanding of the Qur'an and Hadith.</p>
+      <a class="c-btn c-btn--dark" href="#program">View Curriculum</a>
+    </div>
+  </section>
+
+  <!-- ====== The bookshelf: the live curriculum.js, restyled by "The shelf" styles above ====== -->
+  <section class="shelf-wall" id="program" aria-labelledby="curriculum-heading">
+    <div class="wrap">
+      <div class="c-sec-head c-shelf-head">
+        <div><span class="c-label">The books</span><h2 class="c-caps" id="curriculum-heading">Curriculum</h2></div>
+        <p style="max-width:24rem;color:var(--ink-soft)">Every book in the course stands on the shelf at once. Select a spine to turn it face-on.</p>
+      </div>
+      <div class="case" data-shelf></div>
+    </div>
+  </section>
+
+  <section class="c-band" id="details">
+    <div class="c-band__intro">
+      <h2 class="c-caps">Details</h2>
+      <p>Class timings, monthly fees and the family discount.</p>
+      <div class="c-stat"><span class="c-label">Fees · Part-time</span><b>$125<small> /month</small></b><span>per student</span></div>
+      <div class="c-stat"><span class="c-label">Fees · Full-time</span><b>$325<small> /month</small></b><span>per student</span></div>
+    </div>
+    <div class="c-band__times">
+      <h3 class="c-caps" style="font-size:2rem;color:#fff">Class Timings</h3>
+      <div class="c-time"><span class="c-label">Part-time · Years I – IV</span><p>Monday to Friday <b>4:30 PM - 7:30 PM</b></p></div>
+      <div class="c-time"><span class="c-label">Full-time · Years V – VII</span><p>Monday to Friday <b>8:30 AM - 4:15 PM</b></p><p>Saturday <b>8:30 AM - 12:30 PM</b></p></div>
+    </div>
+    <div class="c-band__side">
+      <h3 class="c-label">Family discounts</h3>
+      <div class="c-stat"><b>5%</b><span>2 students · off the total</span></div>
+      <div class="c-stat"><b>10%</b><span>3 students · off the total</span></div>
+      <div class="c-stat"><b>15%</b><span>4 or more · off the total</span></div>
+    </div>
+  </section>
+
+  <section class="c-sec" id="teachers">
+    <div class="wrap">
+      <div class="c-sec-head">
+        <div><span class="c-label">Taught by text, with a teacher</span><h2 class="c-caps">Our Teachers</h2></div>
+      </div>
+      <div class="c-teachers">
+        <article class="c-teacher"><small>Moulana</small><div><h3 class="c-caps">Kasim Ingar</h3><p>Imam of our masjid, and teacher for over 30 years</p></div></article>
+        <article class="c-teacher"><small>Moulana</small><div><h3 class="c-caps">Salim Chauhan</h3></div></article>
+        <article class="c-teacher"><small>Moulana</small><div><h3 class="c-caps">Zuber Motala</h3></div></article>
+        <article class="c-teacher c-teacher--todo"><small>Moulana</small><div><h3 class="c-caps">TODO: Fourth teacher</h3><p>TODO: Short line about this teacher.</p></div></article>
+        <article class="c-teacher c-teacher--todo"><small>Moulana</small><div><h3 class="c-caps">TODO: Fifth teacher</h3><p>TODO: Short line about this teacher.</p></div></article>
+        <article class="c-teacher c-teacher--todo"><small>Moulana</small><div><h3 class="c-caps">TODO: Sixth teacher</h3><p>TODO: Short line about this teacher.</p></div></article>
+        <article class="c-teacher c-teacher--todo"><small>Moulana</small><div><h3 class="c-caps">TODO: Seventh teacher</h3><p>TODO: Short line about this teacher.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="c-dark" id="articles">
+    <div class="wrap">
+      <div class="c-sec-head">
+        <h2 class="c-caps">Articles</h2>
+        <div class="c-seg" data-seg role="group" aria-label="Library"><button type="button" aria-pressed="true" data-label="Brothers">Brothers</button><button type="button" aria-pressed="false" data-label="Sisters">Sisters</button></div>
+      </div>
+      <div class="c-tiles">
+        <article class="c-tile m-board"><div><small>Subject</small><h3>Article title</h3><p>A sentence or two introducing the article.</p><p class="c-by">Author · 5 min read</p><a class="c-btn c-btn--gold c-btn--sm" href="#articles">Read article</a></div></article>
+        <article class="c-tile m-board m-board--rust"><div><small>Subject</small><h3>Article title</h3></div></article>
+        <article class="c-tile m-board"><div><small>Subject</small><h3>Article title</h3></div></article>
+        <article class="c-tile m-board"><div><small>Subject</small><h3>Article title</h3></div></article>
+        <article class="c-tile m-board m-board--rust"><div><small>Subject</small><h3>Article title</h3></div></article>
+      </div>
+
+      <div class="c-sec-head" id="videos" style="margin-top:clamp(4rem,8vw,100px)">
+        <h2 class="c-caps">Videos</h2>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+          <div class="c-seg" data-seg role="group" aria-label="Library"><button type="button" aria-pressed="true" data-label="Brothers">Brothers</button><button type="button" aria-pressed="false" data-label="Sisters">Sisters</button></div>
+          <div class="c-arrows"><button type="button" data-scroll-prev="c-cards" aria-label="Previous">◂</button><button type="button" data-scroll-next="c-cards" aria-label="Next">▸</button></div>
+        </div>
+      </div>
+      <div class="c-cards" id="c-cards">
+        <article class="c-card"><div class="c-card__art c-card__art--photo"><span class="play">▶</span></div><div class="c-card__body"><div class="c-figure"><div><b>00:00</b><small>Date</small></div></div><h3>Video title</h3><p>Subject</p><a class="c-btn c-btn--line c-btn--sm" href="#videos">Watch</a></div></article>
+        <article class="c-card"><div class="c-card__art m-board"><span class="play">▶</span></div><div class="c-card__body"><div class="c-figure"><div><b>00:00</b><small>Date</small></div></div><h3>Video title</h3><p>Subject</p><a class="c-btn c-btn--line c-btn--sm" href="#videos">Watch</a></div></article>
+        <article class="c-card"><div class="c-card__art c-card__art--photo"><span class="play">▶</span></div><div class="c-card__body"><div class="c-figure"><div><b>00:00</b><small>Date</small></div></div><h3>Video title</h3><p>Subject</p><a class="c-btn c-btn--line c-btn--sm" href="#videos">Watch</a></div></article>
+        <article class="c-card"><div class="c-card__art m-board m-board--rust"><span class="play">▶</span></div><div class="c-card__body"><div class="c-figure"><div><b>00:00</b><small>Date</small></div></div><h3>Video title</h3><p>Subject</p><a class="c-btn c-btn--line c-btn--sm" href="#videos">Watch</a></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="c-sec c-alumni" id="alumni" style="padding-bottom:0">
+    <div class="wrap">
+      <div class="c-sec-head">
+        <h2 class="c-caps">Alumni Testimonies</h2>
+        <div class="c-arrows"><button type="button" data-scroll-prev="c-quotes" aria-label="Previous">◂</button><button type="button" data-scroll-next="c-quotes" aria-label="Next">▸</button></div>
+      </div>
+    </div>
+    <div class="c-quotes" id="c-quotes">
+      <figure class="c-quote"><span class="c-label">2020</span><blockquote>I came expecting to memorise rulings and left having learned how the scholars arrived at them. That shift changed the way I read everything.</blockquote><cite>Sumayyah Noor</cite></figure>
+      <figure class="c-quote"><span class="c-label">2022</span><blockquote>My teacher went through the same page with me four times without once making me feel slow. I try to teach my own students that way now.</blockquote><cite>Abdurrahman Sheikh</cite></figure>
+      <figure class="c-quote c-quote--todo"><span class="c-label">TODO: Year</span><blockquote>TODO: A third alumni testimony.</blockquote><cite>TODO: Name</cite></figure>
+      <figure class="c-quote c-quote--todo"><span class="c-label">TODO: Year</span><blockquote>TODO: A fourth alumni testimony.</blockquote><cite>TODO: Name</cite></figure>
+    </div>
+  </section>
+</main>
+
+<footer class="c-foot" id="contact">
+  <div class="c-foot__cols">
+    <nav class="c-foot__nav" aria-label="Footer"><ul><li><a href="#top">Home</a></li><li><a href="#about">About</a></li><li><a href="#program">Program</a></li><li><a href="#teachers">Teachers</a></li><li><a href="#articles">Articles</a></li><li><a href="#videos">Videos</a></li><li><a href="#alumni">Alumni</a></li><li><a href="#contact">Contact</a></li></ul></nav>
+    <div class="c-foot__contact">
+      <svg width="48" height="40" viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 4h30v20H15l-8 6v-6H3z"/><path d="M37 12h8v18h-4v6l-7-6H19v-4"/></svg>
+      <h4>Contact</h4>
+      <address><span>TODO: masjid street address, city, postal code</span><span>TODO: info@example.org</span><span>TODO: (000) 000-0000</span></address>
+    </div>
+  </div>
+  <div class="c-foot__bar"><img src="assets/img/logo.png" alt=""><span>Jamiyah Islamiyyah Abu Bakr</span></div>
+  <p class="c-foot__legal">© 2026 Jamiyah Islamiyyah Abu Bakr</p>
+</footer>
+
+<nav class="m-switch" aria-label="Mockups"><a href="design/canvas-modern/index.html">All</a><a href="design/canvas-modern/a-academy.html">A</a><a href="design/canvas-modern/b-night.html">B</a><a href="design/canvas-modern/c-editorial.html" aria-current="page">C</a><a href="design/canvas-modern/d-bento.html">D</a><a href="design/canvas-modern/e-modern.html">E</a><a href="design/canvas-modern/f-final.html">F</a></nav>
+<script src="assets/js/curriculum.js?v=5"></script>
+<script src="design/canvas-modern/mock.js"></script>
+</body>
+</html>

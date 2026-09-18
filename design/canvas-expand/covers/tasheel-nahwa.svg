@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.5 0 0 0 -0.22"/>
+    </filter>
+    <linearGradient id="light" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000" stop-opacity="0.45"/>
+      <stop offset="0.16" stop-color="#000" stop-opacity="0.05"/>
+      <stop offset="0.5" stop-color="#fff" stop-opacity="0.09"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="300" height="400" fill="#2c1d13"/>
+  <rect width="300" height="400" filter="url(#grain)"/>
+  <rect width="300" height="400" fill="url(#light)"/>
+
+  <!-- double gilt frame -->
+  <rect x="14" y="14" width="272" height="372" fill="none" stroke="#d9aa48" stroke-width="1.6" opacity="0.85"/>
+  <rect x="20" y="20" width="260" height="360" fill="none" stroke="#d9aa48" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- corner rosettes -->
+  <g fill="#d9aa48" opacity="0.8">
+    <circle cx="30" cy="30" r="3.2"/><circle cx="270" cy="30" r="3.2"/>
+    <circle cx="30" cy="370" r="3.2"/><circle cx="270" cy="370" r="3.2"/>
+  </g>
+
+  <g transform="translate(150.0 62) scale(1 1)"><path d="M0 0V16" stroke="#d9aa48" stroke-width="1.4"/><rect x="-4" y="16" width="8" height="8" transform="rotate(45 0 20)" fill="#d9aa48"/></g>
+  <g transform="translate(150.0 338) scale(1 -1)"><path d="M0 0V16" stroke="#d9aa48" stroke-width="1.4"/><rect x="-4" y="16" width="8" height="8" transform="rotate(45 0 20)" fill="#d9aa48"/></g>
+
+  <!-- title cartouche -->
+  <path d="M150.0 104.0L248.0 119.84L248.0 220.16L150.0 236.0L52.0 220.16L52.0 119.84Z" fill="#d9aa48"/>
+  <path d="M150.0 107.0L245.0 122.12L245.0 217.88L150.0 233.0L55.0 217.88L55.0 122.12Z" fill="#5a1916"/>
+  <path d="M150.0 114.0L238.0 127.44L238.0 212.56L150.0 226.0L62.0 212.56L62.0 127.44Z" fill="none" stroke="#d9aa48" stroke-width="0.9" opacity="0.55"/>
+  <text x="150.0" y="168" text-anchor="middle" fill="#d9aa48" font-family="Georgia, serif" font-size="25" font-weight="600" letter-spacing="0.5">Tasheel</text><text x="150.0" y="198" text-anchor="middle" fill="#d9aa48" font-family="Georgia, serif" font-size="25" font-weight="600" letter-spacing="0.5">ul-Nahwa</text>
+
+  <!-- foot medallion -->
+  <circle cx="150.0" cy="296" r="15" fill="none" stroke="#d9aa48" stroke-width="1.2"/>
+  <circle cx="150.0" cy="296" r="7" fill="#d9aa48" opacity="0.9"/>
+</svg>

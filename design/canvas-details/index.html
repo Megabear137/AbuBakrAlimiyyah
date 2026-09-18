@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Details titles — Mockups</title>
+  <link rel="icon" href="../../assets/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- The live stylesheet, so every option is built from the real cards and tokens -->
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    /* ============================ canvas chrome ============================ */
+    .canvas-head { padding: 4.5rem 0 1rem; }
+    .canvas-head h1 { color: var(--brown-ink); font-family: var(--display); font-size: clamp(2.8rem, 2rem + 3vw, 4.4rem); line-height: 1; margin-top: 0.6rem; }
+    .canvas-head h1 em { color: var(--gold-ink); font-weight: 500; }
+    .canvas-head__lede { max-width: 700px; margin-top: 1rem; color: var(--brown-ink); }
+    .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.6rem; }
+    .jump a { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid rgba(154, 101, 8, 0.4); color: var(--brown-ink); font-size: 0.88rem; font-weight: 600; text-decoration: none; background: rgba(255, 255, 255, 0.7); }
+    .jump a:hover { background: var(--rust); color: #fff; border-color: var(--rust); }
+
+    .mock { padding: 4.5rem 0 5rem; }
+    .mock + .mock { border-top: 1px dashed rgba(70, 34, 6, 0.2); }
+    .mock__label { display: flex; gap: 1.1rem; align-items: flex-start; margin-bottom: 2.6rem; }
+    .mock__num { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(145deg, #f3cf6e, #d49a2a); box-shadow: 0 0 0 5px rgba(212, 154, 42, 0.18); color: var(--espresso); font-family: var(--display); font-size: 1.6rem; font-weight: 700; }
+    .mock__title { color: var(--brown-ink); font-family: var(--display); font-size: 2rem; line-height: 1.1; }
+    .mock__desc { max-width: 820px; margin-top: 0.3rem; color: var(--brown-ink); font-size: 0.94rem; }
+    .mock__desc b { color: var(--gold-ink); }
+    .mock--now .mock__num { background: none; box-shadow: inset 0 0 0 1px rgba(70, 34, 6, 0.3); color: var(--brown-ink); font-size: 0.72rem; font-family: var(--ui); font-weight: 600; letter-spacing: 0.1em; }
+
+    /* The section head above the pair, as the page draws it */
+    .ctx-head { margin-bottom: clamp(1.75rem, 4vw, 2.5rem); }
+
+    /* An eight-point star, the ornament the videos and the spines already use */
+    .star8 { width: 18px; height: 18px; flex: none; color: var(--gold); }
+
+    /* ===================== 1 · Display title & gilt rail ==================== */
+    /* The kicker grows into a Cormorant title in bright gold, underscored by the
+       same double gilt rail that runs along the teachers band. */
+    .t1 {
+      position: relative;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.9rem;
+      color: var(--gold-light);
+      font-family: var(--display);
+      font-size: clamp(2rem, 1.6rem + 1vw, 2.45rem);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0.01em;
+    }
+    .t1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 5px;
+      border-top: 1px solid rgba(238, 194, 90, 0.6);
+      border-bottom: 1px solid rgba(238, 194, 90, 0.28);
+    }
+
+    /* ========================== 2 · Kitab cartouche ========================= */
+    /* The pointed cartouche off the book spines, laid on its side: a gilt-edged
+       plaque set into a hairline rail that runs to both edges of the card. */
+    .t2 {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 1.6rem;
+    }
+    .t2__rail {
+      flex: 1 1 auto;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(238, 194, 90, 0), rgba(238, 194, 90, 0.55));
+    }
+    .t2__rail--r { background: linear-gradient(90deg, rgba(238, 194, 90, 0.55), rgba(238, 194, 90, 0)); }
+    .t2__fin {
+      flex: none;
+      width: 7px;
+      height: 7px;
+      margin: 0 7px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+    .t2__cart {
+      position: relative;
+      flex: none;
+      padding: 0.55rem 1.7rem;
+      clip-path: polygon(0 50%, 15px 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 15px 100%);
+      background: rgba(238, 194, 90, 0.75);      /* the gilt edge; the inner face sits on top */
+    }
+    .t2__cart::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      clip-path: inherit;
+      background: linear-gradient(180deg, rgba(255, 232, 196, 0.16), rgba(0, 0, 0, 0.28));
+    }
+    .t2__cart span {
+      position: relative;
+      color: var(--gold-pale);
+      font-family: var(--display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* ========================= 3 · Engraved head band ======================= */
+    /* A groove cut across the head of the board, edge to edge, with the title
+       carved into it in letterspaced capitals - the shelf's rails, on a card. */
+    .t3 {
+      --pad: clamp(1.5rem, 3.5vw, 2.2rem);
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin: calc(-1 * var(--pad)) calc(-1 * var(--pad)) 1.7rem;
+      padding: 0.95rem var(--pad);
+      border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.1));
+      box-shadow:
+        inset 0 2px 3px -1px rgba(0, 0, 0, 0.55),
+        inset 0 -1px 0 rgba(238, 194, 90, 0.45);
+      color: var(--gold-light);
+      font-family: var(--display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <div class="wrap canvas-head">
+    <p class="kicker">Details &middot; round 1</p>
+    <h1>Class Timings &amp; <em>Fees</em></h1>
+    <p class="canvas-head__lede">Three ways to give the two Details cards a proper title. Today both are
+      set as the same small uppercase kicker the family-discount label uses, so the card has no head —
+      it opens straight into the figures. Each option below keeps the board, the gold and the rust edge
+      and changes only the title; the content under it is the live markup.</p>
+    <div class="jump">
+      <a href="#now">Today</a>
+      <a href="#o1">1 · Display title &amp; gilt rail</a>
+      <a href="#o2">2 · Kitab cartouche</a>
+      <a href="#o3">3 · Engraved head band</a>
+    </div>
+  </div>
+
+  <!-- ============================== today =============================== -->
+  <section class="mock mock--now" id="now">
+    <div class="wrap">
+      <div class="mock__label">
+        <div class="mock__num">NOW</div>
+        <div>
+          <h2 class="mock__title">As the page draws it today</h2>
+          <p class="mock__desc">A 0.78rem uppercase kicker in <b>--gold</b>, the same size and weight as
+            &ldquo;Family discounts&rdquo; further down the card, so the two read as equals.</p>
+        </div>
+      </div>
+
+      <div class="ctx-head section__head">
+        <h2 class="section__heading">Details</h2>
+        <p class="section__lede">Class timings, monthly fees and the family discount.</p>
+      </div>
+
+      <div class="details">
+        <section class="card card--choc">
+          <h3 class="card__kicker">Class Timings</h3>
+          <div class="tgroup">
+            <div class="tgroup__head"><p class="tgroup__label">Part-time</p><p class="tgroup__years">Years I – IV</p></div>
+            <div class="row"><span>Monday to Friday</span><span class="row__value">4:30 PM - 7:30 PM</span></div>
+          </div>
+          <div class="tgroup">
+            <div class="tgroup__head"><p class="tgroup__label">Full-time</p><p class="tgroup__years">Years V – VII</p></div>
+            <div class="row"><span>Monday to Friday</span><span class="row__value">8:30 AM - 4:15 PM</span></div>
+            <div class="row"><span>Saturday</span><span class="row__value">8:30 AM - 12:30 PM</span></div>
+          </div>
+        </section>
+
+        <section class="card card--choc">
+          <h3 class="card__kicker">Fees</h3>
+          <div class="tiers">
+            <div class="tier"><p class="tier__label">Part-time</p><p class="tier__amount">$125<span class="tier__period">/month</span></p><p class="tier__note">per student</p></div>
+            <div class="tier"><p class="tier__label">Full-time</p><p class="tier__amount">$325<span class="tier__period">/month</span></p><p class="tier__note">per student</p></div>
+          </div>
+          <p class="card__kicker discounts__label">Family discounts</p>
+          <div class="row row--rule"><span>2 students</span><span class="row__value">5% off the total</span></div>
+          <div class="row row--rule"><span>3 students</span><span class="row__value">10% off the total</span></div>
+          <div class="row row--rule"><span>4 or more</span><span class="row__value">15% off the total</span></div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================== 1 ================================= -->
+  <section class="mock" id="o1">
+    <div class="wrap">
+      <div class="mock__label">
+        <div class="mock__num">1</div>
+        <div>
+          <h2 class="mock__title">Display title &amp; gilt rail</h2>
+          <p class="mock__desc">The title grows to <b>2.45rem of Cormorant</b> in bright gold and takes the
+            double gilt rail that runs along the teachers band underneath it. The small uppercase kicker is
+            freed to go on labelling &ldquo;Family discounts&rdquo; alone, so the card now has a head and a
+            sub-head. The quietest of the three, and the one that needs no new ornament.</p>
+        </div>
+      </div>
+
+      <div class="details">
+        <section class="card card--choc">
+          <h3 class="t1">Class Timings</h3>
+          <div class="tgroup">
+            <div class="tgroup__head"><p class="tgroup__label">Part-time</p><p class="tgroup__years">Years I – IV</p></div>
+            <div class="row"><span>Monday to Friday</span><span class="row__value">4:30 PM - 7:30 PM</span></div>
+          </div>
+          <div class="tgroup">
+            <div class="tgroup__head"><p class="tgroup__label">Full-time</p><p class="tgroup__years">Years V – VII</p></div>
+            <div class="row"><span>Monday to Friday</span><span class="row__value">8:30 AM - 4:15 PM</span></div>
+            <div class="row"><span>Saturday</span><span class="row__value">8:30 AM - 12:30 PM</span></div>
+          </div>
+        </section>
+
+        <section class="card card--choc">
+          <h3 class="t1">Class Fees</h3>
+          <div class="tiers">
+            <div class="tier"><p class="tier__label">Part-time</p><p class="tier__amount">$125<span class="tier__period">/month</span></p><p class="tier__note">per student</p></div>
+            <div class="tier"><p class="tier__label">Full-time</p><p class="tier__amount">$325<span class="tier__period">/month</span></p><p class="tier__note">per student</p></div>
+          </div>
+          <p class="card__kicker discounts__label">Family discounts</p>
+          <div class="row row--rule"><span>2 students</span><span class="row__value">5% off the total</span></div>
+          <div class="row row--rule"><span>3 students</span><span class="row__value">10% off the total</span></div>
+          <div class="row row--rule"><span>4 or more</span><span class="row__value">15% off the total</span></div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================== 2 ================================= -->
+  <section class="mock" id="o2">
+    <div class="wrap">
+      <div class="mock__label">
+        <div class="mock__num">2</div>
+        <div>
+          <h2 class="mock__title">Kitab cartouche</h2>
+          <p class="mock__desc">The pointed cartouche from the <b>book spines</b>, turned on its side: a
+            gilt-edged plaque set into a hairline rail that runs out to both edges of the card, with a small
+            gold diamond at each end. The most ornamental, and the one that ties the Details cards back to
+            the shelf above them.</p>
+        </div>
+      </div>
+
+      <div class="details">
+        <section class="card card--choc">
+          <h3 class="t2"><span class="t2__rail"></span><span class="t2__fin"></span><span class="t2__cart"><span>Class Timings</span></span><span class="t2__fin"></span><span class="t2__rail t2__rail--r"></span></h3>
+          <div class="tgroup">
+            <div class="tgroup__head"><p class="tgroup__label">Part-time</p><p class="tgroup__years">Years I – IV</p></div>
+            <div class="row"><span>Monday to Friday</span><span class="row__value">4:30 PM - 7:30 PM</span></div>
+          </div>
+          <div class="tgroup">
+            <div class="tgroup__head"><p class="tgroup__label">Full-time</p><p class="tgroup__years">Years V – VII</p></div>
+            <div class="row"><span>Monday to Friday</span><span class="row__value">8:30 AM - 4:15 PM</span></div>
+            <div class="row"><span>Saturday</span><span class="row__value">8:30 AM - 12:30 PM</span></div>
+          </div>
+        </section>
+
+        <section class="card card--choc">
+          <h3 class="t2"><span class="t2__rail"></span><span class="t2__fin"></span><span class="t2__cart"><span>Class Fees</span></span><span class="t2__fin"></span><span class="t2__rail t2__rail--r"></span></h3>
+          <div class="tiers">
+            <div class="tier"><p class="tier__label">Part-time</p><p class="tier__amount">$125<span class="tier__period">/month</span></p><p class="tier__note">per student</p></div>
+            <div class="tier"><p class="tier__label">Full-time</p><p class="tier__amount">$325<span class="tier__period">/month</span></p><p class="tier__note">per student</p></div>
+          </div>
+          <p class="card__kicker discounts__label">Family discounts</p>
+          <div class="row row--rule"><span>2 students</span><span class="row__value">5% off the total</span></div>
+          <div class="row row--rule"><span>3 students</span><span class="row__value">10% off the total</span></div>
+          <div class="row row--rule"><span>4 or more</span><span class="row__value">15% off the total</span></div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================== 3 ================================= -->
+  <section class="mock" id="o3">
+    <div class="wrap">
+      <div class="mock__label">
+        <div class="mock__num">3</div>
+        <div>
+          <h2 class="mock__title">Engraved head band</h2>
+          <p class="mock__desc">A groove cut <b>edge to edge across the head of the board</b>, lit along its
+            bottom by a gold hairline, with the title carved into it in letterspaced capitals beside an
+            eight-point star. It gives each card a lintel, and reads as the same joinery as the shelf's
+            bolted rails.</p>
+        </div>
+      </div>
+
+      <div class="details">
+        <section class="card card--choc">
+          <h3 class="t3">
+            <svg class="star8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="5" width="14" height="14"/><rect x="5" y="5" width="14" height="14" transform="rotate(45 12 12)"/></svg>
+            Class Timings
+          </h3>
+          <div class="tgroup">
+            <div class="tgroup__head"><p class="tgroup__label">Part-time</p><p class="tgroup__years">Years I – IV</p></div>
+            <div class="row"><span>Monday to Friday</span><span class="row__value">4:30 PM - 7:30 PM</span></div>
+          </div>
+          <div class="tgroup">
+            <div class="tgroup__head"><p class="tgroup__label">Full-time</p><p class="tgroup__years">Years V – VII</p></div>
+            <div class="row"><span>Monday to Friday</span><span class="row__value">8:30 AM - 4:15 PM</span></div>
+            <div class="row"><span>Saturday</span><span class="row__value">8:30 AM - 12:30 PM</span></div>
+          </div>
+        </section>
+
+        <section class="card card--choc">
+          <h3 class="t3">
+            <svg class="star8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="5" width="14" height="14"/><rect x="5" y="5" width="14" height="14" transform="rotate(45 12 12)"/></svg>
+            Class Fees
+          </h3>
+          <div class="tiers">
+            <div class="tier"><p class="tier__label">Part-time</p><p class="tier__amount">$125<span class="tier__period">/month</span></p><p class="tier__note">per student</p></div>
+            <div class="tier"><p class="tier__label">Full-time</p><p class="tier__amount">$325<span class="tier__period">/month</span></p><p class="tier__note">per student</p></div>
+          </div>
+          <p class="card__kicker discounts__label">Family discounts</p>
+          <div class="row row--rule"><span>2 students</span><span class="row__value">5% off the total</span></div>
+          <div class="row row--rule"><span>3 students</span><span class="row__value">10% off the total</span></div>
+          <div class="row row--rule"><span>4 or more</span><span class="row__value">15% off the total</span></div>
+        </section>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

@@ -6,9 +6,18 @@
    mockup. Each bay is one year; every book in the course stands on the
    shelf at once as a spine.
 
-   Clicking a spine turns that book face-on in its own slot. The button
-   IS the card, so focus never moves, aria-expanded carries the state and
-   there is no panel to label. One book is open across the whole shelf.
+   A book is a slot (.book) holding its spine, a <button>. Clicking the
+   spine turns the book face-on in its slot: the slot becomes a small card
+   with the book's text and two real buttons - "See more" and "Close". The
+   Close button IS the spine, restyled, so focus never moves when a book
+   opens or closes and aria-expanded stays on the one element. One book is
+   open across the whole shelf.
+
+   "See more" opens the folio: the book at full size across the whole bay,
+   its cover down the left side and its description beside it, drawn as a
+   ruled manuscript leaf (design/canvas-expand/widen.html). Where bays are
+   paired the reading bay widens across the row and its neighbour narrows.
+   Closing the folio returns to the small card.
 
    Spines are drawn as Islamic kitab bindings - see "8. Kitab spines" in
    styles.css for the parts.
@@ -69,25 +78,68 @@
     return /^\s*TODO/i.test(String(book && book.title));
   }
 
+
+  var folioCount = 0;   // ids for the folio headings
+
   function renderCurriculum(mount, data) {
     if (!mount || !data || !data.years) return;
     mount.textContent = "";
 
-    var open = null;   // the one open spine, shelf-wide
+    var open = null;    // the one open slot, shelf-wide
+    var folio = null;   // its folio, when "See more" has been taken
 
-    function toggle(spine) {
-      if (open && open !== spine) fill(open, false);
-      var wasOpen = open === spine;
-      open = wasOpen ? null : spine;
-      fill(spine, !wasOpen);
+    function toggle(book) {
+      closeFolio(false);
+      if (open && open !== book) fill(open, false);
+      var wasOpen = open === book;
+      open = wasOpen ? null : book;
+      fill(book, !wasOpen);
     }
 
+    /* Escape: the folio first, then the small card. Focus lands on the spine
+       each time - the card's Close button while it is open, the spine after. */
     function closeOpen() {
+      if (folio) { closeFolio(true); return; }
       if (!open) return;
       fill(open, false);
-      open.focus();
+      open._spine.focus();
       open = null;
     }
+
+    function openFolio(book) {
+      closeFolio(false);
+      var bay = book.closest(".bay");
+      var row = bay.parentNode;
+      var well = bay.querySelector(".bay__well");
+      var el = buildFolio(book._book, book._index);
+
+      el.querySelector(".folio__close").addEventListener("click", function () { closeFolio(true); });
+      el.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") { e.preventDefault(); closeFolio(true); }
+      });
+
+      well.hidden = true;
+      bay.insertBefore(el, well);
+      if (!row.classList.contains("shelf--single")) {
+        row.classList.add(bay === row.firstElementChild ? "shelf--reading-l" : "shelf--reading-r");
+      }
+      book._more.setAttribute("aria-expanded", "true");
+      folio = { el: el, book: book, well: well, row: row };
+      el.querySelector(".folio__close").focus();
+    }
+
+    function closeFolio(refocus) {
+      if (!folio) return;
+      folio.el.remove();
+      folio.well.hidden = false;
+      folio.row.classList.remove("shelf--reading-l", "shelf--reading-r");
+      if (folio.book._more) folio.book._more.setAttribute("aria-expanded", "false");
+      var book = folio.book;
+      folio = null;
+      if (refocus) book._spine.focus();
+    }
+
+    var ctl = { toggle: toggle, closeOpen: closeOpen, openFolio: openFolio };
 
     var years = data.years;
     for (var i = 0; i < years.length; i += 2) {
@@ -95,7 +147,7 @@
       var row = document.createElement("div");
       row.className = "shelf" + (pair.length === 1 ? " shelf--single" : "");
       pair.forEach(function (year, j) {
-        row.appendChild(buildBay(year, i + j, toggle, closeOpen));
+        row.appendChild(buildBay(year, i + j, ctl));
       });
       row.appendChild(buildLedge(i / 2));
       mount.appendChild(row);
@@ -143,7 +195,8 @@
     el.style.setProperty("--lab", binding[1]);
   }
 
-  function buildBay(year, index, toggle, closeOpen) {
+
+  function buildBay(year, index, ctl) {
     var bay = document.createElement("div");
     bay.className = "bay";
 
@@ -155,9 +208,9 @@
     var books = year.books || [];
     if (books.length) {
       books.forEach(function (book, i) {
-        well.appendChild(buildSpine(book, i, toggle));
+        well.appendChild(buildBook(book, i, ctl));
       });
-      wireKeys(well, closeOpen);
+      wireKeys(well, ctl.closeOpen);
     } else {
       var empty = document.createElement("p");
       empty.className = "bay__empty";
@@ -176,32 +229,41 @@
     return bay;
   }
 
-  function buildSpine(book, i, toggle) {
-    var todo = isTodo(book);
+  /* A slot and its spine. The binding's custom properties go on the slot, so
+     the spine and, once it opens, the card both read them. */
+  function buildBook(data, i, ctl) {
+    var todo = isTodo(data);
+
+    var book = document.createElement("div");
+    book.className = "book";
+    setBinding(book, i, data.book_size);
 
     var spine = document.createElement("button");
     spine.type = "button";
     spine.className = "spine" + (todo ? " spine--todo" : "");
-    spine.setAttribute("aria-expanded", "false");
     spine.tabIndex = i === 0 ? 0 : -1;   // one tab stop per bay; arrows do the rest
-    setBinding(spine, i, book.book_size);
+    book.appendChild(spine);
 
-    spine._book = book;
-    spine._todo = todo;
-    fill(spine, false);
+    book._book = data;
+    book._index = i;
+    book._todo = todo;
+    book._spine = spine;
+    fill(book, false);
     if (todo) {
       // Nothing to open yet: announce it as unavailable rather than collapsed.
       spine.removeAttribute("aria-expanded");
       spine.setAttribute("aria-disabled", "true");
     }
 
-    spine.addEventListener("click", function () { if (!spine._todo) toggle(spine); });
-    return spine;
+    spine.addEventListener("click", function () { if (!todo) ctl.toggle(book); });
+    book._openFolio = function () { ctl.openFolio(book); };
+    return book;
   }
 
   /* Roving tabindex within a bay: the group is one tab stop, arrows move
-     between its books. Opening is deliberate (Enter or Space), because it
-     changes the width of the slot underneath the pointer. */
+     between its spines (an open book's spine is its Close button). Opening
+     is deliberate (Enter or Space), because it changes the width of the slot
+     underneath the pointer. */
   function wireKeys(well, closeOpen) {
     well.addEventListener("keydown", function (e) {
       if (e.key === "Escape") { closeOpen(); return; }
@@ -224,44 +286,175 @@
     });
   }
 
-  /* Both faces of a spine. Closed it is a title read down the spine with the
-     subject at its foot; open it is the same button turned to face the reader. */
-  function fill(spine, open) {
-    var book = spine._book;
-    spine.setAttribute("aria-expanded", open ? "true" : "false");
+  /* Both faces of a slot. Closed it is a spine: a title read down it with the
+     subject at its foot. Open it is a small card - the book's text, then "See
+     more" and "Close" side by side at its foot - and the spine button, kept
+     in place so focus stays on it, becomes that Close. */
+  function fill(book, open) {
+    var data = book._book;
+    var spine = book._spine;
+    book.classList.toggle("book--open", open);
     spine.classList.toggle("spine--open", open);
+    spine.setAttribute("aria-expanded", open ? "true" : "false");
+
+    if (book._face) { book._face.remove(); book._face = null; }
+    if (book._more) { book._more.remove(); book._more = null; }
 
     if (!open) {
-      spine.innerHTML = spine._todo
+      spine.innerHTML = book._todo
         ? '<span class="spine__title">TODO</span>'
         : '<span class="spine__fin"></span>' +
           '<span class="spine__cart"><span class="spine__cart-in">' +
-            '<span class="spine__title gilt-text">' + esc(book.title) + "</span>" +
+            '<span class="spine__title gilt-text">' + esc(data.title) + "</span>" +
           "</span></span>" +
           '<span class="spine__fin spine__fin--foot"></span>' +
-          (book.subject ? '<span class="spine__subject gilt-text">' + esc(book.subject) + "</span>" : "") +
+          (data.subject ? '<span class="spine__subject gilt-text">' + esc(data.subject) + "</span>" : "") +
           '<span class="spine__medal"></span>';
 
       // The spine reads vertically a letter at a time; give it a flat label.
       spine.setAttribute("aria-label",
-        spine._todo
+        book._todo
           ? "A book still to be confirmed"
-          : book.title + (book.subject ? ", " + book.subject : ""));
+          : data.title + (data.subject ? ", " + data.subject : ""));
       return;
     }
 
-    var meta = [book.subject, book.author].filter(Boolean).join(" · ");
-    spine.removeAttribute("aria-label");
-    spine.innerHTML =
-      '<span class="face__head">' +
-        '<span class="face__title">' + esc(book.title) + "</span>" +
-        (book.titleUrdu
-          ? '<span class="face__urdu" lang="ur" dir="rtl">' + esc(book.titleUrdu) + "</span>"
+    var meta = [data.subject, author(data)].filter(Boolean).join(" · ");
+    var face = document.createElement("div");
+    face.className = "face";
+    face.innerHTML =
+      '<p class="face__head">' +
+        '<span class="face__title">' + esc(data.title) + "</span>" +
+        (data.titleUrdu
+          ? '<span class="face__urdu" lang="ur" dir="rtl">' + esc(data.titleUrdu) + "</span>"
           : "") +
-      "</span>" +
-      (meta ? '<span class="face__meta">' + esc(meta) + "</span>" : "") +
+      "</p>" +
+      (meta ? '<p class="face__meta">' + esc(meta) + "</p>" : "") +
       '<span class="face__rule"></span>' +
-      '<span class="face__body">' + esc(book.description || "") + "</span>";
+      '<p class="face__body">' + esc(data.description || "") + "</p>";
+
+    var more = document.createElement("button");
+    more.type = "button";
+    more.className = "face__more";
+    more.textContent = "See more";
+    more.setAttribute("aria-expanded", "false");
+    more.addEventListener("click", book._openFolio);
+
+    // Before the spine, so a screen reader meets the text, then See more, then Close.
+    book.insertBefore(face, spine);
+    book.insertBefore(more, spine);
+    book._face = face;
+    book._more = more;
+
+    spine.textContent = "Close";
+    spine.setAttribute("aria-label", "Close " + data.title);
+  }
+
+  /* The folio: the book at full size across the bay. A ruled manuscript leaf
+     (the jadwal) with the cover running down the left side, and beside it the
+     subject, the title with its Urdu or Arabic name on the same line, the
+     author, the description and a catchword. The year is not repeated: the
+     bay's label is right beneath it. */
+  function buildFolio(data, i) {
+    var id = "folio-title-" + (++folioCount);
+    var el = document.createElement("section");
+    el.className = "folio";
+    el.setAttribute("aria-labelledby", id);
+
+    var by = author(data);
+    var catchword = String(data.title || "").split(/\s+/)[0];
+    el.innerHTML =
+      '<button type="button" class="folio__close" aria-label="Close ' + esc(data.title) + ' in full">' +
+        '<span aria-hidden="true">✕</span></button>' +
+      // width/height give the 3:4 box before the image decodes, so a phone's
+      // stacked folio doesn't jump when the cover arrives.
+      '<div class="folio__cover"><img src="' + esc(data.cover || drawnCover(data, i)) +
+        '" width="300" height="400" alt="' + (data.cover ? "Cover of " + esc(data.title) : "") + '"></div>' +
+      '<div class="folio__text">' +
+        (data.subject ? '<p class="folio__subject">' + esc(data.subject) + "</p>" : "") +
+        '<div class="folio__head">' +
+          '<h3 class="folio__title" id="' + id + '">' + esc(data.title) + "</h3>" +
+          (data.titleUrdu
+            ? '<p class="folio__urdu" lang="ur" dir="rtl">' + esc(data.titleUrdu) + "</p>"
+            : "") +
+        "</div>" +
+        (by ? '<p class="folio__author">' + esc(by) + "</p>" : "") +
+        '<span class="folio__rule"></span>' +
+        String(data.long || data.description || "").split(/\n\s*\n/).map(function (para) {
+          return '<p class="folio__body">' + esc(para) + "</p>";
+        }).join("") +
+        '<p class="folio__catch" aria-hidden="true">' + esc(catchword) + "</p>" +
+      "</div>";
+    return el;
+  }
+
+  /* An author still marked TODO is not shown at all. */
+  function author(data) {
+    var a = String(data.author || "").trim();
+    return a && !/^TODO/i.test(a) ? a : "";
+  }
+
+  /* A book with no `cover` photograph yet shows its binding face-on instead:
+     the spine's leather and cartouche colours, a double gilt frame, the title
+     in the pointed cartouche and the foot medallion. The same drawing as
+     design/canvas-expand/generate_covers.py, as a 3:4 SVG. It is decoration
+     standing in for a photograph, so its <img> has an empty alt. */
+  function drawnCover(data, i) {
+    var binding = BINDINGS[i % BINDINGS.length];
+    var gilt = "#d9aa48";
+    var W = 300, H = 400;
+
+    function cart(cx, cy, w, h) {
+      var x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - h / 2, y1 = cy + h / 2;
+      return "M" + cx + " " + y0 + "L" + x1 + " " + (y0 + h * 0.12) + "L" + x1 + " " + (y0 + h * 0.88) +
+             "L" + cx + " " + y1 + "L" + x0 + " " + (y0 + h * 0.88) + "L" + x0 + " " + (y0 + h * 0.12) + "Z";
+    }
+    function finial(y, flip) {
+      return '<g transform="translate(150 ' + y + ") scale(1 " + (flip ? -1 : 1) + ')">' +
+        '<path d="M0 0V16" stroke="' + gilt + '" stroke-width="1.4"/>' +
+        '<rect x="-4" y="16" width="8" height="8" transform="rotate(45 0 20)" fill="' + gilt + '"/></g>';
+    }
+
+    // Break the title into lines of about eleven letters for the cartouche.
+    var lines = [], line = "";
+    String(data.title || "").split(/\s+/).forEach(function (word) {
+      if (line && (line + " " + word).length > 11) { lines.push(line); line = word; }
+      else line = line ? line + " " + word : word;
+    });
+    if (line) lines.push(line);
+    lines = lines.slice(0, 3);
+    var size = lines.length > 2 ? 21 : 25, lead = size + 5;
+    var top = 170 - ((lines.length - 1) * lead) / 2 + size * 0.35;
+    var text = lines.map(function (l, n) {
+      return '<text x="150" y="' + (top + n * lead) + '" text-anchor="middle" fill="' + gilt +
+        '" font-family="Georgia, serif" font-size="' + size + '" font-weight="600">' + esc(l) + "</text>";
+    }).join("");
+
+    var svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + " " + H + '" width="' + W + '" height="' + H + '">' +
+        '<defs><filter id="g" x="0" y="0" width="100%" height="100%">' +
+          '<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>' +
+          '<feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.5 0 0 0 -0.22"/></filter>' +
+        '<linearGradient id="l" x1="0" y1="0" x2="1" y2="0">' +
+          '<stop offset="0" stop-opacity="0.45"/><stop offset="0.16" stop-opacity="0.05"/>' +
+          '<stop offset="0.5" stop-color="#fff" stop-opacity="0.09"/><stop offset="1" stop-opacity="0.3"/>' +
+        "</linearGradient></defs>" +
+        '<rect width="' + W + '" height="' + H + '" fill="' + binding[0] + '"/>' +
+        '<rect width="' + W + '" height="' + H + '" filter="url(#g)"/>' +
+        '<rect width="' + W + '" height="' + H + '" fill="url(#l)"/>' +
+        '<rect x="14" y="14" width="272" height="372" fill="none" stroke="' + gilt + '" stroke-width="1.6" opacity="0.85"/>' +
+        '<rect x="20" y="20" width="260" height="360" fill="none" stroke="' + gilt + '" stroke-width="0.8" opacity="0.6"/>' +
+        '<g fill="' + gilt + '" opacity="0.8"><circle cx="30" cy="30" r="3.2"/><circle cx="270" cy="30" r="3.2"/>' +
+          '<circle cx="30" cy="370" r="3.2"/><circle cx="270" cy="370" r="3.2"/></g>' +
+        finial(62, false) + finial(338, true) +
+        '<path d="' + cart(150, 170, 196, 132) + '" fill="' + gilt + '"/>' +
+        '<path d="' + cart(150, 170, 190, 126) + '" fill="' + binding[1] + '"/>' +
+        '<path d="' + cart(150, 170, 176, 112) + '" fill="none" stroke="' + gilt + '" stroke-width="0.9" opacity="0.55"/>' +
+        text +
+        '<circle cx="150" cy="296" r="15" fill="none" stroke="' + gilt + '" stroke-width="1.2"/>' +
+        '<circle cx="150" cy="296" r="7" fill="' + gilt + '" opacity="0.9"/>' +
+      "</svg>";
+    return "data:image/svg+xml," + encodeURIComponent(svg);
   }
 
   function esc(s) {

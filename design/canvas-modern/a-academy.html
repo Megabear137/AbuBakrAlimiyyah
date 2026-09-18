@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Resolve the live stylesheet, scripts, content and images from the site root. -->
+<base href="../../">
+<title>A · Academy — Alimiyyah modernise mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=26">
+<link rel="stylesheet" href="design/canvas-modern/mock.css">
+<style>
+/* =====================================================================
+   A · ACADEMY — after alkhalil.ca
+   A dark hero with one sweeping rounded corner, a big geometric sans, pill
+   buttons ending in an arrow disc, rounded cards with small badges, a
+   pale-gold band for the library and a dark footer. Chocolate replaces
+   their charcoal, bright gold their yellow. Content is the site's own; the
+   shelf keeps its behaviour but is drawn in this style.
+   ===================================================================== */
+:root {
+  --a-sans: "Plus Jakarta Sans", "Instrument Sans", system-ui, sans-serif;
+  --a-tint: #fbf1d9;
+  --a-tint-edge: #ecd08a;
+  --a-r: 28px;
+}
+body { background: #fffdf9; font-family: var(--a-sans); color: var(--brown-ink); }
+.a-kicker { color: var(--gold-ink); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+.a-h2 { margin-top: 0.8rem; font-family: var(--a-sans); font-weight: 700; font-size: clamp(2.2rem, 1.6rem + 2.4vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em; color: var(--espresso); }
+.a-h2 em { font-style: normal; color: var(--rust); }
+.a-lede { max-width: 36rem; margin-top: 0.9rem; color: var(--ink-soft); font-size: 1.05rem; }
+.a-sec { padding-top: clamp(4rem, 9vw, 110px); }
+.a-row-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem 2rem; flex-wrap: wrap; }
+
+/* Pills: a label and an arrow in a disc */
+.a-pill { display: inline-flex; align-items: center; gap: 0.9rem; padding: 0.85rem 0.9rem 0.85rem 1.6rem; border-radius: 999px; font-weight: 600; font-size: 0.98rem; text-decoration: none; transition: transform .25s var(--ease-out); }
+.a-pill:hover { transform: translateY(-2px); }
+.a-pill i { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; font-style: normal; font-size: 0.95rem; transition: transform .25s var(--ease-out); }
+.a-pill:hover i { transform: rotate(45deg); }
+.a-pill--gold { background: var(--gold); color: var(--espresso); }
+.a-pill--gold i { background: var(--espresso); color: var(--gold); }
+.a-pill--white { background: #fff; color: var(--espresso); }
+.a-pill--white i { background: var(--gold); color: var(--espresso); }
+.a-pill--tint { background: var(--a-tint); border: 1px solid var(--a-tint-edge); color: var(--espresso); }
+.a-pill--tint i { background: var(--gold); color: var(--espresso); }
+
+/* Round arrow buttons for the rows */
+.a-arrows { display: flex; gap: 0.6rem; }
+.a-arrows button { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid var(--espresso); color: var(--espresso); font-size: 1.1rem; transition: background .2s, color .2s; }
+.a-arrows button:hover { background: var(--espresso); color: var(--gold); }
+
+/* Rows that scroll sideways and snap */
+.a-row { display: grid; grid-auto-flow: column; gap: 1.5rem; margin-top: 2.2rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 1rem; }
+.a-row::-webkit-scrollbar { display: none; }
+.a-row > * { scroll-snap-align: start; }
+
+/* ---- Header: laid over the hero ---- */
+.a-head { position: absolute; inset: 0 0 auto; z-index: 5; }
+.a-head .wrap { display: flex; align-items: center; gap: 2rem; height: 96px; }
+.a-brand { display: flex; align-items: center; gap: 0.75rem; color: #fff; text-decoration: none; font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; }
+.a-brand img { width: 44px; height: 44px; border-radius: 50%; }
+.a-nav { display: flex; gap: 1.8rem; margin-left: auto; }
+.a-nav a { color: #fff6ea; text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+.a-nav a:hover { color: var(--gold-light); }
+.a-head .a-pill { padding-block: 0.55rem; font-size: 0.92rem; }
+.a-head .a-pill i { width: 26px; height: 26px; }
+
+/* ---- Hero: one sweeping corner ---- */
+.a-hero { position: relative; overflow: hidden; background: var(--espresso); border-bottom-left-radius: clamp(60px, 10vw, 150px); color: #fff6ea; }
+.a-hero__photo { position: absolute; inset: 0 0 0 38%; background: url("assets/img/hero-masjid.jpg") center 35% / cover; -webkit-mask: linear-gradient(90deg, transparent, #000 45%); mask: linear-gradient(90deg, transparent, #000 45%); opacity: 0.8; }
+.a-hero__photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(36, 18, 5, 0.5), transparent 30%, rgba(107, 63, 38, 0.55)); }
+.a-hero .wrap { position: relative; padding-top: 190px; padding-bottom: clamp(5rem, 9vw, 120px); }
+.a-hero .a-kicker { color: var(--gold); }
+.a-hero h1 { max-width: 13ch; margin: 1.1rem 0 1.4rem; font-family: var(--a-sans); font-weight: 700; font-size: clamp(3rem, 1.8rem + 4.6vw, 5.6rem); line-height: 1; letter-spacing: -0.045em; color: #fff; }
+.a-hero h1 span { color: var(--gold-light); }
+.a-hero p { max-width: 38rem; font-size: 1.15rem; color: rgba(255, 246, 234, 0.88); }
+.a-hero .a-pill { margin-top: 2.4rem; }
+
+/* ---- Introduction beside the Our Program card ---- */
+.a-who { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: end; }
+.a-who__statement { margin: 1rem 0 0; font-weight: 600; font-size: clamp(1.45rem, 1.1rem + 1vw, 2rem); line-height: 1.3; letter-spacing: -0.02em; color: var(--espresso); }
+.a-who__program { padding: 1.6rem 1.8rem; border-radius: 22px; background: var(--a-tint); border: 1px solid var(--a-tint-edge); }
+.a-who__program h3 { font-family: var(--a-sans); font-size: 1.3rem; font-weight: 700; color: var(--espresso); }
+.a-who__program p { margin-top: 0.5rem; color: var(--ink-soft); line-height: 1.7; }
+
+/* ---- Details: rounded cards with badges ---- */
+.a-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; margin-top: 2.5rem; }
+.a-card__img { position: relative; aspect-ratio: 4 / 3; border-radius: var(--a-r); overflow: hidden; box-shadow: 0 30px 50px -34px rgba(70, 34, 6, 0.6); }
+.a-card__img em { position: absolute; right: 1.3rem; top: 0.6rem; font-family: var(--display); font-style: normal; font-size: 4rem; color: rgba(247, 224, 164, 0.9); }
+.a-card__img b { position: absolute; left: 1.4rem; bottom: 1.1rem; color: #fff; font-size: 2.6rem; font-weight: 700; letter-spacing: -0.04em; }
+.a-card__img b small { font-size: 0.95rem; font-weight: 500; letter-spacing: 0; color: var(--gold-pale); }
+.a-card__meta { display: flex; align-items: center; gap: 0.9rem; margin: 1.1rem 0 0.6rem; }
+.a-badge { padding: 0.28rem 0.85rem; border-radius: 999px; background: var(--espresso); color: #fff; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.a-badge--tint { background: #fff; color: var(--espresso); border: 1px solid var(--a-tint-edge); }
+.a-card__meta span { color: var(--gold-ink); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.a-card h3 { font-family: var(--a-sans); font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; color: var(--espresso); }
+.a-card ul { margin: 0.6rem 0 0; padding: 0; list-style: none; color: var(--ink-soft); }
+.a-card li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid #efe4d3; font-size: 0.95rem; }
+.a-card li:last-child { border-bottom: 0; }
+.a-card li b { color: var(--espresso); font-weight: 600; }
+.a-family { padding: 1.8rem; border-radius: var(--a-r); background: var(--a-tint); border: 1px solid var(--a-tint-edge); }
+.a-family .a-card__meta { margin-top: 0; }
+.a-family ul { margin-top: 1rem; }
+.a-family li { border-color: var(--a-tint-edge); padding-block: 0.8rem; }
+.a-family li b { font-size: 1.1rem; }
+
+/* ---- The shelf: rounded tinted cards, books on a gold rail, year in a badge ---- */
+.shelf-wall { padding-top: clamp(4rem, 9vw, 110px); color: var(--brown-ink); }
+.a-shelf-head { margin-bottom: 2.2rem; }
+.bay { padding: 14px 14px 0; border-radius: var(--a-r); background: var(--a-tint); border: 1px solid var(--a-tint-edge); box-shadow: 0 30px 50px -40px rgba(70, 34, 6, 0.55); }
+.bay__well { border-radius: 18px 18px 0 0; background: linear-gradient(180deg, #fff, #fbf5e8); box-shadow: inset 0 -1px 0 rgba(154, 101, 8, 0.12); }
+.bay__plank { height: 8px; margin-inline: 0; border-radius: 0 0 6px 6px; background: linear-gradient(180deg, var(--gold-light), #c9912f); box-shadow: 0 6px 12px -6px rgba(154, 101, 8, 0.6); }
+.bay__year { height: 60px; color: var(--espresso); font-family: var(--a-sans); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; }
+.bay__numeral { display: grid; place-items: center; min-width: 30px; height: 26px; padding: 0 0.55rem; border-radius: 999px; background: var(--espresso); color: var(--gold-light); font-family: var(--a-sans); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; }
+.bay__empty { color: var(--gold-ink); }
+.spine--todo { background: rgba(227, 179, 74, 0.08); border-color: rgba(154, 101, 8, 0.45); }
+.spine--todo .spine__title { color: var(--gold-ink); }
+.book--open { border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px var(--a-tint-edge), 0 24px 40px -18px rgba(70, 34, 6, 0.45); font-family: var(--a-sans); }
+.book--open::after { display: none; }
+.face__title { font-family: var(--a-sans); font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
+.face__more, .spine.spine--open { font-family: var(--a-sans); }
+/* The full view: a white rounded card, the cover with soft corners. */
+.folio { border-radius: 22px 22px 0 0; background: #fff; color: var(--espresso); box-shadow: 0 0 0 1px var(--a-tint-edge), 0 24px 40px -24px rgba(70, 34, 6, 0.45); font-family: var(--a-sans); }
+.folio::before { display: none; }
+.folio__cover { border-radius: 14px; overflow: hidden; box-shadow: 0 20px 30px -18px rgba(0, 0, 0, 0.55); }
+.folio__subject, .folio__catch { color: var(--gold-ink); }
+.folio__title { font-family: var(--a-sans); font-weight: 700; letter-spacing: -0.02em; }
+.folio__rule { background: var(--a-tint-edge); }
+.folio__body { color: var(--ink-soft); }
+.folio__close { background: #fff; color: var(--espresso); box-shadow: 0 0 0 1px var(--a-tint-edge), 0 4px 10px rgba(0, 0, 0, 0.2); }
+
+/* ---- Teachers ---- */
+.a-teachers { grid-auto-columns: minmax(260px, calc((100% - 3 * 1.5rem) / 4)); }
+.a-teacher { display: flex; flex-direction: column; min-height: 240px; padding: 1.8rem; border-radius: var(--a-r); background: #fff; border: 1px solid #efe1c7; box-shadow: 0 24px 40px -32px rgba(70, 34, 6, 0.45); }
+.a-teacher small { color: var(--gold-ink); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+.a-teacher h3 { margin: 0.5rem 0 auto; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; color: var(--espresso); }
+.a-teacher p { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid #efe1c7; color: var(--ink-soft); font-size: 0.93rem; }
+.a-teacher--todo { background: transparent; border: 1.5px dashed var(--a-tint-edge); box-shadow: none; }
+.a-teacher--todo h3, .a-teacher--todo p { color: var(--ink-muted); font-weight: 500; }
+
+/* ---- Alumni Testimonies: split cards on the pale gold, one at a time ---- */
+.a-quotes { grid-auto-columns: 100%; }
+.a-quote { display: grid; grid-template-columns: 1.5fr 1fr; border-radius: var(--a-r); overflow: hidden; background: var(--a-tint); border: 1px solid var(--a-tint-edge); }
+.a-quote__body { position: relative; padding: clamp(2rem, 4vw, 3.2rem) clamp(2rem, 4vw, 3.2rem) clamp(2rem, 4vw, 3.2rem) clamp(4rem, 7vw, 5.5rem); }
+.a-quote__mark { position: absolute; left: clamp(1.2rem, 2.5vw, 1.8rem); top: clamp(1.4rem, 3vw, 2.4rem); font-family: var(--display); font-size: 6rem; line-height: 0.8; color: var(--gold); }
+.a-quote blockquote { margin: 0; font-size: clamp(1.2rem, 1rem + 0.6vw, 1.45rem); font-weight: 500; line-height: 1.5; color: var(--espresso); }
+.a-quote cite { display: block; margin-top: 1.6rem; font-style: normal; font-weight: 600; color: var(--espresso); }
+.a-quote cite span { display: block; margin-top: 0.2rem; color: var(--gold-ink); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; }
+.a-quote__img { min-height: 300px; }
+.a-quote--todo blockquote, .a-quote--todo cite { color: var(--ink-muted); }
+
+/* ---- Articles & Videos: one pale-gold band ---- */
+.a-band { margin-top: clamp(4rem, 9vw, 110px); padding-block: clamp(3.5rem, 7vw, 90px); background: var(--a-tint); }
+.a-seg { display: inline-flex; padding: 4px; border-radius: 999px; background: #fff; border: 1px solid var(--a-tint-edge); }
+.a-seg button { padding: 0.55rem 1.3rem; border-radius: 999px; font-weight: 600; font-size: 0.9rem; color: var(--ink-soft); }
+.a-seg button[aria-pressed="true"] { background: var(--espresso); color: var(--gold-light); }
+.a-lib { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+.a-feature { display: flex; flex-direction: column; padding: 1.6rem; border-radius: var(--a-r); background: #fff; border: 1px solid var(--a-tint-edge); }
+.a-feature__art { display: grid; place-items: center; height: 210px; margin-bottom: 1.5rem; border-radius: 18px; color: var(--gold); }
+.a-feature h3 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; color: var(--espresso); }
+.a-feature p { margin: 0.5rem 0 1.2rem; color: var(--ink-soft); }
+.a-feature .a-pill { align-self: flex-start; margin-top: auto; }
+.a-by { color: var(--ink-soft); font-size: 0.88rem; }
+.a-by b { color: var(--espresso); }
+.a-list { display: grid; gap: 1rem; align-content: start; }
+.a-list h4.a-kicker { margin-bottom: 0.2rem; }
+.a-item { display: grid; grid-template-columns: 1fr 130px; min-height: 112px; border-radius: 22px; overflow: hidden; background: #fff; box-shadow: 0 18px 32px -26px rgba(70, 34, 6, 0.5); }
+.a-item > div:first-child { display: flex; flex-direction: column; justify-content: center; gap: 0.3rem; padding: 1rem 1.4rem; }
+.a-item small { color: var(--gold-ink); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.a-item h5 { font-size: 1.12rem; font-weight: 700; color: var(--espresso); }
+.a-videos { grid-auto-columns: calc((100% - 2 * 1.5rem) / 3); }
+.a-video__art { position: relative; aspect-ratio: 16 / 10; border-radius: 22px; overflow: hidden; }
+.a-video__art .play { position: absolute !important; inset: 0; margin: auto; width: 58px; height: 58px; border-radius: 50%; background: var(--gold); color: var(--espresso); display: grid; place-items: center; font-size: 1.1rem; }
+.a-video__art time { position: absolute !important; right: 12px; bottom: 12px; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(20, 9, 2, 0.6); color: #fff; font-size: 0.8rem; }
+.a-video__art--photo { background: url("assets/img/hero-masjid.jpg") center / cover; }
+.a-video .a-card__meta { margin: 1rem 0 0.35rem; }
+.a-video h5 { font-size: 1.2rem; font-weight: 700; color: var(--espresso); }
+
+/* ---- Footer ---- */
+.a-foot { margin-top: clamp(4rem, 9vw, 110px); padding: 3.5rem 0 1.5rem; background: var(--espresso); color: rgba(255, 246, 234, 0.8); }
+.a-foot__grid { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 2rem; }
+.a-foot h4 { margin-bottom: 1rem; color: var(--gold-light); font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase; }
+.a-foot address { display: grid; gap: 0.5rem; font-style: normal; }
+.a-foot .todo { color: rgba(255, 246, 234, 0.5); font-style: italic; }
+.a-foot__legal { margin-top: 2.5rem; padding-top: 1.2rem; border-top: 1px solid rgba(255, 246, 234, 0.15); font-size: 0.85rem; }
+
+@media (max-width: 1100px) { .a-nav { display: none; } .a-head .a-pill { margin-left: auto; } }
+@media (max-width: 980px) {
+  .a-who, .a-lib, .a-quote { grid-template-columns: 1fr; }
+  .a-details { grid-template-columns: 1fr; max-width: 520px; }
+  .a-videos { grid-auto-columns: 80%; }
+  .a-hero__photo { inset: 0; opacity: 0.35; -webkit-mask: none; mask: none; }
+}
+@media (max-width: 560px) {
+  .a-brand span { display: none; }
+  .a-item { grid-template-columns: 1fr 90px; }
+}
+</style>
+</head>
+<body id="top">
+
+<header class="a-head">
+  <div class="wrap">
+    <a class="a-brand" href="#top"><img src="assets/img/logo.png" alt=""><span>Jamiyah Islamiyyah Abu Bakr</span></a>
+    <nav class="a-nav" aria-label="Primary">
+      <a href="#top">Home</a><a href="#about">About</a><a href="#program">Program</a><a href="#teachers">Teachers</a><a href="#articles">Articles</a><a href="#videos">Videos</a><a href="#alumni">Alumni</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="a-pill a-pill--gold" href="#program">View Curriculum <i>↗</i></a>
+  </div>
+</header>
+
+<main>
+  <section class="a-hero">
+    <div class="a-hero__photo" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="a-kicker">Jamiyah Islamiyyah Abu Bakr</p>
+      <h1>The Seven-Year <span>Alimiyyah</span> Program</h1>
+      <p>Qur'an, hadith, fiqh and Arabic — taught the traditional way, text by text, with a teacher.</p>
+      <a class="a-pill a-pill--white" href="#program">View Curriculum <i>↗</i></a>
+    </div>
+  </section>
+
+  <section class="a-sec" id="about">
+    <div class="wrap a-who">
+      <div>
+        <p class="a-kicker">Introduction</p>
+        <p class="a-who__statement">A full course of study in Qur'an, hadith, fiqh, Arabic and the sciences that serve them, taught in the traditional way: text by text, with a teacher, in the company of fellow students.</p>
+      </div>
+      <div>
+        <div class="a-who__program">
+          <h3>Our Program</h3>
+          <p>Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Throughout this course, students will attain a mastery of the Arabic language, through which they will gain a deep understanding of the Qur'an and Hadith.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== The bookshelf: the live curriculum.js, restyled by "The shelf" styles above ====== -->
+  <section class="shelf-wall" id="program" aria-labelledby="curriculum-heading">
+    <div class="wrap">
+      <div class="a-row-head a-shelf-head">
+        <div>
+          <p class="a-kicker">The books</p>
+          <h2 class="a-h2" id="curriculum-heading">Curriculum</h2>
+        </div>
+        <p class="a-lede" style="max-width:26rem">Every book in the course stands on the shelf at once. Select a spine to turn it face-on.</p>
+      </div>
+      <div class="case" data-shelf></div>
+    </div>
+  </section>
+
+  <section class="a-sec" id="details">
+    <div class="wrap">
+      <h2 class="a-h2">Details</h2>
+      <p class="a-lede">Class timings, monthly fees and the family discount.</p>
+      <div class="a-details">
+        <article class="a-card">
+          <div class="a-card__img m-board"><em>I–IV</em><b>$125 <small>/month · per student</small></b></div>
+          <div class="a-card__meta"><span class="a-badge">Part-time</span><span>Years I – IV</span></div>
+          <h3>Class Timings</h3>
+          <ul><li>Monday to Friday <b>4:30 PM - 7:30 PM</b></li></ul>
+        </article>
+        <article class="a-card">
+          <div class="a-card__img m-board m-board--rust"><em>V–VII</em><b>$325 <small>/month · per student</small></b></div>
+          <div class="a-card__meta"><span class="a-badge">Full-time</span><span>Years V – VII</span></div>
+          <h3>Class Timings</h3>
+          <ul><li>Monday to Friday <b>8:30 AM - 4:15 PM</b></li><li>Saturday <b>8:30 AM - 12:30 PM</b></li></ul>
+        </article>
+        <article class="a-card a-family">
+          <div class="a-card__meta"><span class="a-badge a-badge--tint">Fees</span></div>
+          <h3>Family discounts</h3>
+          <ul>
+            <li>2 students <b>5% off the total</b></li>
+            <li>3 students <b>10% off the total</b></li>
+            <li>4 or more <b>15% off the total</b></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="a-sec" id="teachers">
+    <div class="wrap">
+      <div class="a-row-head">
+        <div>
+          <p class="a-kicker">Taught by text, with a teacher</p>
+          <h2 class="a-h2">Our <em>Teachers</em></h2>
+        </div>
+        <div class="a-arrows"><button type="button" data-scroll-prev="a-teachers" aria-label="Previous">←</button><button type="button" data-scroll-next="a-teachers" aria-label="Next">→</button></div>
+      </div>
+      <div class="a-row a-teachers" id="a-teachers">
+        <article class="a-teacher"><small>Moulana</small><h3>Kasim Ingar</h3><p>Imam of our masjid, and teacher for over 30 years</p></article>
+        <article class="a-teacher"><small>Moulana</small><h3>Salim Chauhan</h3></article>
+        <article class="a-teacher"><small>Moulana</small><h3>Zuber Motala</h3></article>
+        <article class="a-teacher a-teacher--todo"><small>Moulana</small><h3>TODO: Fourth teacher</h3><p>TODO: Short line about this teacher.</p></article>
+        <article class="a-teacher a-teacher--todo"><small>Moulana</small><h3>TODO: Fifth teacher</h3><p>TODO: Short line about this teacher.</p></article>
+        <article class="a-teacher a-teacher--todo"><small>Moulana</small><h3>TODO: Sixth teacher</h3><p>TODO: Short line about this teacher.</p></article>
+        <article class="a-teacher a-teacher--todo"><small>Moulana</small><h3>TODO: Seventh teacher</h3><p>TODO: Short line about this teacher.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="a-band" id="articles">
+    <div class="wrap">
+      <div class="a-row-head">
+        <h2 class="a-h2">Articles</h2>
+        <div class="a-seg" data-seg role="group" aria-label="Library">
+          <button type="button" aria-pressed="true" data-label="Brothers">Brothers</button><button type="button" aria-pressed="false" data-label="Sisters">Sisters</button>
+        </div>
+      </div>
+      <div class="a-lib">
+        <article class="a-feature">
+          <div class="a-feature__art m-board"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5v-13ZM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5v-13Z"/></svg></div>
+          <div class="a-card__meta" style="margin-top:0"><span class="a-badge">Subject</span></div>
+          <h3>Article title</h3>
+          <p>A sentence or two introducing the article.</p>
+          <p class="a-by"><b>Author</b> · 5 min read</p>
+          <a class="a-pill a-pill--tint" href="#articles">Read article <i>↗</i></a>
+        </article>
+        <div class="a-list">
+          <h4 class="a-kicker">More articles</h4>
+          <article class="a-item"><div><small>Subject</small><h5>Article title</h5><span class="a-by"><b>Author</b> · 5 min read</span></div><div class="m-board"></div></article>
+          <article class="a-item"><div><small>Subject</small><h5>Article title</h5><span class="a-by"><b>Author</b> · 5 min read</span></div><div class="m-board m-board--rust"></div></article>
+          <article class="a-item"><div><small>Subject</small><h5>Article title</h5><span class="a-by"><b>Author</b> · 5 min read</span></div><div class="m-board"></div></article>
+          <article class="a-item"><div><small>Subject</small><h5>Article title</h5><span class="a-by"><b>Author</b> · 5 min read</span></div><div class="m-board m-board--rust"></div></article>
+        </div>
+      </div>
+
+      <div class="a-row-head" id="videos" style="margin-top:clamp(3.5rem,7vw,80px)">
+        <h2 class="a-h2">Videos</h2>
+        <div style="display:flex;gap:1rem;align-items:center">
+          <div class="a-seg" data-seg role="group" aria-label="Library">
+            <button type="button" aria-pressed="true" data-label="Brothers">Brothers</button><button type="button" aria-pressed="false" data-label="Sisters">Sisters</button>
+          </div>
+          <div class="a-arrows"><button type="button" data-scroll-prev="a-videos" aria-label="Previous">←</button><button type="button" data-scroll-next="a-videos" aria-label="Next">→</button></div>
+        </div>
+      </div>
+      <div class="a-row a-videos" id="a-videos">
+        <article class="a-video"><div class="a-video__art a-video__art--photo"><span class="play">▶</span><time>00:00</time></div><div class="a-card__meta"><span class="a-badge">Subject</span><span>Date</span></div><h5>Video title</h5></article>
+        <article class="a-video"><div class="a-video__art m-board"><span class="play">▶</span><time>00:00</time></div><div class="a-card__meta"><span class="a-badge">Subject</span><span>Date</span></div><h5>Video title</h5></article>
+        <article class="a-video"><div class="a-video__art a-video__art--photo"><span class="play">▶</span><time>00:00</time></div><div class="a-card__meta"><span class="a-badge">Subject</span><span>Date</span></div><h5>Video title</h5></article>
+        <article class="a-video"><div class="a-video__art m-board"><span class="play">▶</span><time>00:00</time></div><div class="a-card__meta"><span class="a-badge">Subject</span><span>Date</span></div><h5>Video title</h5></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="a-sec" id="alumni">
+    <div class="wrap">
+      <div class="a-row-head">
+        <h2 class="a-h2">Alumni <em>Testimonies</em></h2>
+        <div class="a-arrows"><button type="button" data-scroll-prev="a-quotes" aria-label="Previous">←</button><button type="button" data-scroll-next="a-quotes" aria-label="Next">→</button></div>
+      </div>
+      <div class="a-row a-quotes" id="a-quotes">
+        <div class="a-quote"><div class="a-quote__body"><span class="a-quote__mark" aria-hidden="true">“</span><blockquote>I came expecting to memorise rulings and left having learned how the scholars arrived at them. That shift changed the way I read everything.</blockquote><cite>Sumayyah Noor<span>2020</span></cite></div><div class="a-quote__img m-board" aria-hidden="true"></div></div>
+        <div class="a-quote"><div class="a-quote__body"><span class="a-quote__mark" aria-hidden="true">“</span><blockquote>My teacher went through the same page with me four times without once making me feel slow. I try to teach my own students that way now.</blockquote><cite>Abdurrahman Sheikh<span>2022</span></cite></div><div class="a-quote__img m-board m-board--rust" aria-hidden="true"></div></div>
+        <div class="a-quote a-quote--todo"><div class="a-quote__body"><span class="a-quote__mark" aria-hidden="true">“</span><blockquote>TODO: A third alumni testimony.</blockquote><cite>TODO: Name<span>TODO: Year</span></cite></div><div class="a-quote__img m-board" aria-hidden="true"></div></div>
+        <div class="a-quote a-quote--todo"><div class="a-quote__body"><span class="a-quote__mark" aria-hidden="true">“</span><blockquote>TODO: A fourth alumni testimony.</blockquote><cite>TODO: Name<span>TODO: Year</span></cite></div><div class="a-quote__img m-board m-board--rust" aria-hidden="true"></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="a-foot" id="contact">
+  <div class="wrap">
+    <div class="a-foot__grid">
+      <a class="a-brand" href="#top"><img src="assets/img/logo.png" alt=""><span>Jamiyah Islamiyyah Abu Bakr</span></a>
+      <div>
+        <h4>Contact</h4>
+        <address><span class="todo">TODO: masjid street address, city, postal code</span><span class="todo">TODO: info@example.org</span><span class="todo">TODO: (000) 000-0000</span></address>
+      </div>
+    </div>
+    <p class="a-foot__legal">© 2026 Jamiyah Islamiyyah Abu Bakr</p>
+  </div>
+</footer>
+
+<nav class="m-switch" aria-label="Mockups"><a href="design/canvas-modern/index.html">All</a><a href="design/canvas-modern/a-academy.html" aria-current="page">A</a><a href="design/canvas-modern/b-night.html">B</a><a href="design/canvas-modern/c-editorial.html">C</a><a href="design/canvas-modern/d-bento.html">D</a><a href="design/canvas-modern/e-modern.html">E</a><a href="design/canvas-modern/f-final.html">F</a></nav>
+<script src="assets/js/curriculum.js?v=5"></script>
+<script src="design/canvas-modern/mock.js"></script>
+</body>
+</html>

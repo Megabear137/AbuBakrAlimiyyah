@@ -1,0 +1,44 @@
+/* 10 · Rust & Brass — the brown and a warm brass gold share the page.
+   The Details cards and the featured article are brown with brass type;
+   the teachers band between them is laid in brass with brown ink. */
+:root {
+  --ground: #fcf9f3;
+  --gold: #c49a3c; --gold-light: #dcb65e; --gold-pale: #efd9a0; --gold-ink: #8c6516; --gilt: #c9a048;
+  --ink: #2a1608; --ink-soft: #4a3222; --ink-muted: #5e4535; --cream: #fdf7ec;
+
+  --t-heading: #bd5d0f; --t-ink-deep: #2a1608; --t-light-brown: #eedcc2;
+  --t-pool-1: rgba(226, 194, 130, 0.8); --t-pool-2: rgba(236, 196, 156, 0.8); --t-pool-3: rgba(232, 212, 160, 0.85);
+  --t-shadow-rgb: 110, 56, 10;  --t-glass-rgb: 48, 24, 6;  --t-line-rgb: 220, 182, 94;
+  --t-btn-1: #e2bf6c; --t-btn-2: #b98c30; --t-btn-ink: #2a1608;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(46, 20, 4, 0.72) 0%, rgba(46, 20, 4, 0.2) 28%, rgba(140, 70, 16, 0.6) 62%,
+      rgba(160, 96, 30, 0.88) 86%, rgba(224, 200, 150, 0.92) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(46, 20, 4, 0.7), rgba(46, 20, 4, 0) 60%);
+  --t-hero-em: #e8c46e;
+
+  --t-well-1: #3a2410; --t-well-2: #221406; --t-well-glow: 0.24; --t-todo-rgb: 214, 180, 100;
+
+  --t-band-1: #bd5d0f; --t-band-2: #8a4009; --t-band-glow: 0.14;
+  --t-on-band: #fdf3e3; --t-on-band-rgb: 253, 243, 227; --t-on-band-strong: #fff8ec;
+  --t-band-accent: #f0cf7e; --t-band-value: #f6dca0;
+  --t-teacher-1: #fffaf0; --t-teacher-2: #f5e8cf;
+
+  --t-card-tint: rgba(250, 242, 226, 0.9);
+  --t-track-1: #bd5d0f; --t-track-2: #8a4009; --t-knob: linear-gradient(180deg, #e8c97a, #b98c30);
+  --t-scrim-rgb: 46, 20, 4; --t-scrim-solid: #8a4009; --t-video-1: #bd5d0f; --t-video-2: #6e3308;
+}
+/* The teachers band in brass, inked brown */
+.teachers-band {
+  background:
+    radial-gradient(900px 420px at 50% 0%, rgba(255, 240, 200, 0.35), transparent 70%),
+    linear-gradient(180deg, #d6ae52, #b38a34);
+  color: #2a1608;
+}
+.teachers-band::before, .teachers-band::after { border-color: rgba(90, 40, 6, 0.45); }
+.teachers-band .section__heading { color: #2a1608; }
+.teachers-band .section__heading em { color: #7a3a08; }
+.teachers-band .kicker--on-green { color: #6b3006; }
+.teachers-band .carousel__arrow { color: #6b3006; border-color: rgba(90, 40, 6, 0.35); background: rgba(255, 250, 235, 0.4); }
+.teachers-band .carousel__arrow:hover { background: #6b3006; color: #fbeed8; }
+.teachers-band .carousel__dot { border-color: #6b3006; }
+.teachers-band .carousel__dot[aria-current="true"] { background: #6b3006; }

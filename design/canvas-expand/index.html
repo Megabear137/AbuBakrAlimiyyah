@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Expanded book — Mockups</title>
+  <link rel="icon" href="../../assets/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+  <!-- The live stylesheet, so every mockup is built from the real tokens, bays and spines -->
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    /* ============================ canvas chrome ============================ */
+    body { background: var(--ground); }
+    .canvas-head { padding: 4.5rem 0 1rem; }
+    .canvas-head h1 { color: var(--rust); font-family: var(--display); font-size: clamp(2.8rem, 2rem + 3vw, 4.4rem); line-height: 1; margin-top: 0.6rem; }
+    .canvas-head h1 em { color: var(--gold-ink); font-weight: 500; }
+    .canvas-head__lede { max-width: 720px; margin-top: 1rem; color: var(--ink-muted); }
+    .canvas-head__lede + .canvas-head__lede { margin-top: 0.8rem; }
+    .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.6rem; }
+    .jump a { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid var(--gilt-edge); color: var(--brown-ink); font-size: 0.88rem; font-weight: 600; text-decoration: none; background: #fff; }
+    .jump a:hover { background: var(--rust); border-color: var(--rust); color: var(--cream); }
+
+    .mock { padding: 3.5rem 0 1rem; }
+    .mock__label { display: flex; gap: 1.1rem; align-items: flex-start; margin-bottom: 2rem; }
+    .mock__num { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(145deg, var(--gold-light), #b8924a); box-shadow: 0 0 0 5px rgba(227, 179, 74, 0.22); color: var(--espresso); font-family: var(--display); font-size: 1.6rem; font-weight: 700; }
+    .mock__title { color: var(--brown-ink); font-family: var(--display); font-size: 2rem; line-height: 1.1; }
+    .mock__title em { color: var(--gold-ink); font-weight: 500; }
+    .mock__desc { max-width: 820px; margin-top: 0.3rem; color: var(--ink-muted); font-size: 0.94rem; }
+    .mock__try { display: inline-block; margin-top: 0.5rem; color: var(--gold-ink); font-weight: 600; font-size: 0.9rem; }
+    .mock .shelf-wall { margin-top: 0; }
+
+    /* =============== shared pieces of the mockups themselves =============== */
+
+    /* The "see more" control on the small open card. It is a span, not a
+       button: the open card is itself a <button> today, so a real nested
+       button would be invalid. Which way round that should go when we build
+       it is the one open question - see the note at the foot of the page. */
+    .face__more {
+      display: block;
+      margin-top: auto;
+      padding-top: 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .spine.spine--open { display: flex; flex-direction: column; }
+    .face__body { flex: 0 1 auto; }
+
+    /* A bay is only half the wall, so the panel has about 580px to work in and
+       the cover has to be kept small - capped here, not left to a percentage,
+       or the description is squeezed into a gutter. */
+    .shelf { align-items: start; }   /* the neighbouring bay keeps its own height */
+
+    /* The panel replaces the well, so it inherits the bay's width exactly and
+       the plank and year label stay where they were. */
+    .xp {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 170px) minmax(0, 1fr);
+      gap: clamp(0.9rem, 2.2vw, 1.5rem);
+      align-items: start;
+      min-height: 300px;
+      padding: clamp(1rem, 2.4vw, 1.7rem);
+      border-radius: 10px 10px 0 0;
+      text-align: left;
+      animation: xp-in 0.45s var(--ease-out) both;
+    }
+    @keyframes xp-in { from { opacity: 0; transform: translateY(10px) scale(0.985); } }
+    @media (prefers-reduced-motion: reduce) { .xp { animation: none; } }
+
+    .xp__cover { position: relative; align-self: start; }
+    .xp__cover img { width: 100%; border-radius: 2px; }
+    .xp__close {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      z-index: 4;
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .xp__urdu { font-family: var(--urdu); font-size: 1.05rem; line-height: 2; }
+    .xp__kicker { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+    .xp__title { font-family: var(--display); font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem); line-height: 1.05; }
+    .xp__body { font-size: 0.86rem; line-height: 1.65; }
+    .xp__body + .xp__body { margin-top: 0.7rem; }
+
+    /* ------------------------ 1. Illuminated folio ------------------------ */
+    /* One cream leaf across the bay inside an illuminated border: a gold rule,
+       a hairline inside it and a rosette at each corner. The cover is propped
+       in its own gilt frame; the text opens on a drop cap. */
+    .opt1 .face__more { color: var(--gold-ink); }
+    .opt1 .face__more:hover { text-decoration: underline; }
+
+    .xp--1 {
+      background: linear-gradient(158deg, #fdf8ec, #efe4ca);
+      box-shadow: inset 0 0 0 1px rgba(154, 101, 8, 0.5), 0 18px 34px -16px rgba(0, 0, 0, 0.65);
+      color: var(--brown-ink);
+    }
+    .xp--1::before, .xp--1::after { content: ""; position: absolute; pointer-events: none; }
+    .xp--1::before { inset: 10px; border: 1.5px solid var(--gilt); }
+    .xp--1::after {
+      inset: 15px;
+      border: 1px solid rgba(154, 101, 8, 0.35);
+      background:
+        radial-gradient(circle at 0 0, var(--gilt) 0 3px, transparent 3.5px) 0 0 / 50% 50% no-repeat,
+        radial-gradient(circle at 100% 0, var(--gilt) 0 3px, transparent 3.5px) 100% 0 / 50% 50% no-repeat,
+        radial-gradient(circle at 0 100%, var(--gilt) 0 3px, transparent 3.5px) 0 100% / 50% 50% no-repeat,
+        radial-gradient(circle at 100% 100%, var(--gilt) 0 3px, transparent 3.5px) 100% 100% / 50% 50% no-repeat;
+    }
+    .xp--1 > :not(.xp__close) { position: relative; z-index: 2; }
+    .xp--1 { grid-template-columns: minmax(0, 150px) minmax(0, 1fr); padding: clamp(1.4rem, 2.6vw, 2rem); }
+    .xp--1 .xp__cover img { box-shadow: 0 0 0 1px var(--gilt), 0 0 0 5px #fdf8ec, 0 0 0 6px rgba(154, 101, 8, 0.35), 0 14px 24px -12px rgba(0, 0, 0, 0.6); }
+    .xp--1 .xp__kicker { color: var(--gold-ink); }
+    .xp--1 .xp__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .xp--1 .xp__title { margin-top: 0.15rem; }
+    .xp--1 .xp__rule { height: 1px; margin: 0.8rem 0 0.9rem; background: linear-gradient(90deg, var(--gilt), rgba(154, 101, 8, 0.15)); }
+    .xp--1 .xp__body:first-of-type::first-letter {
+      float: left;
+      margin: 0.1em 0.35rem -0.1em 0;
+      color: var(--gold-ink);
+      font-family: var(--display);
+      font-size: 3.1em;
+      font-weight: 700;
+      line-height: 0.78;
+    }
+    .xp--1 .xp__close { color: var(--gold-ink); background: #fdf8ec; box-shadow: inset 0 0 0 1px var(--gilt-edge); }
+
+    /* -------------------------- 2. Opened codex -------------------------- */
+    /* The panel is drawn as the book lying open: two leaves, a gutter shadow
+       down the middle, ruled lines under the text the way a scribe rules a
+       page, and the cover propped on the left leaf. */
+    .opt2 .face__more { align-self: flex-start; padding: 0.3rem 0.7rem; border: 1px solid var(--gilt-edge); border-radius: 999px; color: var(--gold-ink); font-size: 0.66rem; }
+    .opt2 .face__more:hover { background: var(--gold); border-color: var(--gold); color: var(--espresso); }
+
+    .xp--2 {
+      gap: clamp(1.6rem, 4vw, 3rem);
+      padding: clamp(1.2rem, 2.6vw, 2rem) clamp(1rem, 2.4vw, 1.6rem);
+      color: var(--brown-ink);
+      background:
+        linear-gradient(90deg, rgba(90, 55, 20, 0.22), transparent 7%, transparent 93%, rgba(90, 55, 20, 0.22)),
+        radial-gradient(60% 100% at 50% 50%, rgba(120, 78, 32, 0.28), transparent 62%),
+        linear-gradient(175deg, #fdf9ef, #f1e7d2);
+      border-radius: 6px 6px 0 0;
+      box-shadow: inset 0 1px 0 #fffaf0, 0 18px 34px -16px rgba(0, 0, 0, 0.7);
+    }
+    .xp--2::before {                       /* the gutter: the fold between the leaves */
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 8px;
+      bottom: 8px;
+      width: 34px;
+      margin-left: -17px;
+      background: linear-gradient(90deg, transparent, rgba(92, 56, 22, 0.16) 35%, rgba(60, 34, 12, 0.3) 50%, rgba(92, 56, 22, 0.16) 65%, transparent);
+      pointer-events: none;
+    }
+    .xp--2 > :not(.xp__close) { position: relative; z-index: 2; }
+    .xp--2 { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); }
+    .xp--2 .xp__leaf-l { align-self: center; }   /* the cover rides the middle of its leaf */
+    .xp--2 .xp__cover { max-width: 150px; margin-inline: auto; }
+    .xp--2 .xp__cover img { box-shadow: -2px 0 0 rgba(255, 255, 255, 0.5), 0 16px 26px -14px rgba(0, 0, 0, 0.7); transform: rotate(-1.2deg); }
+    .xp--2 .xp__caption { margin-top: 0.7rem; color: var(--ink-muted); font-family: var(--display); font-size: 0.95rem; font-style: italic; text-align: center; }
+    .xp--2 .xp__text { padding-left: clamp(0.4rem, 1.6vw, 1.2rem); }
+    .xp--2 .xp__kicker { color: var(--gold-ink); }
+    .xp--2 .xp__title { margin: 0.2rem 0 0.1rem; }
+    .xp--2 .xp__rule { height: 3px; margin: 0.7rem 0 0.8rem; border-top: 1px solid rgba(154, 101, 8, 0.5); border-bottom: 1px solid rgba(154, 101, 8, 0.25); }
+    .xp--2 .xp__body {                     /* the scribe's ruling, under the text */
+      padding-bottom: 2px;
+      background: repeating-linear-gradient(180deg, transparent 0 calc(1.65 * 0.86rem - 1px), rgba(154, 101, 8, 0.16) calc(1.65 * 0.86rem - 1px), rgba(154, 101, 8, 0.16) calc(1.65 * 0.86rem));
+    }
+    .xp--2 .xp__close { color: var(--gold-ink); background: rgba(255, 250, 240, 0.9); box-shadow: inset 0 0 0 1px var(--gilt-edge); }
+
+    /* ------------------------ 3. Illuminated unwan ------------------------ */
+    /* The headpiece of a manuscript: a gold band across the top of the panel
+       carrying the title in the spine's own pointed cartouche, with the cover
+       set into a mihrab arch that echoes the testimony niches. */
+    .opt3 .face__more { display: flex; align-items: center; gap: 0.45rem; color: var(--gold-ink); }
+    .opt3 .face__more::before { content: "›"; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); color: var(--espresso); font-size: 0.95rem; font-weight: 700; }
+    .opt3 .face__more:hover::before { background: var(--gold-light); }
+
+    .xp--3 {
+      --unwan: 84px;
+      /* the pointed arch of the testimony niches, as a mask for the cover */
+      --arch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 600' preserveAspectRatio='none'%3E%3Cpath d='M0 600V150C0 90 22 34 50 0C78 34 100 90 100 150V600Z' fill='%23000'/%3E%3C/svg%3E");
+      grid-template-columns: minmax(0, 150px) minmax(0, 1fr);
+      padding: calc(var(--unwan) + 1.1rem) clamp(1rem, 2.4vw, 1.6rem) clamp(1rem, 2.4vw, 1.6rem);
+      color: var(--brown-ink);
+      background: linear-gradient(165deg, #fdf8ec, #f0e6d0);
+      box-shadow: inset 0 0 0 1px rgba(154, 101, 8, 0.45), 0 18px 34px -16px rgba(0, 0, 0, 0.65);
+    }
+    .xp--3::before {                       /* the unwan band */
+      content: "";
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: var(--unwan);
+      background:
+        linear-gradient(135deg, #8a2a20 25%, transparent 25%) -3px 0 / 6px 6px,
+        linear-gradient(225deg, #8a2a20 25%, transparent 25%) -3px 0 / 6px 6px,
+        linear-gradient(315deg, #1f4a3a 25%, transparent 25%) 0 0 / 6px 6px,
+        linear-gradient(45deg,  #1f4a3a 25%, transparent 25%) 0 0 / 6px 6px,
+        #e3cf98;
+      border-bottom: 2px solid var(--gilt);
+      border-radius: 10px 10px 0 0;
+    }
+    .xp--3 > :not(.xp__close) { position: relative; z-index: 2; }
+    .xp--3 .xp__unwan {                    /* title in the spine's cartouche, laid over the band */
+      position: absolute;
+      left: 50%;
+      top: 8px;
+      z-index: 3;
+      width: min(78%, 420px);
+      height: calc(var(--unwan) - 16px);
+      margin-left: calc(min(78%, 420px) / -2);
+      display: grid;
+      place-items: center;
+      padding: 0 1.4rem;
+      background: var(--gilt);
+      clip-path: polygon(50% 0, 100% 12%, 100% 88%, 50% 100%, 0 88%, 0 12%);
+    }
+    .xp--3 .xp__unwan-in {
+      position: absolute;
+      inset: 2px;
+      display: grid;
+      place-items: center;
+      gap: 0.1rem;
+      padding: 0 1.6rem;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.3), rgba(255, 235, 200, 0.06) 45%, rgba(0, 0, 0, 0.28)), #4a1813;
+      clip-path: polygon(50% 0, 100% 12%, 100% 88%, 50% 100%, 0 88%, 0 12%);
+    }
+    .xp--3 .xp__title { color: transparent; background: linear-gradient(180deg, #f0d69a, #c79d4c 55%, #e6c687); -webkit-background-clip: text; background-clip: text; font-size: clamp(1.3rem, 1rem + 1.1vw, 1.8rem); text-align: center; }
+    .xp--3 .xp__urdu { color: var(--gold-pale); font-size: 0.8rem; line-height: 1.4; }
+    .xp--3 .xp__cover {                    /* set into a pointed arch */
+      -webkit-mask: var(--arch) 50% 0 / 100% 100% no-repeat;
+      mask: var(--arch) 50% 0 / 100% 100% no-repeat;
+      filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.55));
+    }
+    .xp--3 .xp__cover img { border-radius: 0; }
+    .xp--3 .xp__kicker { color: var(--gold-ink); }
+    .xp--3 .xp__rosette { display: inline-block; width: 9px; height: 9px; margin: 0 0.45rem; vertical-align: 1px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 1px rgba(154, 101, 8, 0.6); }
+    .xp--3 .xp__rule { height: 1px; margin: 0.7rem 0 0.8rem; background: rgba(154, 101, 8, 0.3); }
+    .xp--3 .xp__close { top: calc(var(--unwan) + 8px); color: var(--gold-ink); background: #fdf8ec; box-shadow: inset 0 0 0 1px var(--gilt-edge); }
+
+    /* --------------------------- 4. Jadwal ruling --------------------------- */
+    /* The classical ruled frame: thin-thick-thin lines in gold and ink round
+       every block, an aged leaf with faint foxing, the subject and author set
+       out in the margin as a scribe's notes, and a catchword at the foot. */
+    .opt4 .face__more { position: relative; margin-top: auto; padding-top: 0.6rem; color: var(--gold-ink); text-align: center; }
+    .opt4 .face__more::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(154, 101, 8, 0.4); }
+
+    .xp--4 {
+      grid-template-columns: minmax(0, 128px) minmax(0, 1fr) 68px;
+      gap: clamp(0.7rem, 1.8vw, 1.2rem);
+      padding: clamp(1.1rem, 2.6vw, 1.8rem);
+      color: #3b2712;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(150, 105, 45, 0.1) 0 12px, transparent 13px),
+        radial-gradient(circle at 76% 68%, rgba(150, 105, 45, 0.09) 0 16px, transparent 17px),
+        radial-gradient(circle at 46% 88%, rgba(150, 105, 45, 0.08) 0 10px, transparent 11px),
+        linear-gradient(170deg, #f7edd6, #ead9b8);
+      box-shadow: inset 0 0 44px rgba(120, 84, 34, 0.22), 0 18px 34px -16px rgba(0, 0, 0, 0.65);
+    }
+    .xp--4::before {                       /* the outer jadwal: gold, ink, gold */
+      content: "";
+      position: absolute;
+      inset: 9px;
+      border: 1px solid rgba(60, 38, 14, 0.55);
+      box-shadow: 0 0 0 2px #f7edd6, 0 0 0 3.5px var(--gilt), inset 0 0 0 2px #f7edd6, inset 0 0 0 3px rgba(138, 42, 32, 0.55);
+      pointer-events: none;
+    }
+    .xp--4 > :not(.xp__close) { position: relative; z-index: 2; }
+    .xp--4 .xp__cover { box-shadow: 0 0 0 1px rgba(60, 38, 14, 0.5), 0 0 0 3px #f7edd6, 0 0 0 4px var(--gilt), 0 14px 22px -12px rgba(0, 0, 0, 0.6); }
+    .xp--4 .xp__kicker { color: #8a2a20; }
+    .xp--4 .xp__title { margin: 0.25rem 0 0.1rem; }
+    .xp--4 .xp__urdu { color: #5a3a16; }
+    .xp--4 .xp__rule { height: 1px; margin: 0.65rem 0 0.75rem; background: repeating-linear-gradient(90deg, rgba(60, 38, 14, 0.5) 0 6px, transparent 6px 10px); }
+    .xp--4 .xp__catch { margin-top: 0.9rem; color: #8a2a20; font-family: var(--display); font-size: 1rem; font-style: italic; text-align: right; }
+    .xp--4 .xp__margin {                   /* the scribe's note column */
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      padding-left: 0.9rem;
+      border-left: 1px solid rgba(60, 38, 14, 0.3);
+    }
+    .xp--4 .xp__margin dt { color: #8a2a20; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+    .xp--4 .xp__margin dd { margin: 0.1rem 0 0; font-family: var(--display); font-size: 0.98rem; line-height: 1.2; }
+    .xp--4 .xp__close { color: #8a2a20; background: #f7edd6; box-shadow: inset 0 0 0 1px rgba(60, 38, 14, 0.4); }
+
+    /* ---------------------- 5. Board with an inset leaf ---------------------- */
+    /* The panel stays wooden - the same board the Details cards are cut from -
+       with the cover laid straight on it under a gold rule and the description
+       on a leaf of paper inset into the board. */
+    .opt5 .face__more { margin: auto -1.1rem -1rem; padding: 0.55rem; border-radius: 0 0 3px 3px; background: linear-gradient(180deg, var(--gold-light), #c9993b); color: var(--espresso); text-align: center; }
+    .opt5 .face__more:hover { background: linear-gradient(180deg, var(--gold-pale), var(--gold)); }
+
+    .xp--5 {
+      grid-template-columns: minmax(0, 140px) minmax(0, 1fr);
+      padding: clamp(1.1rem, 2.4vw, 1.6rem);
+      color: var(--cream);
+      background:
+        linear-gradient(180deg, rgba(255, 228, 184, 0.14), rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.3)),
+        var(--grain),
+        linear-gradient(165deg, var(--board), var(--board-deep));
+      background-size: 100% 100%, var(--grain-size), 100% 100%;
+      box-shadow: inset 0 0 0 1px var(--rust), inset 0 1px 0 rgba(255, 235, 200, 0.16), 0 18px 34px -16px rgba(0, 0, 0, 0.7);
+    }
+    .xp--5 .xp__cover { align-self: start; }
+    .xp--5 .xp__cover img { box-shadow: 0 0 0 1px rgba(227, 179, 74, 0.6), 0 16px 26px -12px rgba(0, 0, 0, 0.8); }
+    .xp--5 .xp__cover::after { content: ""; display: block; height: 2px; margin-top: 10px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .xp--5 .xp__kicker { color: var(--gold); }
+    .xp--5 .xp__title { color: var(--gold-light); margin: 0.2rem 0 0.15rem; }
+    .xp--5 .xp__urdu { color: var(--gold-pale); }
+    .xp--5 .xp__leaf {                     /* the paper inset into the board */
+      margin-top: 0.85rem;
+      padding: clamp(0.8rem, 1.8vw, 1.1rem);
+      border-radius: 3px;
+      background: linear-gradient(170deg, #fdf8ec, #f0e6d0);
+      color: var(--brown-ink);
+      box-shadow: inset 0 0 0 1px var(--gilt-edge), 0 2px 0 rgba(255, 235, 200, 0.14), inset 0 2px 8px rgba(60, 34, 19, 0.25);
+    }
+    .xp--5 .xp__leaf .xp__body + .xp__body { margin-top: 0.55rem; }
+    .xp--5 .xp__meta { margin-top: 0.7rem; padding-top: 0.55rem; border-top: 1px solid rgba(154, 101, 8, 0.3); color: var(--gold-ink); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+    .xp--5 .xp__close { color: var(--gold); background: rgba(0, 0, 0, 0.35); box-shadow: inset 0 0 0 1px rgba(227, 179, 74, 0.5); }
+
+    /* The close roundel sits over the top-right corner of the panel, so every
+       option keeps a corner of clear space for it rather than running a line
+       of type under it. */
+    .xp--1 .xp__head { padding-right: 2.4rem; }
+    .xp--2 .xp__kicker, .xp--2 .xp__title { padding-right: 2.2rem; }
+    .xp--3 .xp__kicker { padding-right: 2.2rem; }
+    .xp--4 .xp__margin { padding-top: 1.7rem; }
+    .xp--5 .xp__kicker, .xp--5 .xp__title { padding-right: 2.2rem; }
+
+    /* --------------------------- narrow screens --------------------------- */
+    @media (max-width: 760px) {
+      .xp, .xp--2, .xp--3, .xp--5 { grid-template-columns: minmax(0, 1fr); }
+      .xp--4 { grid-template-columns: minmax(0, 1fr); }
+      .xp--4 .xp__margin { flex-direction: row; gap: 1.6rem; padding: 0.7rem 0 0; border-left: 0; border-top: 1px solid rgba(60, 38, 14, 0.3); }
+      .xp__cover { max-width: 190px; }
+      .xp--2::before { display: none; }
+    }
+
+    /* ------------------------------- notes ------------------------------- */
+    .notes { padding: 4rem 0 6rem; }
+    .notes h2 { color: var(--brown-ink); font-family: var(--display); font-size: 2rem; }
+    .notes ul { max-width: 820px; margin: 1rem 0 0; padding-left: 1.1rem; color: var(--ink-muted); font-size: 0.94rem; }
+    .notes li { margin-bottom: 0.6rem; }
+    .notes strong { color: var(--brown-ink); }
+  </style>
+</head>
+<body>
+
+<header class="wrap canvas-head">
+  <p class="kicker">Curriculum · the shelf</p>
+  <h1>Opening a book <em>in full</em></h1>
+  <p class="canvas-head__lede">
+    Clicking a spine still turns that book face-on in its slot, exactly as it does now. The small card
+    gains a <strong>See more</strong> control; taking it expands the book to the whole bay — the cover
+    on the left, the description on the right, in a manuscript hand. Closing returns the book to its
+    small card, and the plank and year label never move.
+  </p>
+  <p class="canvas-head__lede">
+    Five directions below, each built on the live stylesheet and the real Second Year books. Every bay
+    is shown paired, as it is on the site, so the panel is judged at the width it will actually get.
+    The covers are placeholders drawn by <code>generate_covers.py</code>; the real ones will be image
+    files named by a new <code>cover</code> field in <code>curriculum.json</code>.
+  </p>
+  <nav class="jump">
+    <a href="#o1">1 · Illuminated folio</a>
+    <a href="#o2">2 · Opened codex</a>
+    <a href="#o3">3 · Illuminated unwan</a>
+    <a href="#o4">4 · Jadwal ruling</a>
+    <a href="#o5">5 · Board &amp; inset leaf</a>
+    <a href="#notes">Notes</a>
+  </nav>
+</header>
+
+<main>
+  <section class="mock opt1" id="o1">
+    <div class="wrap mock__label">
+      <span class="mock__num">1</span>
+      <div>
+        <h2 class="mock__title">Illuminated <em>folio</em></h2>
+        <p class="mock__desc">
+          One cream leaf filling the bay inside an illuminated border — a gold rule, a hairline within
+          it and a rosette at each corner. The cover is propped in its own gilt frame, and the
+          description opens on a gold drop cap. Nearest to the small card we already have, just given
+          room; the quietest of the five.
+        </p>
+        <span class="mock__try">Click a spine, then “See more”.</span>
+      </div>
+    </div>
+    <div class="shelf-wall"><div class="wrap"><div class="case" data-shelf="1"></div></div></div>
+  </section>
+
+  <section class="mock opt2" id="o2">
+    <div class="wrap mock__label">
+      <span class="mock__num">2</span>
+      <div>
+        <h2 class="mock__title">Opened <em>codex</em></h2>
+        <p class="mock__desc">
+          The panel is the book itself, lying open: two leaves with the fold shadowed down the middle,
+          the cover propped on the left leaf with an italic caption, and the description on the right
+          written over a scribe's ruling. The bay reads as a reading desk rather than a card.
+        </p>
+        <span class="mock__try">Click a spine, then “Open the book”.</span>
+      </div>
+    </div>
+    <div class="shelf-wall"><div class="wrap"><div class="case" data-shelf="2"></div></div></div>
+  </section>
+
+  <section class="mock opt3" id="o3">
+    <div class="wrap mock__label">
+      <span class="mock__num">3</span>
+      <div>
+        <h2 class="mock__title">Illuminated <em>unwan</em></h2>
+        <p class="mock__desc">
+          The headpiece of a manuscript. A chevron band in the spines' own headband colours runs across
+          the top of the panel, and the title sits in the spine's pointed cartouche laid over it, in
+          gilt. The cover is set into a mihrab arch, the same shape as the testimony niches, and gold
+          rosettes mark the meta line. The most ornamental, and the most tied to the rest of the page.
+        </p>
+        <span class="mock__try">Click a spine, then “See more”.</span>
+      </div>
+    </div>
+    <div class="shelf-wall"><div class="wrap"><div class="case" data-shelf="3"></div></div></div>
+  </section>
+
+  <section class="mock opt4" id="o4">
+    <div class="wrap mock__label">
+      <span class="mock__num">4</span>
+      <div>
+        <h2 class="mock__title">Jadwal <em>ruling</em></h2>
+        <p class="mock__desc">
+          The scribe's own frame: a jadwal of thin–thick–thin rules in gold, ink and red round the whole
+          leaf, an aged ground with faint foxing, the subject and author set out in a margin column as
+          marginalia, and a red catchword at the foot where a manuscript names the next page's first
+          word. The most literally a manuscript of the five, and the only one that leaves the site's
+          cream for an aged one.
+        </p>
+        <span class="mock__try">Click a spine, then “See more”.</span>
+      </div>
+    </div>
+    <div class="shelf-wall"><div class="wrap"><div class="case" data-shelf="4"></div></div></div>
+  </section>
+
+  <section class="mock opt5" id="o5">
+    <div class="wrap mock__label">
+      <span class="mock__num">5</span>
+      <div>
+        <h2 class="mock__title">Board &amp; <em>inset leaf</em></h2>
+        <p class="mock__desc">
+          The panel stays wooden — cut from the same dark board as the Details cards, with a rust edge —
+          so the shelf never turns into a sheet of paper. The cover lies straight on the board under a
+          gold rule, the title is gilt on the wood, and only the description is a leaf of paper inset
+          into it. The heaviest, and the one that sits most comfortably in a dark well.
+        </p>
+        <span class="mock__try">Click a spine, then “See more”.</span>
+      </div>
+    </div>
+    <div class="shelf-wall"><div class="wrap"><div class="case" data-shelf="5"></div></div></div>
+  </section>
+
+  <section class="wrap notes" id="notes">
+    <h2>What each option assumes</h2>
+    <ul>
+      <li><strong>A new <code>cover</code> field</strong> in <code>content/curriculum.json</code>, e.g.
+        <code>"cover": "assets/img/books/achi-baatain.jpg"</code>. A book without one falls back to the
+        binding drawn from <code>BINDINGS</code>, the way the placeholder covers here are drawn, so the
+        shelf keeps working while the masjid gathers photographs.</li>
+      <li><strong>Longer descriptions become possible.</strong> The small card clips at about two
+        sentences (<code>.face__body { overflow: hidden }</code>); the expanded panel holds four or five
+        comfortably. The plan would be to keep <code>description</code> short for the card and add a
+        <code>long</code> field the panel uses when it is there.</li>
+      <li><strong>The panel replaces the well, not the bay's frame.</strong> The plank and the year label
+        stay put, so the neighbouring bay in the row does not move — only this bay grows taller.</li>
+      <li><strong>The open question is the button.</strong> Today the open card <em>is</em> the
+        <code>&lt;button&gt;</code>. “See more” cannot be a nested button inside it, so when we build the
+        chosen option the card should become a small container with two buttons (close, see more), or
+        the card's click should branch on its target. The first is the honest one for screen readers;
+        it costs the “the button is the card” rule in CLAUDE.md, which was written for a card with one
+        action. Worth deciding before I write it.</li>
+      <li><strong>Escape and focus.</strong> Escape would close the panel back to the small card (and a
+        second Escape back to the spine), with focus returning to the spine each time. The bay's roving
+        <code>tabindex</code> model is untouched while a panel is open.</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+/* The real BINDINGS and SIZES from assets/js/curriculum.js, so the spines here
+   are the spines on the site. */
+var BINDINGS = [
+  ["#4a1813", "#1a1210"], ["#2c1d13", "#5a1916"], ["#1c2a22", "#4a1813"],
+  ["#5e3b1f", "#1c2a22"], ["#16120f", "#5a1916"], ["#3b2416", "#16120f"]
+];
+var SIZES = { small: { w: 46, h: 236 }, medium: { w: 50, h: 252 }, large: { w: 54, h: 268 } };
+
+/* Second Year as content/curriculum.json has it, plus the cover placeholders and
+   the longer copy the expanded panel is sized for. */
+var YEAR2 = {
+  name: "Second Year",
+  books: [
+    {
+      title: "Achi Baatain", titleUrdu: "اچھی باتیں", subject: "Urdu", author: "",
+      book_size: "medium", cover: "covers/achi-baatain.svg",
+      description: "Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar.",
+      long: "Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginner's understanding of Urdu words and grammar, working through short moral stories rather than tables, so the language is learnt in use before it is learnt in rule.\n\nBy the end of the year a student can read unvowelled Urdu prose aloud, follow a lesson given in it, and write a few sentences of their own — which is what the third year's books assume from the first day."
+    },
+    {
+      title: "Tasheel ul-Nahwa", titleUrdu: "تسهيل النحو", subject: "Nahwa", author: "",
+      book_size: "large", cover: "covers/tasheel-nahwa.svg",
+      description: "The first book of Arabic grammar, taking the student from the parts of speech to the governance of the sentence.",
+      long: "The first book of Arabic grammar. It takes the student from the parts of speech to the governance of the sentence — how a word's ending answers to the word beside it — in short lessons, each one drilled before the next is opened.\n\nIt is taught beside Tasheel ul-Sarf: one book accounts for the shape of a word, the other for its place in the sentence, and the two are needed together before any classical text can be read."
+    },
+    {
+      title: "Tasheel ul-Sarf", titleUrdu: "تسهيل الصرف", subject: "Sarf", author: "",
+      book_size: "large", cover: "covers/duroos.svg",
+      description: "Morphology: how an Arabic root turns into the whole family of words that grow out of it.",
+      long: "Morphology — how a three-letter Arabic root turns into the whole family of words that grow out of it: the verb in its tenses, the doer, the thing done, the place, the instrument.\n\nThe patterns are memorised aloud in class, in the order the tradition has always taught them, so that a student meeting an unfamiliar word later can take it apart and find the root underneath."
+    },
+    {
+      title: "Duroos 1", titleUrdu: "دروس اللغة", subject: "Arabic", author: "",
+      book_size: "medium", cover: "covers/duroos.svg",
+      description: "Arabic as a spoken and written language: vocabulary, dialogue and composition from the first lesson.",
+      long: "Arabic as a living language rather than a grammar: vocabulary, dialogue and composition from the first lesson, with the grammar the other books teach arriving here as something already met in a sentence.\n\nThe lessons are short and cumulative, and a good deal of the class is spent speaking, so that the Arabic of the later years is a language the student has used and not only parsed."
+    },
+    {
+      title: "Qasas 1", titleUrdu: "", subject: "Arabic", author: "",
+      book_size: "small", cover: "covers/achi-baatain.svg",
+      description: "Graded stories from the lives of the prophets, read to build reading speed and vocabulary.",
+      long: "Graded stories from the lives of the prophets, written in a controlled vocabulary that grows across the book. It is the reading book of the year: its purpose is speed and confidence, not analysis.\n\nStudents read it aloud in turn, and each passage is retold in the student's own Arabic before the class moves on."
+    },
+    { title: "TODO: Sixth book", titleUrdu: "", subject: "TODO: Subject", author: "", book_size: "medium", description: "TODO" }
+  ]
+};
+
+var YEAR3 = {
+  name: "Third Year",
+  books: [
+    { title: "TODO: Book title", subject: "TODO", description: "TODO", book_size: "medium" },
+    { title: "TODO: Book title", subject: "TODO", description: "TODO", book_size: "large" }
+  ]
+};
+
+/* Per-option wording for the see-more control and the panel builder. */
+var OPTIONS = {
+  "1": { more: "See more →" },
+  "2": { more: "Open the book" },
+  "3": { more: "See more" },
+  "4": { more: "See more" },
+  "5": { more: "See more" }
+};
+
+var NUMERALS = [[10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"]];
+function roman(n) {
+  var out = "";
+  NUMERALS.forEach(function (p) { while (n >= p[0]) { out += p[1]; n -= p[0]; } });
+  return out;
+}
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+function isTodo(b) { return /^\s*TODO/i.test(String(b && b.title)); }
+function paras(text) {
+  return String(text || "").split("\n\n").map(function (p) {
+    return '<p class="xp__body">' + esc(p) + "</p>";
+  }).join("");
+}
+function setBinding(el, i, size) {
+  var b = BINDINGS[i % BINDINGS.length];
+  var d = SIZES[String(size || "").toLowerCase()] || SIZES.medium;
+  el.style.setProperty("--w", d.w + "px");
+  el.style.setProperty("--h", d.h + "px");
+  el.style.setProperty("--c", b[0]);
+  el.style.setProperty("--lab", b[1]);
+}
+
+function cover(book) {
+  return '<div class="xp__cover"><img src="' + esc(book.cover || "covers/achi-baatain.svg") +
+         '" alt="Cover of ' + esc(book.title) + '"></div>';
+}
+
+/* ------------------------- the five panels ------------------------- */
+var PANELS = {
+  "1": function (b) {
+    return '<div class="xp xp--1">' +
+      '<span class="xp__close" title="Close">✕</span>' + cover(b) +
+      '<div class="xp__text">' +
+        '<div class="xp__head"><p class="xp__kicker">Second Year · ' + esc(b.subject) + '</p>' +
+          (b.titleUrdu ? '<p class="xp__urdu" lang="ur" dir="rtl">' + esc(b.titleUrdu) + "</p>" : "") + "</div>" +
+        '<h3 class="xp__title">' + esc(b.title) + "</h3>" +
+        '<div class="xp__rule"></div>' + paras(b.long || b.description) +
+      "</div></div>";
+  },
+  "2": function (b) {
+    return '<div class="xp xp--2">' +
+      '<span class="xp__close" title="Close">✕</span>' +
+      '<div class="xp__leaf-l">' + cover(b) + '<p class="xp__caption">' + esc(b.title) + ", as it is bound</p></div>" +
+      '<div class="xp__text">' +
+        '<p class="xp__kicker">Second Year · ' + esc(b.subject) + "</p>" +
+        '<h3 class="xp__title">' + esc(b.title) + "</h3>" +
+        (b.titleUrdu ? '<p class="xp__urdu" lang="ur" dir="rtl">' + esc(b.titleUrdu) + "</p>" : "") +
+        '<div class="xp__rule"></div>' + paras(b.long || b.description) +
+      "</div></div>";
+  },
+  "3": function (b) {
+    return '<div class="xp xp--3">' +
+      '<div class="xp__unwan"><span class="xp__unwan-in">' +
+        '<span class="xp__title">' + esc(b.title) + "</span>" +
+        (b.titleUrdu ? '<span class="xp__urdu" lang="ur" dir="rtl">' + esc(b.titleUrdu) + "</span>" : "") +
+      "</span></div>" +
+      '<span class="xp__close" title="Close">✕</span>' + cover(b) +
+      '<div class="xp__text">' +
+        '<p class="xp__kicker">Second Year<span class="xp__rosette"></span>' + esc(b.subject) + "</p>" +
+        '<div class="xp__rule"></div>' + paras(b.long || b.description) +
+      "</div></div>";
+  },
+  "4": function (b) {
+    return '<div class="xp xp--4">' +
+      '<span class="xp__close" title="Close">✕</span>' + cover(b) +
+      '<div class="xp__text">' +
+        '<p class="xp__kicker">Second Year</p>' +
+        '<h3 class="xp__title">' + esc(b.title) + "</h3>" +
+        (b.titleUrdu ? '<p class="xp__urdu" lang="ur" dir="rtl">' + esc(b.titleUrdu) + "</p>" : "") +
+        '<div class="xp__rule"></div>' + paras(b.long || b.description) +
+        '<p class="xp__catch">' + esc(String(b.title).split(" ")[0]) + "</p>" +
+      "</div>" +
+      '<dl class="xp__margin">' +
+        "<div><dt>Subject</dt><dd>" + esc(b.subject) + "</dd></div>" +
+        "<div><dt>Year</dt><dd>II</dd></div>" +
+        "<div><dt>Author</dt><dd>" + esc(b.author || "—") + "</dd></div>" +
+      "</dl></div>";
+  },
+  "5": function (b) {
+    return '<div class="xp xp--5">' +
+      '<span class="xp__close" title="Close">✕</span>' + cover(b) +
+      '<div class="xp__text">' +
+        '<p class="xp__kicker">Second Year</p>' +
+        '<h3 class="xp__title">' + esc(b.title) + "</h3>" +
+        (b.titleUrdu ? '<p class="xp__urdu" lang="ur" dir="rtl">' + esc(b.titleUrdu) + "</p>" : "") +
+        '<div class="xp__leaf">' + paras(b.long || b.description) +
+          '<p class="xp__meta">' + esc(b.subject) + (b.author ? " · " + esc(b.author) : "") + "</p>" +
+        "</div>" +
+      "</div></div>";
+  }
+};
+
+/* --------------------------- the shelves --------------------------- */
+function fill(spine, open, opt) {
+  var b = spine._book;
+  spine.setAttribute("aria-expanded", open ? "true" : "false");
+  spine.classList.toggle("spine--open", open);
+
+  if (!open) {
+    spine.innerHTML = spine._todo
+      ? '<span class="spine__title">TODO</span>'
+      : '<span class="spine__fin"></span><span class="spine__cart"><span class="spine__cart-in">' +
+        '<span class="spine__title gilt-text">' + esc(b.title) + "</span></span></span>" +
+        '<span class="spine__fin spine__fin--foot"></span>' +
+        (b.subject ? '<span class="spine__subject gilt-text">' + esc(b.subject) + "</span>" : "") +
+        '<span class="spine__medal"></span>';
+    return;
+  }
+
+  var meta = [b.subject, b.author].filter(Boolean).join(" · ");
+  spine.innerHTML =
+    '<span class="face__head"><span class="face__title">' + esc(b.title) + "</span>" +
+      (b.titleUrdu ? '<span class="face__urdu" lang="ur" dir="rtl">' + esc(b.titleUrdu) + "</span>" : "") +
+    "</span>" +
+    (meta ? '<span class="face__meta">' + esc(meta) + "</span>" : "") +
+    '<span class="face__rule"></span>' +
+    '<span class="face__body">' + esc(b.description) + "</span>" +
+    '<span class="face__more">' + esc(OPTIONS[opt].more) + "</span>";
+}
+
+function buildBay(year, index, opt, state) {
+  var bay = document.createElement("div");
+  bay.className = "bay";
+
+  var well = document.createElement("div");
+  well.className = "bay__well";
+  well.setAttribute("role", "group");
+  well.setAttribute("aria-label", year.name);
+
+  (year.books || []).forEach(function (book, i) {
+    var todo = isTodo(book);
+    var spine = document.createElement("button");
+    spine.type = "button";
+    spine.className = "spine" + (todo ? " spine--todo" : "");
+    spine.tabIndex = i === 0 ? 0 : -1;
+    spine._book = book;
+    spine._todo = todo;
+    setBinding(spine, i, book.book_size);
+    fill(spine, false, opt);
+    if (todo) spine.setAttribute("aria-disabled", "true");
+
+    spine.addEventListener("click", function (e) {
+      if (todo) return;
+      if (e.target.closest(".face__more")) { expand(bay, well, book, opt, state); return; }
+      if (state.open && state.open !== spine) fill(state.open, false, opt);
+      var was = state.open === spine;
+      state.open = was ? null : spine;
+      fill(spine, !was, opt);
+    });
+    well.appendChild(spine);
+  });
+
+  var plank = document.createElement("div");
+  plank.className = "bay__plank";
+  var label = document.createElement("p");
+  label.className = "bay__year";
+  label.innerHTML = '<span class="bay__numeral">' + roman(index + 1) + "</span>" + esc(year.name);
+
+  bay.append(well, plank, label);
+  return bay;
+}
+
+function expand(bay, well, book, opt, state) {
+  collapse(bay);
+  well.style.display = "none";
+  var panel = document.createElement("div");
+  panel.innerHTML = PANELS[opt](book);
+  panel = panel.firstChild;
+  panel.querySelector(".xp__close").addEventListener("click", function () {
+    collapse(bay);
+    well.style.display = "";
+  });
+  bay.insertBefore(panel, well);
+  bay._panel = panel;
+}
+
+function collapse(bay) {
+  if (bay._panel) { bay._panel.remove(); bay._panel = null; }
+}
+
+document.querySelectorAll("[data-shelf]").forEach(function (mount) {
+  var opt = mount.getAttribute("data-shelf");
+  var state = { open: null };
+  var row = document.createElement("div");
+  row.className = "shelf";
+  row.append(buildBay(YEAR2, 1, opt, state), buildBay(YEAR3, 2, opt, state));
+  mount.appendChild(row);
+});
+
+document.addEventListener("keydown", function (e) {
+  if (e.key !== "Escape") return;
+  document.querySelectorAll(".bay").forEach(function (bay) {
+    if (bay._panel) { collapse(bay); bay.querySelector(".bay__well").style.display = ""; }
+  });
+});
+</script>
+</body>
+</html>

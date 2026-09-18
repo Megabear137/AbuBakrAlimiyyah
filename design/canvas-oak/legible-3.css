@@ -1,0 +1,19 @@
+/* 3 · Oiled glaze — the wood stays visible, but the panels are glazed: a dark
+   translucent wash, deepest behind the text and lifting at the edges, the way
+   an oiled board darkens where it is handled. Text stays cream and gold, a
+   shade brighter. */
+
+.card--choc,
+.article-feature,
+.video-card__thumb--pattern {
+  background-image:
+    radial-gradient(130% 110% at 50% 42%, rgba(24, 10, 2, 0.76), rgba(24, 10, 2, 0.46) 70%, rgba(24, 10, 2, 0.3)),
+    linear-gradient(165deg, rgba(255, 232, 196, 0.12), rgba(255, 232, 196, 0) 45%, rgba(0, 0, 0, 0.18)),
+    var(--grain),
+    linear-gradient(160deg, var(--choc), var(--choc-deep));
+  background-size: 100% 100%, 100% 100%, var(--grain-size), 100% 100%;
+}
+.card--choc { border-color: rgba(243, 203, 104, 0.5); }
+.card__kicker, .tgroup__years, .row__value { color: #ffd98b; }
+.tgroup__label, .tier__amount, .article-feature .article__title { color: #ffe6ad; }
+.tgroup + .tgroup, .tiers, .row--rule { border-color: rgba(255, 217, 139, 0.35); }

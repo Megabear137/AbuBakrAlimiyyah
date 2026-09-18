@@ -1,0 +1,32 @@
+/* 7 · Onyx & Gold — gold set against black. The bands are onyx with gold
+   titles and cream type, headings are near-black with gold italics, and
+   every gold (buttons, bolts, gilt, rules) reads at full brightness. */
+:root {
+  --ground: #faf8f2;
+  --gold: #d4af5a; --gold-light: #e6c77c; --gold-pale: #f3e2b0; --gold-ink: #926e1c; --gilt: #cfa855;
+  --ink: #1a1712; --ink-soft: #3d3830; --ink-muted: #524b40; --cream: #fbf6e9;
+
+  --t-heading: #1c1813; --t-ink-deep: #0f0d0a; --t-light-brown: #e8dcc0;
+  --t-pool-1: rgba(232, 208, 150, 0.7); --t-pool-2: rgba(222, 214, 196, 0.9); --t-pool-3: rgba(240, 222, 170, 0.65);
+  --t-shadow-rgb: 30, 24, 14;  --t-glass-rgb: 16, 14, 10;  --t-line-rgb: 212, 175, 90;
+  --t-btn-1: #efd48e; --t-btn-2: #c49a45; --t-btn-ink: #15120d;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(12, 10, 8, 0.75) 0%, rgba(12, 10, 8, 0.25) 28%, rgba(28, 24, 18, 0.62) 62%,
+      rgba(24, 20, 15, 0.9) 86%, rgba(176, 164, 140, 0.9) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(12, 10, 8, 0.72), rgba(12, 10, 8, 0) 60%);
+  --t-hero-em: #e6c77c;
+
+  --t-well-1: #1c1915; --t-well-2: #0c0a08; --t-well-glow: 0.2; --t-todo-rgb: 212, 175, 90;
+
+  --t-band-1: #26221c; --t-band-2: #0f0d0a; --t-band-glow: 0.13;
+  --t-on-band: #f2ebdb; --t-on-band-rgb: 242, 235, 219; --t-on-band-strong: #fbf6e9;
+  --t-band-accent: #e0bf6e; --t-band-value: #f0d796;
+  --t-teacher-1: #fbf6e9; --t-teacher-2: #f0e5c9;
+
+  --t-card-tint: rgba(250, 246, 236, 0.9);
+  --t-track-1: #2a251e; --t-track-2: #0f0d0a; --t-knob: linear-gradient(180deg, #efd48e, #c49a45);
+  --t-scrim-rgb: 12, 10, 8; --t-scrim-solid: #1c1915; --t-video-1: #2e2922; --t-video-2: #0f0d0a;
+}
+/* Gold titles on the black bands */
+.tgroup__label, .tier__amount, .article-feature .article__title, .teachers-band .section__heading { color: var(--gold-light); }
+.teachers-band .section__heading em { color: var(--cream); }

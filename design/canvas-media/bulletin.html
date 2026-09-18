@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Articles — Bulletin Boards</title>
+  <link rel="icon" href="../../assets/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+  <!-- The live site's stylesheet: tokens, section heads, carousel arrows and the Brothers / Sisters switch -->
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=11">
+  <style>
+    /* ============================ canvas chrome ============================ */
+    .canvas-head { padding: 4.5rem 0 1rem; }
+    .canvas-head h1 { color: var(--green); font-family: var(--display); font-size: clamp(2.8rem, 2rem + 3vw, 4.4rem); line-height: 1; margin-top: 0.6rem; }
+    .canvas-head h1 em { color: var(--gold-ink); font-weight: 500; }
+    .canvas-head__lede { max-width: 680px; margin-top: 1rem; color: var(--ink-muted); }
+    .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.6rem; }
+    .jump a { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid rgba(154, 122, 46, 0.4); color: var(--green); font-size: 0.88rem; font-weight: 600; text-decoration: none; background: rgba(255,255,255,.7); }
+    .jump a:hover { background: var(--green); color: var(--cream); }
+    .mock { padding: 5rem 0 6rem; }
+    .mock + .mock { border-top: 1px dashed rgba(19, 69, 40, 0.22); }
+    .mock__label { display: flex; gap: 1.1rem; align-items: flex-start; margin-bottom: 3.2rem; }
+    .mock__num { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(145deg, #e6cc88, #b8924a); box-shadow: 0 0 0 5px rgba(201,169,97,.22); color: var(--green-deep); font-family: var(--display); font-size: 1.6rem; font-weight: 700; }
+    .mock__title { color: var(--green); font-family: var(--display); font-size: 2rem; line-height: 1.1; }
+    .mock__desc { max-width: 760px; margin-top: 0.3rem; color: var(--ink-muted); font-size: 0.94rem; }
+    .mock__try { color: var(--gold-ink); font-weight: 600; }
+    .star { width: 24px; height: 24px; color: var(--gold); flex: none; }
+
+    /* ============================ shared board pieces ============================ */
+    /* Textures are inline SVG noise, so the boards need no image files. */
+    :root {
+      --noise-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .22 0 0 0 0 .13 0 0 0 0 .05 0 0 0 2.2 -1.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      --noise-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .93 0 0 0 0 .8 0 0 0 2.4 -1.35'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      --noise-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 -.35'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .board { position: relative; }
+    .board__inner { position: relative; }
+    .rest-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 2.6rem 0 0.6rem; }
+    .rest .carousel__viewport { margin-bottom: -40px; padding-bottom: 40px; }
+    /* Room inside each slide for the pins, the tilt and the lift, so nothing clips at the viewport. */
+    .slot { height: 100%; padding: 26px 12px 16px; }
+    .note { position: relative; height: 100%; min-height: 250px; display: flex; flex-direction: column; gap: .5rem;
+      transform: rotate(var(--tilt, 0deg)); transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out); }
+    .note:hover { transform: rotate(0) translateY(-6px); }
+    .carousel__slide:nth-child(3n+1) .note { --tilt: -1.4deg; }
+    .carousel__slide:nth-child(3n+2) .note { --tilt: 1deg; }
+    .carousel__slide:nth-child(3n+3) .note { --tilt: -.5deg; }
+    .note h3, .feat h3, .clipping h3, .b-feat h3 { font-family: var(--display); font-weight: 600; line-height: 1.08; }
+    .note h3 { color: var(--green); font-size: 1.55rem; }
+    .note__ex { color: var(--ink-muted); font-size: .9rem; line-height: 1.55; }
+    .note__meta { margin-top: auto; padding-top: .3rem; color: var(--ink-muted); font-size: .8rem; }
+    .note__meta b, .feat__meta b { color: var(--green); font-weight: 600; }
+    .feat { position: relative; display: flex; flex-direction: column; gap: .7rem; }
+    .feat__meta { color: var(--ink-muted); font-size: .88rem; }
+    .feat .btn { align-self: flex-start; position: relative; z-index: 2; }
+    .on-dark .carousel__dot { border-color: var(--gold-pale); }
+    .on-dark .carousel__dot[aria-current="true"] { background: var(--gold-pale); }
+
+    /* A round pushpin: a glossy head casting a small shadow down and to the right. */
+    .pin { position: absolute; z-index: 3; top: -10px; left: 50%; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%;
+      --hi: #fff4cc; --head: #d4b066; --lo: #7d5d1e;
+      background: radial-gradient(circle at 34% 30%, var(--hi) 0 10%, var(--head) 42%, var(--lo) 100%);
+      box-shadow: inset 0 -2px 3px rgba(0,0,0,.25), 1px 2px 1px rgba(0,0,0,.25), 5px 7px 7px -2px rgba(0,0,0,.35); }
+    .pin::after { content: ""; position: absolute; inset: 5px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.28); }
+    .pin--green { --hi: #b9e3c8; --head: #2b7a4b; --lo: #0c2e19; }
+    .pin--red   { --hi: #f6c7bf; --head: #a8342c; --lo: #4d130f; }
+    .pin--cream { --hi: #fff; --head: #efe6cf; --lo: #a39673; }
+
+    /* ================= A · Cork in an oak frame ================= */
+    .cork { padding: clamp(14px, 2.4vw, 26px); border-radius: 16px;
+      background: linear-gradient(180deg, var(--wood-hi), var(--wood) 40%, var(--wood-lo));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.18), inset 0 -2px 0 rgba(0,0,0,.3), 0 40px 70px -40px rgba(34,26,15,.8); }
+    .cork .board__inner { padding: clamp(2rem, 4vw, 3.2rem) clamp(1rem, 3.5vw, 2.8rem) 2.4rem; border-radius: 4px;
+      background: var(--noise-light), var(--noise-dark), radial-gradient(120% 90% at 50% 40%, #c29562, #a57445);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.35), inset 0 8px 20px rgba(0,0,0,.35), inset 0 -4px 14px rgba(0,0,0,.2); }
+    .a-feat { max-width: 900px; margin: 0 auto; padding: clamp(2rem, 4vw, 3rem) clamp(1.4rem, 4vw, 3.2rem) 2.2rem;
+      background: linear-gradient(180deg, #fffdf6, #f6efdc); border-radius: 2px; transform: rotate(-.6deg);
+      box-shadow: 0 1px 1px rgba(0,0,0,.15), 0 26px 40px -22px rgba(30,15,0,.75); }
+    .a-feat::before { content: ""; position: absolute; left: clamp(1.4rem, 4vw, 3.2rem); right: clamp(1.4rem, 4vw, 3.2rem); top: 1.2rem;
+      height: 5px; border-top: 2px solid var(--green); border-bottom: 1px solid var(--gold); }
+    .a-feat .pin { top: 12px; }
+    .a-feat .pin:nth-of-type(1) { left: 22px; margin: 0; }
+    .a-feat .pin:nth-of-type(2) { left: auto; right: 22px; margin: 0; }
+    .a-feat h3 { color: var(--green); font-size: clamp(2.2rem, 1.6rem + 2vw, 3.3rem); max-width: 24ch; line-height: 1.02; }
+    .a-feat__ex { max-width: 60ch; color: var(--ink-soft); font-size: 1.02rem; }
+    .a-seal { position: absolute; z-index: 3; top: -26px; right: clamp(40px, 8vw, 90px); width: 84px; height: 84px; display: grid; place-items: center;
+      color: var(--green-deep); font-family: var(--display); font-size: 1.15rem; font-weight: 700; font-style: italic; transform: rotate(10deg);
+      filter: drop-shadow(2px 5px 5px rgba(0,0,0,.35)); }
+    .a-seal::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 35% 30%, #f3dd9e, #c49a4c 70%);
+      clip-path: polygon(50% 0, 61% 15%, 79% 9%, 81% 27%, 98% 33%, 89% 50%, 98% 67%, 81% 73%, 79% 91%, 61% 85%, 50% 100%, 39% 85%, 21% 91%, 19% 73%, 2% 67%, 11% 50%, 2% 33%, 19% 27%, 21% 9%, 39% 15%); }
+    .a-seal span { position: relative; }
+    .a-tag { padding: .45rem 1rem .4rem; background: #fbf5e3; transform: rotate(-2deg); box-shadow: 0 8px 12px -8px rgba(0,0,0,.6); position: relative; }
+    .a-tag .pin { width: 14px; height: 14px; margin-left: -7px; top: -6px; }
+    .a-tag .kicker { color: var(--green); }
+    .a-note { padding: 1.9rem 1.3rem 1.2rem; border-radius: 2px;
+      background: repeating-linear-gradient(180deg, transparent 0 27px, rgba(19,69,40,.07) 27px 28px) 0 76px / 100% calc(100% - 76px) no-repeat, var(--paper-c, #fffdf7);
+      box-shadow: 0 1px 1px rgba(0,0,0,.15), 0 18px 26px -16px rgba(30,15,0,.7); }
+    .a-note::before { content: ""; position: absolute; left: 0; right: 0; top: 66px; border-top: 1.5px solid rgba(201,169,97,.75); }
+    .carousel__slide:nth-child(3n+2) .a-note { --paper-c: #e9f5ee; }
+    .carousel__slide:nth-child(3n+3) .a-note { --paper-c: #f9f0d6; }
+    .a-note h3 { margin-top: 1.2rem; }
+
+    /* ================= B · Green felt with gold ribbons ================= */
+    .felt { padding: 10px; border-radius: 20px; background: linear-gradient(145deg, #ecd392, #a9853e 45%, #e3c67f 70%, #8f6d2c);
+      box-shadow: 0 40px 70px -40px rgba(6,39,7,.8); }
+    .felt .board__inner { padding: clamp(2rem, 4vw, 3.2rem) clamp(1rem, 3.5vw, 2.8rem) 2.4rem; border-radius: 12px;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170'%3E%3Cdefs%3E%3CradialGradient id='g' cx='.35' cy='.3'%3E%3Cstop offset='0' stop-color='%23fff4cc'/%3E%3Cstop offset='.45' stop-color='%23d4b066'/%3E%3Cstop offset='1' stop-color='%236d501a'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M0 0L170 170M170 0L0 170' stroke='%23c9a961' stroke-width='6' opacity='.6'/%3E%3Cg fill='url(%23g)'%3E%3Ccircle cx='85' cy='85' r='6'/%3E%3Ccircle cx='0' cy='0' r='6'/%3E%3Ccircle cx='170' cy='0' r='6'/%3E%3Ccircle cx='0' cy='170' r='6'/%3E%3Ccircle cx='170' cy='170' r='6'/%3E%3C/g%3E%3C/svg%3E"),
+        var(--noise-fine), radial-gradient(120% 90% at 50% 30%, #236b43, #103d24);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.35), inset 0 6px 22px rgba(0,0,0,.45); }
+    /* A ribbon laid across a corner, as if the sheet were tucked under it. */
+    .tuck::before, .tuck::after { content: ""; position: absolute; z-index: 3; width: 100px; height: 10px;
+      background: linear-gradient(180deg, #f0d894, #c9a961 50%, #9c7a34); box-shadow: 0 3px 4px rgba(0,0,0,.35); }
+    .tuck::before { top: 20px; left: -24px; transform: rotate(-45deg); }
+    .tuck::after { bottom: 20px; right: -24px; transform: rotate(-45deg); }
+    .b-feat { position: relative; max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 2rem;
+      padding: clamp(2rem, 4vw, 3rem) clamp(1.6rem, 4vw, 3.4rem); background: #fbf6e9; border-radius: 3px;
+      box-shadow: 0 30px 44px -24px rgba(0,0,0,.8); }
+    .b-feat .inner-frame { position: absolute; inset: 12px; border: 1px solid rgba(154,122,46,.55); outline: 1px solid rgba(154,122,46,.3); outline-offset: 3px; pointer-events: none; }
+    .b-feat h3 { color: var(--green); font-size: clamp(2.1rem, 1.6rem + 1.8vw, 3.1rem); line-height: 1.02; }
+    .b-feat__side { display: flex; flex-direction: column; gap: .9rem; justify-content: center; padding-left: 2rem; border-left: 1px solid rgba(154,122,46,.4); }
+    .b-feat__side .star { width: 30px; height: 30px; }
+    .b-feat__side .btn { align-self: flex-start; position: relative; z-index: 2; }
+    .b-label { color: var(--gold-pale); text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+    .b-note { padding: 1.7rem 1.4rem 1.2rem; background: #fbf6e9; border-radius: 3px; box-shadow: 0 20px 30px -18px rgba(0,0,0,.8); }
+    .b-note::after { display: none; }
+    .b-note .kicker { padding-left: 1.6rem; }
+    .carousel__slide:nth-child(3n+2) .b-note { background: #eaf4ec; }
+
+    /* ================= C · Glass-fronted masjid noticeboard ================= */
+    .cab { padding: clamp(18px, 3vw, 30px); padding-top: 0; border-radius: 12px;
+      background: linear-gradient(90deg, rgba(255,255,255,.06), transparent 20%, transparent 80%, rgba(0,0,0,.2)), linear-gradient(180deg, var(--wood), var(--wood-dark));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 44px 70px -40px rgba(34,26,15,.9); }
+    .cab__plaque-row { display: flex; justify-content: center; padding: 14px 0; }
+    .cab__plaque { padding: .45rem 1.6rem; border-radius: 4px; background: linear-gradient(180deg, #f1dc9f, #c9a457 55%, #a8843c);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 3px 6px rgba(0,0,0,.5); color: var(--green-deep); font-family: var(--display); font-size: 1.15rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .cab .board__inner { padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3.5vw, 2.6rem) 2.4rem; border-radius: 3px; overflow: hidden;
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,.14) 0 1px, transparent 1px 3px),
+        repeating-linear-gradient(90deg, rgba(40,60,40,.07) 0 1px, transparent 1px 3px),
+        radial-gradient(120% 100% at 50% 20%, #d7e2d1, #b5c6b0);
+      box-shadow: inset 0 0 0 5px #b8924a, inset 0 0 0 6px rgba(0,0,0,.35), inset 0 10px 24px rgba(0,0,0,.28); }
+    /* The glass: a sheen across the whole case that lets clicks through. */
+    .cab__glass { position: absolute; inset: 0; z-index: 5; pointer-events: none; border-radius: 3px;
+      background: linear-gradient(115deg, rgba(255,255,255,.26) 0 9%, transparent 9% 26%, rgba(255,255,255,.12) 26% 29%, transparent 29% 72%, rgba(255,255,255,.08) 72% 80%, transparent 80%); }
+    .cab__hinge { position: absolute; left: -6px; width: 10px; height: 46px; border-radius: 3px; background: linear-gradient(90deg, #8f6d2c, #ecd392, #8f6d2c); box-shadow: 0 2px 4px rgba(0,0,0,.4); }
+    .cab__hinge--t { top: 90px; } .cab__hinge--b { bottom: 50px; }
+    .cab__lock { position: absolute; right: 8px; top: 50%; width: 12px; height: 26px; border-radius: 6px; background: linear-gradient(90deg, #8f6d2c, #ecd392, #8f6d2c); box-shadow: 0 2px 4px rgba(0,0,0,.4); }
+    /* A flat brass drawing pin, seen from the front. */
+    .tack { position: absolute; z-index: 3; width: 18px; height: 18px; border-radius: 50%;
+      background: radial-gradient(circle, #9c7a34 0 2px, #f0d894 2.5px 4px, #c9a457 5px 7px, #8f6d2c 8px 9px);
+      box-shadow: 1px 2px 3px rgba(0,0,0,.35); }
+    .tack--tl { top: 10px; left: 10px; } .tack--tr { top: 10px; right: 10px; }
+    .tack--bl { bottom: 10px; left: 10px; } .tack--br { bottom: 10px; right: 10px; }
+    .c-feat { max-width: 820px; margin: 0 auto; padding: 0 0 2.2rem; text-align: center; align-items: center; background: #fff; border-radius: 1px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.18), 0 22px 36px -24px rgba(20,40,20,.7); }
+    .c-feat__band { align-self: stretch; display: flex; align-items: center; justify-content: center; gap: .8rem; padding: 1.1rem 3rem;
+      background: linear-gradient(160deg, var(--green-card), #0f3b21); color: var(--gold-pale); font-size: .78rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+    .c-feat__band .star { width: 20px; height: 20px; }
+    .c-feat h3 { max-width: 22ch; margin: 1rem 1.6rem 0; color: var(--green); font-size: clamp(2.1rem, 1.6rem + 1.8vw, 3.1rem); line-height: 1.02; }
+    .c-feat__rule { width: 120px; border-top: 1px solid var(--gold); }
+    .c-feat p { max-width: 56ch; margin: 0 1.6rem; }
+    .c-feat .btn { align-self: center; }
+    .c-feat .tack--tl, .c-feat .tack--tr { top: 14px; }
+    .c-label { padding: .35rem .9rem; border: 1px solid rgba(19,69,40,.35); background: rgba(255,255,255,.6); }
+    .c-label .kicker { color: var(--green); }
+    .c-note { padding: 2.2rem 1.4rem 1.3rem; background: #fff; border-radius: 1px; box-shadow: 0 1px 2px rgba(0,0,0,.18), 0 16px 26px -18px rgba(20,40,20,.7); }
+    .carousel__slide:nth-child(n) .c-note { --tilt: 0deg; }
+    .carousel__slide:nth-child(2n) .c-note { --tilt: .4deg; }
+    .c-note .kicker { align-self: flex-start; padding: .15rem .5rem; border: 1px solid rgba(154,122,46,.6); letter-spacing: .14em; font-size: .7rem; }
+
+    /* ================= D · Pegboard, tape and a clip ================= */
+    .peg { padding: 12px; border-radius: 14px; background: linear-gradient(180deg, #e3cfa6, #c7ad7c); box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 40px 70px -40px rgba(60,45,20,.6); }
+    .peg .board__inner { padding: clamp(2.8rem, 5vw, 3.6rem) clamp(1rem, 3.5vw, 2.8rem) 2.4rem; border-radius: 6px;
+      background: radial-gradient(circle, rgba(70,55,30,.4) 0 2.6px, rgba(255,255,255,.7) 3.2px 3.8px, transparent 4.2px) 7px 7px / 30px 30px, linear-gradient(180deg, #f5f0e3, #ebe3cf);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.12), inset 0 4px 12px rgba(0,0,0,.12); }
+    .stack { position: relative; max-width: 940px; margin: 0 auto; }
+    .stack__sheet { position: absolute; inset: 0; border-radius: var(--radius); background: #fbf6e9; transform: rotate(1.8deg) translate(10px, 8px); box-shadow: 0 18px 30px -20px rgba(60,45,20,.7); }
+    .d-feat { min-height: 300px; padding: clamp(2.6rem, 4vw, 3.2rem) clamp(1.6rem, 4vw, 3rem) 2.2rem; border-radius: var(--radius); color: var(--on-green);
+      background: linear-gradient(160deg, var(--green-card), #0f3b21); border: 1px solid rgba(217,190,120,.35); box-shadow: 0 30px 50px -28px rgba(6,39,7,.7); }
+    .d-feat .card__kicker { margin: 0; }
+    .d-feat h3 { max-width: 26ch; color: var(--cream); font-size: clamp(2.2rem, 1.7rem + 1.6vw, 3rem); line-height: 1.02; }
+    .d-feat p { max-width: 62ch; color: rgba(244,239,226,.8); }
+    .d-feat .feat__meta { color: var(--gold-light); } .d-feat .feat__meta b { color: var(--cream); }
+    .bclip { position: absolute; z-index: 4; top: -30px; left: 50%; width: 92px; height: 44px; margin-left: -46px; filter: drop-shadow(0 5px 4px rgba(0,0,0,.35)); }
+    .bclip::before, .bclip::after { content: ""; position: absolute; top: -14px; width: 30px; height: 30px; border: 3px solid #b08a42; border-bottom: 0; border-radius: 16px 16px 0 0; }
+    .bclip::before { left: 16px; } .bclip::after { right: 16px; }
+    .bclip span { position: absolute; inset: 12px 0 0; border-radius: 5px 5px 2px 2px; background: linear-gradient(180deg, #3a5e47, #0f2a1a); box-shadow: inset 0 1px 0 rgba(255,255,255,.3); }
+    .tape { position: absolute; z-index: 3; top: -12px; left: 50%; width: 104px; height: 28px; margin-left: -52px; transform: rotate(var(--tape-r, -4deg)); opacity: .9;
+      background: repeating-linear-gradient(-45deg, rgba(201,169,97,.85) 0 7px, rgba(240,220,166,.85) 7px 14px);
+      clip-path: polygon(0 0, 4% 12%, 0 25%, 4% 38%, 0 50%, 4% 62%, 0 75%, 4% 88%, 0 100%, 100% 100%, 96% 88%, 100% 75%, 96% 62%, 100% 50%, 96% 38%, 100% 25%, 96% 12%, 100% 0); }
+    .tape--mint { background: repeating-linear-gradient(90deg, rgba(185,228,208,.9) 0 10px, rgba(158,200,172,.9) 10px 12px); --tape-r: 3deg; }
+    .d-label { position: relative; padding: .45rem 1.1rem; }
+    .d-label .tape { inset: 0; top: 0; width: auto; height: auto; margin: 0; }
+    .d-label .kicker { position: relative; z-index: 4; color: var(--green-deep); }
+    .d-note { padding: 1.9rem 1.4rem 1.3rem; border-radius: 4px; background: var(--paper-c, #fffdf7); box-shadow: 0 1px 1px rgba(0,0,0,.08), 0 18px 28px -18px rgba(60,45,20,.6); }
+    .carousel__slide:nth-child(3n+2) .d-note { --paper-c: #dff0e6; }
+    .carousel__slide:nth-child(3n+3) .d-note { --paper-c: #f6ecd1; }
+
+    /* ================= E · Newspaper clippings on cork ================= */
+    .clipcork { padding: clamp(2.4rem, 4vw, 3.4rem) clamp(1rem, 3.5vw, 2.8rem) 2.4rem; border-radius: var(--radius);
+      background: var(--noise-light), var(--noise-dark), radial-gradient(120% 90% at 50% 30%, #d8b485, #bb915f);
+      box-shadow: inset 0 0 0 1px rgba(80,50,20,.25), inset 0 2px 0 rgba(255,255,255,.3), 0 40px 70px -40px rgba(80,50,20,.6); }
+    /* Torn paper: the clip-path is set per sheet from script, the shadow lives on the unclipped wrapper. */
+    .cw { position: relative; height: 100%; filter: drop-shadow(0 14px 12px rgba(60,35,10,.35)) drop-shadow(0 1px 1px rgba(0,0,0,.2));
+      transform: rotate(var(--tilt, 0deg)); transition: transform .45s var(--ease-out); }
+    .cw:hover { transform: rotate(0) translateY(-6px); }
+    .carousel__slide:nth-child(3n+1) .cw { --tilt: 1.2deg; }
+    .carousel__slide:nth-child(3n+2) .cw { --tilt: -1.6deg; }
+    .carousel__slide:nth-child(3n+3) .cw { --tilt: .6deg; }
+    .cw .pin { width: 16px; height: 16px; margin-left: -8px; top: -2px; }
+    .cw .pin::before { content: ""; position: absolute; top: 12px; left: 9px; width: 2px; height: 10px; background: linear-gradient(#ddd, #777); transform: rotate(-28deg); z-index: -1; }
+    .clipping { height: 100%; background: linear-gradient(rgba(244,239,227,.72), rgba(244,239,227,.72)), var(--noise-fine), #f1ebdc; }
+    .e-feat-wrap { max-width: 980px; margin: 0 auto; --tilt: -.7deg; }
+    .e-feat-wrap:hover { transform: rotate(var(--tilt)); }
+    .e-feat-wrap .pin { width: 20px; height: 20px; }
+    .e-feat-wrap .pin:nth-of-type(1) { left: 12%; } .e-feat-wrap .pin:nth-of-type(2) { left: 88%; }
+    .e-feat { padding: 2.2rem clamp(1.4rem, 4vw, 3rem) 2.6rem; color: #1f231f; }
+    .np-mast { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: .4rem 0; border-top: 3px double #2b2b25; border-bottom: 1px solid #2b2b25;
+      font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+    .np-mast b { font-family: var(--display); font-size: 1.35rem; letter-spacing: .06em; color: var(--green); }
+    .np-body { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 2.2rem; margin-top: 1.4rem; }
+    .e-feat h3 { color: #1b231d; font-size: clamp(2.2rem, 1.6rem + 2vw, 3.4rem); line-height: .98; }
+    .np-lede { margin-top: .9rem; font-family: var(--display); font-size: 1.28rem; line-height: 1.4; color: #3a3d36; }
+    .np-lede::first-letter { float: left; margin: .3rem .5rem 0 0; color: var(--green); font-size: 3.9rem; font-weight: 700; line-height: .7; }
+    .np-side { display: flex; flex-direction: column; gap: .8rem; padding-left: 2.2rem; border-left: 1px solid rgba(0,0,0,.3); }
+    .np-side .feat__meta { color: #4a4a42; }
+    .np-side .btn { align-self: flex-start; position: relative; z-index: 2; }
+    .e-label { color: #3b2a14; }
+    .e-note { padding: 1.9rem 1.4rem 1.6rem; display: flex; flex-direction: column; gap: .45rem; color: #1f231f; }
+    .e-note h3 { color: #1b231d; font-size: 1.55rem; padding-bottom: .5rem; border-bottom: 1px solid rgba(0,0,0,.25); }
+    .e-note .kicker { color: var(--green); }
+    .e-note .note__ex { color: #45463f; font-family: var(--display); font-size: 1.08rem; line-height: 1.4; }
+    .e-note .note__meta { color: #55564e; }
+
+    /* ================= responsive ================= */
+    @media (max-width: 860px) {
+      .b-feat, .np-body { grid-template-columns: minmax(0, 1fr); gap: 1.2rem; }
+      .b-feat__side, .np-side { padding: 1.2rem 0 0; border-left: 0; border-top: 1px solid rgba(154,122,46,.4); }
+    }
+    @media (max-width: 640px) {
+      .a-seal { width: 64px; height: 64px; font-size: .95rem; right: 18px; top: -30px; }
+      .a-feat .pin:nth-of-type(1) { left: 12px; } .a-feat .pin:nth-of-type(2) { right: 12px; }
+      .a-feat { padding-top: 3rem; }
+      .a-feat::before { left: 44px; right: 44px; top: 1.3rem; }
+      .c-feat__band { padding: 1rem 2.6rem; }
+      .cab__hinge, .cab__lock { display: none; }
+      .np-mast span:first-child { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .note, .cw { transition: none; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="pools" aria-hidden="true"></div>
+
+  <header class="wrap canvas-head">
+    <p class="kicker">Design round 3 · Articles</p>
+    <h1>Articles on a <em>bulletin board</em></h1>
+    <p class="canvas-head__lede">Five ways to pin the Articles section to a board. Each keeps what the live section has: the newest article
+      as a large feature, the rest in a carousel with its arrows in a small head above, and the Brothers / Sisters switch. The carousels
+      and switches all work. Titles, dates and authors are sample placeholders, not real content.</p>
+    <nav class="jump" aria-label="Options">
+      <a href="#a">A · Cork in an oak frame</a>
+      <a href="#b">B · Green felt &amp; gold ribbons</a>
+      <a href="#c">C · Masjid noticeboard</a>
+      <a href="#d">D · Pegboard, tape &amp; clip</a>
+      <a href="#e">E · Clippings on cork</a>
+    </nav>
+  </header>
+
+  <!-- ===================================================== A · CORK -->
+  <section class="mock" id="a" data-aud="brothers">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">A</span>
+        <div>
+          <h2 class="mock__title">Cork in an oak frame</h2>
+          <p class="mock__desc">The classic board. Cork sits in a frame of the same dark wood as the curriculum shelf. The feature is a
+            cream letter held by two brass pushpins under a green-and-gold rule, with a gold rosette reading “New”. The other articles are
+            index cards in white, mint and pale gold, each on one pin and slightly askew. Hovering a card straightens it.
+            <span class="mock__try">The most familiar option, and the closest match to the shelf.</span></p>
+        </div>
+      </div>
+      <div class="section__head">
+        <h2 class="section__heading">Articles</h2>
+        <div class="section__tools" data-switch></div>
+      </div>
+      <div class="board cork on-dark"><div class="board__inner" data-r></div></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== B · FELT -->
+  <section class="mock" id="b" data-aud="brothers">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">B</span>
+        <div>
+          <h2 class="mock__title">Green felt &amp; gold ribbons</h2>
+          <p class="mock__desc">A memo board: deep green felt in a gilt frame, crossed by gold ribbons with brass studs where they meet.
+            Nothing is pinned through. Sheets are tucked under ribbons at their corners. The feature has the double gilt frame of the kitab
+            spines, with the byline and button set apart on the right.
+            <span class="mock__try">The most formal option. It is in the site's own green and gold.</span></p>
+        </div>
+      </div>
+      <div class="section__head">
+        <h2 class="section__heading">Articles</h2>
+        <div class="section__tools" data-switch></div>
+      </div>
+      <div class="board felt on-dark"><div class="board__inner" data-r></div></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== C · NOTICEBOARD -->
+  <section class="mock" id="c" data-aud="brothers">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">C</span>
+        <div>
+          <h2 class="mock__title">Masjid noticeboard</h2>
+          <p class="mock__desc">The locked, glass-fronted case in a masjid foyer. It has a wooden cabinet, brass hinges and a lock, and a
+            brass plaque that changes with the switch. Inside, notices are fixed flat to sage linen with brass drawing pins: four on the
+            poster-style feature and two on each smaller notice. A sheen of glass lies over everything but lets clicks through.
+            <span class="mock__try">Neat and upright, with barely any tilt. It will feel familiar to anyone who attends the masjid.</span></p>
+        </div>
+      </div>
+      <div class="section__head">
+        <h2 class="section__heading">Articles</h2>
+        <div class="section__tools" data-switch></div>
+      </div>
+      <div class="board cab">
+        <span class="cab__hinge cab__hinge--t" aria-hidden="true"></span>
+        <span class="cab__hinge cab__hinge--b" aria-hidden="true"></span>
+        <span class="cab__lock" aria-hidden="true"></span>
+        <div class="cab__plaque-row"><span class="cab__plaque" data-plaque>Brothers' Notices</span></div>
+        <div class="board__inner" data-r></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== D · PEGBOARD -->
+  <section class="mock" id="d" data-aud="brothers">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">D</span>
+        <div>
+          <h2 class="mock__title">Pegboard, tape &amp; clip</h2>
+          <p class="mock__desc">A light studio board: a cream pegboard in a birch frame. The feature is today's green card, unchanged,
+            hung from a brass bulldog clip with a cream sheet behind it. The other articles are held up with gold and mint washi tape.
+            <span class="mock__try">The lightest and most modern option. It changes the live section the least.</span></p>
+        </div>
+      </div>
+      <div class="section__head">
+        <h2 class="section__heading">Articles</h2>
+        <div class="section__tools" data-switch></div>
+      </div>
+      <div class="board peg"><div class="board__inner" data-r></div></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== E · CLIPPINGS -->
+  <section class="mock" id="e" data-aud="brothers">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">E</span>
+        <div>
+          <h2 class="mock__title">Clippings on cork</h2>
+          <p class="mock__desc">Articles cut from a newspaper and pinned up with map pins. The paper has torn edges. The feature is a
+            front-page clipping with a masthead, a large headline and a drop capital, with the byline in a side column. The other
+            clippings are smaller, each on a green, gold or red pin. The cork is lighter and has no frame.
+            <span class="mock__try">The most playful option. The newspaper look suits articles well.</span></p>
+        </div>
+      </div>
+      <div class="section__head">
+        <h2 class="section__heading">Articles</h2>
+        <div class="section__tools" data-switch></div>
+      </div>
+      <div class="board clipcork"><div class="board__inner" data-r></div></div>
+    </div>
+  </section>
+</main>
+
+<script src="../../assets/js/carousel.js?v=4"></script>
+<script>
+/* Sample content only — none of this is real. */
+const LIB = {
+  brothers: [
+    { t: "Why the program begins with Arabic grammar", s: "Nahw", by: "Program faculty", min: 6, d: "12 Sep",
+      ex: "Every later book is read in Arabic. The first year builds the tool that opens all the others, and that is why it comes before everything else." },
+    { t: "The etiquette of the student of knowledge", s: "Adab", by: "Program faculty", min: 8, d: "29 Aug",
+      ex: "Before the texts, the manners: how the tradition asks a student to sit, listen and ask." },
+    { t: "Reading hadith slowly", s: "Hadith", by: "A fourth-year student", min: 5, d: "14 Aug",
+      ex: "What changes when a single narration is studied for a whole lesson." },
+    { t: "What seven years asks of you", s: "Program", by: "Program faculty", min: 4, d: "2 Aug",
+      ex: "A frank look at the commitment, week by week and year by year." },
+    { t: "Keeping a revision notebook", s: "Method", by: "A second-year student", min: 5, d: "18 Jul",
+      ex: "One notebook, three columns, ten minutes a day." }
+  ],
+  sisters: [
+    { t: "Balancing study with family life", s: "Adab", by: "Sisters' faculty", min: 7, d: "10 Sep",
+      ex: "Practical ways students have made room for daily revision alongside a full household, and what to let go of." },
+    { t: "Memorising the core texts: a method", s: "Method", by: "Sisters' faculty", min: 6, d: "27 Aug",
+      ex: "How to commit a short text to memory, and keep it, across the seven years." },
+    { t: "Women in the hadith tradition", s: "History", by: "A sixth-year student", min: 9, d: "15 Aug",
+      ex: "Narrators and teachers whose names appear in the chains we study today." },
+    { t: "Notes from the first year", s: "Reflections", by: "A first-year student", min: 5, d: "30 Jul",
+      ex: "What surprised me, what was hard, and what I would tell someone about to begin." },
+    { t: "Tajwid at home", s: "Qur'an", by: "Sisters' faculty", min: 4, d: "16 Jul",
+      ex: "Short daily drills to keep recitation sharp between classes." }
+  ]
+};
+
+const STAR = '<svg class="star" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="8" y="8" width="16" height="16"/><rect x="8" y="8" width="16" height="16" transform="rotate(45 16 16)"/><circle cx="16" cy="16" r="3"/></svg>';
+const pin = (c = "") => `<span class="pin ${c}" aria-hidden="true"></span>`;
+const tack = pos => `<span class="tack tack--${pos}" aria-hidden="true"></span>`;
+const title = (a, id) => `<h3><a class="stretched" href="#${id}">${a.t}</a></h3>`;
+const meta = (a, cls) => `<p class="${cls}"><b>${a.by}</b> · ${a.min} min read</p>`;
+const button = id => `<a class="btn btn--gold btn--sm" href="#${id}">Read article</a>`;
+const PINS = ["pin--green", "", "pin--red"];
+
+/* Torn paper edges: a jagged polygon, the same every load for a given seed. */
+function torn(seed) {
+  let s = seed * 7919 + 13;
+  const r = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  const pts = [];
+  for (let x = 0; x <= 100; x += 3.5) pts.push(`${Math.min(x, 100)}% ${(r() * 1.4).toFixed(2)}%`);
+  pts.push("100% 0%", `${(99 + r()).toFixed(2)}% 50%`);
+  for (let x = 100; x >= 0; x -= 2.5) pts.push(`${Math.max(x, 0)}% ${(100 - r() * 3).toFixed(2)}%`);
+  pts.push(`${(r() * 1).toFixed(2)}% 50%`);
+  return `polygon(${pts.join(",")})`;
+}
+
+const BOARDS = {
+  a: {
+    label: `<div class="a-tag">${pin("pin--green")}<p class="kicker">More articles</p></div>`,
+    feature: a => `
+      <article class="feat a-feat">${pin()}${pin()}
+        <span class="a-seal" aria-hidden="true"><span>New</span></span>
+        <p class="kicker">Featured · ${a.s}</p>
+        ${title(a, "a")}
+        <p class="a-feat__ex">${a.ex}</p>
+        <p class="feat__meta"><b>${a.by}</b> · ${a.d} · ${a.min} min read</p>
+        ${button("a")}
+      </article>`,
+    note: (a, i) => `<div class="slot"><article class="note a-note">${pin(PINS[i % 3])}
+        <p class="kicker">${a.s}</p>${title(a, "a")}<p class="note__ex">${a.ex}</p>${meta(a, "note__meta")}</article></div>`
+  },
+  b: {
+    label: `<p class="kicker b-label">More articles</p>`,
+    feature: a => `
+      <article class="b-feat tuck"><span class="inner-frame" aria-hidden="true"></span>
+        <div class="feat"><p class="kicker">Featured · ${a.s}</p>${title(a, "b")}<p style="color:var(--ink-soft)">${a.ex}</p></div>
+        <div class="b-feat__side">${STAR}<p class="feat__meta"><b>${a.by}</b><br>${a.d} · ${a.min} min read</p>${button("b")}</div>
+      </article>`,
+    note: a => `<div class="slot"><article class="note b-note tuck">
+        <p class="kicker">${a.s}</p>${title(a, "b")}<p class="note__ex">${a.ex}</p>${meta(a, "note__meta")}</article></div>`
+  },
+  c: {
+    label: `<div class="c-label"><p class="kicker">More notices</p></div>`,
+    feature: a => `
+      <article class="feat c-feat">${tack("tl")}${tack("tr")}${tack("bl")}${tack("br")}
+        <div class="c-feat__band">${STAR}<span>Featured article</span>${STAR}</div>
+        <p class="kicker">${a.s}</p>
+        ${title(a, "c")}
+        <span class="c-feat__rule"></span>
+        <p style="color:var(--ink-soft)">${a.ex}</p>
+        <p class="feat__meta"><b>${a.by}</b> · ${a.d} · ${a.min} min read</p>
+        ${button("c")}
+      </article>`,
+    note: a => `<div class="slot"><article class="note c-note">${tack("tl")}${tack("tr")}
+        <p class="kicker">${a.s}</p>${title(a, "c")}<p class="note__ex">${a.ex}</p>${meta(a, "note__meta")}</article></div>`
+  },
+  d: {
+    label: `<div class="d-label"><span class="tape tape--mint"></span><p class="kicker">More articles</p></div>`,
+    feature: a => `
+      <div class="stack"><span class="stack__sheet" aria-hidden="true"></span>
+        <article class="feat d-feat"><span class="bclip" aria-hidden="true"><span></span></span>
+          <svg class="star" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" style="width:26px;height:26px;margin-bottom:auto"><rect x="8" y="8" width="16" height="16"/><rect x="8" y="8" width="16" height="16" transform="rotate(45 16 16)"/><circle cx="16" cy="16" r="3"/></svg>
+          <p class="card__kicker">Featured · ${a.s}</p>
+          ${title(a, "d")}
+          <p>${a.ex}</p>
+          <p class="feat__meta"><b>${a.by}</b> · ${a.min} min read</p>
+          ${button("d")}
+        </article>
+      </div>`,
+    note: (a, i) => `<div class="slot"><article class="note d-note"><span class="tape ${i % 2 ? "tape--mint" : ""}" aria-hidden="true"></span>
+        <p class="kicker">${a.s}</p>${title(a, "d")}<p class="note__ex">${a.ex}</p>${meta(a, "note__meta")}</article></div>`
+  },
+  e: {
+    label: `<p class="kicker e-label">More clippings</p>`,
+    feature: a => `
+      <div class="cw e-feat-wrap">${pin("pin--red")}${pin("pin--green")}
+        <article class="clipping e-feat" style="clip-path:${torn(99)}">
+          <div class="np-mast"><span>${a.s}</span><b>Articles</b><span>${a.d}</span></div>
+          <div class="np-body">
+            <div>${title(a, "e")}<p class="np-lede">${a.ex}</p></div>
+            <div class="np-side"><p class="kicker" style="color:var(--green)">Featured</p>
+              <p class="feat__meta"><b>By ${a.by}</b><br>${a.min} minute read</p>${button("e")}</div>
+          </div>
+        </article>
+      </div>`,
+    note: (a, i) => `<div class="slot"><div class="cw">${pin(PINS[i % 3])}
+        <article class="clipping e-note" style="clip-path:${torn(i + 1)}">
+          <p class="kicker">${a.s} · ${a.d}</p>${title(a, "e")}<p class="note__ex">${a.ex}</p>${meta(a, "note__meta")}</article></div></div>`
+  }
+};
+
+function frag(html) {
+  const t = document.createElement("template");
+  t.innerHTML = html.trim();
+  return t.content.firstElementChild;
+}
+
+/* The same switch markup the live site renders (styled by styles.css) */
+function switchHTML() {
+  return `<button class="aud-toggle" type="button" role="switch" aria-checked="false" aria-label="Show sisters' articles">
+    <span class="aud-toggle__side" data-aud="brothers">Brothers</span>
+    <span class="aud-toggle__track" aria-hidden="true"><span class="aud-toggle__knob"></span></span>
+    <span class="aud-toggle__side" data-aud="sisters">Sisters</span></button>`;
+}
+
+function render(root, swap) {
+  const B = BOARDS[root.id];
+  const aud = root.dataset.aud;
+  const list = LIB[aud];
+  const mount = root.querySelector("[data-r]");
+  if (root.carousel) root.carousel.destroy();
+
+  mount.innerHTML = B.feature(list[0]) +
+    `<div class="rest-head">${B.label}<div class="carousel-controls"></div></div><div class="rest"></div>`;
+  root.carousel = createCarousel({
+    mount: mount.querySelector(".rest"),
+    controls: mount.querySelector(".carousel-controls"),
+    items: list.slice(1),
+    label: (aud === "sisters" ? "Sisters" : "Brothers") + "' articles",
+    perView: () => innerWidth < 620 ? 1 : innerWidth < 940 ? 2 : 3,
+    render: (a, i) => frag(B.note(a, i))
+  });
+
+  const plaque = root.querySelector("[data-plaque]");
+  if (plaque) plaque.textContent = (aud === "sisters" ? "Sisters'" : "Brothers'") + " Notices";
+  root.querySelector(".aud-toggle").setAttribute("aria-checked", String(aud === "sisters"));
+  if (swap) { mount.classList.remove("media-swap"); void mount.offsetWidth; mount.classList.add("media-swap"); }
+}
+
+document.querySelectorAll(".mock").forEach(root => {
+  root.querySelector("[data-switch]").innerHTML = switchHTML();
+  root.querySelector(".aud-toggle").addEventListener("click", e => {
+    const side = e.target.closest(".aud-toggle__side");   // not [data-aud]: the section carries that too
+    const next = side ? side.dataset.aud : root.dataset.aud === "sisters" ? "brothers" : "sisters";
+    if (next === root.dataset.aud) return;
+    root.dataset.aud = next;
+    render(root, true);
+  });
+  render(root, false);
+});
+</script>
+</body>
+</html>

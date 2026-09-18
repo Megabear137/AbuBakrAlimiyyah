@@ -1,0 +1,30 @@
+/* 3 · Burnished Gold — gold is the surface. Details, Teachers and the
+   featured article are laid in burnished gold with dark brown ink; light
+   brown (tan) tints the cards and pools; the ground stays white. */
+:root {
+  --ground: #fffdf8;
+  --gold: #c89a3a; --gold-light: #e0bc6a; --gold-pale: #f2dca0; --gold-ink: #8a6118; --gilt: #d1a852;
+  --ink: #2b1c0c; --ink-soft: #4a3824; --ink-muted: #5b4834; --cream: #fff9ec;
+
+  --t-heading: #7a5226; --t-ink-deep: #2b1c0c; --t-light-brown: #dcc3a0;
+  --t-pool-1: rgba(214, 184, 146, 0.9); --t-pool-2: rgba(232, 200, 128, 0.8); --t-pool-3: rgba(224, 204, 176, 0.95);
+  --t-shadow-rgb: 110, 72, 20;  --t-glass-rgb: 52, 34, 14;  --t-line-rgb: 92, 60, 18;
+  --t-btn-1: #e9c877; --t-btn-2: #c08f33; --t-btn-ink: #2b1c0c;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(44, 28, 8, 0.72) 0%, rgba(44, 28, 8, 0.2) 28%, rgba(140, 96, 30, 0.6) 60%,
+      rgba(176, 128, 48, 0.88) 84%, rgba(222, 196, 150, 0.95) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(44, 28, 8, 0.7), rgba(44, 28, 8, 0) 60%);
+  --t-hero-em: #f2d386;
+
+  --t-well-1: #3c2814; --t-well-2: #24170a; --t-well-glow: 0.3; --t-todo-rgb: 214, 176, 96;
+
+  --t-band-1: #dcb35c; --t-band-2: #b98a36; --t-band-glow: 0.35;
+  --t-on-band: #2b1c0c; --t-on-band-rgb: 43, 28, 12; --t-on-band-strong: #241606;
+  --t-band-accent: #4f330e; --t-band-value: #241606;
+  --t-teacher-1: #fffaf0; --t-teacher-2: #f3e6cc;
+
+  --t-card-tint: rgba(245, 234, 214, 0.92);
+  --t-track-1: #d8ae56; --t-track-2: #b0822f; --t-knob: #fffdf7;
+  --t-scrim-rgb: 40, 26, 10; --t-scrim-solid: #6e4b22; --t-video-1: #c99b45; --t-video-2: #8a6128;
+}
+.teachers-band .carousel__arrow { background: rgba(255, 250, 238, 0.35); }

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modernise — the final mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* design/canvas-modern/ - four ways to modernise the page, each after the
+   patterns of isnacanada.com, alkhalil.ca and abuhuraira.org. They keep the
+   Chocolate & Bright Gold palette and the live bookshelf, and restyle only
+   the content the site already has. Serve the site root, then open
+   /design/canvas-modern/. */
+:root { --ink: #462c16; --gold: #e3b34a; --gold-ink: #9a6508; --espresso: #241205; --ground: #fbf7f0; --edge: rgba(201, 164, 87, 0.85); }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 16px/1.6 "Instrument Sans", system-ui, sans-serif; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 56px 24px 80px; }
+h1 { margin: 0; font: 600 clamp(2.4rem, 1.8rem + 2.4vw, 3.6rem)/1 "Cormorant Garamond", serif; }
+h1 em { font-weight: 500; color: var(--gold-ink); }
+.lede { max-width: 50rem; margin: 1rem 0 0; }
+.kicker { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-ink); }
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 40px; }
+.card { display: flex; flex-direction: column; border-radius: 22px; overflow: hidden; background: #fff; border: 1px solid var(--edge); color: inherit; text-decoration: none; transition: transform .25s, box-shadow .25s; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 30px 50px -30px rgba(70, 34, 6, 0.5); }
+.card img { width: 100%; aspect-ratio: 1440 / 1000; object-fit: cover; object-position: top; border-bottom: 1px solid var(--edge); }
+.card div { padding: 20px 22px 24px; }
+.card h2 { margin: 0.2rem 0 0.4rem; font: 600 1.8rem/1.1 "Cormorant Garamond", serif; }
+.card p { margin: 0; font-size: 0.95rem; }
+.card ul { margin: 0.8rem 0 0; padding-left: 1.1rem; font-size: 0.9rem; }
+.card li + li { margin-top: 0.25rem; }
+.notes { margin-top: 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.note { padding: 20px 22px; border-radius: 18px; border: 1px solid var(--edge); background: #fff; }
+.note h3 { margin: 0.3rem 0 0.6rem; font: 600 1.4rem/1.1 "Cormorant Garamond", serif; }
+.note ul { margin: 0; padding-left: 1.1rem; font-size: 0.9rem; }
+.rules { margin-top: 16px; padding: 18px 22px; border-radius: 18px; background: var(--espresso); color: #fbeedd; font-size: 0.93rem; }
+.rules b { color: var(--gold); }
+@media (max-width: 820px) { .cards, .notes { grid-template-columns: 1fr; } }
+.card--final { margin-top: 40px; display: grid; grid-template-columns: 1.2fr 1fr; }
+.card--final img { height: 100%; aspect-ratio: auto; border-bottom: 0; border-right: 1px solid var(--edge); }
+.card--final div { padding: 28px 30px; align-self: center; }
+.card--final h2 { font-size: 2.2rem; }
+.explore { margin: 56px 0 0; font: 600 1.9rem/1.1 "Cormorant Garamond", serif; }
+@media (max-width: 820px) { .card--final { grid-template-columns: 1fr; } .card--final img { border-right: 0; border-bottom: 1px solid var(--edge); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">design/canvas-modern</p>
+  <h1>Modernise — <em>the final mockup</em></h1>
+  <p class="lede">Mockup F is the final design. The five before it are the directions it was chosen from. Each mockup redesigns the same page, in the same order, with the site's own content. The palette (chocolate, board brown, rust, bright gold) stays. The bookshelf is restyled to match each mockup: its bays, plank, year labels, open card and full view. Its function is untouched. It is still drawn by the live <code>curriculum.js</code> from <code>content/curriculum.json</code>, so the books, the open card, the full view (folio) and the keyboard work as on the site. The wooden wall, its bolts and the wide-screen ledges of spare books are left out.</p>
+
+  <a class="card card--final" href="f-final.html">
+    <img src="thumbs/f-final.jpg" alt="Mockup F, the top of the page">
+    <div>
+      <p class="kicker">F · Final</p>
+      <h2>B's banner and components, on A's grounds</h2>
+      <p>The chosen direction: mockup B's banner, header and menu, and every component in B's dark-and-gold colours, laid on mockup A's backgrounds.</p>
+      <ul>
+        <li>From B: the full-height banner, the round menu button and centred logo, the "✦" section heads, the fee and discount panels, the timing tiles, the teacher mosaic, the article slider with "Up next", the video cards, the testimony panels, the Brothers/Sisters switch, the round arrows, and the shelf's dark bays</li>
+        <li>From A: the warm white page, the pale-gold band behind Articles and Videos, and the espresso footer</li>
+        <li>Blended: B's dark components are cut from the site's warm board brown rather than near-black, with gilt edges and brown shadows; the section heads use a deeper gold so they read on white; the pale-gold band fades in and out of the page, and the banner fades down into it</li>
+      </ul>
+    </div>
+  </a>
+
+  <h2 class="explore">The five directions</h2>
+  <div class="cards">
+    <a class="card" href="a-academy.html">
+      <img src="thumbs/a-academy.jpg" alt="Mockup A, the top of the page">
+      <div>
+        <p class="kicker">A · after alkhalil.ca</p>
+        <h2>Academy</h2>
+        <p>Light and rounded, in a geometric sans.</p>
+        <ul>
+          <li>A dark hero with one sweeping rounded corner</li>
+          <li>Pill buttons ending in an arrow disc</li>
+          <li>Rounded cards with small badges for Details</li>
+          <li>A pale-gold band for Articles and Videos, and split cards for testimonies</li>
+          <li>Shelf: tinted rounded bays, books on a gold rail, the year in a badge</li>
+        </ul>
+      </div>
+    </a>
+    <a class="card" href="b-night.html">
+      <img src="thumbs/b-night.jpg" alt="Mockup B, the top of the page">
+      <div>
+        <p class="kicker">B · after abuhuraira.org</p>
+        <h2>Night Masjid</h2>
+        <p>The whole page after dark, in gold letter-spaced capitals.</p>
+        <ul>
+          <li>A centred logo between a round menu button and an outline pill</li>
+          <li>A full-height banner with a gold ornament rule</li>
+          <li>Class timings as prayer-time-style tiles</li>
+          <li>A featured article slider with an "Up next" rail, and a teacher mosaic</li>
+          <li>Shelf: dark glass bays lit from above, a glowing gold line for a plank</li>
+        </ul>
+      </div>
+    </a>
+    <a class="card" href="c-editorial.html">
+      <img src="thumbs/c-editorial.jpg" alt="Mockup C, the top of the page">
+      <div>
+        <p class="kicker">C · after isnacanada.com</p>
+        <h2>Editorial</h2>
+        <p>Large flared Roman capitals, on a grey ground.</p>
+        <ul>
+          <li>A big-capitals heading with a script line beneath it</li>
+          <li>Square gold-gradient buttons</li>
+          <li>Details as an impact band of big figures</li>
+          <li>Inset-frame tiles for articles, and dark cards with a figure tile for videos</li>
+          <li>Shelf: square dark tiles set edge to edge, each in a thin inset frame</li>
+        </ul>
+      </div>
+    </a>
+    <a class="card" href="d-bento.html">
+      <img src="thumbs/d-bento.jpg" alt="Mockup D, the top of the page">
+      <div>
+        <p class="kicker">D · the three combined</p>
+        <h2>Bento</h2>
+        <p>Every section a grid of rounded tiles, in the site's own type.</p>
+        <ul>
+          <li>A floating pill header and a bento hero holding Introduction and Our Program</li>
+          <li>Dark board tiles beside light gilt-edged ones</li>
+          <li>The family discounts drawn as three bars</li>
+          <li>Closest to the live site: Cormorant and Instrument Sans stay</li>
+          <li>Shelf: white tiles holding a dark board well, on a gold rail</li>
+        </ul>
+      </div>
+    </a>
+    <a class="card" href="e-modern.html">
+      <img src="thumbs/e-modern.jpg" alt="Mockup E, the top of the page">
+      <div>
+        <p class="kicker">E · common modern UI patterns</p>
+        <h2>Modern</h2>
+        <p>Not tied to the three sites: patterns common on modern product sites.</p>
+        <ul>
+          <li>A reading-progress bar and a floating glass nav whose highlight slides to the section in view</li>
+          <li>An inset rounded hero, a marquee of the four subjects, and an introduction that lights up word by word</li>
+          <li>Tabs for the timings, a draggable teacher row with a progress track, cards with a spotlight that follows the cursor</li>
+          <li>Testimonies that stack as you scroll; an oversized wordmark and a back-to-top button</li>
+          <li>Shelf: glass bays in a contained dark panel, with a spotlight</li>
+        </ul>
+      </div>
+    </a>
+  </div>
+
+  <div class="notes">
+    <section class="note">
+      <p class="kicker">Research</p>
+      <h3>ISNA Canada</h3>
+      <ul>
+        <li>Thin Didone-style capitals at display size, paired with a script line</li>
+        <li>Deep teal full-bleed bands on a light grey ground</li>
+        <li>Square buttons in an orange-gold gradient</li>
+        <li>An impact report laid out as big figures with small gold labels</li>
+        <li>Photo tiles with a thin inset frame and the label at their foot</li>
+        <li>Event cards led by a square date tile; a many-column light footer</li>
+      </ul>
+    </section>
+    <section class="note">
+      <p class="kicker">Research</p>
+      <h3>Al Khalil Academy</h3>
+      <ul>
+        <li>A charcoal hero with one large rounded corner</li>
+        <li>A heavy geometric sans with tight tracking, and gold spaced kickers</li>
+        <li>Pill buttons with a circled arrow</li>
+        <li>Rounded photo cards with small black or yellow badges</li>
+        <li>Pale-yellow bands and split testimonial cards</li>
+        <li>A dark footer</li>
+      </ul>
+    </section>
+    <section class="note">
+      <p class="kicker">Research</p>
+      <h3>Abu Huraira Centre</h3>
+      <ul>
+        <li>A dark navy page throughout, with gold letter-spaced Cormorant capitals</li>
+        <li>"✦ name ✦" eyebrows and italic ledes over each section</li>
+        <li>A centred logo, a round menu button and an outline pill</li>
+        <li>A full-screen hero with an ornament rule and a scroll cue</li>
+        <li>Prayer-time tiles; a featured slider with an "Up next" rail</li>
+        <li>A mosaic of service cards; gold-underlined footer headings</li>
+      </ul>
+    </section>
+  </div>
+
+  <p class="rules"><b>Kept on every mockup:</b> the palette, the bookshelf's behaviour, and the site's content only. That means the same headings, copy, timings, fees, teachers and testimonies, the Brothers/Sisters switch, and the one "View Curriculum" call to action. The TODO placeholders from <code>content/*.json</code> show as they do on the site. Where a mockup wants a picture it uses a plain board panel, because the only photograph is a 1447×374 strip.</p>
+  <p class="rules"><b>Rule:</b> no gold star lattice, star medallions or other star-like patterns in backgrounds or panels. Surfaces are plain: board, rust, gold, cream or the photograph. Use the A–F switch in the bottom-left corner of each mockup to move between them.</p>
+</div>
+</body>
+</html>

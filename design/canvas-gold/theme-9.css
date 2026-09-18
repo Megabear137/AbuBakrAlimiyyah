@@ -1,0 +1,29 @@
+/* 9 · Rust & Pale Gold — the brown rgb(189, 93, 15) takes green's place
+   everywhere: the Details cards, the teachers band, the featured article
+   and the headings. A pale buttery gold softens its orange. The direct swap. */
+:root {
+  --ground: #fbf8f2;
+  --gold: #d9b56a; --gold-light: #ecd08f; --gold-pale: #f6e6bb; --gold-ink: #9a6a1c; --gilt: #d2ac5c;
+  --ink: #2a1608; --ink-soft: #4a3222; --ink-muted: #5e4535; --cream: #fdf7ec;
+
+  --t-heading: #bd5d0f; --t-ink-deep: #2a1608; --t-light-brown: #f1dcc6;
+  --t-pool-1: rgba(236, 196, 150, 0.8); --t-pool-2: rgba(242, 214, 160, 0.8); --t-pool-3: rgba(230, 200, 170, 0.85);
+  --t-shadow-rgb: 120, 58, 10;  --t-glass-rgb: 50, 24, 6;  --t-line-rgb: 236, 208, 143;
+  --t-btn-1: #f2da9c; --t-btn-2: #d2a654; --t-btn-ink: #2a1608;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(46, 20, 4, 0.72) 0%, rgba(46, 20, 4, 0.2) 28%, rgba(150, 72, 14, 0.6) 62%,
+      rgba(176, 86, 16, 0.88) 86%, rgba(232, 196, 160, 0.92) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(46, 20, 4, 0.7), rgba(46, 20, 4, 0) 60%);
+  --t-hero-em: #f2d68f;
+
+  --t-well-1: #3e2210; --t-well-2: #241206; --t-well-glow: 0.22; --t-todo-rgb: 226, 190, 120;
+
+  --t-band-1: #bd5d0f; --t-band-2: #8a4009; --t-band-glow: 0.14;
+  --t-on-band: #fdf3e3; --t-on-band-rgb: 253, 243, 227; --t-on-band-strong: #fff8ec;
+  --t-band-accent: #f8e2a6; --t-band-value: #fbe7b8;
+  --t-teacher-1: #fff9ef; --t-teacher-2: #f6e8d2;
+
+  --t-card-tint: rgba(252, 242, 228, 0.9);
+  --t-track-1: #bd5d0f; --t-track-2: #8a4009; --t-knob: linear-gradient(180deg, #f2da9c, #d2a654);
+  --t-scrim-rgb: 46, 20, 4; --t-scrim-solid: #8a4009; --t-video-1: #bd5d0f; --t-video-2: #6e3308;
+}

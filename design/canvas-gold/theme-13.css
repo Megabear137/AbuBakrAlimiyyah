@@ -1,0 +1,39 @@
+/* 13 · Gilded Leaf & Rust — the bands laid in metallic leaf gold, titled
+   and ruled in the brown, and the brown turned into the buttons and the
+   switch. Brown on gold rather than gold on brown. The most ornamental. */
+:root {
+  --ground: #fdf9f1;
+  --gold: #dcae4c; --gold-light: #eac86a; --gold-pale: #f8e39c; --gold-ink: #8a5a0a; --gilt: #d9aa48;
+  --ink: #2a1405; --ink-soft: #4a2e1a; --ink-muted: #5e422e; --cream: #fff8ea;
+
+  --t-heading: #bd5d0f; --t-ink-deep: #2a1405; --t-light-brown: #f4e0bc;
+  --t-pool-1: rgba(246, 214, 130, 0.7); --t-pool-2: rgba(240, 196, 150, 0.7); --t-pool-3: rgba(250, 228, 160, 0.8);
+  --t-shadow-rgb: 130, 80, 14;  --t-glass-rgb: 52, 22, 4;  --t-line-rgb: 122, 58, 8;
+  --t-btn-1: #c96a1c; --t-btn-2: #9a4a0b; --t-btn-ink: #fdeec0;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(52, 22, 4, 0.72) 0%, rgba(52, 22, 4, 0.2) 28%, rgba(160, 100, 24, 0.55) 60%,
+      rgba(196, 146, 50, 0.85) 84%, rgba(244, 222, 164, 0.95) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(52, 22, 4, 0.7), rgba(52, 22, 4, 0) 60%);
+  --t-hero-em: #ffd873;
+
+  --t-well-1: #3e240c; --t-well-2: #241406; --t-well-glow: 0.32; --t-todo-rgb: 234, 196, 104;
+
+  --t-band-1: #eac86a; --t-band-2: #c4923a; --t-band-glow: 0.4;
+  --t-on-band: #2a1405; --t-on-band-rgb: 42, 20, 5; --t-on-band-strong: #7a3a08;
+  --t-band-accent: #7a3a08; --t-band-value: #2a1405;
+  --t-teacher-1: #fffbef; --t-teacher-2: #f8ecd2;
+
+  --t-card-tint: rgba(252, 242, 222, 0.92);
+  --t-track-1: #bd5d0f; --t-track-2: #8a4009; --t-knob: linear-gradient(180deg, #f8e39c, #d9aa48);
+  --t-scrim-rgb: 52, 22, 4; --t-scrim-solid: #7a4a10; --t-video-1: #d6a843; --t-video-2: #8a4a0c;
+
+  --t-metal: linear-gradient(115deg, #c39335 0%, #eac86a 18%, #f8e39c 32%, #dcae4c 50%, #c4923a 64%, #f0d282 82%, #cc9c3e 100%);
+}
+.card--green, .article-feature { background: var(--t-metal); border-color: rgba(122, 58, 8, 0.45); }
+.teachers-band { background: radial-gradient(900px 420px at 50% 0%, rgba(255, 248, 220, 0.4), transparent 70%), var(--t-metal); }
+.teachers-band::before, .teachers-band::after { border-color: rgba(189, 93, 15, 0.7); }
+.teachers-band .section__heading em { color: #2a1405; }
+.teachers-band .carousel__arrow { background: rgba(255, 250, 235, 0.45); }
+.teachers-band .carousel__arrow:hover { background: #7a3a08; color: #fdeec0; }
+.testimony::after { background: linear-gradient(135deg, #dcae4c, rgba(220, 174, 76, 0.14) 35%, rgba(189, 93, 15, 0.14) 65%, #bd5d0f); }
+.video-card__play { background: linear-gradient(180deg, #c96a1c, #9a4a0b); color: #fdeec0; }

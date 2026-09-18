@@ -1,0 +1,30 @@
+/* 4 · Champagne — pale champagne gold on ivory. The bands are soft
+   champagne with espresso ink; gold appears as a quiet sheen rather than
+   a block of colour. The lightest of round 2. */
+:root {
+  --ground: #fbf9f4;
+  --gold: #c2a26a; --gold-light: #dcc38f; --gold-pale: #efe2c2; --gold-ink: #8a6a30; --gilt: #c4a466;
+  --ink: #2c241a; --ink-soft: #4a4034; --ink-muted: #5d5244; --cream: #fdfaf2;
+
+  --t-heading: #5e4a2a; --t-ink-deep: #2c241a; --t-light-brown: #ece0c6;
+  --t-pool-1: rgba(236, 220, 184, 0.95); --t-pool-2: rgba(226, 214, 190, 0.9); --t-pool-3: rgba(242, 228, 196, 0.9);
+  --t-shadow-rgb: 110, 90, 55;  --t-glass-rgb: 44, 36, 26;  --t-line-rgb: 168, 138, 84;
+  --t-btn-1: #f1e0b2; --t-btn-2: #cfae6c; --t-btn-ink: #2c241a;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(34, 28, 20, 0.7) 0%, rgba(34, 28, 20, 0.18) 28%, rgba(112, 92, 60, 0.5) 60%,
+      rgba(166, 142, 102, 0.82) 84%, rgba(234, 222, 198, 0.95) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(34, 28, 20, 0.66), rgba(34, 28, 20, 0) 60%);
+  --t-hero-em: #f2e0b0;
+
+  --t-well-1: #3a3124; --t-well-2: #221c14; --t-well-glow: 0.22; --t-todo-rgb: 214, 192, 146;
+
+  --t-band-1: #f4ecda; --t-band-2: #e4d5b4; --t-band-glow: 0.55;
+  --t-on-band: #2c241a; --t-on-band-rgb: 44, 36, 26; --t-on-band-strong: #2a2014;
+  --t-band-accent: #6b511f; --t-band-value: #2a2014;
+  --t-teacher-1: #ffffff; --t-teacher-2: #faf5ea;
+
+  --t-card-tint: rgba(248, 243, 232, 0.92);
+  --t-track-1: #dcc38f; --t-track-2: #b8975a; --t-knob: #fffdf7;
+  --t-scrim-rgb: 40, 32, 22; --t-scrim-solid: #6b5a3e; --t-video-1: #b59a68; --t-video-2: #74603e;
+}
+.teachers-band .carousel__arrow { background: rgba(255, 255, 255, 0.7); }

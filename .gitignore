@@ -21,3 +21,6 @@ desktop.ini
 *.swp
 .vscode/
 .idea/
+
+# Python bytecode from the canvas generators
+__pycache__/

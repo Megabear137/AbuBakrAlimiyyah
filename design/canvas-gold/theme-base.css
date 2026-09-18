@@ -1,0 +1,114 @@
+/* =====================================================================
+   Gold / light brown / white — the shared re-colouring layer.
+   Loaded after assets/css/styles.css. Every rule that hardcodes a green
+   in styles.css is restated here in terms of --t-* variables, so each
+   theme-N.css only has to set colours, never selectors.
+   ===================================================================== */
+
+/* Tokens the live stylesheet already reads */
+:root {
+  --green:      var(--t-heading);
+  --green-deep: var(--t-ink-deep);
+  --green-card: var(--t-band-1);
+  --mint:       var(--t-light-brown);
+  --pool-mint:  var(--t-pool-1);
+  --pool-sage:  var(--t-pool-2);
+  --pool-olive: var(--t-pool-3);
+  --on-green:   var(--t-on-band);
+}
+
+/* Soft text on a band: rgba of --t-on-band-rgb */
+.card, .article-card { border-color: rgba(var(--t-shadow-rgb), 0.1); box-shadow: inset 0 1px 0 #fff, 0 30px 60px -36px rgba(var(--t-shadow-rgb), 0.42); }
+.btn--gold { background: linear-gradient(180deg, var(--t-btn-1), var(--t-btn-2)); color: var(--t-btn-ink); box-shadow: 0 10px 30px -10px rgba(var(--t-shadow-rgb), 0.45); }
+
+/* Header: a warm dark glass, readable over the photo and the white ground */
+.site-header__inner {
+  background: linear-gradient(145deg, rgba(var(--t-glass-rgb), 0.7), rgba(var(--t-glass-rgb), 0.52));
+  border-color: rgba(var(--t-line-rgb), 0.34);
+}
+.brand { color: #fbf6e9; }
+.nav__list a { color: rgba(251, 246, 233, 0.86); }
+.nav-toggle__bar { background: #fbf6e9; }
+@media (max-width: 980px) { .nav { background: rgba(var(--t-glass-rgb), 0.94); } }
+
+/* Hero */
+.hero__img { background-color: var(--t-band-2); }
+.hero__tint { background: var(--t-hero-tint); }
+.hero__title em { color: var(--t-hero-em); }
+
+/* Shelf wall */
+.shelf-wall { box-shadow: 0 40px 70px -40px rgba(var(--t-shadow-rgb), 0.55), 0 -18px 40px -30px rgba(var(--t-shadow-rgb), 0.35); }
+.bay__well {
+  background:
+    radial-gradient(60% 70% at 50% 0%, rgba(255, 222, 150, var(--t-well-glow)), transparent 70%),
+    linear-gradient(180deg, var(--t-well-1), var(--t-well-2));
+}
+.spine--todo { background: rgba(var(--t-todo-rgb), 0.05); border-color: rgba(var(--t-todo-rgb), 0.5); }
+.spine--todo .spine__title { color: rgba(var(--t-todo-rgb), 0.75); }
+.spine.spine--open { color: var(--t-ink-deep); }
+
+/* Bands: Details cards, the teachers band, the featured article */
+.card--green,
+.article-feature {
+  background: linear-gradient(160deg, var(--t-band-1), var(--t-band-2));
+  border-color: rgba(var(--t-line-rgb), 0.4);
+  color: var(--t-on-band);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 30px 60px -30px rgba(var(--t-shadow-rgb), 0.55);
+}
+.card--green:hover { border-color: rgba(var(--t-line-rgb), 0.7); }
+.card__kicker, .tgroup__years, .kicker--on-green, .article-feature .article__meta { color: var(--t-band-accent); }
+.tgroup__label, .tier__amount, .article-feature .article__title, .article-feature .article__meta b { color: var(--t-on-band-strong); }
+.tgroup + .tgroup, .tiers { border-color: rgba(var(--t-line-rgb), 0.3); }
+.row--rule { border-top-color: rgba(var(--t-line-rgb), 0.24); }
+.row { color: rgba(var(--t-on-band-rgb), 0.88); }
+.row__value { color: var(--t-band-value); }
+.tier__label { color: rgba(var(--t-on-band-rgb), 0.76); }
+.tier__period { color: rgba(var(--t-on-band-rgb), 0.7); }
+.tier__note { color: rgba(var(--t-on-band-rgb), 0.68); }
+.article-feature .article__excerpt { color: rgba(var(--t-on-band-rgb), 0.84); }
+.article-feature__mark { color: var(--t-band-accent); }
+
+.teachers-band {
+  background:
+    radial-gradient(900px 420px at 50% 0%, rgba(255, 240, 200, var(--t-band-glow)), transparent 70%),
+    linear-gradient(180deg, var(--t-band-1), var(--t-band-2));
+  box-shadow: 0 40px 70px -40px rgba(var(--t-shadow-rgb), 0.6);
+  color: var(--t-on-band);
+}
+.teachers-band::before, .teachers-band::after { border-color: rgba(var(--t-line-rgb), 0.6); }
+.teachers-band .section__heading { color: var(--t-on-band-strong); }
+.teachers-band .section__heading em { color: var(--t-band-accent); }
+.teachers-band .carousel__arrow { color: var(--t-band-accent); border-color: rgba(var(--t-line-rgb), 0.5); background: rgba(255, 255, 255, 0.1); }
+.teachers-band .carousel__arrow:hover { background: var(--t-band-accent); color: var(--t-band-2); }
+.teachers-band .carousel__dot { border-color: var(--t-band-accent); }
+.teachers-band .carousel__dot[aria-current="true"] { background: var(--t-band-accent); }
+.teacher { background: linear-gradient(170deg, var(--t-teacher-1), var(--t-teacher-2)); }
+.teacher { box-shadow: inset 0 0 0 1px rgba(154, 122, 46, 0.35), inset 0 0 0 6px var(--t-teacher-1), inset 0 0 0 7px rgba(154, 122, 46, 0.35), 0 30px 60px -30px rgba(var(--t-shadow-rgb), 0.6); }
+
+/* Carousels, testimonies, the switch */
+.carousel__arrow { border-color: rgba(var(--t-shadow-rgb), 0.14); box-shadow: 0 12px 26px -16px rgba(var(--t-shadow-rgb), 0.5); }
+.carousel__arrow:hover { color: #fff; }
+.testimony { background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), var(--t-card-tint)); box-shadow: 0 24px 50px -32px rgba(var(--t-shadow-rgb), 0.38); }
+.aud-toggle { border-color: rgba(var(--t-shadow-rgb), 0.14); box-shadow: 0 12px 26px -16px rgba(var(--t-shadow-rgb), 0.5); }
+.aud-toggle__track { background: linear-gradient(160deg, var(--t-track-1), var(--t-track-2)); box-shadow: inset 0 0 0 1px rgba(var(--t-line-rgb), 0.5); }
+.aud-toggle__knob { background: var(--t-knob); }
+.article-card { background: linear-gradient(145deg, rgba(255, 255, 255, 0.97), var(--t-card-tint)); }
+
+/* Videos: the caption still needs a dark scrim, now a warm one */
+.video-card, .video-card__thumb { background-color: var(--t-scrim-solid); }
+.video-card { box-shadow: 0 30px 60px -34px rgba(var(--t-shadow-rgb), 0.6); }
+.video-card__thumb--photo {          /* the photo is green-cast; wash it warm */
+  background-image: linear-gradient(160deg, rgba(var(--t-scrim-rgb), 0.2), rgba(var(--t-scrim-rgb), 0.7)), linear-gradient(var(--t-video-1), var(--t-video-1)), url("../../assets/img/hero-masjid.jpg");
+  background-blend-mode: normal, color, normal;
+}
+.video-card__thumb--pattern {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23f0d9a0' stroke-opacity='.4'%3E%3Crect x='17' y='17' width='30' height='30'/%3E%3Crect x='17' y='17' width='30' height='30' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='5'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(160deg, var(--t-video-1), var(--t-video-2));
+}
+.video-card__play { color: var(--t-ink-deep); }
+.video-card__dur { background: rgba(var(--t-scrim-rgb), 0.8); }
+.video-card__cap { background: linear-gradient(transparent, rgba(var(--t-scrim-rgb), 0.92)); }
+
+/* Footer */
+.site-footer__inner::before { background: rgba(var(--t-shadow-rgb), 0.18); }

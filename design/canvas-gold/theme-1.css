@@ -1,0 +1,28 @@
+/* 1 · Camel & Gilt — white ground, saddle-brown bands, bright gilt accents.
+   Closest to the current page: every green becomes a warm brown. */
+:root {
+  --ground: #faf8f3;
+  --gold: #c9a24f; --gold-light: #e2c57e; --gold-pale: #f3e2b0; --gold-ink: #8f6a22; --gilt: #c9a457;
+  --ink: #2a1d10; --ink-soft: #4a3a2a; --ink-muted: #5c4b3a; --cream: #fcf7ec;
+
+  --t-heading: #6b4722; --t-ink-deep: #2a1a0b; --t-light-brown: #e3cfb0;
+  --t-pool-1: rgba(226, 200, 160, 0.95); --t-pool-2: rgba(238, 214, 150, 0.85); --t-pool-3: rgba(214, 190, 162, 0.9);
+  --t-shadow-rgb: 92, 62, 30;  --t-glass-rgb: 46, 29, 14;  --t-line-rgb: 226, 197, 126;
+  --t-btn-1: #e6c982; --t-btn-2: #c49a4a; --t-btn-ink: #2a1a0b;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(38, 22, 8, 0.72) 0%, rgba(38, 22, 8, 0.2) 28%, rgba(92, 62, 32, 0.62) 62%,
+      rgba(110, 76, 42, 0.9) 86%, rgba(196, 168, 128, 0.9) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(38, 22, 8, 0.7), rgba(38, 22, 8, 0) 60%);
+  --t-hero-em: #ecd08a;
+
+  --t-well-1: #3a2616; --t-well-2: #21150a; --t-well-glow: 0.2; --t-todo-rgb: 201, 169, 97;
+
+  --t-band-1: #8c6640; --t-band-2: #5c3f23; --t-band-glow: 0.16;
+  --t-on-band: #f7efe0; --t-on-band-rgb: 247, 239, 224; --t-on-band-strong: #fcf7ec;
+  --t-band-accent: #ecd08a; --t-band-value: #f5e4b8;
+  --t-teacher-1: #fcf7ec; --t-teacher-2: #f1e3c8;
+
+  --t-card-tint: rgba(250, 243, 230, 0.9);
+  --t-track-1: #8c6640; --t-track-2: #5c3f23; --t-knob: linear-gradient(180deg, #ecd394, #c49a4a);
+  --t-scrim-rgb: 38, 24, 10; --t-scrim-solid: #5c3f23; --t-video-1: #8c6640; --t-video-2: #5c3f23;
+}

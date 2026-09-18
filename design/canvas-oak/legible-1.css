@@ -1,0 +1,16 @@
+/* 1 · Deeper boards — the panels that carry text are cut from a darker board
+   of the same timber. The big wooden surfaces (shelf wall, teachers band,
+   testimonies wall) keep rgb(161, 101, 65); nothing else changes. */
+
+.card--choc,
+.article-feature,
+.video-card__thumb--pattern {
+  --choc:      #6b3f26;
+  --choc-deep: #3c2213;
+  border-color: rgba(230, 150, 70, 0.55);
+}
+.niche__recess { --wood-dark: #38200f; }
+
+/* With a darker board under it the cream can go back to a quieter weight,
+   and the gold reads as gold again. */
+.card--choc, .article-feature { text-shadow: none; }

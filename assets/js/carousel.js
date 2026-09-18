@@ -63,6 +63,7 @@
 
     var page = 0;
     var pageCount = 1;
+    var baseShift = 0; // px the track is translated by at rest
 
     function slideWidth() {
       var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
@@ -105,17 +106,22 @@
       dots.hidden = pageCount < 2;
     }
 
+    // Never scroll past the last slide.
+    function maxShift() {
+      return Math.max(0, slideWidth() * items.length - parseFloat(getComputedStyle(track).columnGap || 0) - viewport.getBoundingClientRect().width);
+    }
+
     function apply(perView) {
       var step = slideWidth() * perView;
-      // Never scroll past the last slide.
-      var maxShift = Math.max(0, slideWidth() * items.length - parseFloat(getComputedStyle(track).columnGap || 0) - viewport.getBoundingClientRect().width);
-      var shift = Math.min(page * step, maxShift);
+      var shift = Math.min(page * step, maxShift());
+      baseShift = shift;
       track.style.transform = "translateX(" + -shift + "px)";
 
       prev.disabled = page === 0;
       next.disabled = page >= pageCount - 1;
-      // Nothing to page through when every slide already fits.
+      // Nothing to page through - nor to drag - when every slide already fits.
       prev.hidden = next.hidden = pageCount < 2;
+      root.classList.toggle("carousel--draggable", pageCount > 1);
 
       Array.prototype.forEach.call(dots.children, function (dot, i) {
         if (i === page) dot.setAttribute("aria-current", "true");
@@ -146,17 +152,76 @@
       if (e.key === "ArrowLeft")  { go(page - 1); e.preventDefault(); }
     });
 
-    // Touch swipe
-    var startX = null;
-    viewport.addEventListener("touchstart", function (e) {
-      startX = e.touches[0].clientX;
-    }, { passive: true });
-    viewport.addEventListener("touchend", function (e) {
-      if (startX === null) return;
-      var dx = e.changedTouches[0].clientX - startX;
-      if (Math.abs(dx) > 45) go(dx < 0 ? page + 1 : page - 1);
-      startX = null;
+    /* -------------------------- drag to scroll ------------------------
+       One pointer path for mouse, pen and finger: the track follows the
+       drag live, then snaps to the nearest page. `touch-action: pan-y` on
+       the viewport leaves vertical page scrolling to the browser. */
+    var drag = null;
+    var swallowClick = false;
+
+    viewport.addEventListener("pointerdown", function (e) {
+      swallowClick = false;
+      if (pageCount < 2) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, axis: null };
     });
+
+    viewport.addEventListener("pointermove", function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x;
+      var dy = e.clientY - drag.y;
+      if (!drag.axis) {
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        // A first move that is mostly vertical is the page scrolling, not a swipe.
+        if (Math.abs(dy) >= Math.abs(dx)) { drag = null; return; }
+        drag.axis = "x";
+        try { viewport.setPointerCapture(drag.id); } catch (err) { /* pointer already gone */ }
+        track.classList.add("carousel__track--dragging");
+      }
+      if (e.cancelable) e.preventDefault();
+      drag.dx = dx;
+      var limit = maxShift();
+      var shift = baseShift - dx;
+      // Rubber band past either end, so the ends feel closed.
+      if (shift < 0) shift *= 0.35;
+      else if (shift > limit) shift = limit + (shift - limit) * 0.35;
+      track.style.transform = "translateX(" + -shift + "px)";
+    });
+
+    function endDrag(e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = drag.dx;
+      var dragged = drag.axis === "x";
+      drag = null;
+      track.classList.remove("carousel__track--dragging");
+      if (!dragged) return;
+      swallowClick = Math.abs(dx) > 6; // a drag must not open the card under it
+      if (Math.abs(dx) > Math.max(45, Math.min(slideWidth() * 0.4, 160))) {
+        go(dx < 0 ? page + 1 : page - 1);
+      } else {
+        apply(Math.max(1, Math.min(opts.perView(), items.length)));
+      }
+    }
+    viewport.addEventListener("pointerup", endDrag);
+    viewport.addEventListener("pointercancel", endDrag);
+
+    viewport.addEventListener("click", function (e) {
+      if (!swallowClick) return;
+      swallowClick = false;
+      e.preventDefault();
+      e.stopPropagation();
+    }, true);
+
+    // Horizontal wheel or trackpad (shift + wheel on a plain mouse) pages too.
+    var wheelUntil = 0;
+    viewport.addEventListener("wheel", function (e) {
+      if (pageCount < 2 || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault();
+      var now = Date.now();
+      if (now < wheelUntil || Math.abs(e.deltaX) < 8) return;
+      wheelUntil = now + 420;
+      go(e.deltaX > 0 ? page + 1 : page - 1);
+    }, { passive: false });
 
     var resizeTimer;
     function onResize() {

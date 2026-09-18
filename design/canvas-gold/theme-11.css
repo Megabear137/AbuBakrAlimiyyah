@@ -1,0 +1,33 @@
+/* 11 · Champagne & Rust — a light page. The bands are champagne gold with
+   dark ink, and the brown does the talking: headings, band titles, the
+   buttons and the switch. The lightest of round 3. */
+:root {
+  --ground: #fdfaf5;
+  --gold: #d8b878; --gold-light: #e8cf9c; --gold-pale: #f4e6c6; --gold-ink: #9c7428; --gilt: #cfae6c;
+  --ink: #2a1608; --ink-soft: #4a3222; --ink-muted: #5e4535; --cream: #fffaf0;
+
+  --t-heading: #bd5d0f; --t-ink-deep: #2a1608; --t-light-brown: #f0e2cc;
+  --t-pool-1: rgba(238, 218, 180, 0.9); --t-pool-2: rgba(240, 206, 170, 0.75); --t-pool-3: rgba(244, 228, 192, 0.9);
+  --t-shadow-rgb: 120, 80, 30;  --t-glass-rgb: 50, 24, 6;  --t-line-rgb: 176, 120, 50;
+  --t-btn-1: #c96a1c; --t-btn-2: #a14f0c; --t-btn-ink: #fff6e8;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(46, 20, 4, 0.7) 0%, rgba(46, 20, 4, 0.18) 28%, rgba(140, 90, 40, 0.5) 60%,
+      rgba(176, 136, 84, 0.82) 84%, rgba(236, 222, 194, 0.95) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(46, 20, 4, 0.66), rgba(46, 20, 4, 0) 60%);
+  --t-hero-em: #f0d49a;
+
+  --t-well-1: #3e2412; --t-well-2: #241408; --t-well-glow: 0.22; --t-todo-rgb: 220, 190, 140;
+
+  --t-band-1: #f6ead4; --t-band-2: #e8d3ae; --t-band-glow: 0.5;
+  --t-on-band: #2a1608; --t-on-band-rgb: 42, 22, 8; --t-on-band-strong: #2a1608;
+  --t-band-accent: #9a4a0b; --t-band-value: #2a1608;
+  --t-teacher-1: #ffffff; --t-teacher-2: #fbf4e8;
+
+  --t-card-tint: rgba(250, 244, 232, 0.92);
+  --t-track-1: #bd5d0f; --t-track-2: #9a4a0b; --t-knob: #fffaf0;
+  --t-scrim-rgb: 46, 20, 4; --t-scrim-solid: #7a4a1c; --t-video-1: #b98a52; --t-video-2: #7a4a1c;
+}
+.btn--gold { box-shadow: 0 10px 30px -10px rgba(189, 93, 15, 0.55); }
+.tgroup__label, .tier__amount, .article-feature .article__title, .teachers-band .section__heading { color: #9a4a0b; }
+.teachers-band .section__heading em { color: #2a1608; }
+.teachers-band .carousel__arrow { background: rgba(255, 255, 255, 0.7); }

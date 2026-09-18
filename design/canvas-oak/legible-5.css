@@ -1,0 +1,33 @@
+/* 5 · Brass plate — the text is engraved on a dark bronze plate screwed to
+   the wood, the way a masjid's timetable board is. The wood frames it, the
+   plate carries the type, and four brass screws hold it down. */
+
+.card--choc,
+.article-feature {
+  border: 12px solid transparent;
+  border-radius: 18px;
+  padding: clamp(1.5rem, 3.2vw, 2.1rem);
+  background-image:
+    radial-gradient(circle at 14px 14px, #f6e3a8 0 1.6px, #c9a961 3px, rgba(0, 0, 0, 0.55) 3.6px, transparent 4.2px),
+    radial-gradient(circle at calc(100% - 14px) 14px, #f6e3a8 0 1.6px, #c9a961 3px, rgba(0, 0, 0, 0.55) 3.6px, transparent 4.2px),
+    radial-gradient(circle at 14px calc(100% - 14px), #f6e3a8 0 1.6px, #c9a961 3px, rgba(0, 0, 0, 0.55) 3.6px, transparent 4.2px),
+    radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), #f6e3a8 0 1.6px, #c9a961 3px, rgba(0, 0, 0, 0.55) 3.6px, transparent 4.2px),
+    linear-gradient(168deg, #4a3320, #2a1a0b 55%, #3d2a14),
+    var(--grain),
+    linear-gradient(160deg, var(--choc), var(--choc-deep));
+  background-size: auto, auto, auto, auto, auto, var(--grain-size), 100% 100%;
+  /* nine layers: four screws, the plate, three grain layers, the wood */
+  background-clip: padding-box, padding-box, padding-box, padding-box, padding-box, border-box, border-box, border-box, border-box;
+  background-origin: padding-box, padding-box, padding-box, padding-box, padding-box, border-box, border-box, border-box, border-box;
+  box-shadow:
+    inset 0 0 0 1px rgba(243, 203, 104, 0.45),
+    inset 0 0 0 5px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 6px rgba(243, 203, 104, 0.3),
+    0 30px 60px -30px rgba(90, 50, 20, 0.65);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+.card__kicker, .tgroup__years, .row__value { color: #f7d485; }
+.tgroup__label, .tier__amount, .article-feature .article__title { color: #ffe6ad; }
+.row, .tier__label, .tier__period, .tier__note,
+.article-feature .article__excerpt { color: #fff6ea; }
+.tgroup + .tgroup, .tiers, .row--rule { border-color: rgba(243, 203, 104, 0.3); }

@@ -34,6 +34,16 @@
     if (node && value) node.textContent = value;
   }
 
+  // "Alumni Testimonies" -> "Alumni <em>Testimonies</em>": the last word in gold.
+  function emphasiseLastWord(name) {
+    var heading = slot(name);
+    if (!heading) return;
+    var words = heading.textContent.trim().split(/\s+/);
+    if (words.length < 2) return;
+    var last = words.pop();
+    heading.innerHTML = esc(words.join(" ")) + " <em>" + esc(last) + "</em>";
+  }
+
   function loadJSON(path) {
     // no-cache: revalidate every load, so an edited JSON file shows up without a hard refresh.
     return fetch(path, { cache: "no-cache" }).then(function (r) {
@@ -164,10 +174,11 @@
     var mount = slot("teachers");
     if (!mount) return;
     setText("teachers-heading", data.heading);
+    emphasiseLastWord("teachers-heading");
+    setText("teachers-kicker", data.kicker);
 
     createCarousel({
       mount: mount,
-      controls: slot("teachers-controls"),
       items: data.teachers || [],
       label: "Our teachers",
       perView: function () {
@@ -177,7 +188,7 @@
         return 3;
       },
       render: function (t) {
-        var card = el("article", "card teacher");
+        var card = el("article", "teacher");
         if (t.honorific) card.appendChild(el("p", "teacher__honorific", esc(t.honorific)));
         card.appendChild(el("h3", "teacher__name", esc(t.name)));
         if (t.bio) card.appendChild(el("p", "teacher__bio", esc(t.bio)));
@@ -207,7 +218,7 @@
     return '<h3 class="' + className + '">' + text + "</h3>";
   }
 
-  // The first article is a full-width green feature; the rest follow beneath it
+  // The first article is a full-width chocolate feature; the rest follow beneath it
   // in a carousel of white cards under their own small head, so the arrows sit
   // next to what they move rather than above the feature.
   function articleTile(a, feature) {
@@ -227,14 +238,11 @@
     mount.appendChild(articleTile(items[0], true));
     if (items.length < 2) return null;
 
-    var controls = el("div", "carousel-controls");
     var head = el("div", "articles__rest-head", '<p class="kicker">More articles</p>');
-    head.appendChild(controls);
     var rest = el("div", "articles__rest");
     mount.append(head, rest);
     return createCarousel({
       mount: rest,
-      controls: controls,
       items: items.slice(1),
       label: label,
       perView: function () {
@@ -277,7 +285,6 @@
         render: function (mount, items, label) {
           return createCarousel({
             mount: mount,
-            controls: slot("videos-controls"),
             items: items,
             label: label,
             perView: function () { return window.innerWidth < 760 ? 1 : 2; },
@@ -363,30 +370,25 @@
     var mount = slot("testimonies");
     if (!mount) return;
     setText("testimonies-heading", data.heading);
-
-    // "Alumni Testimonies" -> "Alumni <em>Testimonies</em>": the last word in gold.
-    var heading = slot("testimonies-heading");
-    if (heading) {
-      var words = heading.textContent.trim().split(/\s+/);
-      if (words.length > 1) {
-        var last = words.pop();
-        heading.innerHTML = esc(words.join(" ")) + " <em>" + esc(last) + "</em>";
-      }
-    }
+    emphasiseLastWord("testimonies-heading");
 
     createCarousel({
       mount: mount,
-      controls: slot("testimonies-controls"),
       items: data.testimonies || [],
       label: "Alumni testimonies",
-      perView: function () { return window.innerWidth < 760 ? 1 : 2; },
+      perView: function () { return window.innerWidth < 700 ? 1 : window.innerWidth < 1040 ? 2 : 3; },
+      // A mihrab niche: the moulding, the recess that holds the testimony, and a sill.
       render: function (t) {
-        var card = el("figure", "testimony");
-        card.innerHTML = ICONS.quote;
-        card.appendChild(el("blockquote", "testimony__quote", esc(t.quote)));
-        card.appendChild(el("figcaption", "testimony__cite",
-          "<b>" + esc(t.name) + "</b>" + (t.graduated ? " &middot; Class of " + esc(t.graduated) : "")));
-        return card;
+        var slotEl = el("figure", "niche-slot");
+        var niche = el("div", "niche");
+        var recess = el("div", "niche__recess", ICONS.quote);
+        recess.appendChild(el("blockquote", "testimony__quote", esc(t.quote)));
+        recess.appendChild(el("figcaption", "testimony__cite",
+          "<b>" + esc(t.name) + "</b>" + (t.graduated ? "Class of " + esc(t.graduated) : "")));
+        niche.appendChild(recess);
+        slotEl.appendChild(niche);
+        slotEl.appendChild(el("div", "niche__sill"));
+        return slotEl;
       }
     });
   }

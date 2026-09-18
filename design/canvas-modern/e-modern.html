@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Resolve the live stylesheet, scripts, content and images from the site root. -->
+<base href="../../">
+<title>E · Modern — Alimiyyah modernise mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Inter+Tight:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=26">
+<link rel="stylesheet" href="design/canvas-modern/mock.css">
+<style>
+/* =====================================================================
+   E · MODERN — common modern UI patterns, not tied to the three sites
+   A tight grotesk (Inter Tight) with serif-italic accent words, a reading
+   progress bar, a floating glass nav whose highlight slides to the section
+   in view, an inset rounded hero, a marquee of the four subjects, an
+   introduction that lights up word by word as it scrolls past, pill
+   section labels, tabs for the timings, a draggable teacher row with a
+   progress track, cards with a cursor-following spotlight, testimonies
+   that stack as you scroll, and an oversized wordmark in the footer.
+   Content is the site's own; the shelf keeps its behaviour but is drawn in
+   this style. No star patterns; plain surfaces only.
+   ===================================================================== */
+:root {
+  --e-sans: "Inter Tight", "Instrument Sans", system-ui, sans-serif;
+  --e-ground: #faf6ef;
+  --e-card: #ffffff;
+  --e-line: rgba(70, 44, 22, 0.12);
+  --e-muted: #7a634e;
+  --e-dark: #1d0f06;
+  --e-dark-2: #2a170b;
+  --e-r: 24px;
+}
+body { background: var(--e-ground); color: var(--brown-ink); font-family: var(--e-sans); }
+.e-sec { padding-top: clamp(5rem, 10vw, 140px); }
+
+/* Headings: tight grotesk with an italic serif accent word */
+.e-h2 { font-family: var(--e-sans); font-weight: 600; font-size: clamp(2.4rem, 1.6rem + 3vw, 4.4rem); line-height: 1; letter-spacing: -0.045em; color: var(--espresso); }
+.e-h2 em { font-family: var(--display); font-style: italic; font-weight: 500; letter-spacing: -0.01em; color: var(--rust); }
+.e-lede { max-width: 30rem; color: var(--e-muted); font-size: 1.05rem; line-height: 1.6; }
+.e-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem 3rem; flex-wrap: wrap; margin-bottom: clamp(2rem, 4vw, 3rem); }
+.e-head > div { display: grid; gap: 1rem; justify-items: start; }
+.e-head .e-seg { display: inline-flex; }
+.e-head .e-arrows { display: flex; }
+
+/* The pill label above each heading: a dot and a word */
+.e-pill { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.4rem 0.9rem 0.4rem 0.7rem; border-radius: 999px; border: 1px solid var(--e-line); background: var(--e-card); font-size: 0.8rem; font-weight: 500; color: var(--brown-ink); }
+.e-pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 3px rgba(227, 179, 74, 0.25); }
+.e-pill--dark { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12); color: #f3e6d3; }
+
+/* Buttons */
+.e-btn { display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.9rem 1.1rem 0.9rem 1.4rem; border-radius: 999px; background: var(--espresso); color: #fff6ea; font-weight: 500; font-size: 0.98rem; text-decoration: none; transition: transform .25s var(--ease-out), background .25s; }
+.e-btn i { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--gold); color: var(--espresso); font-style: normal; transition: transform .3s var(--ease-out); }
+.e-btn:hover { transform: translateY(-2px); }
+.e-btn:hover i { transform: translateX(3px); }
+.e-btn--gold { background: var(--gold); color: var(--espresso); }
+.e-btn--gold i { background: var(--espresso); color: var(--gold); }
+
+/* Cards with a spotlight that follows the pointer ([data-spot]) */
+.e-card { position: relative; border-radius: var(--e-r); background: var(--e-card); border: 1px solid var(--e-line); overflow: hidden; isolation: isolate; }
+[data-spot]::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .3s; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(227, 179, 74, 0.18), transparent 60%); pointer-events: none; }
+[data-spot]:hover::before { opacity: 1; }
+
+/* ---- Reading progress and the floating nav ---- */
+.e-progress { position: fixed; inset: 0 0 auto; z-index: 60; height: 3px; transform-origin: 0 50%; transform: scaleX(var(--read, 0)); background: linear-gradient(90deg, var(--rust), var(--gold)); }
+.e-nav { position: fixed; top: 14px; left: 50%; z-index: 50; transform: translateX(-50%); display: flex; align-items: center; gap: 0.4rem; width: max-content; max-width: calc(100% - 24px); padding: 6px; border-radius: 999px; background: rgba(250, 246, 239, 0.72); border: 1px solid rgba(70, 44, 22, 0.1); box-shadow: 0 10px 30px -14px rgba(36, 18, 5, 0.35); backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4); }
+.e-nav__brand { display: flex; align-items: center; gap: 0.5rem; padding-right: 0.6rem; color: var(--espresso); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+.e-nav__brand img { width: 34px; height: 34px; border-radius: 50%; }
+.e-nav__links { position: relative; display: flex; }
+.e-nav__links a { position: relative; z-index: 1; padding: 0.5rem 0.8rem; border-radius: 999px; color: var(--brown-ink); font-size: 0.88rem; font-weight: 500; text-decoration: none; transition: color .25s; }
+.e-nav__links a[aria-current="true"] { color: #fff6ea; }
+.e-nav__ind { position: absolute; top: 0; bottom: 0; left: 0; width: 0; border-radius: 999px; background: var(--espresso); transform: translateX(var(--x, 0)); width: var(--w, 0); opacity: var(--o, 0); transition: transform .45s var(--ease-out), width .45s var(--ease-out), opacity .3s; }
+.e-nav .e-btn { padding: 0.55rem 0.7rem 0.55rem 1rem; font-size: 0.86rem; }
+.e-nav .e-btn i { width: 24px; height: 24px; }
+
+/* ---- Hero: an inset rounded panel ---- */
+.e-hero { padding: 12px 12px 0; }
+.e-hero__panel { position: relative; display: flex; align-items: flex-end; min-height: min(90vh, 820px); border-radius: 32px; overflow: hidden; background: var(--e-dark); color: #fff6ea; }
+.e-hero__img { position: absolute; inset: 0; background: url("assets/img/hero-masjid.jpg") center 35% / cover; transform: scale(1.04); }
+.e-hero__img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(29, 15, 6, 0.55), rgba(29, 15, 6, 0.15) 35%, rgba(29, 15, 6, 0.92)), linear-gradient(90deg, rgba(29, 15, 6, 0.6), transparent 70%); }
+.e-hero__body { position: relative; width: 100%; display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem 4rem; align-items: end; padding: clamp(2rem, 5vw, 64px); }
+.e-hero .e-pill { margin-bottom: 1.4rem; }
+.e-hero h1 { font-family: var(--e-sans); font-weight: 600; font-size: clamp(3.2rem, 1.6rem + 6vw, 7.4rem); line-height: 0.92; letter-spacing: -0.055em; color: #fff; }
+.e-hero h1 em { font-family: var(--display); font-style: italic; font-weight: 500; letter-spacing: -0.02em; background: linear-gradient(100deg, #f7e0a4, #e3b34a 50%, #f0c56a); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: 0.06em; }
+.e-hero__side p { margin-bottom: 1.6rem; color: rgba(255, 246, 234, 0.88); font-size: 1.15rem; line-height: 1.55; }
+
+/* ---- Marquee of the four subjects ---- */
+.e-marquee { overflow: hidden; margin-top: clamp(2.5rem, 5vw, 64px); border-block: 1px solid var(--e-line); -webkit-mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.e-marquee__track { display: flex; width: max-content; animation: e-marquee 30s linear infinite; }
+.e-marquee__track span { display: flex; align-items: center; gap: 2.4rem; padding: 1.4rem 1.2rem; font-family: var(--display); font-style: italic; font-size: clamp(2rem, 1.4rem + 2vw, 3.2rem); color: var(--brown-ink); white-space: nowrap; }
+.e-marquee__track span::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); }
+@keyframes e-marquee { to { transform: translateX(-50%); } }
+
+/* ---- Introduction: words light up as it scrolls past ---- */
+.e-intro { display: grid; grid-template-columns: 220px 1fr; gap: 2rem 4rem; }
+.e-words { font-family: var(--e-sans); font-weight: 500; font-size: clamp(1.8rem, 1.2rem + 2.2vw, 3.4rem); line-height: 1.15; letter-spacing: -0.035em; color: var(--espresso); }
+.e-words .w { opacity: 0.16; transition: opacity .35s; }
+.e-words .w.on { opacity: 1; }
+.e-program { grid-column: 2; display: grid; grid-template-columns: auto 1fr; gap: 1.5rem 3rem; align-items: start; margin-top: 3rem; padding: clamp(1.6rem, 3vw, 2.4rem); }
+.e-program h2 { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.03em; color: var(--espresso); white-space: nowrap; }
+.e-program p { color: var(--e-muted); font-size: 1.05rem; line-height: 1.7; }
+
+/* ---- The shelf: a contained dark panel of glass bays ---- */
+.shelf-wall { margin: clamp(5rem, 10vw, 140px) 12px 0; padding-block: clamp(3.5rem, 7vw, 90px) clamp(2.5rem, 5vw, 64px); border-radius: 32px; background: radial-gradient(90% 60% at 50% 0%, rgba(189, 93, 15, 0.22), transparent 70%), linear-gradient(180deg, var(--e-dark-2), var(--e-dark)); color: #f3e6d3; }
+.shelf-wall .e-h2 { color: #fff6ea; }
+.shelf-wall .e-h2 em { color: var(--gold-light); }
+.shelf-wall .e-lede { color: rgba(243, 230, 211, 0.65); }
+.bay { position: relative; isolation: isolate; overflow: hidden; padding: 12px 12px 0; border-radius: 22px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: none; }
+.bay::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .3s; background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 30%), rgba(227, 179, 74, 0.16), transparent 60%); pointer-events: none; }
+.bay:hover::before { opacity: 1; }
+.bay__well { border-radius: 14px 14px 0 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.25)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 14px 30px rgba(0, 0, 0, 0.4); }
+.bay__plank { height: 3px; margin-inline: 0; border-radius: 3px; background: linear-gradient(90deg, var(--rust), var(--gold) 30%, var(--gold-light) 50%, var(--gold) 70%, var(--rust)); box-shadow: 0 0 18px rgba(227, 179, 74, 0.35); }
+.bay__year { height: 58px; justify-content: space-between; padding-inline: 0.3rem; color: rgba(243, 230, 211, 0.75); font-family: var(--e-sans); font-size: 0.85rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.bay__numeral { order: 2; display: grid; place-items: center; min-width: 34px; height: 26px; padding: 0 0.6rem; border-radius: 999px; background: rgba(227, 179, 74, 0.14); color: var(--gold-light); font-family: var(--e-sans); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
+.book--open { border-radius: 16px; background: #fff; box-shadow: 0 0 0 1px rgba(227, 179, 74, 0.5), 0 24px 40px rgba(0, 0, 0, 0.5); font-family: var(--e-sans); }
+.book--open::after { display: none; }
+.face__title { font-family: var(--e-sans); font-size: 1.1rem; font-weight: 600; letter-spacing: -0.02em; }
+.face__more, .spine.spine--open { font-family: var(--e-sans); letter-spacing: 0.04em; }
+.folio { border-radius: 18px 18px 0 0; background: #fbf7f0; color: var(--espresso); box-shadow: 0 0 0 1px rgba(227, 179, 74, 0.35); font-family: var(--e-sans); }
+.folio::before { display: none; }
+.folio__cover { border-radius: 12px; overflow: hidden; box-shadow: 0 20px 34px -18px rgba(0, 0, 0, 0.6); }
+.folio__subject, .folio__catch { color: var(--gold-ink); }
+.folio__title { font-family: var(--e-sans); font-weight: 600; letter-spacing: -0.03em; }
+.folio__rule { background: var(--e-line); }
+.folio__body { color: var(--e-muted); }
+.folio__close { background: #fff; color: var(--espresso); box-shadow: 0 0 0 1px var(--e-line), 0 4px 10px rgba(0, 0, 0, 0.2); }
+
+/* ---- Details: tabs for the timings, a fee card, the family discount ---- */
+.e-details { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+.e-tabs { padding: clamp(1.4rem, 3vw, 2.2rem); }
+.e-tablist { position: relative; display: inline-flex; padding: 4px; border-radius: 999px; background: #f3ece1; }
+.e-tablist button { position: relative; z-index: 1; padding: 0.6rem 1.3rem; border-radius: 999px; font-weight: 500; font-size: 0.95rem; color: var(--e-muted); transition: color .25s; }
+.e-tablist button[aria-selected="true"] { color: var(--espresso); }
+.e-tablist .e-tab-ind { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 999px; background: #fff; box-shadow: 0 2px 8px rgba(36, 18, 5, 0.12); transform: translateX(var(--x, 4px)); width: var(--w, 0); transition: transform .4s var(--ease-out), width .4s var(--ease-out); }
+.e-panel { display: grid; grid-template-columns: 1fr auto; gap: 1rem 2rem; margin-top: 2rem; animation: e-fade .45s var(--ease-out); }
+.e-panel[hidden] { display: none; }
+@keyframes e-fade { from { opacity: 0; transform: translateY(8px); } }
+.e-panel h3 { grid-column: 1 / -1; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-ink); }
+.e-panel ul { margin: 0; padding: 0; list-style: none; }
+.e-panel li { display: flex; justify-content: space-between; gap: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--e-line); color: var(--e-muted); }
+.e-panel li b { color: var(--espresso); font-weight: 600; font-size: 1.1rem; letter-spacing: -0.01em; }
+.e-fee { align-self: start; min-width: 210px; padding: 1.3rem 1.4rem; border-radius: 18px; background: var(--e-dark); color: #f3e6d3; }
+.e-fee small { font-size: 0.78rem; color: rgba(243, 230, 211, 0.65); }
+.e-fee b { display: block; margin-top: 0.3rem; font-size: 3.4rem; font-weight: 600; letter-spacing: -0.05em; line-height: 1; color: var(--gold-light); }
+.e-fee span { font-size: 0.85rem; color: rgba(243, 230, 211, 0.75); }
+.e-disc { display: flex; flex-direction: column; padding: clamp(1.4rem, 3vw, 2.2rem); }
+.e-disc h3 { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.03em; color: var(--espresso); }
+.e-disc ol { margin: auto 0 0; padding: 1.5rem 0 0; list-style: none; display: grid; gap: 1.1rem; }
+.e-disc li { display: grid; grid-template-columns: 1fr auto; gap: 0.5rem; font-size: 0.95rem; color: var(--e-muted); }
+.e-disc li b { color: var(--espresso); font-weight: 600; }
+.e-disc li i { grid-column: 1 / -1; height: 8px; border-radius: 99px; background: #f3ece1; overflow: hidden; }
+.e-disc li i::after { content: ""; display: block; height: 100%; width: var(--v); border-radius: inherit; background: linear-gradient(90deg, var(--rust), var(--gold)); }
+
+/* ---- Teachers: a draggable row with a progress track ---- */
+.e-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(270px, calc((100% - 3 * 16px) / 3.4)); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; cursor: grab; padding-bottom: 4px; }
+.e-row::-webkit-scrollbar { display: none; }
+.e-row.dragging { cursor: grabbing; scroll-snap-type: none; }
+.e-row > * { scroll-snap-align: start; }
+.e-teacher { display: flex; flex-direction: column; min-height: 300px; padding: 1.8rem; user-select: none; }
+.e-teacher small { font-size: 0.8rem; font-weight: 500; color: var(--gold-ink); }
+.e-teacher h3 { margin-top: 0.4rem; font-size: 2rem; font-weight: 600; letter-spacing: -0.04em; line-height: 1.05; color: var(--espresso); }
+.e-teacher p { margin-top: auto; padding-top: 1.2rem; color: var(--e-muted); font-size: 0.95rem; }
+.e-teacher--lead { background: var(--e-dark); border-color: transparent; }
+.e-teacher--lead h3 { color: #fff6ea; font-size: 2.4rem; }
+.e-teacher--lead small { color: var(--gold-light); }
+.e-teacher--lead p { color: rgba(243, 230, 211, 0.75); }
+.e-teacher--todo { background: transparent; border-style: dashed; }
+.e-teacher--todo h3 { color: #b3a08c; font-size: 1.5rem; }
+.e-track { position: relative; height: 3px; margin-top: 1.6rem; border-radius: 3px; background: var(--e-line); overflow: hidden; }
+.e-track i { position: absolute; top: 0; bottom: 0; left: 0; width: var(--tw, 30%); transform: translateX(var(--tx, 0)); border-radius: 3px; background: var(--espresso); }
+.e-arrows { display: flex; gap: 0.5rem; }
+.e-arrows button { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--e-line); background: var(--e-card); color: var(--espresso); transition: background .2s, color .2s; }
+.e-arrows button:hover { background: var(--espresso); color: var(--gold-light); }
+
+/* ---- Articles & Videos ---- */
+.e-seg { display: inline-flex; padding: 4px; border-radius: 999px; background: #f3ece1; }
+.e-seg button { padding: 0.55rem 1.1rem; border-radius: 999px; font-weight: 500; font-size: 0.9rem; color: var(--e-muted); transition: background .25s, color .25s; }
+.e-seg button[aria-pressed="true"] { background: #fff; color: var(--espresso); box-shadow: 0 2px 8px rgba(36, 18, 5, 0.12); }
+.e-lib { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; }
+.e-feature { display: flex; flex-direction: column; justify-content: flex-end; min-height: 440px; padding: clamp(1.6rem, 3vw, 2.4rem); background: var(--e-dark); border-color: transparent; color: #f3e6d3; }
+.e-feature > * { position: relative; }
+.e-feature .e-pill { align-self: flex-start; margin-bottom: auto; }
+.e-feature h3 { font-size: clamp(2.2rem, 1.6rem + 1.8vw, 3.2rem); font-weight: 600; letter-spacing: -0.045em; line-height: 1; color: #fff; }
+.e-feature p { margin: 0.8rem 0 1.4rem; max-width: 30rem; color: rgba(243, 230, 211, 0.75); }
+.e-feature .e-meta { margin: 0 0 1.4rem; color: var(--gold-light); font-size: 0.9rem; }
+.e-feature .e-btn { align-self: flex-start; }
+.e-list { display: flex; flex-direction: column; border-top: 1px solid var(--e-line); }
+.e-item { position: relative; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1rem; padding: 1.5rem 0.6rem; border-bottom: 1px solid var(--e-line); color: inherit; text-decoration: none; transition: padding .35s var(--ease-out), background .35s; }
+.e-item:hover { padding-inline: 1.2rem; background: #fff; }
+.e-item small { font-size: 0.78rem; font-weight: 500; color: var(--gold-ink); }
+.e-item h4 { margin: 0.2rem 0 0.2rem; font-size: 1.35rem; font-weight: 600; letter-spacing: -0.03em; color: var(--espresso); }
+.e-item span { color: var(--e-muted); font-size: 0.88rem; }
+.e-item i { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--e-line); font-style: normal; transition: background .3s, color .3s, transform .35s var(--ease-out); }
+.e-item:hover i { background: var(--espresso); color: var(--gold-light); transform: rotate(-45deg); }
+.e-list > h3 { padding: 0 0.6rem 1rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-ink); }
+.e-vids { grid-auto-columns: minmax(280px, calc((100% - 2 * 16px) / 3)); cursor: default; }
+.e-vid { padding: 10px; }
+.e-vid__art { position: relative; aspect-ratio: 16 / 10; border-radius: 16px; overflow: hidden; background: linear-gradient(155deg, var(--board), var(--board-deep)); }
+.e-vid__art--photo { background: url("assets/img/hero-masjid.jpg") center / cover; }
+.e-vid__art--rust { background: linear-gradient(155deg, #a2521a, #5b2c0c); }
+.e-vid__art .play { position: absolute; inset: 0; margin: auto; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.9); color: var(--espresso); transition: transform .35s var(--ease-out); }
+.e-vid:hover .play { transform: scale(1.12); }
+.e-vid__art time { position: absolute; right: 10px; bottom: 10px; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(29, 15, 6, 0.7); color: #fff; font-size: 0.78rem; backdrop-filter: blur(6px); }
+.e-vid div:last-child { padding: 1rem 0.5rem 0.5rem; }
+.e-vid small { font-size: 0.78rem; font-weight: 500; color: var(--gold-ink); }
+.e-vid h4 { margin-top: 0.2rem; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.02em; color: var(--espresso); }
+
+/* ---- Alumni Testimonies: cards that stack as you scroll ---- */
+.e-stack { display: grid; gap: 24px; }
+.e-quote { position: sticky; top: calc(96px + var(--i) * 16px); display: grid; grid-template-columns: auto 1fr; gap: 1rem 2.4rem; min-height: 280px; padding: clamp(1.8rem, 4vw, 3rem); box-shadow: 0 -10px 40px -20px rgba(36, 18, 5, 0.25); }
+.e-quote:nth-child(odd) { background: var(--e-dark); border-color: transparent; color: #f3e6d3; }
+.e-quote b { font-family: var(--display); font-style: italic; font-size: 4.4rem; line-height: 0.8; color: var(--gold); }
+.e-quote blockquote { margin: 0; font-size: clamp(1.4rem, 1rem + 1.2vw, 2.1rem); font-weight: 500; line-height: 1.25; letter-spacing: -0.03em; }
+.e-quote cite { grid-column: 2; align-self: end; display: flex; gap: 0.8rem; align-items: center; color: inherit; font-style: normal; font-weight: 600; }
+.e-quote cite span { padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid currentColor; font-size: 0.78rem; font-weight: 500; opacity: 0.7; }
+.e-quote--todo blockquote, .e-quote--todo cite { opacity: 0.55; }
+
+/* ---- Footer: contact, then an oversized wordmark ---- */
+.e-foot { margin: clamp(5rem, 10vw, 140px) 12px 12px; padding: clamp(2.5rem, 5vw, 64px) clamp(1.5rem, 4vw, 56px) 0; border-radius: 32px; background: var(--e-dark); color: #f3e6d3; overflow: hidden; }
+.e-foot__top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; }
+.e-foot address { display: grid; gap: 0.5rem; font-style: normal; color: rgba(243, 230, 211, 0.55); font-style: italic; }
+.e-foot nav { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; }
+.e-foot nav a { color: rgba(243, 230, 211, 0.8); text-decoration: none; }
+.e-foot nav a:hover { color: var(--gold-light); }
+.e-foot__mark { margin-top: clamp(2.5rem, 6vw, 80px); font-weight: 600; font-size: clamp(3rem, 1rem + 8.4vw, 9.6rem); line-height: 0.85; letter-spacing: -0.06em; white-space: nowrap; background: linear-gradient(180deg, rgba(247, 224, 164, 0.9), rgba(247, 224, 164, 0.08)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.e-foot__legal { display: flex; justify-content: space-between; padding: 1.2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.85rem; color: rgba(243, 230, 211, 0.55); }
+.e-top { position: fixed; right: 18px; bottom: 18px; z-index: 40; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--espresso); color: var(--gold-light); box-shadow: 0 10px 24px -8px rgba(36, 18, 5, 0.6); opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .3s, transform .3s var(--ease-out); }
+.e-top.show { opacity: 1; transform: none; pointer-events: auto; }
+
+@media (max-width: 1100px) { .e-nav__links { display: none; } }
+@media (max-width: 980px) {
+  .e-hero__body, .e-details, .e-lib, .e-intro { grid-template-columns: 1fr; }
+  .e-program { grid-column: auto; grid-template-columns: 1fr; }
+  .e-quote { grid-template-columns: 1fr; }
+  .e-quote cite { grid-column: auto; }
+}
+@media (max-width: 560px) {
+  .e-nav__brand span { display: none; }
+  .e-panel { grid-template-columns: 1fr; }
+  .e-row, .e-vids { grid-auto-columns: 84%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .e-marquee__track { animation: none; }
+  .e-words .w { opacity: 1; }
+}
+</style>
+</head>
+<body id="top">
+
+<div class="e-progress" aria-hidden="true"></div>
+
+<header class="e-nav">
+  <a class="e-nav__brand" href="#top"><img src="assets/img/logo.png" alt=""><span>Jamiyah Islamiyyah Abu Bakr</span></a>
+  <nav class="e-nav__links" aria-label="Primary">
+    <span class="e-nav__ind" aria-hidden="true"></span>
+    <a href="#about">About</a><a href="#program">Program</a><a href="#teachers">Teachers</a><a href="#articles">Articles</a><a href="#videos">Videos</a><a href="#alumni">Alumni</a><a href="#contact">Contact</a>
+  </nav>
+  <a class="e-btn" href="#program">View Curriculum <i aria-hidden="true">→</i></a>
+</header>
+
+<main>
+  <section class="e-hero">
+    <div class="e-hero__panel">
+      <div class="e-hero__img" aria-hidden="true"></div>
+      <div class="e-hero__body">
+        <div>
+          <span class="e-pill e-pill--dark">Jamiyah Islamiyyah Abu Bakr</span>
+          <h1>The Seven-Year <em>Alimiyyah</em> Program</h1>
+        </div>
+        <div class="e-hero__side">
+          <p>Qur'an, hadith, fiqh and Arabic — taught the traditional way, text by text, with a teacher.</p>
+          <a class="e-btn e-btn--gold" href="#program">View Curriculum <i aria-hidden="true">→</i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="e-marquee-sec" aria-label="Qur'an, hadith, fiqh and Arabic">
+    <div class="e-marquee" aria-hidden="true">
+      <div class="e-marquee__track">
+        <span>Qur'an</span><span>Hadith</span><span>Fiqh</span><span>Arabic</span><span>Qur'an</span><span>Hadith</span><span>Fiqh</span><span>Arabic</span>
+        <span>Qur'an</span><span>Hadith</span><span>Fiqh</span><span>Arabic</span><span>Qur'an</span><span>Hadith</span><span>Fiqh</span><span>Arabic</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="e-sec" id="about">
+    <div class="wrap e-intro">
+      <div><span class="e-pill">Introduction</span></div>
+      <p class="e-words" data-words>A full course of study in Qur'an, hadith, fiqh, Arabic and the sciences that serve them, taught in the traditional way: text by text, with a teacher, in the company of fellow students.</p>
+      <div class="e-card e-program" data-spot>
+        <h2>Our Program</h2>
+        <p>Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Throughout this course, students will attain a mastery of the Arabic language, through which they will gain a deep understanding of the Qur'an and Hadith.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== The bookshelf: the live curriculum.js, restyled by "The shelf" styles above ====== -->
+  <section class="shelf-wall" id="program" aria-labelledby="curriculum-heading">
+    <div class="wrap">
+      <div class="e-head">
+        <div>
+          <span class="e-pill e-pill--dark">The books</span>
+          <h2 class="e-h2" id="curriculum-heading"><em>Curriculum</em></h2>
+        </div>
+        <p class="e-lede">Every book in the course stands on the shelf at once. Select a spine to turn it face-on.</p>
+      </div>
+      <div class="case" data-shelf></div>
+    </div>
+  </section>
+
+  <section class="e-sec" id="details">
+    <div class="wrap">
+      <div class="e-head">
+        <h2 class="e-h2">Details</h2>
+        <p class="e-lede">Class timings, monthly fees and the family discount.</p>
+      </div>
+      <div class="e-details">
+        <div class="e-card e-tabs" data-spot>
+          <div class="e-tablist" role="tablist" aria-label="Class Timings">
+            <span class="e-tab-ind" aria-hidden="true"></span>
+            <button type="button" role="tab" id="tab-pt" aria-controls="panel-pt" aria-selected="true">Part-time</button>
+            <button type="button" role="tab" id="tab-ft" aria-controls="panel-ft" aria-selected="false" tabindex="-1">Full-time</button>
+          </div>
+          <div class="e-panel" role="tabpanel" id="panel-pt" aria-labelledby="tab-pt">
+            <h3>Class Timings · Years I – IV</h3>
+            <ul><li>Monday to Friday <b>4:30 PM - 7:30 PM</b></li></ul>
+            <div class="e-fee"><small>Fees · Part-time</small><b>$125</b><span>/month · per student</span></div>
+          </div>
+          <div class="e-panel" role="tabpanel" id="panel-ft" aria-labelledby="tab-ft" hidden>
+            <h3>Class Timings · Years V – VII</h3>
+            <ul><li>Monday to Friday <b>8:30 AM - 4:15 PM</b></li><li>Saturday <b>8:30 AM - 12:30 PM</b></li></ul>
+            <div class="e-fee"><small>Fees · Full-time</small><b>$325</b><span>/month · per student</span></div>
+          </div>
+        </div>
+        <div class="e-card e-disc" data-spot>
+          <h3>Family discounts</h3>
+          <ol>
+            <li>2 students <b>5% off the total</b><i style="--v:33%"></i></li>
+            <li>3 students <b>10% off the total</b><i style="--v:66%"></i></li>
+            <li>4 or more <b>15% off the total</b><i style="--v:100%"></i></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="e-sec" id="teachers">
+    <div class="wrap">
+      <div class="e-head">
+        <div><span class="e-pill">Taught by text, with a teacher</span><h2 class="e-h2">Our <em>Teachers</em></h2></div>
+        <div class="e-arrows"><button type="button" data-scroll-prev="e-teachers" aria-label="Previous">←</button><button type="button" data-scroll-next="e-teachers" aria-label="Next">→</button></div>
+      </div>
+      <div class="e-row" id="e-teachers" data-drag data-track="e-teachers-track">
+        <article class="e-card e-teacher e-teacher--lead" data-spot><small>Moulana</small><h3>Kasim Ingar</h3><p>Imam of our masjid, and teacher for over 30 years</p></article>
+        <article class="e-card e-teacher" data-spot><small>Moulana</small><h3>Salim Chauhan</h3></article>
+        <article class="e-card e-teacher" data-spot><small>Moulana</small><h3>Zuber Motala</h3></article>
+        <article class="e-card e-teacher e-teacher--todo"><small>Moulana</small><h3>TODO: Fourth teacher</h3><p>TODO: Short line about this teacher.</p></article>
+        <article class="e-card e-teacher e-teacher--todo"><small>Moulana</small><h3>TODO: Fifth teacher</h3><p>TODO: Short line about this teacher.</p></article>
+        <article class="e-card e-teacher e-teacher--todo"><small>Moulana</small><h3>TODO: Sixth teacher</h3><p>TODO: Short line about this teacher.</p></article>
+        <article class="e-card e-teacher e-teacher--todo"><small>Moulana</small><h3>TODO: Seventh teacher</h3><p>TODO: Short line about this teacher.</p></article>
+      </div>
+      <div class="e-track" id="e-teachers-track" aria-hidden="true"><i></i></div>
+    </div>
+  </section>
+
+  <section class="e-sec" id="articles">
+    <div class="wrap">
+      <div class="e-head">
+        <h2 class="e-h2">Articles</h2>
+        <div class="e-seg" data-seg role="group" aria-label="Library"><button type="button" aria-pressed="true" data-label="Brothers">Brothers</button><button type="button" aria-pressed="false" data-label="Sisters">Sisters</button></div>
+      </div>
+      <div class="e-lib">
+        <article class="e-card e-feature" data-spot>
+          <span class="e-pill e-pill--dark">Subject</span>
+          <h3>Article title</h3>
+          <p>A sentence or two introducing the article.</p>
+          <p class="e-meta">Author · 5 min read</p>
+          <a class="e-btn e-btn--gold" href="#articles">Read article <i aria-hidden="true">→</i></a>
+        </article>
+        <div class="e-list">
+          <h3>More articles</h3>
+          <a class="e-item" href="#articles"><div><small>Subject</small><h4>Article title</h4><span>Author · 5 min read</span></div><i aria-hidden="true">→</i></a>
+          <a class="e-item" href="#articles"><div><small>Subject</small><h4>Article title</h4><span>Author · 5 min read</span></div><i aria-hidden="true">→</i></a>
+          <a class="e-item" href="#articles"><div><small>Subject</small><h4>Article title</h4><span>Author · 5 min read</span></div><i aria-hidden="true">→</i></a>
+          <a class="e-item" href="#articles"><div><small>Subject</small><h4>Article title</h4><span>Author · 5 min read</span></div><i aria-hidden="true">→</i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="e-sec" id="videos">
+    <div class="wrap">
+      <div class="e-head">
+        <h2 class="e-h2">Videos</h2>
+        <div style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap">
+          <div class="e-seg" data-seg role="group" aria-label="Library"><button type="button" aria-pressed="true" data-label="Brothers">Brothers</button><button type="button" aria-pressed="false" data-label="Sisters">Sisters</button></div>
+          <div class="e-arrows"><button type="button" data-scroll-prev="e-vids" aria-label="Previous">←</button><button type="button" data-scroll-next="e-vids" aria-label="Next">→</button></div>
+        </div>
+      </div>
+      <div class="e-row e-vids" id="e-vids">
+        <article class="e-card e-vid" data-spot><div class="e-vid__art e-vid__art--photo"><span class="play">▶</span><time>00:00</time></div><div><small>Subject · Date</small><h4>Video title</h4></div></article>
+        <article class="e-card e-vid" data-spot><div class="e-vid__art"><span class="play">▶</span><time>00:00</time></div><div><small>Subject · Date</small><h4>Video title</h4></div></article>
+        <article class="e-card e-vid" data-spot><div class="e-vid__art e-vid__art--rust"><span class="play">▶</span><time>00:00</time></div><div><small>Subject · Date</small><h4>Video title</h4></div></article>
+        <article class="e-card e-vid" data-spot><div class="e-vid__art"><span class="play">▶</span><time>00:00</time></div><div><small>Subject · Date</small><h4>Video title</h4></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="e-sec" id="alumni">
+    <div class="wrap">
+      <div class="e-head"><h2 class="e-h2">Alumni <em>Testimonies</em></h2></div>
+      <div class="e-stack">
+        <figure class="e-card e-quote" style="--i:0;margin:0"><b aria-hidden="true">“</b><blockquote>I came expecting to memorise rulings and left having learned how the scholars arrived at them. That shift changed the way I read everything.</blockquote><cite>Sumayyah Noor <span>2020</span></cite></figure>
+        <figure class="e-card e-quote" style="--i:1;margin:0"><b aria-hidden="true">“</b><blockquote>My teacher went through the same page with me four times without once making me feel slow. I try to teach my own students that way now.</blockquote><cite>Abdurrahman Sheikh <span>2022</span></cite></figure>
+        <figure class="e-card e-quote e-quote--todo" style="--i:2;margin:0"><b aria-hidden="true">“</b><blockquote>TODO: A third alumni testimony.</blockquote><cite>TODO: Name <span>TODO: Year</span></cite></figure>
+        <figure class="e-card e-quote e-quote--todo" style="--i:3;margin:0"><b aria-hidden="true">“</b><blockquote>TODO: A fourth alumni testimony.</blockquote><cite>TODO: Name <span>TODO: Year</span></cite></figure>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="e-foot" id="contact">
+  <div class="e-foot__top">
+    <div>
+      <span class="e-pill e-pill--dark">Contact</span>
+      <address style="margin-top:1.2rem"><span>TODO: masjid street address, city, postal code</span><span>TODO: info@example.org</span><span>TODO: (000) 000-0000</span></address>
+    </div>
+    <nav aria-label="Footer"><a href="#top">Home</a><a href="#about">About</a><a href="#program">Program</a><a href="#teachers">Teachers</a><a href="#articles">Articles</a><a href="#videos">Videos</a><a href="#alumni">Alumni</a></nav>
+  </div>
+  <p class="e-foot__mark" aria-hidden="true">Abu Bakr</p>
+  <p class="e-foot__legal"><span>© 2026 Jamiyah Islamiyyah Abu Bakr</span></p>
+</footer>
+
+<a class="e-top" href="#top" aria-label="Back to top">↑</a>
+
+<nav class="m-switch" aria-label="Mockups"><a href="design/canvas-modern/index.html">All</a><a href="design/canvas-modern/a-academy.html">A</a><a href="design/canvas-modern/b-night.html">B</a><a href="design/canvas-modern/c-editorial.html">C</a><a href="design/canvas-modern/d-bento.html">D</a><a href="design/canvas-modern/e-modern.html" aria-current="page">E</a><a href="design/canvas-modern/f-final.html">F</a></nav>
+<script>
+/* E's own behaviour: reading progress, the sliding nav highlight, the
+   word-by-word introduction, the timing tabs, the spotlight, the draggable
+   teacher row with its track, and the back-to-top button. */
+(function () {
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root = document.documentElement;
+
+  /* Words of the introduction light up as it scrolls through the viewport. */
+  var words = document.querySelector("[data-words]");
+  var spans = [];
+  if (words) {
+    words.innerHTML = words.textContent.trim().split(/\s+/).map(function (w) { return '<span class="w">' + w + "</span>"; }).join(" ");
+    spans = [].slice.call(words.querySelectorAll(".w"));
+  }
+
+  var nav = document.querySelector(".e-nav__links"), ind = nav.querySelector(".e-nav__ind");
+  var links = [].slice.call(nav.querySelectorAll("a"));
+  var sections = links.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); });
+  var top = document.querySelector(".e-top"), bar = document.querySelector(".e-progress");
+
+  function onScroll() {
+    var max = root.scrollHeight - innerHeight;
+    bar.style.setProperty("--read", max > 0 ? (scrollY / max).toFixed(4) : 0);
+    top.classList.toggle("show", scrollY > innerHeight);
+
+    /* The section whose top has passed a third of the way down the screen. */
+    var cur = -1;
+    sections.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < innerHeight / 3) cur = i; });
+    links.forEach(function (a, i) { a.setAttribute("aria-current", String(i === cur)); });
+    if (cur >= 0) {
+      var a = links[cur];
+      ind.style.setProperty("--o", 1);
+      ind.style.setProperty("--x", a.offsetLeft + "px");
+      ind.style.setProperty("--w", a.offsetWidth + "px");
+    } else { ind.style.setProperty("--o", 0); }
+
+    if (spans.length && !reduce) {
+      var r = words.getBoundingClientRect();
+      var p = (innerHeight * 0.8 - r.top) / (r.height + innerHeight * 0.3);
+      var n = Math.round(Math.max(0, Math.min(1, p)) * spans.length);
+      spans.forEach(function (s, i) { s.classList.toggle("on", i < n); });
+    }
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
+  onScroll();
+
+  /* Tabs: click or arrow keys; the white pill slides under the chosen tab. */
+  var list = document.querySelector(".e-tablist");
+  var tabs = [].slice.call(list.querySelectorAll("[role=tab]")), tind = list.querySelector(".e-tab-ind");
+  function select(t, focus) {
+    tabs.forEach(function (x) {
+      var on = x === t;
+      x.setAttribute("aria-selected", String(on));
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
+    });
+    tind.style.setProperty("--x", t.offsetLeft + "px");
+    tind.style.setProperty("--w", t.offsetWidth + "px");
+    if (focus) t.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { select(t); });
+    t.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        select(tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length], true);
+      }
+    });
+  });
+  select(tabs[0]);
+  document.fonts && document.fonts.ready.then(function () { select(tabs.filter(function (t) { return t.tabIndex === 0; })[0]); onScroll(); });
+
+  /* Spotlight: the glow follows the pointer across a card or a bay. */
+  document.addEventListener("pointermove", function (e) {
+    var el = e.target.closest && e.target.closest("[data-spot], .bay");
+    if (!el) return;
+    var r = el.getBoundingClientRect();
+    el.style.setProperty("--mx", e.clientX - r.left + "px");
+    el.style.setProperty("--my", e.clientY - r.top + "px");
+  });
+
+  /* The teacher row drags with the mouse and moves a thumb along its track. */
+  document.querySelectorAll("[data-drag]").forEach(function (row) {
+    var thumb = document.getElementById(row.getAttribute("data-track")).firstElementChild;
+    function track() {
+      var frac = row.clientWidth / row.scrollWidth, max = row.scrollWidth - row.clientWidth;
+      var box = thumb.parentNode.clientWidth;
+      thumb.style.setProperty("--tw", frac * 100 + "%");
+      thumb.style.setProperty("--tx", (max > 0 ? row.scrollLeft / max : 0) * box * (1 - frac) + "px");
+    }
+    row.addEventListener("scroll", track, { passive: true });
+    addEventListener("resize", track);
+    track();
+    var x0 = 0, s0 = 0, down = false;
+    row.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") return; down = true; x0 = e.clientX; s0 = row.scrollLeft; row.classList.add("dragging"); });
+    addEventListener("pointermove", function (e) { if (down) row.scrollLeft = s0 - (e.clientX - x0); });
+    addEventListener("pointerup", function () { if (!down) return; down = false; row.classList.remove("dragging"); });
+  });
+})();
+</script>
+<script src="assets/js/curriculum.js?v=5"></script>
+<script src="design/canvas-modern/mock.js"></script>
+</body>
+</html>

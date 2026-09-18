@@ -1,0 +1,31 @@
+/* 2 · Honey & Sand — an all-light page. Bands are pale sand with dark
+   ink, honey gold carries the buttons and emphasis, and only the header,
+   the shelf and the video scrims stay dark. */
+:root {
+  --ground: #fefdfa;
+  --gold: #d4a53c; --gold-light: #e9c46a; --gold-pale: #f6e3ae; --gold-ink: #946814; --gilt: #c9a457;
+  --ink: #2e2012; --ink-soft: #4b3b2a; --ink-muted: #5e4c39; --cream: #fffaf0;
+
+  --t-heading: #5a3d1f; --t-ink-deep: #2e2012; --t-light-brown: #ead9bd;
+  --t-pool-1: rgba(240, 214, 150, 0.9); --t-pool-2: rgba(232, 214, 186, 0.95); --t-pool-3: rgba(246, 226, 170, 0.85);
+  --t-shadow-rgb: 120, 86, 40;  --t-glass-rgb: 58, 40, 20;  --t-line-rgb: 176, 134, 62;
+  --t-btn-1: #f0cf78; --t-btn-2: #d09b2c; --t-btn-ink: #2e2012;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(46, 30, 12, 0.7) 0%, rgba(46, 30, 12, 0.18) 28%, rgba(120, 84, 34, 0.55) 60%,
+      rgba(150, 110, 52, 0.85) 84%, rgba(226, 204, 166, 0.95) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(46, 30, 12, 0.66), rgba(46, 30, 12, 0) 60%);
+  --t-hero-em: #f3cf72;
+
+  --t-well-1: #4a3320; --t-well-2: #2e1f12; --t-well-glow: 0.26; --t-todo-rgb: 222, 186, 110;
+
+  --t-band-1: #f5ead6; --t-band-2: #e6d0ac; --t-band-glow: 0.5;
+  --t-on-band: #3a2814; --t-on-band-rgb: 58, 40, 20; --t-on-band-strong: #3f2a12;
+  --t-band-accent: #8a5f14; --t-band-value: #2e2012;
+  --t-teacher-1: #ffffff; --t-teacher-2: #fbf5e9;
+
+  --t-card-tint: rgba(250, 244, 232, 0.92);
+  --t-track-1: #e6c16a; --t-track-2: #c99532; --t-knob: #fffdf7;
+  --t-scrim-rgb: 46, 30, 12; --t-scrim-solid: #6b4d28; --t-video-1: #b88a44; --t-video-2: #7a5528;
+}
+/* Pale bands need their own ink on the switch and arrows */
+.teachers-band .carousel__arrow { background: rgba(255, 255, 255, 0.7); }

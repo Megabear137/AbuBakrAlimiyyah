@@ -1,0 +1,29 @@
+/* 5 · Antique Gold — the muted, slightly olive gold of old gilding and
+   manuscript leaf. Bands are deep old gold with ivory type on a parchment
+   ground; the closest in weight to today's green. */
+:root {
+  --ground: #f7f3e9;
+  --gold: #b8964a; --gold-light: #d2b76e; --gold-pale: #ecdca8; --gold-ink: #7a5f1f; --gilt: #b8994e;
+  --ink: #25200f; --ink-soft: #463d2a; --ink-muted: #595038; --cream: #fbf7ea;
+
+  --t-heading: #54441a; --t-ink-deep: #1f1a0c; --t-light-brown: #e2d6b2;
+  --t-pool-1: rgba(224, 208, 160, 0.9); --t-pool-2: rgba(210, 198, 162, 0.9); --t-pool-3: rgba(234, 222, 178, 0.85);
+  --t-shadow-rgb: 84, 68, 28;  --t-glass-rgb: 36, 30, 14;  --t-line-rgb: 222, 196, 120;
+  --t-btn-1: #e0c784; --t-btn-2: #a88739; --t-btn-ink: #1f1a0c;
+  --t-hero-tint:
+    linear-gradient(180deg, rgba(30, 24, 8, 0.72) 0%, rgba(30, 24, 8, 0.2) 28%, rgba(96, 78, 34, 0.62) 62%,
+      rgba(118, 96, 44, 0.9) 86%, rgba(198, 184, 138, 0.9) 94%, var(--ground) 100%),
+    linear-gradient(90deg, rgba(30, 24, 8, 0.7), rgba(30, 24, 8, 0) 60%);
+  --t-hero-em: #ead08a;
+
+  --t-well-1: #2f2914; --t-well-2: #1b170b; --t-well-glow: 0.2; --t-todo-rgb: 204, 180, 112;
+
+  --t-band-1: #806629; --t-band-2: #54421a; --t-band-glow: 0.16;
+  --t-on-band: #f6f0dc; --t-on-band-rgb: 246, 240, 220; --t-on-band-strong: #fbf7ea;
+  --t-band-accent: #ecd48c; --t-band-value: #f3e3b2;
+  --t-teacher-1: #fbf7ea; --t-teacher-2: #efe5c8;
+
+  --t-card-tint: rgba(246, 240, 224, 0.9);
+  --t-track-1: #806629; --t-track-2: #54421a; --t-knob: linear-gradient(180deg, #ecd48c, #b39245);
+  --t-scrim-rgb: 30, 24, 8; --t-scrim-solid: #54421a; --t-video-1: #806629; --t-video-2: #463712;
+}

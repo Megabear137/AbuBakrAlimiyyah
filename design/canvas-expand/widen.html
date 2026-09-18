@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Expanded book · widening — Round 3</title>
+  <link rel="icon" href="../../assets/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+  <!-- The live stylesheet, so the bays and spines here are the ones on the site -->
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    /* ============================ canvas chrome ============================ */
+    body { background: var(--ground); }
+    .canvas-head { padding: 4.5rem 0 1rem; }
+    .canvas-head h1 { color: var(--rust); font-family: var(--display); font-size: clamp(2.8rem, 2rem + 3vw, 4.4rem); line-height: 1; margin-top: 0.6rem; }
+    .canvas-head h1 em { color: var(--gold-ink); font-weight: 500; }
+    .canvas-head__lede { max-width: 720px; margin-top: 1rem; color: var(--ink-muted); }
+    .canvas-head__lede + .canvas-head__lede { margin-top: 0.8rem; }
+    .back { display: inline-block; margin-top: 1.4rem; padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid var(--gilt-edge); background: #fff; color: var(--brown-ink); font-size: 0.88rem; font-weight: 600; text-decoration: none; }
+    .back:hover { background: var(--rust); border-color: var(--rust); color: var(--cream); }
+    .back + .back { margin-left: 8px; }
+
+    .changes { max-width: 760px; margin: 1.6rem 0 0; padding: 1.1rem 1.3rem 1.1rem 2.4rem; border-radius: 14px; background: #fff; box-shadow: inset 0 0 0 1px var(--gilt-edge); color: var(--ink-muted); font-size: 0.92rem; }
+    .changes li { margin-bottom: 0.4rem; }
+    .changes li:last-child { margin-bottom: 0; }
+    .changes strong { color: var(--brown-ink); }
+
+    .mock { padding: 3rem 0 1rem; }
+    .mock__label { margin-bottom: 1.6rem; }
+    .mock__title { color: var(--brown-ink); font-family: var(--display); font-size: 1.7rem; }
+    .mock__title em { color: var(--gold-ink); font-weight: 500; }
+    .mock__desc { max-width: 820px; margin-top: 0.25rem; color: var(--ink-muted); font-size: 0.94rem; }
+    .mock__try { display: inline-block; margin-top: 0.4rem; color: var(--gold-ink); font-weight: 600; font-size: 0.9rem; }
+    .mock .shelf-wall { margin-top: 0; }
+
+    /* ======================== the small open card ========================= */
+    /* Unchanged from the site, plus the "see more" foot: a rule across the
+       card with the words centred under it. */
+    .face__more {
+      position: relative;
+      display: block;
+      margin-top: auto;
+      padding-top: 0.6rem;
+      color: var(--gold-ink);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-align: center;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .face__more::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(154, 101, 8, 0.4); }
+    .face__more:hover { color: #8a2a20; }
+    .spine.spine--open { display: flex; flex-direction: column; }
+    .face__body { flex: 0 1 auto; }
+
+    /* =========================== the jadwal panel =========================== */
+    /* Round 2 of option 4. The scribe's ruled frame, now in two columns: the
+       cover runs the whole left side, and everything the margin column used to
+       carry has moved into the text - the subject above the title, the Urdu
+       beside it, the author beneath it. Nothing names the year: the bay's own
+       label already does. */
+    .shelf { align-items: start; }   /* the neighbouring bay keeps its own height */
+
+    /* Round 3: at full width a half-bay is too narrow for a cover of the right
+       shape, so the open bay takes the row. The neighbour shrinks to a narrow
+       bay (--narrow) rather than disappearing: its books stay on the shelf,
+       and its well scrolls sideways as every well already can. Only above
+       880px, where styles.css pairs the bays; below that each bay already has
+       the whole row. The tracks are written as calc() lengths, not fr, so the
+       change between them animates. */
+    @media (min-width: 881px) {
+      .shelf:not(.shelf--single) {
+        --narrow: 232px;
+        grid-template-columns: calc(50% - 8px) calc(50% - 8px);
+        transition: grid-template-columns 0.55s var(--ease-out);
+      }
+      .shelf.shelf--reading-l { grid-template-columns: calc(100% - 16px - var(--narrow)) var(--narrow); }
+      .shelf.shelf--reading-r { grid-template-columns: var(--narrow) calc(100% - 16px - var(--narrow)); }
+    }
+    @media (prefers-reduced-motion: reduce) { .shelf:not(.shelf--single) { transition: none; } }
+
+    .xp {
+      position: relative;
+      display: grid;
+      grid-template-columns: clamp(200px, 32%, 280px) minmax(0, 1fr);
+      gap: clamp(1.1rem, 2.4vw, 1.9rem);
+      align-items: stretch;
+      min-height: 300px;
+      padding: clamp(1.1rem, 2.6vw, 1.8rem);
+      border-radius: 10px 10px 0 0;
+      color: #3b2712;
+      text-align: left;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(150, 105, 45, 0.1) 0 12px, transparent 13px),
+        radial-gradient(circle at 76% 68%, rgba(150, 105, 45, 0.09) 0 16px, transparent 17px),
+        radial-gradient(circle at 46% 88%, rgba(150, 105, 45, 0.08) 0 10px, transparent 11px),
+        linear-gradient(170deg, #f7edd6, #ead9b8);
+      box-shadow: inset 0 0 44px rgba(120, 84, 34, 0.22), 0 18px 34px -16px rgba(0, 0, 0, 0.65);
+      animation: xp-in 0.45s var(--ease-out) both;
+    }
+    @keyframes xp-in { from { opacity: 0; transform: translateY(10px) scale(0.985); } }
+    @media (prefers-reduced-motion: reduce) { .xp { animation: none; } }
+
+    .xp::before {                          /* the outer jadwal: gold, ink, red */
+      content: "";
+      position: absolute;
+      inset: 9px;
+      border: 1px solid rgba(60, 38, 14, 0.55);
+      box-shadow: 0 0 0 2px #f7edd6, 0 0 0 3.5px var(--gilt), inset 0 0 0 2px #f7edd6, inset 0 0 0 3px rgba(138, 42, 32, 0.55);
+      pointer-events: none;
+    }
+    .xp > :not(.xp__close) { position: relative; z-index: 2; }
+
+    /* The cover fills its whole side, top to bottom. Its column is now wide
+       enough (200-280px) that the cover's own 3:4 height is about the height
+       of the text beside it, so the row is set by the cover and the crop that
+       made round 2's cover read as stretched is gone. */
+    .xp { container-type: inline-size; }   /* so the cover can size itself from the panel */
+    .xp__cover {
+      align-self: stretch;
+      /* ...but only so far: at most 1.45 times its width, a hair past 3:4.
+         On a mid-size screen the text column is narrower and runs longer than
+         the cover, and the cover stops at its own shape at the top of the
+         leaf instead of being drawn out to match. 32cqi is the column's 32%. */
+      max-height: calc(clamp(200px, 32cqi, 280px) * 1.45);
+      box-shadow: 0 0 0 1px rgba(60, 38, 14, 0.5), 0 0 0 3px #f7edd6, 0 0 0 4px var(--gilt), 0 14px 22px -12px rgba(0, 0, 0, 0.6);
+    }
+    .xp__cover img { width: 100%; height: 100%; border-radius: 1px; object-fit: cover; object-position: 50% 30%; }
+
+    /* The close sits on the top corner of the cover, not over the type: the
+       title line needs every pixel of its column for the two names. */
+    .xp__close {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      z-index: 4;
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #f7edd6;
+      box-shadow: inset 0 0 0 1px rgba(60, 38, 14, 0.4);
+      color: #8a2a20;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .xp__text { display: flex; flex-direction: column; }
+    .xp__kicker {                          /* the subject, above the title */
+      color: #8a2a20;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    /* Title and Urdu share a line: English left, the Urdu or Arabic name hard
+       right, on the same baseline. A long English title wraps under itself and
+       the second name stays on the first line's baseline. */
+    .xp__head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.9rem;
+      margin-top: 0.2rem;
+    }
+    .xp__title { font-family: var(--display); font-size: clamp(1.5rem, 1.15rem + 1.1vw, 1.95rem); line-height: 1.05; }
+    .xp__urdu { flex: none; font-family: var(--urdu); font-size: 1rem; line-height: 1.9; white-space: nowrap; color: #5a3a16; }
+    .xp__author { margin-top: 0.15rem; color: #6a4a22; font-family: var(--display); font-size: 1.05rem; font-style: italic; }
+    .xp__author--todo { color: rgba(106, 74, 34, 0.6); font-size: 0.95rem; }
+
+    .xp__rule { height: 1px; margin: 0.7rem 0 0.8rem; background: repeating-linear-gradient(90deg, rgba(60, 38, 14, 0.5) 0 6px, transparent 6px 10px); }
+    .xp__body { max-width: 62ch; font-size: 0.9rem; line-height: 1.7; }
+    .xp__body + .xp__body { margin-top: 0.7rem; }
+    /* The catchword: a manuscript names the next page's first word at the foot
+       of this one. It sits on the bottom of the leaf, whatever the text length. */
+    .xp__catch { margin-top: auto; padding-top: 0.9rem; color: #8a2a20; font-family: var(--display); font-size: 1rem; font-style: italic; text-align: right; }
+
+    @media (max-width: 760px) {
+      .xp { grid-template-columns: minmax(0, 1fr); }
+      .xp__cover { justify-self: start; width: min(100%, 190px); min-height: 0; }
+      .xp__cover img { height: auto; }
+    }
+
+    /* ------------------------------- notes ------------------------------- */
+    .notes { padding: 3.5rem 0 6rem; }
+    .notes h2 { color: var(--brown-ink); font-family: var(--display); font-size: 2rem; }
+    .notes ul { max-width: 820px; margin: 1rem 0 0; padding-left: 1.1rem; color: var(--ink-muted); font-size: 0.94rem; }
+    .notes li { margin-bottom: 0.6rem; }
+    .notes strong { color: var(--brown-ink); }
+  </style>
+</head>
+<body>
+
+<header class="wrap canvas-head">
+  <p class="kicker">Curriculum · the shelf · round 3</p>
+  <h1>Jadwal, <em>given room</em></h1>
+  <p class="canvas-head__lede">
+    Round 2's panel, unchanged in content. At full width, though, half a row was too narrow: the cover
+    was cut down to a tall strip that read as stretched. Now the open bay <strong>widens across the row</strong>
+    and its neighbour shrinks to a narrow bay beside it, so the cover gets a column wide enough for its own
+    shape.
+  </p>
+  <ul class="changes">
+    <li><strong>The open bay takes the row</strong>; the other bay narrows to 232px, keeps its books and its
+      year label, and slides back when the book closes.</li>
+    <li><strong>The cover column is 200–280px</strong>, so a 3:4 cover is as tall as the text beside it and
+      still runs the full height of the left side.</li>
+    <li><strong>Only where bays are paired</strong> — above 880px. Below that every bay already has the row
+      to itself, and nothing changes.</li>
+    <li><strong>Real pairing:</strong> Second Year shares its row with First Year and stands on the
+      <em>right</em>, so the panel widens leftwards. Rounds 1 and 2 had it on the left, beside Third Year.</li>
+  </ul>
+  <a class="back" href="jadwal.html">← Round 2</a>
+  <a class="back" href="index.html">← All five options</a>
+</header>
+
+<main>
+  <section class="mock">
+    <div class="wrap mock__label">
+      <h2 class="mock__title">The real row, <em>as it opens</em></h2>
+      <p class="mock__desc">
+        First and Second Year, as the site pairs them. Open a Second Year book and take “See more”: the bay
+        widens to the left and First Year narrows beside it. Close it, or press Escape, and the row
+        settles back to two halves.
+      </p>
+      <span class="mock__try">Click a spine, then “See more”.</span>
+    </div>
+    <div class="shelf-wall"><div class="wrap"><div class="case" data-shelf="a"></div></div></div>
+  </section>
+
+  <section class="mock">
+    <div class="wrap mock__label">
+      <h2 class="mock__title">The mirror case, <em>open on load</em></h2>
+      <p class="mock__desc">
+        A book in a left-hand bay widens to the right instead. Only Second Year has its books so far, so they
+        stand in here for a left-hand year; the bay labels are the canvas's, not the site's order. Tasheel
+        ul-Nahwa is open, to check the long title beside its Arabic name.
+      </p>
+    </div>
+    <div class="shelf-wall"><div class="wrap"><div class="case" data-shelf="b" data-open="1"></div></div></div>
+  </section>
+
+  <section class="wrap notes">
+    <h2>Still to settle</h2>
+    <ul>
+      <li><strong>The cover is a new <code>cover</code> field</strong> in <code>content/curriculum.json</code>
+        — <code>"cover": "assets/img/books/achi-baatain.jpg"</code>. The placeholders here are drawn by
+        <code>generate_covers.py</code> from the book's binding, which is also what a book without a
+        photograph would fall back to.</li>
+      <li><strong>Covers should be about 3:4.</strong> That is the shape the column is sized for. A cover
+        of another shape still fills the column (<code>object-fit: cover</code>) and is trimmed rather than
+        distorted, but photographs taken square-on, with a little margin round the boards, will fit best.</li>
+      <li><strong>The cover never draws out past its shape.</strong> At full width it runs the whole left
+        side. On a narrower screen (around 900–1100px) the text column is longer than a 3:4 cover is tall, so
+        the cover stops at its own height, at the top of the leaf, and the text runs on beside the space
+        under it.</li>
+      <li><strong>The narrow bay stays usable.</strong> Clicking one of its books closes the panel first, so
+        there is still only one book open across the shelf. On the site, with only two TODO slots in First
+        Year, it fits without scrolling.</li>
+      <li><strong>The author line is a placeholder</strong> in this mockup — <code>author</code> is empty
+        for every book in <code>curriculum.json</code> today, and I have not invented any. When the field
+        is empty the line is simply omitted.</li>
+      <li><strong>Longer descriptions.</strong> The small card still clips at about two sentences; the
+        panel holds four or five. Suggest keeping <code>description</code> short for the card and adding a
+        <code>long</code> field the panel prefers when it is there.</li>
+      <li><strong>The button question</strong> from round 1 still stands: the open card is itself a
+        <code>&lt;button&gt;</code>, so “See more” cannot be a nested button. Either the card becomes a
+        container with two real buttons (close / see more), or its click branches on the target as it does
+        here.</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+/* BINDINGS and SIZES as in assets/js/curriculum.js. */
+var BINDINGS = [
+  ["#4a1813", "#1a1210"], ["#2c1d13", "#5a1916"], ["#1c2a22", "#4a1813"],
+  ["#5e3b1f", "#1c2a22"], ["#16120f", "#5a1916"], ["#3b2416", "#16120f"]
+];
+var SIZES = { small: { w: 46, h: 236 }, medium: { w: 50, h: 252 }, large: { w: 54, h: 268 } };
+
+/* Second Year as content/curriculum.json has it, plus the cover placeholders and
+   the longer copy the expanded panel is sized for. `author` is left as a TODO
+   everywhere: the real names come from the masjid. */
+var YEAR2 = {
+  name: "Second Year",
+  books: [
+    {
+      title: "Achi Baatain", titleUrdu: "اچھی باتیں", subject: "Urdu", author: "TODO: Author",
+      book_size: "medium", cover: "covers/achi-baatain.svg",
+      description: "Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar.",
+      long: "Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginner's understanding of Urdu words and grammar, working through short moral stories rather than tables, so the language is learnt in use before it is learnt in rule.\n\nBy the end of the year a student can read unvowelled Urdu prose aloud, follow a lesson given in it, and write a few sentences of their own — which is what the third year's books assume from the first day."
+    },
+    {
+      title: "Tasheel ul-Nahwa", titleUrdu: "تسهيل النحو", subject: "Nahwa", author: "TODO: Author",
+      book_size: "large", cover: "covers/tasheel-nahwa.svg",
+      description: "The first book of Arabic grammar, taking the student from the parts of speech to the governance of the sentence.",
+      long: "The first book of Arabic grammar. It takes the student from the parts of speech to the governance of the sentence — how a word's ending answers to the word beside it — in short lessons, each one drilled before the next is opened.\n\nIt is taught beside Tasheel ul-Sarf: one book accounts for the shape of a word, the other for its place in the sentence, and the two are needed together before any classical text can be read."
+    },
+    {
+      title: "Tasheel ul-Sarf", titleUrdu: "تسهيل الصرف", subject: "Sarf", author: "",
+      book_size: "large", cover: "covers/duroos.svg",
+      description: "Morphology: how an Arabic root turns into the whole family of words that grow out of it.",
+      long: "Morphology — how a three-letter Arabic root turns into the whole family of words that grow out of it: the verb in its tenses, the doer, the thing done, the place, the instrument.\n\nThe patterns are memorised aloud in class, in the order the tradition has always taught them, so that a student meeting an unfamiliar word later can take it apart and find the root underneath."
+    },
+    {
+      title: "Duroos 1", titleUrdu: "دروس اللغة", subject: "Arabic", author: "",
+      book_size: "medium", cover: "covers/duroos.svg",
+      description: "Arabic as a spoken and written language: vocabulary, dialogue and composition from the first lesson.",
+      long: "Arabic as a living language rather than a grammar: vocabulary, dialogue and composition from the first lesson, with the grammar the other books teach arriving here as something already met in a sentence.\n\nThe lessons are short and cumulative, and a good deal of the class is spent speaking, so that the Arabic of the later years is a language the student has used and not only parsed."
+    },
+    {
+      title: "Qasas 1", titleUrdu: "", subject: "Arabic", author: "",
+      book_size: "small", cover: "covers/achi-baatain.svg",
+      description: "Graded stories from the lives of the prophets, read to build reading speed and vocabulary.",
+      long: "Graded stories from the lives of the prophets, written in a controlled vocabulary that grows across the book. It is the reading book of the year: its purpose is speed and confidence, not analysis.\n\nStudents read it aloud in turn, and each passage is retold in the student's own Arabic before the class moves on."
+    },
+    { title: "TODO: Sixth book", titleUrdu: "", subject: "TODO: Subject", author: "", book_size: "medium", description: "TODO" }
+  ]
+};
+
+var YEAR1 = {
+  name: "First Year",
+  books: [
+    { title: "TODO: Book title", subject: "TODO", description: "TODO", book_size: "medium" },
+    { title: "TODO: Book title", subject: "TODO", description: "TODO", book_size: "large" }
+  ]
+};
+
+var YEAR3 = {
+  name: "Third Year",
+  books: [
+    { title: "TODO: Book title", subject: "TODO", description: "TODO", book_size: "medium" },
+    { title: "TODO: Book title", subject: "TODO", description: "TODO", book_size: "large" }
+  ]
+};
+
+var NUMERALS = [[10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"]];
+function roman(n) {
+  var out = "";
+  NUMERALS.forEach(function (p) { while (n >= p[0]) { out += p[1]; n -= p[0]; } });
+  return out;
+}
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+function isTodo(b) { return /^\s*TODO/i.test(String(b && b.title)); }
+function paras(text) {
+  return String(text || "").split("\n\n").map(function (p) {
+    return '<p class="xp__body">' + esc(p) + "</p>";
+  }).join("");
+}
+function setBinding(el, i, size) {
+  var b = BINDINGS[i % BINDINGS.length];
+  var d = SIZES[String(size || "").toLowerCase()] || SIZES.medium;
+  el.style.setProperty("--w", d.w + "px");
+  el.style.setProperty("--h", d.h + "px");
+  el.style.setProperty("--c", b[0]);
+  el.style.setProperty("--lab", b[1]);
+}
+
+/* The panel: cover down the whole left side, and a text column reading
+   subject / title + second name / author / description / catchword. */
+function panel(b) {
+  var author = "";
+  if (b.author) {
+    var todo = /^\s*TODO/i.test(b.author);
+    author = '<p class="xp__author' + (todo ? " xp__author--todo" : "") + '">' +
+      (todo ? "Author to be confirmed" : esc(b.author)) + "</p>";
+  }
+  return '<div class="xp">' +
+    '<span class="xp__close" title="Close">✕</span>' +
+    '<div class="xp__cover"><img src="' + esc(b.cover) + '" alt="Cover of ' + esc(b.title) + '"></div>' +
+    '<div class="xp__text">' +
+      '<p class="xp__kicker">' + esc(b.subject) + "</p>" +
+      '<div class="xp__head">' +
+        '<h3 class="xp__title">' + esc(b.title) + "</h3>" +
+        (b.titleUrdu ? '<p class="xp__urdu" lang="ur" dir="rtl">' + esc(b.titleUrdu) + "</p>" : "") +
+      "</div>" + author +
+      '<div class="xp__rule"></div>' + paras(b.long || b.description) +
+      '<p class="xp__catch">' + esc(String(b.title).split(" ")[0]) + "</p>" +
+    "</div></div>";
+}
+
+function fill(spine, open) {
+  var b = spine._book;
+  spine.setAttribute("aria-expanded", open ? "true" : "false");
+  spine.classList.toggle("spine--open", open);
+
+  if (!open) {
+    spine.innerHTML = spine._todo
+      ? '<span class="spine__title">TODO</span>'
+      : '<span class="spine__fin"></span><span class="spine__cart"><span class="spine__cart-in">' +
+        '<span class="spine__title gilt-text">' + esc(b.title) + "</span></span></span>" +
+        '<span class="spine__fin spine__fin--foot"></span>' +
+        (b.subject ? '<span class="spine__subject gilt-text">' + esc(b.subject) + "</span>" : "") +
+        '<span class="spine__medal"></span>';
+    return;
+  }
+
+  var meta = [b.subject, b.author && !/^\s*TODO/i.test(b.author) ? b.author : ""].filter(Boolean).join(" · ");
+  spine.innerHTML =
+    '<span class="face__head"><span class="face__title">' + esc(b.title) + "</span>" +
+      (b.titleUrdu ? '<span class="face__urdu" lang="ur" dir="rtl">' + esc(b.titleUrdu) + "</span>" : "") +
+    "</span>" +
+    (meta ? '<span class="face__meta">' + esc(meta) + "</span>" : "") +
+    '<span class="face__rule"></span>' +
+    '<span class="face__body">' + esc(b.description) + "</span>" +
+    '<span class="face__more">See more</span>';
+}
+
+function buildBay(year, index, state) {
+  var bay = document.createElement("div");
+  bay.className = "bay";
+
+  var well = document.createElement("div");
+  well.className = "bay__well";
+  well.setAttribute("role", "group");
+  well.setAttribute("aria-label", year.name);
+
+  (year.books || []).forEach(function (book, i) {
+    var todo = isTodo(book);
+    var spine = document.createElement("button");
+    spine.type = "button";
+    spine.className = "spine" + (todo ? " spine--todo" : "");
+    spine.tabIndex = i === 0 ? 0 : -1;
+    spine._book = book;
+    spine._todo = todo;
+    setBinding(spine, i, book.book_size);
+    fill(spine, false);
+    if (todo) spine.setAttribute("aria-disabled", "true");
+
+    spine.addEventListener("click", function (e) {
+      if (todo) return;
+      if (e.target.closest(".face__more")) { expand(bay, well, book); return; }
+      closeRow(bay.parentNode);   // one book open shelf-wide: a panel in the other bay gives way
+      if (state.open && state.open !== spine) fill(state.open, false);
+      var was = state.open === spine;
+      state.open = was ? null : spine;
+      fill(spine, !was);
+    });
+    well.appendChild(spine);
+  });
+
+  var plank = document.createElement("div");
+  plank.className = "bay__plank";
+  var label = document.createElement("p");
+  label.className = "bay__year";
+  label.innerHTML = '<span class="bay__numeral">' + roman(index + 1) + "</span>" + esc(year.name);
+
+  bay.append(well, plank, label);
+  bay._well = well;
+  return bay;
+}
+
+/* The row learns which side is reading, and widens that track. */
+function expand(bay, well, book) {
+  collapse(bay);
+  var row = bay.parentNode;
+  row.classList.add(bay === row.firstElementChild ? "shelf--reading-l" : "shelf--reading-r");
+  well.style.display = "none";
+  var holder = document.createElement("div");
+  holder.innerHTML = panel(book);
+  var el = holder.firstChild;
+  el.querySelector(".xp__close").addEventListener("click", function () { closeRow(bay.parentNode); });
+  bay.insertBefore(el, well);
+  bay._panel = el;
+}
+
+function collapse(bay) {
+  if (bay._panel) { bay._panel.remove(); bay._panel = null; }
+  bay._well.style.display = "";
+}
+
+function closeRow(row) {
+  Array.prototype.forEach.call(row.children, function (b) { if (b._panel) collapse(b); });
+  row.classList.remove("shelf--reading-l", "shelf--reading-r");
+}
+
+document.querySelectorAll("[data-shelf]").forEach(function (mount) {
+  var state = { open: null };
+  var row = document.createElement("div");
+  row.className = "shelf";
+  var reading;
+  if (mount.dataset.open) {                     // the mirror case: books on the left
+    reading = buildBay(YEAR2, 1, state);
+    row.append(reading, buildBay(YEAR3, 2, state));
+  } else {                                      // the real row: I on the left, II on the right
+    reading = buildBay(YEAR2, 1, state);
+    row.append(buildBay(YEAR1, 0, state), reading);
+  }
+  mount.appendChild(row);
+  if (mount.dataset.open) expand(reading, reading._well, YEAR2.books[1]);
+});
+
+document.addEventListener("keydown", function (e) {
+  if (e.key !== "Escape") return;
+  document.querySelectorAll(".shelf").forEach(closeRow);
+});
+</script>
+</body>
+</html>

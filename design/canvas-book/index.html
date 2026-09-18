@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The open book — Mockups</title>
+  <link rel="icon" href="../../assets/img/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+  <!-- The live stylesheet, so every option is built from the real tokens, spines and cards -->
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    /* ============================ canvas chrome ============================ */
+    .canvas-head { padding: 4.5rem 0 1rem; }
+    .canvas-head h1 { color: var(--brown-ink); font-family: var(--display); font-size: clamp(2.8rem, 2rem + 3vw, 4.4rem); line-height: 1; margin-top: 0.6rem; }
+    .canvas-head h1 em { color: var(--gold-ink); font-weight: 500; }
+    .canvas-head__lede { max-width: 760px; margin-top: 1rem; color: var(--brown-ink); }
+    .canvas-head__lede + .canvas-head__lede { margin-top: 0.7rem; }
+    .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.6rem; }
+    .jump a { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid rgba(154, 101, 8, 0.4); color: var(--brown-ink); font-size: 0.88rem; font-weight: 600; text-decoration: none; background: rgba(255, 255, 255, 0.7); }
+    .jump a:hover { background: var(--rust); color: #fff; border-color: var(--rust); }
+
+    .mock { padding: 4.5rem 0 5rem; }
+    .mock + .mock { border-top: 1px dashed rgba(70, 34, 6, 0.2); }
+    .mock__label { display: flex; gap: 1.1rem; align-items: flex-start; margin-bottom: 2.4rem; }
+    .mock__num { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(145deg, #f3cf6e, #d49a2a); box-shadow: 0 0 0 5px rgba(212, 154, 42, 0.18); color: var(--espresso); font-family: var(--display); font-size: 1.6rem; font-weight: 700; }
+    .mock__title { color: var(--brown-ink); font-family: var(--display); font-size: 2rem; line-height: 1.1; }
+    .mock__desc { max-width: 860px; margin-top: 0.3rem; color: var(--brown-ink); font-size: 0.94rem; }
+    .mock__desc b { color: var(--gold-ink); }
+    .mock__desc + .mock__desc { margin-top: 0.5rem; }
+    .mock--now .mock__num { background: none; box-shadow: inset 0 0 0 1px rgba(70, 34, 6, 0.3); color: var(--brown-ink); font-size: 0.72rem; font-family: var(--ui); font-weight: 600; letter-spacing: 0.1em; }
+
+    /* A note pinned under a drawing: what the option costs or asks for. */
+    .note { display: flex; gap: 0.6rem; max-width: 860px; margin-top: 1.4rem; color: var(--brown-ink); font-size: 0.86rem; }
+    .note::before { content: "▲"; flex: none; color: var(--gold-ink); font-size: 0.7rem; line-height: 1.9; }
+    .note b { color: var(--gold-ink); }
+
+    /* ---- the faux viewport: how the overlay covers the page ----
+       Full-bleed, with the shelf wall dimmed behind the scrim, so each
+       drawing is judged as a thing laid over the site, not a card in a row. */
+    .vp {
+      position: relative;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      height: min(680px, 76vh);
+      min-height: 560px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.55)),
+        var(--grain-v),
+        linear-gradient(90deg, var(--wood-dark), #633d24 50%, var(--wood-dark));
+      background-size: 100% 100%, 450px 900px, 100% 100%;
+    }
+    .vp::before {                           /* the scrim the overlay lays down */
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(120% 120% at 50% 45%, rgba(20, 9, 2, 0.62), rgba(20, 9, 2, 0.86));
+    }
+    .vp > * { position: relative; }
+
+    /* ---- the drawn cover: the fallback when a book has no `cover` file ----
+       The binding's own leather and cartouche colours, so the cover on the
+       left page is recognisably the spine the reader just clicked. */
+    .cover {
+      --cart: polygon(50% 0, 100% 12%, 100% 88%, 50% 100%, 0 88%, 0 12%);
+      position: relative;
+      aspect-ratio: 3 / 4;
+      display: grid;
+      place-items: center;
+      border-radius: 2px 5px 5px 2px;
+      color: var(--gilt);
+      font-family: var(--display);
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.5), rgba(255, 235, 200, 0.07) 12%, rgba(0, 0, 0, 0.03) 72%, rgba(0, 0, 0, 0.3)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.45'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),
+        var(--c, #4a1813);
+      background-blend-mode: normal, soft-light, normal;
+      box-shadow: inset 0 1px 0 rgba(255, 235, 200, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.5), 0 22px 40px -16px rgba(0, 0, 0, 0.75);
+    }
+    .cover::before,
+    .cover::after { content: ""; position: absolute; border: 1px solid var(--gilt); pointer-events: none; }
+    .cover::before { inset: 9%; opacity: 0.7; }
+    .cover::after  { inset: 12%; opacity: 0.3; }
+    .cover__cart {
+      position: relative;
+      width: 66%;
+      aspect-ratio: 5 / 4;
+      display: grid;
+      place-items: center;
+      background: var(--gilt);
+      clip-path: var(--cart);
+    }
+    .cover__cart-in {
+      position: absolute;
+      inset: 2px;
+      display: grid;
+      place-items: center;
+      padding: 14% 12%;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.35), rgba(255, 235, 200, 0.06) 45%, rgba(0, 0, 0, 0.3)), var(--lab, #1a1210);
+      clip-path: var(--cart);
+      text-align: center;
+    }
+    .cover__cart-in::before { content: ""; position: absolute; inset: 5px; border: 1px solid var(--gilt); opacity: 0.45; clip-path: var(--cart); }
+    .cover__t { position: relative; font-size: 0.95rem; font-weight: 700; line-height: 1.15; }
+    .cover__u { position: relative; margin-top: 0.25rem; font-family: var(--urdu); font-size: 0.8rem; line-height: 1.8; }
+    .cover__medal { position: absolute; left: 50%; bottom: 15%; width: 20px; height: 20px; margin-left: -10px; border: 1px solid var(--gilt); border-radius: 50%; }
+    .cover__medal::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--gilt); }
+
+    /* The other state: a real photograph, once `cover` names a file. Nothing
+       here is a book photograph yet, so the frame stands in for one. */
+    .shot {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      border-radius: 3px;
+      background: repeating-linear-gradient(135deg, rgba(70, 34, 6, 0.07) 0 8px, rgba(70, 34, 6, 0.12) 8px 16px), #cbb9a3;
+      box-shadow: inset 0 0 0 1px rgba(70, 34, 6, 0.25), 0 22px 40px -16px rgba(0, 0, 0, 0.7);
+      text-align: center;
+    }
+    .shot span { color: #40260f; font-family: var(--ui); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; }
+
+    /* A groove, the rule the Details cards already use: a channel cut into
+       the surface rather than a gold line drawn on it. */
+    .groove { position: relative; height: 2px; background: rgba(0, 0, 0, 0.3); box-shadow: 0 1px 0 rgba(255, 235, 200, 0.14); border-radius: 1px; }
+    .groove--light { background: rgba(70, 34, 6, 0.22); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); }
+
+    /* The PDF link, drawn the same in every option so the options differ by
+       page, not by button. Hidden entirely when a book has no `pdf`. */
+    .pdf { align-self: flex-start; }
+    .pdf svg { width: 17px; height: 17px; }
+
+    /* The scrolling right page: the whole point of the big book. A fade at
+       the foot says there is more below without drawing a scrollbar. */
+    .scroller { position: relative; flex: 1 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: thin; }
+    .scroller::-webkit-scrollbar { width: 6px; }
+    .scroller::-webkit-scrollbar-thumb { background: rgba(154, 101, 8, 0.5); border-radius: 3px; }
+    .fade { position: relative; }
+    .fade::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46px; pointer-events: none; background: linear-gradient(180deg, transparent, var(--fade-to, #fbf6e9)); }
+
+    /* Placeholder copy is marked, so nothing here reads as real curriculum text. */
+    .ph { color: rgba(70, 34, 6, 0.62); }
+    .ph b { display: inline-block; margin-right: 0.45rem; color: var(--gold-ink); font-family: var(--ui); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; vertical-align: 0.1em; }
+    .ph--dark { color: rgba(251, 238, 221, 0.6); }
+    .ph--dark b { color: var(--gold); }
+
+    /* ====================== 0 · the trigger on the card ==================== */
+    /* The small open card as the shelf draws it today, with the button added.
+       The card keeps the spine's height (--h), so the button has to come from
+       somewhere: A takes it out of the description, B grows card and well. */
+    .triggers { display: flex; flex-wrap: wrap; gap: 2.5rem 3.5rem; align-items: flex-start; }
+    .trigger { flex: none; }
+    .trigger__cap { max-width: 268px; margin-top: 1rem; color: var(--brown-ink); font-size: 0.84rem; }
+    .trigger__cap b { display: block; color: var(--gold-ink); font-family: var(--ui); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+    /* The well behind them, so the height question is visible, not asserted. */
+    .well-strip {
+      width: fit-content;
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 300px;
+      padding: 0 20px;
+      border-radius: 10px 10px 0 0;
+      background:
+        radial-gradient(60% 70% at 50% 0%, rgba(255, 222, 150, 0.2), transparent 70%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.55)),
+        var(--grain-v),
+        linear-gradient(90deg, var(--wood-dark), #633d24 50%, var(--wood-dark));
+      background-size: 100% 100%, 100% 100%, 450px 900px, 100% 100%;
+      box-shadow: inset 0 10px 24px rgba(0, 0, 0, 0.6);
+    }
+    .well-strip--tall { height: 344px; }
+    .well-strip .spine--open { margin-bottom: 0; }
+    /* Option B's card stands taller than its book. */
+    .spine--grown { height: auto; }
+    .face__more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: auto;
+      padding: 0.42rem 0.85rem;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f3cf6e, #d49a2a);
+      color: var(--espresso);
+      font-family: var(--ui);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      box-shadow: 0 6px 14px -6px rgba(70, 34, 6, 0.6);
+    }
+    .face__more svg { width: 13px; height: 13px; }
+    .face__more--link {
+      margin-top: auto;
+      padding: 0;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+      color: var(--gold-ink);
+      font-size: 0.74rem;
+      text-decoration: underline;
+      text-decoration-color: rgba(154, 101, 8, 0.45);
+      text-underline-offset: 3px;
+    }
+    .face__body--short { flex: 1 1 auto; }
+
+    /* ========================= 1 · Bound codex ============================= */
+    /* The book itself: a leather case with both boards showing all round the
+       pages, a deep gutter and a stitched centre. The most literal reading of
+       "an opened book covering the screen". */
+    .b1 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: min(1060px, 94vw);
+      height: min(600px, 88%);
+      padding: 16px;
+      border-radius: 6px 10px 10px 6px;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.45), rgba(255, 235, 200, 0.06) 20%, rgba(0, 0, 0, 0.04) 80%, rgba(0, 0, 0, 0.45)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.45'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),
+        #3d1410;
+      background-blend-mode: normal, soft-light, normal;
+      box-shadow: inset 0 0 0 1px rgba(217, 170, 72, 0.35), inset 0 1px 0 rgba(255, 235, 200, 0.2), 0 50px 90px -30px rgba(0, 0, 0, 0.9);
+    }
+    .b1__page {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: clamp(1.4rem, 2.6vw, 2.4rem);
+      background: linear-gradient(160deg, #fbf6e9, #efe6cf);
+    }
+    .b1__page--l { border-radius: 3px 0 0 3px; box-shadow: inset -22px 0 28px -22px rgba(70, 34, 6, 0.55); }
+    .b1__page--r { border-radius: 0 3px 3px 0; box-shadow: inset 22px 0 28px -22px rgba(70, 34, 6, 0.55); }
+    .b1__page + .b1__page { border-left: 1px solid rgba(70, 34, 6, 0.18); }
+    .b1__l { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: 1.4rem; align-items: center; height: 100%; }
+    .b1__name { font-family: var(--display); font-size: clamp(1.9rem, 1.4rem + 1.4vw, 2.6rem); font-weight: 600; line-height: 1.05; color: var(--brown-ink); }
+    .b1__urdu { text-align: left; margin-top: 0.4rem; font-family: var(--urdu); font-size: 1.15rem; line-height: 2; color: var(--brown-ink); }
+    .b1__meta { margin-top: 0.9rem; color: var(--gold-ink); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+    .b1__kicker { color: var(--gold-ink); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
+    .b1__body { margin-top: 1rem; color: var(--brown-ink); font-size: 0.95rem; line-height: 1.75; }
+    .b1__body p + p { margin-top: 0.8rem; }
+    .b1__foot { margin-top: 1.3rem; padding-top: 1.3rem; }
+    .b1__close {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #f3cf6e, #d49a2a);
+      color: var(--espresso);
+      font-size: 1.2rem;
+      line-height: 1;
+      box-shadow: 0 10px 22px -8px rgba(0, 0, 0, 0.8);
+    }
+
+    /* ======================== 2 · Illuminated kitab ======================== */
+    /* No leather: the overlay IS the paper, ruled with a jadwal (the double
+       gold frame of a manuscript page) and headed with an illuminated band.
+       The cover sits in a pointed arch, the shape the niche wall already uses. */
+    .b2 {
+      position: relative;
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      width: min(1100px, 95vw);
+      height: min(600px, 90%);
+      border-radius: 4px;
+      background: linear-gradient(160deg, #fdf8ec, #f1e7d1);
+      box-shadow: 0 0 0 1px rgba(154, 101, 8, 0.45), 0 46px 90px -28px rgba(0, 0, 0, 0.85);
+    }
+    .b2::after {                       /* the gutter: two rules, paper straight through */
+      content: "";
+      position: absolute;
+      left: calc(0.85 / 2 * 100%);
+      top: 5%;
+      bottom: 5%;
+      width: 5px;
+      transform: translateX(-2.5px);
+      border-left: 1px solid rgba(154, 101, 8, 0.45);
+      border-right: 1px solid rgba(154, 101, 8, 0.45);
+      background: rgba(70, 34, 6, 0.05);
+    }
+    .b2__page { position: relative; display: flex; flex-direction: column; min-width: 0; padding: clamp(1.5rem, 2.8vw, 2.6rem); }
+    .b2__page::before {               /* jadwal */
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border: 1px solid rgba(154, 101, 8, 0.55);
+      box-shadow: inset 0 0 0 3px rgba(251, 246, 233, 1), inset 0 0 0 4px rgba(154, 101, 8, 0.3);
+      pointer-events: none;
+    }
+    .b2__in { position: relative; display: flex; flex-direction: column; min-height: 0; height: 100%; padding: clamp(0.8rem, 1.4vw, 1.4rem); }
+    /* The arch mount for the cover: the same pointed head as a testimony niche. */
+    .b2__arch {
+      --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 140' preserveAspectRatio='none'%3E%3Cpath d='M0 140V52C0 30 22 0 50 0s50 30 50 52v88z' fill='%23000'/%3E%3C/svg%3E");
+      position: relative;
+      width: min(210px, 100%);
+      margin: 0 auto;
+      aspect-ratio: 5 / 7;
+      padding: 9px;
+      background: linear-gradient(180deg, var(--gilt), #a87c2c);
+      -webkit-mask: var(--m) center / 100% 100% no-repeat;
+      mask: var(--m) center / 100% 100% no-repeat;
+    }
+    .b2__arch-in {
+      position: relative;
+      height: 100%;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.5), rgba(255, 235, 200, 0.07) 14%, rgba(0, 0, 0, 0.04) 74%, rgba(0, 0, 0, 0.3)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.45'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),
+        #2c1d13;
+      background-blend-mode: normal, soft-light, normal;
+      -webkit-mask: var(--m) center / 100% 100% no-repeat;
+      mask: var(--m) center / 100% 100% no-repeat;
+      display: grid;
+      place-items: center;
+      padding: 18% 14% 12%;
+      text-align: center;
+      color: var(--gilt);
+      font-family: var(--display);
+    }
+    .b2__arch-in span { font-size: 1rem; font-weight: 700; line-height: 1.2; }
+    .b2__caption { margin-top: 1.4rem; text-align: center; }
+    .b2__urdu { font-family: var(--urdu); font-size: 1.5rem; line-height: 2; color: var(--brown-ink); }
+    .b2__name { margin-top: 0.2rem; color: var(--gold-ink); font-family: var(--display); font-size: clamp(1.5rem, 1.2rem + 0.9vw, 2rem); font-weight: 600; line-height: 1.1; }
+    .b2__subject { margin-top: 0.7rem; color: var(--brown-ink); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+    /* The illuminated headpiece: the chevron of a kitab headband, run wide. */
+    .b2__head {
+      flex: none;
+      height: 16px;
+      border-radius: 2px;
+      background:
+        linear-gradient(135deg, #8a2a20 25%, transparent 25%) -6px 0 / 12px 12px,
+        linear-gradient(225deg, #8a2a20 25%, transparent 25%) -6px 0 / 12px 12px,
+        linear-gradient(315deg, #1f4a3a 25%, transparent 25%) 0 0 / 12px 12px,
+        linear-gradient(45deg,  #1f4a3a 25%, transparent 25%) 0 0 / 12px 12px,
+        #e3cf98;
+      box-shadow: 0 0 0 1px rgba(154, 101, 8, 0.5);
+    }
+    .b2__title { margin-top: 1.2rem; color: var(--brown-ink); font-family: var(--display); font-size: 1.45rem; font-weight: 600; }
+    .b2__body { margin-top: 0.7rem; color: var(--brown-ink); font-size: 0.95rem; line-height: 1.8; }
+    .b2__body p + p { margin-top: 0.75rem; }
+    .b2__foot { flex: none; margin-top: 1.2rem; }
+    .b2__close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(154, 101, 8, 0.5);
+      border-radius: 50%;
+      color: var(--gold-ink);
+      background: rgba(255, 255, 255, 0.5);
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    /* ========================= 3 · Board & page ============================ */
+    /* The site's own vocabulary: the left half is the dark board of the Details
+       cards, with the cover sunk into a well like a bay's; the right half is a
+       cream page. Grooves, bright gold titles, a rust edge. */
+    .b3 {
+      position: relative;
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      width: min(1080px, 95vw);
+      height: min(590px, 88%);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(189, 93, 15, 0.7), 0 46px 90px -28px rgba(0, 0, 0, 0.85);
+    }
+    .b3__board {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      padding: clamp(1.4rem, 2.6vw, 2.2rem);
+      background:
+        radial-gradient(90% 60% at 50% 0%, rgba(255, 222, 150, 0.16), transparent 70%),
+        linear-gradient(170deg, var(--board), var(--board-deep)),
+        var(--grain);
+      background-size: 100% 100%, 100% 100%, var(--grain-size);
+    }
+    .b3__well {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      padding: 1.1rem;
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25) 35%, rgba(0, 0, 0, 0.55)),
+        var(--grain-v),
+        linear-gradient(90deg, var(--wood-dark), #633d24 50%, var(--wood-dark));
+      background-size: 100% 100%, 450px 900px, 100% 100%;
+      box-shadow: inset 0 10px 24px rgba(0, 0, 0, 0.65), inset 0 -2px 0 rgba(0, 0, 0, 0.45);
+    }
+    .b3__well .cover { height: 100%; width: auto; }
+    .b3__name { color: var(--gold-light); font-family: var(--display); font-size: clamp(1.7rem, 1.3rem + 1.2vw, 2.3rem); font-weight: 600; line-height: 1.05; }
+    .b3__urdu { margin-top: 0.3rem; font-family: var(--urdu); font-size: 1.1rem; line-height: 2; color: var(--gold-pale); }
+    .b3__kicker { color: var(--gold-pale); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
+    .b3__page { position: relative; display: flex; flex-direction: column; min-width: 0; padding: clamp(1.6rem, 3vw, 2.6rem); background: linear-gradient(160deg, #fffdf8, #f6efe1); }
+    .b3__page::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, rgba(189, 93, 15, 0.8), rgba(189, 93, 15, 0.35)); }
+    .b3__title { color: var(--brown-ink); font-family: var(--display); font-size: 1.6rem; font-weight: 600; }
+    .b3__body { color: var(--brown-ink); font-size: 0.97rem; line-height: 1.78; }
+    .b3__body p + p { margin-top: 0.8rem; }
+    .b3__close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(70, 34, 6, 0.08);
+      color: var(--brown-ink);
+      font-size: 1.05rem;
+      line-height: 1;
+    }
+
+    /* =========================== 4 · On the rihal ========================== */
+    /* The book propped open on a lectern, its pages bowing away from the
+       gutter and its fore-edges showing the stack of leaves. The scenic option:
+       it reads as an object in the room rather than a panel on the glass. */
+    .b4 { position: relative; width: min(1120px, 96vw); }
+    .b4__book {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: min(520px, 74vh);
+      perspective: 1800px;
+      filter: drop-shadow(0 36px 44px rgba(0, 0, 0, 0.75));
+    }
+    .b4__page {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: clamp(1.3rem, 2.4vw, 2.1rem);
+      background: linear-gradient(160deg, #fdf8ec, #ece2c9);
+    }
+    /* Each leaf tips a few degrees toward the gutter, and its fore-edge shows
+       the ends of the pages under it. */
+    .b4__page--l {
+      transform: rotateY(6deg);
+      transform-origin: 100% 50%;
+      border-radius: 4px 0 0 4px;
+      box-shadow: inset -26px 0 30px -24px rgba(70, 34, 6, 0.6);
+    }
+    .b4__page--l::before,
+    .b4__page--r::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      bottom: 3px;
+      width: 7px;
+      background: repeating-linear-gradient(180deg, #e7dcc2 0 2px, #cdbfa0 2px 4px);
+      box-shadow: inset 0 0 0 1px rgba(70, 34, 6, 0.12);
+    }
+    .b4__page--l::before { left: -7px; border-radius: 3px 0 0 3px; }
+    .b4__page--r::before { right: -7px; border-radius: 0 3px 3px 0; }
+    .b4__page--r {
+      transform: rotateY(-6deg);
+      transform-origin: 0 50%;
+      border-radius: 0 4px 4px 0;
+      box-shadow: inset 26px 0 30px -24px rgba(70, 34, 6, 0.6);
+    }
+    .b4__gutter {
+      position: absolute;
+      left: 50%;
+      top: -2%;
+      bottom: -2%;
+      width: 54px;
+      margin-left: -27px;
+      background: linear-gradient(90deg, rgba(70, 34, 6, 0) 0%, rgba(70, 34, 6, 0.45) 35%, rgba(46, 22, 8, 0.7) 50%, rgba(70, 34, 6, 0.45) 65%, rgba(70, 34, 6, 0) 100%);
+      pointer-events: none;
+    }
+    /* The lectern: a plank on two brackets, the shelf's own wood. */
+    .b4__rihal {
+      position: relative;
+      height: 20px;
+      margin: 0 4%;
+      background:
+        linear-gradient(180deg, rgba(255, 232, 196, 0.32), rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.5)),
+        var(--grain-streaks),
+        linear-gradient(180deg, #dda276, #96593a);
+      background-size: 100% 100%, 900px 450px, 100% 100%;
+      border-radius: 0 0 3px 3px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 20px 34px -14px rgba(0, 0, 0, 0.8);
+    }
+    .b4__rihal::before,
+    .b4__rihal::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      width: 16px;
+      height: 46px;
+      background: linear-gradient(90deg, #8a5334, #b4764d 45%, #6f4127);
+      clip-path: polygon(0 0, 100% 0, 55% 100%, 0 100%);
+      box-shadow: 0 16px 22px -12px rgba(0, 0, 0, 0.8);
+    }
+    .b4__rihal::before { left: 12%; }
+    .b4__rihal::after { right: 12%; transform: scaleX(-1); }
+    .b4__l { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.1rem; height: 100%; text-align: center; }
+    .b4__l .shot,
+    .b4__l .cover { width: min(180px, 48%); }
+    .b4__name { color: var(--brown-ink); font-family: var(--display); font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem); font-weight: 600; line-height: 1.08; }
+    .b4__urdu { font-family: var(--urdu); font-size: 1.05rem; line-height: 1.9; color: var(--brown-ink); }
+    .b4__meta { color: var(--gold-ink); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+    .b4__title { color: var(--brown-ink); font-family: var(--display); font-size: 1.4rem; font-weight: 600; }
+    .b4__body { color: var(--brown-ink); font-size: 0.92rem; line-height: 1.72; }
+    .b4__body p + p { margin-top: 0.7rem; }
+    .b4__close {
+      position: absolute;
+      top: -54px;
+      right: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 1rem;
+      border: 1px solid rgba(238, 194, 90, 0.5);
+      border-radius: 999px;
+      color: var(--gold-pale);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    /* ========================== 5 · Quiet spread =========================== */
+    /* The restrained option: one wide sheet, a hairline gutter, deep margins
+       and nothing else. No leather, no jadwal, no board - the cover and the
+       Cormorant name carry it, and the type has room to breathe. */
+    .b5 {
+      position: relative;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      width: min(1180px, 95vw);
+      height: min(580px, 86%);
+      border-radius: 3px;
+      background: #fffdf8;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 40px 80px -24px rgba(0, 0, 0, 0.8);
+    }
+    .b5::after {                      /* the gutter: one hairline and a breath of shadow */
+      content: "";
+      position: absolute;
+      left: calc(0.9 / 2 * 100%);
+      top: 0;
+      bottom: 0;
+      width: 40px;
+      margin-left: -20px;
+      background: linear-gradient(90deg, rgba(70, 34, 6, 0) 0, rgba(70, 34, 6, 0.06) 45%, rgba(70, 34, 6, 0.28) 50%, rgba(70, 34, 6, 0.06) 55%, rgba(70, 34, 6, 0) 100%);
+      pointer-events: none;
+    }
+    .b5__page { display: flex; flex-direction: column; min-width: 0; padding: clamp(2rem, 4vw, 3.4rem); }
+    .b5__l { justify-content: center; gap: 1.6rem; }
+    .b5__l .cover,
+    .b5__l .shot { width: min(230px, 62%); }
+    .b5__name { color: var(--brown-ink); font-family: var(--display); font-size: clamp(2rem, 1.5rem + 1.6vw, 2.9rem); font-weight: 600; line-height: 1.03; }
+    .b5__urdu { text-align: left; margin-top: 0.35rem; font-family: var(--urdu); font-size: 1.2rem; line-height: 2; color: var(--brown-ink); }
+    .b5__meta { margin-top: 1rem; color: var(--gold-ink); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
+    .b5__body { color: var(--brown-ink); font-size: 1.02rem; line-height: 1.85; }
+    .b5__body p + p { margin-top: 0.9rem; }
+    .b5__dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 1.6rem;
+      color: var(--gold-ink);
+      font-family: var(--ui);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 5px;
+      text-decoration-color: rgba(154, 101, 8, 0.5);
+    }
+    .b5__dl svg { width: 17px; height: 17px; }
+    .b5__close {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      color: rgba(70, 34, 6, 0.5);
+      font-family: var(--ui);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 880px) {
+      .b1, .b2, .b3, .b5 { grid-template-columns: 1fr; height: min(620px, 92%); }
+      .b1__l { grid-template-columns: 1fr; }
+      .b2::after, .b5::after { display: none; }
+      .b4__book { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="canvas-head">
+    <p class="kicker">Curriculum · the shelf</p>
+    <h1>The <em>open book</em></h1>
+    <p class="canvas-head__lede">
+      Clicking a spine turns it face-on in its slot, as it does today. The small card gains a
+      <b>Show more</b> button, and that opens a full-screen spread: the book's name and picture on the
+      left page, its description and a PDF download on the right.
+    </p>
+    <p class="canvas-head__lede">
+      Five directions below, all drawn from the live stylesheet's tokens. Every one takes a
+      <b>`cover`</b> image path and a <b>`pdf`</b> path in <code>curriculum.json</code>; with no
+      <code>cover</code> the left page draws a kitab cover from the book's own leather and cartouche
+      colours, and with no <code>pdf</code> the download link is simply absent, the way
+      <code>fees.cta</code> stays hidden while null. The right page scrolls, so descriptions are no
+      longer held to the small card's two sentences.
+    </p>
+    <nav class="jump">
+      <a href="#trigger">0 · The trigger</a>
+      <a href="#m1">1 · Bound codex</a>
+      <a href="#m2">2 · Illuminated kitab</a>
+      <a href="#m3">3 · Board &amp; page</a>
+      <a href="#m4">4 · On the rihal</a>
+      <a href="#m5">5 · Quiet spread</a>
+    </nav>
+  </header>
+</div>
+
+<!-- ======================== 0 · the trigger ========================= -->
+<section class="mock mock--now" id="trigger">
+  <div class="wrap">
+    <div class="mock__label">
+      <span class="mock__num">Now</span>
+      <div>
+        <h2 class="mock__title">The trigger, and what it costs in height</h2>
+        <p class="mock__desc">
+          The open card keeps its spine's height (<code>--h</code>, 236–268px) so the shelf line doesn't
+          jump, and the well it stands in is <b>300px</b>. A button has to come from one of two places.
+        </p>
+      </div>
+    </div>
+    <div class="triggers">
+      <div class="trigger">
+        <div class="well-strip">
+          <div class="spine spine--open" style="--w: 50px; --h: 268px; --c: #4a1813; --lab: #1a1210;">
+            <span class="face__head">
+              <span class="face__title">Achi Baatain</span>
+              <span class="face__urdu" lang="ur" dir="rtl">اچھی باتیں</span>
+            </span>
+            <span class="face__meta">Urdu</span>
+            <span class="face__rule"></span>
+            <span class="face__body face__body--short">Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar.</span>
+            <span class="face__more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M12 5v14"/></svg>Show more</span>
+          </div>
+        </div>
+        <p class="trigger__cap"><b>A · inside the card</b>The card keeps <code>--h</code> and the well
+          stays 300px; the button takes about a line and a half off the description. Nothing else on the
+          shelf moves.</p>
+      </div>
+      <div class="trigger">
+        <div class="well-strip well-strip--tall">
+          <div class="spine spine--open spine--grown" style="--w: 50px; --h: 268px; --c: #2c1d13; --lab: #5a1916;">
+            <span class="face__head">
+              <span class="face__title">Achi Baatain</span>
+              <span class="face__urdu" lang="ur" dir="rtl">اچھی باتیں</span>
+            </span>
+            <span class="face__meta">Urdu</span>
+            <span class="face__rule"></span>
+            <span class="face__body">Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar.</span>
+            <span class="face__more face__more--link">Show more →</span>
+          </div>
+        </div>
+        <p class="trigger__cap"><b>B · the card grows</b>The card stands ~44px taller than its book and
+          the well grows to 344px to hold it. The description keeps its full length, but every bay on the
+          page gets taller and the derived 300px note in CLAUDE.md changes.</p>
+      </div>
+    </div>
+    <p class="note"><span><b>Recommendation: A.</b> The big book is where the description lives now, so
+      the card can afford to show less of it — and the well height is quoted in three places
+      (<code>.bay__well</code>, <code>.ledge</code>'s <code>top: 310px</code>, and the size table in
+      <code>curriculum.js</code>), all of which move if the well grows.</span></p>
+  </div>
+</section>
+
+<!-- ========================= 1 · Bound codex ======================== -->
+<section class="mock" id="m1">
+  <div class="wrap">
+    <div class="mock__label">
+      <span class="mock__num">1</span>
+      <div>
+        <h2 class="mock__title">Bound codex</h2>
+        <p class="mock__desc">
+          The literal reading: a leather case with both boards showing all round the pages, a deep gutter
+          and cream leaves inside. The name and cover sit side by side on the left page; the right page is
+          a plain reading column with a groove above the download. Shown here with the <b>drawn
+          fallback cover</b>.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="vp">
+    <div class="b1">
+      <span class="b1__close" aria-hidden="true">✕</span>
+      <div class="b1__page b1__page--l">
+        <div class="b1__l">
+          <div class="cover" style="--c: #4a1813; --lab: #1a1210;">
+            <div class="cover__cart"><div class="cover__cart-in">
+              <span class="cover__t">Achi<br>Baatain</span>
+            </div></div>
+            <span class="cover__medal"></span>
+          </div>
+          <div>
+            <h3 class="b1__name">Achi Baatain</h3>
+            <p class="b1__urdu" lang="ur" dir="rtl">اچھی باتیں</p>
+            <p class="b1__meta">Second Year · Urdu</p>
+          </div>
+        </div>
+      </div>
+      <div class="b1__page b1__page--r">
+        <p class="b1__kicker">About this book</p>
+        <div class="b1__body scroller">
+          <p>Achi Baatain is the first of the Urdu books taught to the students. It will give them a
+            beginners understanding to urdu words and grammar.</p>
+          <p class="ph"><b>placeholder</b>The right page scrolls, so a description can run to several
+            paragraphs instead of the two sentences the small card holds. This block stands in for the
+            fuller copy that comes from the masjid.</p>
+          <p class="ph">It keeps going past the foot of the page to show the fade and the scroll.</p>
+        </div>
+        <div class="b1__foot">
+          <div class="groove groove--light" style="margin-bottom: 1.3rem;"></div>
+          <a class="btn btn--gold btn--sm pdf" href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 20h16"/></svg>
+            Download PDF
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="note"><span>Closest to the existing spines — same leather, same gilt — but it spends a lot
+      of screen on the case, and the two pages end up narrower than the other options.</span></p>
+  </div>
+</section>
+
+<!-- ====================== 2 · Illuminated kitab ===================== -->
+<section class="mock" id="m2">
+  <div class="wrap">
+    <div class="mock__label">
+      <span class="mock__num">2</span>
+      <div>
+        <h2 class="mock__title">Illuminated kitab</h2>
+        <p class="mock__desc">
+          No case: the overlay <em>is</em> the paper, ruled with a <b>jadwal</b> — the double gold frame of
+          a manuscript page — and the right page headed by the chevron headband the spines already carry.
+          The cover is mounted in a pointed arch, the shape of a testimony niche, and the Urdu leads the
+          name. Shown with the <b>real-photograph state</b>, which is what the frame stands for.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="vp">
+    <div class="b2">
+      <span class="b2__close" aria-hidden="true">✕</span>
+      <div class="b2__page">
+        <div class="b2__in" style="justify-content: center;">
+          <div class="b2__arch"><div class="b2__arch-in"><span>cover photo</span></div></div>
+          <div class="b2__caption">
+            <p class="b2__urdu" lang="ur" dir="rtl">اچھی باتیں</p>
+            <h3 class="b2__name">Achi Baatain</h3>
+            <p class="b2__subject">Second Year · Urdu</p>
+          </div>
+        </div>
+      </div>
+      <div class="b2__page">
+        <div class="b2__in">
+          <span class="b2__head"></span>
+          <h4 class="b2__title">About this book</h4>
+          <div class="b2__body scroller">
+            <p>Achi Baatain is the first of the Urdu books taught to the students. It will give them a
+              beginners understanding to urdu words and grammar.</p>
+            <p class="ph"><b>placeholder</b>The ruled page takes as much copy as the masjid sends and
+              scrolls inside the jadwal, so the frame never breaks.</p>
+            <p class="ph">A second placeholder paragraph, to run the text past the foot of the frame.</p>
+          </div>
+          <div class="b2__foot">
+            <a class="btn btn--gold btn--sm pdf" href="#">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 20h16"/></svg>
+              Download PDF
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="note"><span>The most Islamic-traditional of the five, and it reuses the niche arch and the
+      headband rather than inventing ornament. The jadwal is a fixed frame, so the scroll has to live
+      strictly inside it.</span></p>
+  </div>
+</section>
+
+<!-- ======================== 3 · Board & page ======================== -->
+<section class="mock" id="m3">
+  <div class="wrap">
+    <div class="mock__label">
+      <span class="mock__num">3</span>
+      <div>
+        <h2 class="mock__title">Board &amp; page</h2>
+        <p class="mock__desc">
+          The site's own vocabulary, borrowed whole: the left half is the <b>dark board</b> of the Details
+          cards with the cover sunk into a well like a bay's, bright gold name, gold-pale kicker; the right
+          half is a cream page in brown ink with grooved rules and a rust edge at the gutter. The least new
+          language of the five — nothing here has to be invented or explained.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="vp">
+    <div class="b3">
+      <span class="b3__close" aria-hidden="true">✕</span>
+      <div class="b3__board">
+        <div>
+          <p class="b3__kicker">Second Year</p>
+          <h3 class="b3__name">Achi Baatain</h3>
+          <p class="b3__urdu" lang="ur" dir="rtl">اچھی باتیں</p>
+        </div>
+        <div class="b3__well">
+          <div class="cover" style="--c: #4a1813; --lab: #1a1210;">
+            <div class="cover__cart"><div class="cover__cart-in">
+              <span class="cover__t">Achi<br>Baatain</span>
+            </div></div>
+            <span class="cover__medal"></span>
+          </div>
+        </div>
+      </div>
+      <div class="b3__page">
+        <h4 class="b3__title">About this book</h4>
+        <div class="groove groove--light" style="margin: 0.9rem 0 1.1rem;"></div>
+        <div class="b3__body scroller">
+          <p>Achi Baatain is the first of the Urdu books taught to the students. It will give them a
+            beginners understanding to urdu words and grammar.</p>
+          <p class="ph"><b>placeholder</b>Standing in for a longer description than the small card can
+            hold; this page scrolls on its own, and the board beside it never moves.</p>
+          <p class="ph">A further paragraph, so the fade at the foot has something to fade.</p>
+        </div>
+        <div class="groove groove--light" style="margin: 1.2rem 0 1.3rem;"></div>
+        <a class="btn btn--gold btn--sm pdf" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 20h16"/></svg>
+          Download PDF
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="note"><span>Reads less like an opened book than 1, 2 and 4 — it is a two-panel overlay
+      rather than a spread. That is the trade for using surfaces the page already has.</span></p>
+  </div>
+</section>
+
+<!-- ======================== 4 · On the rihal ======================== -->
+<section class="mock" id="m4">
+  <div class="wrap">
+    <div class="mock__label">
+      <span class="mock__num">4</span>
+      <div>
+        <h2 class="mock__title">On the rihal</h2>
+        <p class="mock__desc">
+          The book propped open on a lectern of the shelf's own wood, its leaves tipped a few degrees
+          toward the gutter and their fore-edges showing the stack of pages. The most physical of the five:
+          an object in the room rather than a panel on the glass. Shown with a <b>cover photograph</b> and
+          with <b>no PDF yet</b> — the link is simply absent, and nothing shifts to fill the gap.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="vp">
+    <div class="b4">
+      <span class="b4__close" aria-hidden="true">✕ &nbsp;Close</span>
+      <div class="b4__book">
+        <div class="b4__page b4__page--l">
+          <div class="b4__l">
+            <div class="shot"><span>cover photo</span></div>
+            <div>
+              <h3 class="b4__name">Achi Baatain</h3>
+              <p class="b4__urdu" lang="ur" dir="rtl">اچھی باتیں</p>
+            </div>
+            <p class="b4__meta">Second Year · Urdu</p>
+          </div>
+        </div>
+        <div class="b4__page b4__page--r">
+          <h4 class="b4__title">About this book</h4>
+          <div class="groove groove--light" style="margin: 0.8rem 0 1rem;"></div>
+          <div class="b4__body scroller">
+            <p>Achi Baatain is the first of the Urdu books taught to the students. It will give them a
+              beginners understanding to urdu words and grammar.</p>
+            <p class="ph"><b>placeholder</b>The leaf scrolls under its own fore-edge, so the book keeps
+              its thickness however long the description runs.</p>
+            <p class="ph">One more paragraph past the foot of the page.</p>
+          </div>
+        </div>
+        <span class="b4__gutter" aria-hidden="true"></span>
+      </div>
+      <div class="b4__rihal" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="note"><span>The rotated leaves are a real cost: text inside a <code>rotateY</code> renders
+      a touch softer, and the lectern eats ~70px of height that the pages could have used. Worth it only
+      if the physicality is the point.</span></p>
+  </div>
+</section>
+
+<!-- ======================== 5 · Quiet spread ======================== -->
+<section class="mock" id="m5">
+  <div class="wrap">
+    <div class="mock__label">
+      <span class="mock__num">5</span>
+      <div>
+        <h2 class="mock__title">Quiet spread</h2>
+        <p class="mock__desc">
+          The restrained one: a single wide sheet, a hairline gutter with a breath of shadow, deep margins
+          and nothing else. No leather, no jadwal, no board — the cover and the big Cormorant name carry
+          it, the download is a gold underlined link rather than a button, and the type has the most room
+          of any option here.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="vp">
+    <div class="b5">
+      <span class="b5__close" aria-hidden="true">Close ✕</span>
+      <div class="b5__page b5__l">
+        <div class="cover" style="--c: #2c1d13; --lab: #5a1916;">
+          <div class="cover__cart"><div class="cover__cart-in">
+            <span class="cover__t">Achi<br>Baatain</span>
+          </div></div>
+          <span class="cover__medal"></span>
+        </div>
+        <div>
+          <h3 class="b5__name">Achi Baatain</h3>
+          <p class="b5__urdu" lang="ur" dir="rtl">اچھی باتیں</p>
+          <p class="b5__meta">Second Year · Urdu</p>
+        </div>
+      </div>
+      <div class="b5__page">
+        <div class="b5__body scroller">
+          <p>Achi Baatain is the first of the Urdu books taught to the students. It will give them a
+            beginners understanding to urdu words and grammar.</p>
+          <p class="ph"><b>placeholder</b>With this much column width the description can run long
+            without looking cramped; the page scrolls when it passes the foot of the sheet.</p>
+          <p class="ph">A last paragraph, so the fade has something under it.</p>
+        </div>
+        <a class="b5__dl" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 20h16"/></svg>
+          Download the PDF
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="note"><span>Quietest to build and the easiest to read, but it is the least tied to the rest
+      of the page: on a site of leather, gilt and wood, a plain white sheet may read as a different
+      website.</span></p>
+    <p class="note"><span><b>On phones</b> every option collapses to one column — cover and name first,
+      description and download under them — and the spread becomes a full-height sheet rather than a
+      book. That is drawn in none of these five; it needs its own round once you pick.</span></p>
+  </div>
+</section>
+</body>
+</html>
