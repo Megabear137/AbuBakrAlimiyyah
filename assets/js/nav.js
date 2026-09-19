@@ -1,76 +1,69 @@
 /* =====================================================================
-   nav.js - mobile drawer and the active-section highlight in the header.
+   nav.js - the header's two buttons: the full-screen menu, and the
+   light/dark toggle. The inline script in index.html's <head> sets the
+   theme before first paint from the same storage key.
    ===================================================================== */
 (function () {
   "use strict";
 
-  var toggle = document.querySelector(".nav-toggle");
-  var nav = document.getElementById("primary-nav");
-  if (!toggle || !nav) return;
+  var root = document.documentElement;
 
-  function setOpen(open) {
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    nav.dataset.open = String(open);
+  /* ------------------------------ theme ------------------------------ */
+  var THEME_KEY = "alimiyyah.theme";
+  var toggle = document.querySelector("[data-theme-toggle]");
+
+  function label() {
+    if (!toggle) return;
+    var dark = root.getAttribute("data-theme") === "dark";
+    toggle.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
   }
 
-  toggle.addEventListener("click", function () {
-    setOpen(toggle.getAttribute("aria-expanded") !== "true");
-  });
+  if (toggle) {
+    label();
+    toggle.addEventListener("click", function () {
+      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* storage blocked: not remembered */ }
+      label();
+    });
+  }
 
-  // Tapping a link, or pressing Escape, closes the drawer.
-  nav.addEventListener("click", function (e) {
+  /* ------------------------------ menu ------------------------------- */
+  var menu = document.getElementById("site-menu");
+  var opener = document.querySelector("[data-menu-open]");
+  var closer = menu && menu.querySelector("[data-menu-close]");
+  if (!menu || !opener) return;
+
+  function isOpen() { return menu.classList.contains("menu--open"); }
+
+  function setOpen(open, restoreFocus) {
+    menu.classList.toggle("menu--open", open);
+    opener.setAttribute("aria-expanded", String(open));
+    root.classList.toggle("menu-lock", open);          // no page scroll behind the menu
+    if (open && closer) closer.focus();
+    else if (!open && restoreFocus) opener.focus();
+  }
+
+  opener.addEventListener("click", function () { setOpen(true); });
+  if (closer) closer.addEventListener("click", function () { setOpen(false, true); });
+
+  // Following a link closes the menu and lets the page scroll to it.
+  menu.addEventListener("click", function (e) {
     if (e.target.closest("a")) setOpen(false);
   });
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
-      setOpen(false);
-      toggle.focus();
+    if (!isOpen()) return;
+    if (e.key === "Escape") {
+      setOpen(false, true);
+      return;
     }
-  });
-
-  // Reset state when the drawer breakpoint is left behind.
-  var wide = window.matchMedia("(min-width: 981px)");
-  (wide.addEventListener ? wide.addEventListener.bind(wide, "change") : wide.addListener.bind(wide))(
-    function () { setOpen(false); }
-  );
-
-  /* ---------------------- active-link scrollspy ---------------------- */
-  var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
-  var targets = links
-    .map(function (a) {
-      var id = a.getAttribute("href").slice(1);
-      var el = id === "top" ? document.body : document.getElementById(id);
-      return el ? { link: a, el: el } : null;
-    })
-    .filter(Boolean);
-
-  if (!("IntersectionObserver" in window) || !targets.length) return;
-
-  var visible = new Set();
-
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) visible.add(entry.target);
-        else visible.delete(entry.target);
-      });
-
-      // Highlight the topmost section currently on screen.
-      var best = null;
-      targets.forEach(function (t) {
-        if (!visible.has(t.el)) return;
-        if (!best || t.el.getBoundingClientRect().top < best.el.getBoundingClientRect().top) best = t;
-      });
-
-      links.forEach(function (a) { a.removeAttribute("aria-current"); });
-      if (best) best.link.setAttribute("aria-current", "true");
-    },
-    { rootMargin: "-30% 0px -55% 0px", threshold: 0 }
-  );
-
-  targets.forEach(function (t) {
-    if (t.el !== document.body) observer.observe(t.el);
+    // Keep Tab inside the open menu.
+    if (e.key === "Tab") {
+      var stops = menu.querySelectorAll("button, a[href]");
+      var first = stops[0], last = stops[stops.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
 })();

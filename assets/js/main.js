@@ -10,10 +10,13 @@
 
   var ICONS = {
     arrow: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>',
-    clock: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="7.2"/><path d="M10 6v4.3l2.8 1.7"/></svg>',
+    chev:  '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5l5 5-5 5"/></svg>',
+    book:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5v-13ZM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5v-13Z"/></svg>',
     quote: '<svg class="testimony__mark" viewBox="0 0 40 32" fill="currentColor" aria-hidden="true"><path d="M0 32V19C0 8 6 1.5 16 0l1.6 4C11.6 5.8 9 9.4 8.8 14H16v18H0zm22 0V19C22 8 28 1.5 38 0l1.6 4C33.6 5.8 31 9.4 30.8 14H38v18H22z"/></svg>',
-    star:  '<svg class="article-feature__mark" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="8" y="8" width="16" height="16"/><rect x="8" y="8" width="16" height="16" transform="rotate(45 16 16)"/><circle cx="16" cy="16" r="3"/></svg>',
-    play:  '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>'
+    play:  '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>',
+    home:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/></svg>',
+    mail:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="M4 7l8 6 8-6"/></svg>',
+    phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg>'
   };
 
   function esc(s) {
@@ -34,15 +37,8 @@
     if (node && value) node.textContent = value;
   }
 
-  // "Alumni Testimonies" -> "Alumni <em>Testimonies</em>": the last word in gold.
-  function emphasiseLastWord(name) {
-    var heading = slot(name);
-    if (!heading) return;
-    var words = heading.textContent.trim().split(/\s+/);
-    if (words.length < 2) return;
-    var last = words.pop();
-    heading.innerHTML = esc(words.join(" ")) + " <em>" + esc(last) + "</em>";
-  }
+  // Placeholders in the JSON start with "TODO"; they render, but quieter.
+  function isTodo(s) { return /^\s*TODO\b/i.test(String(s || "")); }
 
   function loadJSON(path) {
     // no-cache: revalidate every load, so an edited JSON file shows up without a hard refresh.
@@ -57,7 +53,8 @@
     setText("hero-eyebrow", hero.eyebrow);
     setText("hero-subtitle", hero.subtitle);
 
-    // One word of the title can be set in gold italic - `titleEmphasis`.
+    // One word of the title can be set apart - `titleEmphasis` (gold italic in
+    // light mode; in dark the whole title is gold).
     var title = slot("hero-title");
     if (title && hero.title) {
       var html = esc(hero.title);
@@ -90,6 +87,7 @@
       setText("program-body", data.program.body);
     }
     if (data.details) {
+      setText("details-kicker", data.details.kicker);
       setText("details-heading", data.details.heading);
       setText("details-lede", data.details.lede);
     }
@@ -100,26 +98,24 @@
     if (data.fees) {
       setText("fees-heading", data.fees.heading);
       renderFees(data.fees);
+      renderDiscounts(data.fees.discounts);
     }
     renderFooter(data.footer);
   }
 
+  // One tile per group, a row for each of its times, like a board of prayer times.
   function renderTimings(timings) {
     var mount = slot("timings");
     if (!mount) return;
     mount.textContent = "";
 
     (timings.groups || []).forEach(function (group) {
-      var g = el("div", "tgroup");
-      g.appendChild(el("div", "tgroup__head",
-        '<p class="tgroup__label">' + esc(group.label) + "</p>" +
-        (group.years ? '<p class="tgroup__years">' + esc(group.years) + "</p>" : "")));
-      (group.rows || []).forEach(function (row) {
-        g.appendChild(el("div", "row",
-          "<span>" + esc(row.days) + "</span>" +
-          '<span class="row__value">' + ICONS.clock + esc(row.time) + "</span>"));
-      });
-      mount.appendChild(g);
+      mount.appendChild(el("div", "tile",
+        (group.years ? '<p class="tile__years">' + esc(group.years) + "</p>" : "") +
+        '<h4 class="tile__label">' + esc(group.label) + "</h4>" +
+        (group.rows || []).map(function (row) {
+          return '<p class="tile__row"><span>' + esc(row.days) + "</span><b>" + esc(row.time) + "</b></p>";
+        }).join("")));
     });
   }
 
@@ -130,25 +126,14 @@
 
     var tiers = fees.tiers || [];
     if (tiers.length) {
-      var box = el("div", "tiers");
+      var box = el("div", "fees");
       tiers.forEach(function (tier) {
-        box.appendChild(el("div", "tier",
-          '<p class="tier__label">' + esc(tier.label) + "</p>" +
-          '<p class="tier__amount">' + esc(tier.amount) +
-            '<span class="tier__period">' + esc(tier.period || "") + "</span></p>" +
-          (tier.note ? '<p class="tier__note">' + esc(tier.note) + "</p>" : "")));
+        box.appendChild(el("div", "fee",
+          '<p class="fee__label">' + esc(tier.label) + "</p>" +
+          '<p class="fee__amount">' + esc(tier.amount) + "</p>" +
+          '<p class="fee__note">' + esc([tier.period, tier.note].filter(Boolean).join(" · ")) + "</p>"));
       });
       mount.appendChild(box);
-    }
-
-    var d = fees.discounts;
-    if (d && d.rows && d.rows.length) {
-      mount.appendChild(el("p", "card__kicker discounts__label", esc(d.label || "Family discounts")));
-      d.rows.forEach(function (row) {
-        mount.appendChild(el("div", "row row--rule",
-          "<span>" + esc(row.count) + "</span>" +
-          '<span class="row__value">' + esc(row.value) + "</span>"));
-      });
     }
 
     // Optional purchase / enrolment link - set `cta` in program.json when ready.
@@ -159,48 +144,57 @@
     }
   }
 
+  function renderDiscounts(d) {
+    var mount = slot("discounts");
+    if (!mount || !d || !d.rows || !d.rows.length) return;
+    mount.textContent = "";
+    mount.appendChild(el("h3", "panel__title panel__title--sm", esc(d.label || "Family discounts")));
+    var list = el("dl", "discounts");
+    d.rows.forEach(function (row) {
+      list.appendChild(el("div", "discounts__row",
+        "<dt>" + esc(row.count) + "</dt><dd>" + esc(row.value) + "</dd>"));
+    });
+    mount.appendChild(list);
+    mount.hidden = false;
+  }
+
   function renderFooter(footer) {
     var mount = slot("footer-contact");
     if (!mount || !footer) return;
-    var lines = [];
-    if (footer.address) lines.push(esc(footer.address));
-    if (footer.email) lines.push('<a href="mailto:' + esc(footer.email) + '">' + esc(footer.email) + "</a>");
-    if (footer.phone) lines.push(esc(footer.phone));
-    mount.innerHTML = lines.join(" &middot; ");
+    mount.textContent = "";
+    function line(icon, html) {
+      mount.appendChild(el("span", "site-footer__line", '<i aria-hidden="true">' + icon + "</i>" + html));
+    }
+    if (footer.address) line(ICONS.home, esc(footer.address));
+    if (footer.email) {
+      line(ICONS.mail, isTodo(footer.email) ? esc(footer.email)
+        : '<a href="mailto:' + esc(footer.email) + '">' + esc(footer.email) + "</a>");
+    }
+    if (footer.phone) line(ICONS.phone, esc(footer.phone));
   }
 
   /* ---------------------------- teachers ---------------------------- */
+  // A mosaic: the first teacher large, the rest in a grid beside and below.
   function renderTeachers(data) {
     var mount = slot("teachers");
     if (!mount) return;
     setText("teachers-heading", data.heading);
-    emphasiseLastWord("teachers-heading");
     setText("teachers-kicker", data.kicker);
+    mount.textContent = "";
 
-    createCarousel({
-      mount: mount,
-      items: data.teachers || [],
-      label: "Our teachers",
-      perView: function () {
-        var w = window.innerWidth;
-        if (w < 620) return 1;
-        if (w < 940) return 2;
-        return 3;
-      },
-      render: function (t) {
-        var card = el("article", "teacher");
-        if (t.honorific) card.appendChild(el("p", "teacher__honorific", esc(t.honorific)));
-        card.appendChild(el("h3", "teacher__name", esc(t.name)));
-        if (t.bio) card.appendChild(el("p", "teacher__bio", esc(t.bio)));
-        return card;
-      }
+    (data.teachers || []).forEach(function (t, i) {
+      var card = el("article", "teacher" + (i === 0 ? " teacher--lead" : "") + (isTodo(t.name) ? " teacher--todo" : ""));
+      if (t.honorific) card.appendChild(el("p", "teacher__honorific", esc(t.honorific)));
+      card.appendChild(el("h3", "teacher__name", esc(t.name)));
+      if (t.bio) card.appendChild(el("p", "teacher__bio", esc(t.bio)));
+      mount.appendChild(card);
     });
   }
 
   /* ------------------------ articles & videos ----------------------- */
   // Each section holds a brothers' and a sisters' list. The two sections share
-  // one choice: flipping the switch in either head rebuilds both sections. The
-  // choice is remembered per viewer, and the page works without storage.
+  // one choice: either switch rebuilds both sections. The choice is remembered
+  // per viewer, and the page works without storage.
   var AUDIENCE_KEY = "alimiyyah.audience";
 
   function savedAudience() {
@@ -211,62 +205,99 @@
     }
   }
 
-  // The title links the whole card when there is an href (a stretched link).
-  function cardTitle(className, title, href) {
+  // A title links its whole card when there is an href (a stretched link).
+  function linkedTitle(tag, className, title, href) {
     var text = esc(title);
     if (href) text = '<a class="stretched" href="' + esc(href) + '">' + text + "</a>";
-    return '<h3 class="' + className + '">' + text + "</h3>";
+    return "<" + tag + ' class="' + className + '">' + text + "</" + tag + ">";
   }
 
-  // The first article is a full-width chocolate feature; the rest follow beneath it
-  // in a carousel of white cards under their own small head, so the arrows sit
-  // next to what they move rather than above the feature.
-  function articleTile(a, feature) {
-    var kicker = feature ? ["Featured", a.subject].filter(Boolean).join(" · ") : a.subject;
-    return el("article", feature ? "article-feature" : "article-card",
-      (feature ? ICONS.star : "") +
-      (kicker ? '<p class="' + (feature ? "card__kicker" : "kicker") + '">' + esc(kicker) + "</p>" : "") +
-      cardTitle("article__title", a.title, a.href) +
-      (a.excerpt ? '<p class="article__excerpt">' + esc(a.excerpt) + "</p>" : "") +
-      '<p class="article__meta"><b>' + esc(a.author) + "</b>" +
-        (a.readMinutes ? " · " + esc(a.readMinutes) + " min read" : "") + "</p>" +
-      // The stretched title link already covers the card; this only looks like a button.
-      (feature && a.href ? '<span class="btn btn--gold btn--sm article-feature__cta" aria-hidden="true">Read article</span>' : ""));
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+  // Articles: one at a time in a featured slider - a board panel, the article
+  // beside it with prev/next, dashes and a count, and an "Up next" rail of the
+  // following two. Returns a handle with destroy(), like a carousel.
+  function renderArticles(mount, items) {
+    var n = items.length;
+    var at = 0;
+    var slider = el("div", "slider" + (n > 1 ? "" : " slider--single"));
+    var art = el("div", "slider__art board", ICONS.book);
+    var main = el("div", "slider__main");
+    var body = el("div", "slider__body");
+    body.setAttribute("aria-live", "polite");
+    main.appendChild(body);
+    slider.append(art, main);
+
+    var dashes, count, rail;
+    if (n > 1) {
+      var nav = el("div", "slider__nav");
+      var prev = el("button", "round round--arrow round--prev", ICONS.chev);
+      var next = el("button", "round round--arrow", ICONS.chev);
+      prev.type = next.type = "button";
+      prev.setAttribute("aria-label", "Previous article");
+      next.setAttribute("aria-label", "Next article");
+      prev.addEventListener("click", function () { show(at - 1); });
+      next.addEventListener("click", function () { show(at + 1); });
+      dashes = el("span", "slider__dashes");
+      dashes.setAttribute("aria-hidden", "true");
+      for (var i = 0; i < n; i++) dashes.appendChild(el("i"));
+      count = el("span", "slider__count");
+      nav.append(prev, next, dashes, count);
+      main.appendChild(nav);
+
+      rail = el("div", "slider__next");
+      slider.appendChild(rail);
+    }
+    mount.appendChild(slider);
+
+    function show(i) {
+      at = (i + n) % n;
+      var a = items[at];
+      body.innerHTML =
+        '<div class="slider__tags">' +
+          (a.subject ? '<span class="chip">' + esc(a.subject) + "</span>" : "") +
+          (a.readMinutes ? "<span>" + esc(a.readMinutes) + " min read</span>" : "") +
+        "</div>" +
+        linkedTitle("h3", "slider__title", a.title, a.href) +
+        (a.author ? '<p class="slider__by">' + esc(a.author) + "</p>" : "") +
+        (a.excerpt ? '<p class="slider__text">' + esc(a.excerpt) + "</p>" : "") +
+        (a.href ? '<a class="btn btn--gold" href="' + esc(a.href) + '" tabindex="-1" aria-hidden="true">Read article ' + ICONS.arrow + "</a>" : "");
+      body.classList.remove("media-swap");
+      void body.offsetWidth;               // restart the animation
+      body.classList.add("media-swap");
+      if (n < 2) return;
+
+      Array.prototype.forEach.call(dashes.children, function (d, j) { d.classList.toggle("on", j === at); });
+      count.textContent = pad(at + 1) + " / " + pad(n);
+
+      rail.innerHTML = '<p class="slider__next-label">Up next</p>';
+      for (var k = 1; k <= Math.min(2, n - 1); k++) {
+        var j = (at + k) % n;
+        var card = el("button", "slider__card board" + (k % 2 ? " board--rust" : ""),
+          "<b>" + (j + 1) + "</b><span>" + esc(items[j].title) + "</span>");
+        card.type = "button";
+        card.setAttribute("aria-label", "Show article " + (j + 1) + ": " + items[j].title);
+        card.addEventListener("click", show.bind(null, j));
+        rail.appendChild(card);
+      }
+    }
+
+    show(0);
+    return { destroy: function () { slider.remove(); } };
   }
 
-  function renderArticles(mount, items, label) {
-    mount.appendChild(articleTile(items[0], true));
-    if (items.length < 2) return null;
-
-    var head = el("div", "articles__rest-head", '<p class="kicker">More articles</p>');
-    var rest = el("div", "articles__rest");
-    mount.append(head, rest);
-    return createCarousel({
-      mount: rest,
-      items: items.slice(1),
-      label: label,
-      perView: function () {
-        var w = window.innerWidth;
-        if (w < 620) return 1;
-        if (w < 940) return 2;
-        return 3;
-      },
-      render: function (a) { return articleTile(a, false); }
-    });
-  }
-
+  // Videos: a carousel of wide cards, the caption beneath the picture.
   function videoCard(v, i) {
-    var card = el("article", "video-card");
-    // Without a thumbnail, alternate the masjid photo and the star lattice.
-    var thumb = el("div", "video-card__thumb" +
-      (v.thumbnail ? "" : i % 2 ? " video-card__thumb--pattern" : " video-card__thumb--photo"),
-      '<span class="video-card__play">' + ICONS.play + "</span>" +
-      (v.duration ? '<span class="video-card__dur">' + esc(v.duration) + "</span>" : ""));
+    var card = el("article", "vid");
+    // Without a thumbnail, alternate the masjid photo and a plain board.
+    var thumb = el("div", "vid__art" + (v.thumbnail ? "" : i % 2 ? " board" + (i % 4 === 3 ? " board--rust" : "") : " vid__art--photo"),
+      '<span class="vid__play">' + ICONS.play + "</span>" +
+      (v.date || v.duration ? '<span class="vid__time">' + esc([v.date, v.duration].filter(Boolean).join(" · ")) + "</span>" : ""));
     if (v.thumbnail) thumb.style.backgroundImage = "url(" + JSON.stringify(v.thumbnail) + ")";
     card.appendChild(thumb);
-    card.appendChild(el("div", "video-card__cap",
-      cardTitle("video-card__title", v.title, v.href) +
-      '<p class="video-card__meta">' + esc([v.subject, v.date].filter(Boolean).join(" · ")) + "</p>"));
+    card.insertAdjacentHTML("beforeend",
+      linkedTitle("h3", "vid__title", v.title, v.href) +
+      (v.subject ? '<p class="vid__meta">' + esc(v.subject) + "</p>" : ""));
     return card;
   }
 
@@ -274,12 +305,9 @@
     var names = data.audiences || {};
     var audience = savedAudience();
 
-    // `render` fills the mount and returns a carousel to destroy on the next swap, or null.
+    // `render` fills the mount and returns a handle to destroy on the next swap.
     var sections = [
-      {
-        key: "articles", noun: "articles",
-        render: renderArticles
-      },
+      { key: "articles", noun: "articles", render: renderArticles },
       {
         key: "videos", noun: "videos",
         render: function (mount, items, label) {
@@ -287,7 +315,7 @@
             mount: mount,
             items: items,
             label: label,
-            perView: function () { return window.innerWidth < 760 ? 1 : 2; },
+            perView: function () { var w = window.innerWidth; return w < 700 ? 1 : w < 1040 ? 2 : 3; },
             render: videoCard
           });
         }
@@ -296,6 +324,8 @@
 
     // An optional link to the full list, e.g. "articles": {"moreHref": "articles/"}.
     sections.forEach(function (s) {
+      setText(s.key + "-kicker", data[s.key].kicker);
+      setText(s.key + "-heading", data[s.key].heading);
       var more = slot(s.key + "-more");
       if (more && data[s.key].moreHref) {
         more.href = data[s.key].moreHref;
@@ -308,16 +338,16 @@
 
     function build(s, swap) {
       var mount = slot(s.key);
-      if (s.carousel) s.carousel.destroy();
-      s.carousel = null;
+      if (s.handle) s.handle.destroy();
+      s.handle = null;
       mount.textContent = "";
 
       var items = data[s.key][audience] || [];
       var label = name(audience) + "' " + s.noun;
       if (items.length) {
-        s.carousel = s.render(mount, items, label);
+        s.handle = s.render(mount, items, label);
       } else {
-        mount.appendChild(el("p", "card media-empty", "No " + esc(label.toLowerCase()) + " yet."));
+        mount.appendChild(el("p", "media-empty", "No " + esc(label.toLowerCase()) + " yet."));
       }
 
       if (swap) {
@@ -327,30 +357,31 @@
       }
     }
 
-    // One button with role="switch"; checked means sisters. A click on either
-    // side's label picks that side, a click anywhere else flips it.
-    var switches = sections.map(function (s) {
-      setText(s.key + "-heading", data[s.key].heading);
+    // A two-button segmented control in each head; the pressed side is the library shown.
+    var groups = sections.map(function (s) {
       var mount = slot(s.key + "-audience");
       if (!mount) return null;
-      var b = el("button", "aud-toggle",
-        '<span class="aud-toggle__side" data-aud="brothers">' + esc(name("brothers")) + "</span>" +
-        '<span class="aud-toggle__track" aria-hidden="true"><span class="aud-toggle__knob"></span></span>' +
-        '<span class="aud-toggle__side" data-aud="sisters">' + esc(name("sisters")) + "</span>");
-      b.type = "button";
-      b.setAttribute("role", "switch");
-      b.setAttribute("aria-label", "Show " + name("sisters").toLowerCase() + "' articles and videos");
-      b.addEventListener("click", function (e) {
-        var side = e.target.closest(".aud-toggle__side");
-        setAudience(side ? side.dataset.aud : audience === "sisters" ? "brothers" : "sisters");
+      var g = el("div", "seg");
+      g.setAttribute("role", "group");
+      g.setAttribute("aria-label", "Library");
+      ["brothers", "sisters"].forEach(function (id) {
+        var b = el("button", "seg__btn", esc(name(id)));
+        b.type = "button";
+        b.dataset.aud = id;
+        b.addEventListener("click", function () { setAudience(id); });
+        g.appendChild(b);
       });
       mount.textContent = "";
-      mount.appendChild(b);
-      return b;
+      mount.appendChild(g);
+      return g;
     }).filter(Boolean);
 
     function sync() {
-      switches.forEach(function (b) { b.setAttribute("aria-checked", String(audience === "sisters")); });
+      groups.forEach(function (g) {
+        Array.prototype.forEach.call(g.children, function (b) {
+          b.setAttribute("aria-pressed", String(b.dataset.aud === audience));
+        });
+      });
     }
 
     function setAudience(next) {
@@ -369,8 +400,8 @@
   function renderTestimonies(data) {
     var mount = slot("testimonies");
     if (!mount) return;
+    setText("testimonies-kicker", data.kicker);
     setText("testimonies-heading", data.heading);
-    emphasiseLastWord("testimonies-heading");
 
     createCarousel({
       mount: mount,

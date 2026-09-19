@@ -8,20 +8,52 @@
       "name": "First Year",
       "books": [
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 1",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Arabic",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "medium"
         },
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 2",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Urdu",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 3",
+          "titleUrdu": "",
+          "subject": "Nahwa",
+          "author": "",
+          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
+        },
+        {
+          "title": "Placeholder Book 4",
+          "titleUrdu": "",
+          "subject": "Sarf",
+          "author": "",
+          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 5",
+          "titleUrdu": "",
+          "subject": "Fiqh",
+          "author": "",
+          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "medium"
+        },
+        {
+          "title": "Placeholder Book 6",
+          "titleUrdu": "",
+          "subject": "Hadith",
+          "author": "",
+          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
         }
       ]
     },
@@ -69,11 +101,11 @@
           "book_size": "small"
         },
         {
-          "title": "TODO: Sixth book",
+          "title": "Placeholder Book 6",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Hadith",
           "author": "",
-          "description": "TODO: The mockup shows a sixth card here repeating Achi Baatain — replace it with the real sixth book, or delete this entry.",
+          "description": "A stand-in for a Second Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "medium"
         }
       ]
@@ -82,20 +114,52 @@
       "name": "Third Year",
       "books": [
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 1",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Arabic",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "medium"
         },
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 2",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Urdu",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 3",
+          "titleUrdu": "",
+          "subject": "Nahwa",
+          "author": "",
+          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
+        },
+        {
+          "title": "Placeholder Book 4",
+          "titleUrdu": "",
+          "subject": "Sarf",
+          "author": "",
+          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 5",
+          "titleUrdu": "",
+          "subject": "Fiqh",
+          "author": "",
+          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "medium"
+        },
+        {
+          "title": "Placeholder Book 6",
+          "titleUrdu": "",
+          "subject": "Hadith",
+          "author": "",
+          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
         }
       ]
     },
@@ -103,20 +167,52 @@
       "name": "Fourth Year",
       "books": [
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 1",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Arabic",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "medium"
         },
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 2",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Urdu",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 3",
+          "titleUrdu": "",
+          "subject": "Nahwa",
+          "author": "",
+          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
+        },
+        {
+          "title": "Placeholder Book 4",
+          "titleUrdu": "",
+          "subject": "Sarf",
+          "author": "",
+          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 5",
+          "titleUrdu": "",
+          "subject": "Fiqh",
+          "author": "",
+          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "medium"
+        },
+        {
+          "title": "Placeholder Book 6",
+          "titleUrdu": "",
+          "subject": "Hadith",
+          "author": "",
+          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
         }
       ]
     },
@@ -124,20 +220,52 @@
       "name": "Fifth Year",
       "books": [
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 1",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Arabic",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "medium"
         },
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 2",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Urdu",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 3",
+          "titleUrdu": "",
+          "subject": "Nahwa",
+          "author": "",
+          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
+        },
+        {
+          "title": "Placeholder Book 4",
+          "titleUrdu": "",
+          "subject": "Sarf",
+          "author": "",
+          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 5",
+          "titleUrdu": "",
+          "subject": "Fiqh",
+          "author": "",
+          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "medium"
+        },
+        {
+          "title": "Placeholder Book 6",
+          "titleUrdu": "",
+          "subject": "Hadith",
+          "author": "",
+          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
         }
       ]
     },
@@ -145,20 +273,52 @@
       "name": "Sixth Year",
       "books": [
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 1",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Arabic",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "medium"
         },
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 2",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Urdu",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 3",
+          "titleUrdu": "",
+          "subject": "Nahwa",
+          "author": "",
+          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
+        },
+        {
+          "title": "Placeholder Book 4",
+          "titleUrdu": "",
+          "subject": "Sarf",
+          "author": "",
+          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 5",
+          "titleUrdu": "",
+          "subject": "Fiqh",
+          "author": "",
+          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "medium"
+        },
+        {
+          "title": "Placeholder Book 6",
+          "titleUrdu": "",
+          "subject": "Hadith",
+          "author": "",
+          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
         }
       ]
     },
@@ -166,20 +326,52 @@
       "name": "Seventh Year",
       "books": [
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 1",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Arabic",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "medium"
         },
         {
-          "title": "TODO: Book title",
+          "title": "Placeholder Book 2",
           "titleUrdu": "",
-          "subject": "TODO: Subject",
+          "subject": "Urdu",
           "author": "",
-          "description": "TODO: One or two sentences describing what this book covers and why it is taught at this stage.",
+          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
           "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 3",
+          "titleUrdu": "",
+          "subject": "Nahwa",
+          "author": "",
+          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
+        },
+        {
+          "title": "Placeholder Book 4",
+          "titleUrdu": "",
+          "subject": "Sarf",
+          "author": "",
+          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "large"
+        },
+        {
+          "title": "Placeholder Book 5",
+          "titleUrdu": "",
+          "subject": "Fiqh",
+          "author": "",
+          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "medium"
+        },
+        {
+          "title": "Placeholder Book 6",
+          "titleUrdu": "",
+          "subject": "Hadith",
+          "author": "",
+          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "book_size": "small"
         }
       ]
     }

@@ -32,8 +32,21 @@ fetched with `cache: "no-cache"`, so content edits don't need this.
 
 ## The mockup is the specification
 
-**`design/canvas-glass/`, the artboard "B3 · revised" (`WatercolourMounted.dc.html`) on the canvas's
-*Light blends* page, is the authoritative design.** It was reached in rounds, and the canvas keeps them:
+**`design/canvas-daynight/index.html` is the authoritative design.** It is the page in two modes,
+**light and dark**, both laid out after mockup B, "Night Masjid", of `design/canvas-modern/`
+(`b-night.html`): a centred header over a full-height banner, centred section heads (a ✦ eyebrow,
+letter-spaced display capitals, an italic lede), fee panels and timing tiles, a teacher mosaic, an
+article slider with an "Up next" rail, three videos across. **Alumni is the exception**: in both modes
+it keeps the site's mihrab niches, hung straight on the page (the wooden wall behind them was removed
+in both). Each mode keeps its own colours — dark is B's espresso and gold; light is the palette below
+on a **pale tint of the shelf's wood** (#f2dec6 → #e9cdae, plain, no grain) with **every section title
+in dark brown**. In the rounds that led there, a ground of the shelf's exact wood (cream titles) and a
+grained tint were tried and dropped. The switcher in that mockup's corner is mockup-only; the site has
+the header's sun/moon toggle. The other mockups in `canvas-modern/` (A, C–F) are historical.
+
+Before that, **`design/canvas-glass/`, the artboard "B3 · revised" (`WatercolourMounted.dc.html`) on the
+canvas's *Light blends* page, was the authoritative design**; its layout is superseded, but its kitab
+bookshelf stands. It was reached in rounds, and the canvas keeps them:
 
 - *Six directions* — the first modern explorations (glass, bento, motion, photo hero).
 - *Combined* — the banner and teachers of 1, the shelf of 2, the testimonies of 6, in three binding
@@ -57,7 +70,9 @@ out of the rules inside them, which were too faint on the board and competed wit
 2**, a routed channel, under the title, between the timing groups and at the foot of the tiers, and
 **option 3**, a chisel run that fades out at both ends, between the family-discount rows. The other
 options on both pages — the kitab cartouche, the engraved head band, the incised hairline — are
-historical.
+historical. The cards themselves have since been re-laid as B's two panels and a timing tile per group;
+what survives of those rounds is the gold display title on the board (`.panel__title`) and grooves cut
+into the board instead of gold rules (`.discounts__row`, `.tile__row`) in light mode.
 
 `design/canvas-expand/` settled the book's full view (the *folio*), and **round 3, `widen.html`, is
 built**. Round 1 (`index.html`) offered five manuscript treatments; **option 4, the jadwal** (ruled
@@ -67,24 +82,27 @@ column and no mention of the year. Round 3 made the reading bay widen across its
 half-row cover was cut to a strip that read as stretched. Rounds 1 and 2 are historical, and both
 wrongly pair Second Year with Third; on the site it stands on the right beside First Year.
 
-**The palette is not the mockup's green.** It is *Chocolate & Bright Gold*, theme 12 (round 3) of
-`design/canvas-gold/`: the brand brown `--rust` rgb(189, 93, 15) for the switch and the dots (the
-carousel arrows are cream with a brown chevron, see below);
-**all text on the white ground and white/cream cards is `--brown-ink`, the dark brown #462c16** —
-headings, kickers, their gold-italic `em`, card titles, body copy, the open book, the footer. It is its
-own token, *not* `--wood`: the wood is now much lighter than the ink, and text there must never follow
-it. Wood (`--choc` → `--choc-deep`) for the Teachers band and the darker board (`--board` →
-`--board-deep`) for the Details cards, the featured article and the patterned video tiles, with bright
-gold titles and a rust edge; gold buttons with `--espresso` ink; amber and
-honey pools. The other
-themes in `design/canvas-gold/` (overlays on the live page, `view.html?t=N`) are historical. The wooden
-shelf and the book leathers were never recoloured. `assets/img/logo.png` is still the green placeholder.
+**The light palette is not the canvas-glass green.** It is *Chocolate & Bright Gold*, theme 12 (round
+3) of `design/canvas-gold/`: the brand brown `--rust` rgb(189, 93, 15) for the dots, the active dash and
+the chip bullet (round buttons and carousel arrows are cream with a brown chevron, see below);
+**all text on the light ground and the cream panels is `--brown-ink`, the dark brown #462c16** — section
+titles (as a gradient through it), body copy, the program panel, teacher names, the open book. Small
+labels on the ground are gold darkened to #7d5006 (~5:1). `--brown-ink` is its own token, *not*
+`--wood`: text must never follow the wood. The darker board (`--board` → `--board-deep`) carries the
+Details panels and tiles, the article panel, the plain video tiles and the footer, with bright gold
+titles and a rust edge; gold buttons with `--espresso` ink. The other themes in `design/canvas-gold/`
+are historical. The wooden shelf and the book leathers were never recoloured. `assets/img/logo.png` is
+still the green placeholder.
 
-**Every wooden surface is rgb(161, 101, 65)** (`--wood`, `design/canvas-oak/`): the shelf wall, bays,
-wells, planks and ledges, the Teachers band, the switch track, and the Testimonies wall and its niches.
-**The panels that carry text are cut from a darker board of it** — `--board` #6b3f26 → `--board-deep`
-#3c2213, for the Details cards, the featured article and the patterned video tiles; the wells and the
-niche recesses stay dark too. That is option 1 of `design/canvas-oak/` (round 2, "Deeper boards"),
+**Dark mode** is B's own: an espresso ground (#26140a → #1a0d04 under two faint warm glows), gold
+gradient capitals, and panels of dark glass (`rgba(255, 236, 210, 0.045)`) edged in faint gold, with
+a gold line along their tops. Its tokens are in `[data-theme="dark"]` in section 1 of `styles.css`, and
+its panel overrides are all in section 12; light needs no selector, it is the default.
+
+**Every wooden surface is rgb(161, 101, 65)** (`--wood`, `design/canvas-oak/`): the bays and the
+niche mouldings. **The panels that carry text are cut from a darker board of it** — `--board` #6b3f26 →
+`--board-deep` #3c2213, for the Details panels and tiles and the footer; the wells and the niche
+recesses stay dark too. That is option 1 of `design/canvas-oak/` (round 2, "Deeper boards"),
 chosen because cream copy and gold figures read at only 4.8:1 straight on the wall and at 11.3:1 on the
 board. The other four options there — a cream inset, an oiled glaze, engraved bands and a brass plate —
 and round 1's dark-gold text (`golds.html`, rejected: text on white stays dark brown) are historical.
@@ -111,11 +129,15 @@ book, teacher, testimony, article, video or price is a JSON edit only. (The few 
 Changing what is displayed therefore usually means editing **both** the JSON shape and the matching
 render function in `main.js` — not the HTML. JSON fields that shape presentation:
 
-- `hero.titleEmphasis` — the word of `hero.title` set in gold italic.
-- `details.heading` / `details.lede` — the Details section head.
-- `curriculum.kicker` / `curriculum.intro` — the small label and sentence in the shelf's head.
-- The last word of `testimonies.heading` and of `teachers.heading` is set in gold italic
-  (`emphasiseLastWord`); `teachers.kicker` is the small label above it.
+- `hero.titleEmphasis` — the word of `hero.title` set in gold italic (light; in dark the whole title is gold).
+- Every section head is `kicker` (the ✦ eyebrow; the ✦ are CSS), `heading` and, where there is one, a
+  lede: `details.kicker/heading/lede`, `curriculum.kicker/label/intro`, `teachers.kicker/heading`,
+  `articles`/`videos.kicker/heading` in `media.json`, `testimonies.kicker/heading`. An empty kicker hides.
+- `timings.groups[]` — **one tile per group**, labelled with its `label` and `years`, with a grooved
+  row per `rows[]` entry (days and time). No sun/moon icon.
+- `fees.discounts` fills the second Details panel; without rows the panel stays hidden and Fees takes
+  the width.
+- The first teacher is the large tile of the mosaic. A name starting `TODO` renders as a dashed tile.
 
 ### Script load order matters
 
@@ -123,10 +145,13 @@ render function in `main.js` — not the HTML. JSON fields that shape presentati
 
 - `carousel.js` → `window.createCarousel({mount, items, render, perView, label, controls})`
 - `curriculum.js` → `window.renderCurriculum(mountEl, data)`
-- `nav.js` is self-contained (mobile drawer + IntersectionObserver scrollspy). Its drawer-reset media
-  query (`min-width: 981px`) must stay in step with the `980px` breakpoint in `styles.css`.
+- `nav.js` is self-contained: the full-screen menu (Escape closes, Tab stays inside, focus goes to its
+  ✕ and back to the opener) and the light/dark toggle. **The theme is set before first paint** by the
+  inline script in `index.html`'s `<head>` — the stored choice (`alimiyyah.theme`), else
+  `prefers-color-scheme` — as `data-theme` on `<html>`; `nav.js` flips it and stores it. Keep the key the
+  same in both places.
 
-One carousel serves Teachers, Articles, Videos and Alumni; its arrows hide when every slide fits. It pages by whole screenfuls, sizes slides in px from the
+One carousel serves Videos and Alumni; its arrows hide when every slide fits. It pages by whole screenfuls, sizes slides in px from the
 measured viewport (re-layouts on resize and `document.fonts.ready`), and sets `tabindex="-1"` on
 off-screen slides. It returns `{go, layout, destroy}`; `destroy()` removes the carousel, its arrows and
 its resize listener, so a section can rebuild it with other items. **`controls`** is an element to put
@@ -134,8 +159,7 @@ the arrows in — a section head, say. **No section passes it any more: every ca
 its slides**, vertically centred on the cards, in a `:has()`
 grid whose side columns are `--arrow-col` (48px, 40px below 640px). (Videos and Alumni used to put
 theirs in the section head; the option and its `.carousel-controls` styling are kept, unused.) The arrows themselves are cream
-with a dark brown chevron — on the white ground and on the wood bands alike, where a translucent gold
-disc was too faint to find. Don't give `.carousel__viewport` horizontal padding: slide widths are
+with a dark brown chevron in light mode, and dark glass with a gold chevron in dark. Don't give `.carousel__viewport` horizontal padding: slide widths are
 measured from its box. Its vertical padding (16px top, 64px bottom, cancelled by negative margins)
 exists so the cards' hover lift and shadow aren't clipped into a hard line; keep the top shallow or
 it covers the arrows in the section head.
@@ -151,80 +175,63 @@ than one page) carries the grab cursor.
 
 ### The page, top to bottom (`styles.css`, numbered sections)
 
-- **Header** — a fixed dark-glass pill (not a bar), so the same element reads over the photo and the
-  white ground. Below 980px the links become a drawer that drops out of the pill.
-- **Hero** — `hero-masjid.jpg` behind a tint that is dark at the top (for the header), chocolate through the
-  text, and ends in `var(--ground)` so the banner has no hard bottom edge. The title, eyebrow, subtitle
-  and CTA play in on load (`.in`).
-- **Ground and pools** — `--ground #fbf7f0`. `.pools` is one absolutely-positioned layer in `main` with
-  six radial gradients anchored to the left/right edges at percentage heights, so they keep their rhythm
-  as sections change length. **Pools must never tint information**: they stay in the margins
-  (`--pw: min(230px, 16vw)`), cards are near-opaque, and pools are hidden below 640px where there are
-  no margins.
-- **Cards** — `.glass`/`.card` are near-opaque white with a lit top edge and a soft brown shadow.
-  There is deliberately **no `backdrop-filter`**: it drew a visible rectangle inside the carousels'
-  transformed tracks. **A white panel that sits straight on the white ground takes a gilt hairline**,
-  `--gilt-edge`, instead of the brown one — the Our Program pill, the article cards, the carousel
-  arrows, the Brothers/Sisters switch and the empty-state card; near-white on near-white has no edge
-  of its own. The panels cut from the board keep their rust edge, and the arrows on the wood bands
-  their own gold one. `.card--choc` is the Details variant: it carries a `.card__title` in display gold
-  and **no gold rules**. Every line inside it — under the title, between the timing groups, under the
-  tiers, between the discount rows — is a groove cut into the board, drawn by a `::before`/`::after`
-  over a border that is kept for its spacing but turned transparent. Change the spacing on the border,
-  the look on the pseudo-element.
-- **Bookshelf** (`.shelf-wall`) — see below.
-- **Teachers** (`.teachers-band`) — a full-bleed wood band, like the shelf wall, so the section
-  isn't lost between the darker Details cards and the articles: a thin double gilt rail near each edge
-  (`::before`/`::after`) and no pattern (its star lattice was removed on request). The cards are cream with a double gold
-  frame drawn in inset box-shadows, not `.card`. Option 1 of `design/canvas-teachers/index.html`, minus
-  its gold star above the honorific; the other four options there are historical.
-  **The band is lit from the middle, not the top** (`--choc-deep` → `--choc` at 46% → `--choc-deep`,
-  with a warm radial behind the cards and a dark scrim over the first 340px): its head is the only text
-  laid straight on this wood, and `--gold` on the lit `--choc` was too faint to read. The head is
-  therefore cream with a `--gold-pale` `em`, the kicker `--gold-pale`, over a deeper text shadow. Don't
-  relight the top of the band without recolouring that text.
-- **Articles & Videos** — two sections between Teachers and Alumni, from `content/media.json`, which
-  keeps a `brothers` and a `sisters` list for each. Each section head holds a Brothers ○ Sisters switch
-  (one `<button role="switch">`, checked = sisters). **The two switches are one choice**: flipping
-  either rebuilds *both* sections (`renderMedia` in `main.js`; the videos carousel is `destroy()`ed
-  first), and the choice is remembered in `localStorage` (`alimiyyah.audience`, wrapped in try/catch).
-  Clicking a side's label picks that side; clicking the track flips. An empty list shows a
-  "No sisters' videos yet." card. An optional `moreHref`/`moreLabel` shows an "All …" link in the head.
-  - **Articles**: the first article in the list is a full-width board feature (plain gradient — the
-    star lattice was removed on request); the rest follow in a carousel of white cards under a small
-    "More articles" head that `renderArticles` builds; **its arrows flank the cards** rather than
-    sitting in either head. One article shows the feature alone. This
-    grew out of option D of `design/canvas-media/articles.html`, minus its pull quote and bento grid.
-  - **Videos** are a two-up carousel of wide cards with the caption over the picture; without a
-    `thumbnail` they alternate the masjid photo and a star lattice. Option 3 of
-    `design/canvas-media/index.html`.
-  - The other mockups on those two pages are historical.
-  - A short wooden plank (`.wood-rule`, an `<hr>` at the top of the Videos section) hangs in the gap
-    between the two, pulled up half a `--section-gap`, so the libraries don't read as one long run of
-    cards. Same wood, grain and gilt hairline as the switch track.
-- **Testimonies** (`.niche-wall`) — a full-bleed wall of upright wooden boards (`--grain-v`, grooves
-  every 106px, a cornice and skirting with gold hairlines), deliberately unlike the shelf wall's horizontal
-  grain and bolted rails. Each testimony is a **mihrab niche** (`.niche-slot` > `.niche` moulding >
-  `.niche__recess` + `.niche__sill`), three to a page. The pointed arch is one SVG path in a 100×600 box,
+- **Header** — B's: a round menu button, the mark and name centred, and the sun/moon toggle beside an
+  outline "View Curriculum" pill (hidden below 980px, the name below 560px). It sits `absolute` over
+  the banner and scrolls away with it. The round buttons over the photograph are dark glass in both
+  modes. The menu is a full-screen overlay of the links (`.menu`); it becomes visible at once on open
+  (only its fade-out is delayed) so focus can land on its ✕.
+- **Hero** — full height (`max(640px, 100vh)`), `hero-masjid.jpg` under a tint dark down the left for
+  the text; eyebrow, a gold ornament rule, the title in capitals, subtitle, CTA, and a scroll hint.
+  **The banner blends into the ground**: `.hero::after` is a tall eased gradient drawn over the photo
+  that ends in exactly `--hero-fade`, the top colour of each mode's ground. Change a ground and change
+  `--hero-fade` with it, or a line reappears.
+- **Section heads** (`.section__head`) — centred: ✦ eyebrow, the title in letter-spaced Cormorant
+  capitals filled with `--g-title` (a dark-brown gradient in light, gold in dark), italic lede.
+  **Sections are divided by `.section-rule`**: in light a 4px deep-gold bar with a lit edge (thin gold
+  lines were too faint on the tint), in dark B's 1px gold line.
+- **Our Program** — a cream panel in a gilt hairline (dark glass in dark).
+- **Bookshelf** (`.library`) — see below.
+- **Details** — Fees (two tiers) and Family discounts as two panels, then "Class Timings" and a tile
+  per group of class times. Light: the dark board, gold figures, grooves for rules. Dark: glass.
+- **Teachers** (`.mosaic`) — the first teacher two rows tall, the rest in a four-column grid (two below
+  980px, one below 560px). Light: the cream card in a double gold frame drawn with inset shadows, the
+  name the focus, a gold hairline over the lead's bio. Dark: board tiles darkening to their foot.
+  No monogram, no star.
+- **Articles & Videos** — from `content/media.json`, which keeps a `brothers` and a `sisters` list for
+  each. Each head holds a Brothers | Sisters segmented control (two buttons, `aria-pressed`). **The two
+  controls are one choice**: either rebuilds *both* sections (`renderMedia`; each section's handle is
+  `destroy()`ed first), and the choice is remembered in `localStorage` (`alimiyyah.audience`, wrapped
+  in try/catch). An empty list shows a "No sisters' videos yet." card. An optional
+  `moreHref`/`moreLabel` shows an "All …" link under the control.
+  - **Articles** are a slider, one at a time (`renderArticles`): a board panel, the article (subject
+    chip, read time, title, author, excerpt, a Read button when there is an `href`), prev/next, a dash
+    per article and a count, and an "Up next" rail of the next two, which open their article.
+  - **Videos** are a carousel of 16:9 cards, three across (two below 1040px, one below 700px), caption
+    beneath; without a `thumbnail` they alternate the masjid photo and a plain board.
+- **Testimonies** (`.niches`) — each testimony is a **mihrab niche** (`.niche-slot` > `.niche` moulding >
+  `.niche__recess` + `.niche__sill`), three to a page, hung straight on the page's ground. The pointed
+  arch is one SVG path in a 100×600 box,
   held as four data-URI tokens on `.niche-slot` (`--niche-mask`, `--niche-shade`, `--niche-edge`,
   `--niche-rim`) and laid on at `100% auto`, so the arch keeps its proportions at any width; the recess's
   inner shadow is a blurred stroke inside that SVG because `box-shadow` can't follow a mask. The drop
   shadow is a `filter` on `.niche-slot`, the parent, since a mask clips its own element's shadow. To
   change the shape, change the path in all four tokens and `--niche-pad` (where the text starts, as % of
-  the width). Wall option 1 of `design/canvas-testimonies/walls.html`, niche option 1 of `index.html`
-  there; the other options on both pages are historical.
+  the width). Niche option 1 of `design/canvas-testimonies/index.html`. In dark the moulding is dark with
+  a gold rim and the sill a glowing gold line.
+- **Footer** — the mark, and a Contact column of address, email and phone, each by a round icon. Light:
+  the dark board. Dark: a darker band under a gold hairline.
 - **Motion** — `.rv` rises as it scrolls into view using `animation-timeline: view()` inside
   `@supports`, so browsers without view timelines just show everything. `prefers-reduced-motion`
   switches all animation off.
 
 ### Curriculum bookshelf
 
-**The wall is full-bleed.** `.shelf-wall` is a direct child of `main`, not inside `.wrap`; its content
-is in an inner `.wrap`. The top and bottom rails and their **brass bolts are background layers on
-`::before`/`::after`** (a repeating radial gradient), so there is no bolt markup.
+**There is no wall any more**: the bays stand straight on the page under a section head. (The
+full-bleed bolted wall and the ledges of spare books in its margins went with the canvas-glass layout.)
 
 `curriculum.js` pairs years two to a row and gives a lone trailing year a whole row — **seven years
-produce four boards**. A bay is a wooden frame, a dark well, a plank (`.bay__plank`) and the year
+produce four boards**. A bay is B's rounded frame with a gold line along its top — wood in light,
+glass in dark — a dark well, a glowing gold line for the plank (`.bay__plank`) and the year
 (`.bay__year`).
 
 - **A book is a slot (`.book`) holding its spine, a `<button>`.** Clicking the spine turns the book
@@ -242,8 +249,7 @@ produce four boards**. A bay is a wooden frame, a dark well, a plank (`.bay__pla
   row**: `shelf--reading-l`/`-r` set the tracks to `calc()` lengths (so they animate) and the neighbour
   narrows to `--narrow` 232px. That 881px must stay in step with the 880px breakpoint. The cover column
   is 200–280px and the cover is capped at 1.45× its width (`32cqi`, the folio is an inline-size
-  container), so it runs the full height at full width but never draws out on mid-size screens. The
-  ledge beside a reading bay hides, since that bay's plank moves down. A book without `cover` gets its
+  container), so it runs the full height at full width but never draws out on mid-size screens. A book without `cover` gets its
   binding drawn face-on as an SVG (`drawnCover`, the same drawing as `generate_covers.py`), with empty
   alt.
 - **Spines are Islamic kitab bindings**: flat (no raised bands — Islamic bindings don't have them), a
@@ -253,7 +259,7 @@ produce four boards**. A bay is a wooden frame, a dark well, a plank (`.bay__pla
 - **Width, height, leather and cartouche colour come from JS as `--w`, `--h`, `--c`, `--lab`.** Size is
   data: each book's `book_size` (`small`/`medium`/`large`, default medium) picks from `SIZES`. Colour is
   keyed to the book's *position in its year* (`BINDINGS`), so a book keeps its binding on every load.
-  Ledge books name their own `size` in `LEDGES`. On a book they are set on the `.book` slot and inherited.
+  They are set on the `.book` slot and inherited.
 - **The 300px well height is derived**: the tallest spine (268) plus its 4px headband and the hover
   lift. Make `large` taller in `SIZES` and the well must grow with it; don't make `small`
   shorter than 236, or the open card clips its text.
@@ -270,14 +276,6 @@ produce four boards**. A bay is a wooden frame, a dark well, a plank (`.bay__pla
   closes the open book. The folio sits outside the well and handles its own Escape. Opening is Enter or Space, never an arrow,
   because opening changes the width of the slot under the pointer. Don't reintroduce
   `tablist`/`tab`/`tabpanel`.
-- **Ledges fill the wall's side margins on wide screens** (≥1480px). Each row's plank runs on past the
-  bays as a bracketed `.ledge`, alternating sides, holding spare books and two SVG stacks
-  (`assets/img/ledge-stack-*.svg`). They are decoration: built from `LEDGES` in `curriculum.js`, keyed
-  to the row rather than the data, `aria-hidden`, dimmed, untitled and inert, and they sit outside the
-  wells, so the keyboard model never sees them. A ledge takes the margin less 28px (max 268px); items
-  tagged `fit` 1/2/3 drop out below 170/210/260px of ledge (container queries) instead of clipping.
-  `top: 310px` is the bay padding plus the well: change the well height and it moves with it.
-  Mocked as option 6 on the canvas's *Shelf margins* page (`generate_margins.py`).
 - **A placeholder is detected from the data**: `isTodo()` tests the title for a leading `TODO`. Those
   spines are dashed outlines reading TODO, can't be opened, and carry `aria-disabled` instead of
   `aria-expanded`.
@@ -302,10 +300,15 @@ Gotchas:
 - `--screenshot` cannot run JS, so to capture an interactive state (an open book, the mobile drawer)
   write a temporary `__preview.html` wrapper whose script clicks the target after a delay. **Delete
   these harness files afterwards** — `__preview.html`, `__frame.html`.
+- **The theme follows the system** when nothing is stored, and headless Chrome may report dark. To
+  shoot one mode, set `localStorage["alimiyyah.theme"]` in a harness first, or screenshot a temporary
+  copy of `index.html` with the head script's choice hard-coded.
+- **The banner is `100vh` tall**, so a tall `--window-size` makes it fill the screenshot. Shoot a
+  temporary copy with `.hero { min-height: 860px !important }` for a full-page view.
 
 Worth re-running after any layout change: the overflow sweep across
-360/390/480/640/720/768/880/900/1024/1200/1440px. The full-bleed shelf and the pools are the likely
-offenders; `body { overflow-x: hidden }` hides overflow from the eye but not from the sweep's
+360/390/480/640/720/768/880/900/1024/1200/1440px. `.hero__img` always reports a few px past the
+edge — its drift animation scales it inside the banner's `overflow: hidden` — and is not a fault; `body { overflow-x: hidden }` hides overflow from the eye but not from the sweep's
 per-element check.
 
 The bookshelf's keyboard model is not visible in a screenshot. Drive it from an `__frame.html` harness
@@ -322,27 +325,26 @@ stays at its start: call `row.getAnimations().forEach(a => a.finish())` before m
 - `assets/img/logo.png` and `assets/img/hero-masjid.jpg` are **low-resolution crops taken from the old
   mockup PNG**, meant to be replaced with real files at the same paths. The hero photo is upscaled to
   full width, so a real photo (≥2400px wide) will sharpen the banner a lot.
-- `assets/img/ground-*.svg` and `divider-khatim.svg` belong to the old aged-leaf page and are no longer
-  referenced. Delete them unless that ground comes back.
+- `assets/img/ground-*.svg` and `divider-khatim.svg` belong to the old aged-leaf page, and
+  `ledge-stack-*.svg` to the removed shelf ledges; none is referenced. Delete them unless those come back.
 - Anything in `content/*.json` marked `TODO:` awaits real content from the masjid — most of the
   curriculum (only Second Year is specified), teachers 4–7, testimonies 3–4, every article and video
   in `media.json`, and the footer contact details. Do not invent curriculum book lists, teacher
-  details, articles or videos. The shelf reads those markers, which
-  is why most bays show two dashed slots — that is the data, not the layout.
+  details, articles or videos. Every year holds six books; apart from Second Year's five real ones,
+  each is a deliberate "Placeholder Book N" entry (not `TODO`, so it can be opened) awaiting the real
+  title. A title starting `TODO` would render as a dashed slot instead.
 - No book has a `cover` photograph or a `long` description yet, so every folio shows a drawn binding
   and the short card text. Photographs go at `assets/img/books/<slug>.jpg`, ideally 3:4, named by
   `cover`. `author` is empty everywhere, so the author line is omitted (a `TODO` author is hidden too).
 - `fees.cta` in `program.json` is the hook for future purchasing: set it to
-  `{"label": "…", "href": "…"}` and a gold button renders at the foot of the Fees card; it stays hidden
+  `{"label": "…", "href": "…"}` and a gold button renders at the foot of the Fees panel; it stays hidden
   while `null`.
 - `years` on a `timings.groups[]` entry ("Years I – IV") is optional.
 
 ## Deviations from the mockup (deliberate, keep them)
 
-- Teachers and Alumni are **carousels** (seven teachers, four testimonies), where the mockup draws
-  static rows. At `perView` 3 and 2 a full page looks like the mockup. The mockup draws the arrows in
-  the section head; **ours flank the cards** in every section. Alumni no longer follows the mockup's cards at all: it is the niche wall above.
-- The header is **fixed** and stays with you down the page; the mockup draws it only over the banner.
-- Page dots under each carousel aren't in the mockup.
-- Teacher cards have **no gold monogram circle or star** (removed on request); the name is the focus —
-  set large, with the honorific as a small label above and a gold hairline above the bio.
+- Videos and Alumni are **carousels** (arrows flanking the cards, page dots beneath) using the shared
+  `carousel.js`, where the mockup scrolls the videos natively and has no dots.
+- The mockup's corner switcher (Light | Dark) is a mockup tool; the site has only the header toggle.
+- Content is the JSON's, so the site shows the `TODO:` placeholders the mockup paraphrases, and the
+  eyebrow of each section comes from its `kicker`.

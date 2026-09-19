@@ -1,10 +1,11 @@
 {
-  "note": "Articles and videos, each kept as a separate list for brothers and sisters. The switch in each section head swaps between them. The first article in a list is the large featured one; the rest follow beneath it in a carousel, so put the newest first. 'href' links the card (leave empty for no link). A video's 'thumbnail' is an image path; leave it empty for the patterned placeholder. Set 'moreHref' (and optionally 'moreLabel') on articles or videos to show an 'All …' link in the section head. An empty list shows a 'nothing yet' card.",
+  "note": "Articles and videos, each kept as a separate list for brothers and sisters. The switch in each section head swaps between them. Articles show one at a time in a featured slider, in list order, with the next two under 'Up next', so put the newest first. 'href' links the card (leave empty for no link). A video's 'thumbnail' is an image path; leave it empty for the masjid photo or a plain board. 'kicker' is the small line above each heading. Set 'moreHref' (and optionally 'moreLabel') on articles or videos to show an 'All …' link in the section head. An empty list shows a 'nothing yet' card.",
   "audiences": {
     "brothers": "Brothers",
     "sisters": "Sisters"
   },
   "articles": {
+    "kicker": "Jamiyah Islamiyyah Abu Bakr",
     "heading": "Articles",
     "brothers": [
       {
@@ -92,6 +93,7 @@
     ]
   },
   "videos": {
+    "kicker": "Jamiyah Islamiyyah Abu Bakr",
     "heading": "Videos",
     "brothers": [
       {

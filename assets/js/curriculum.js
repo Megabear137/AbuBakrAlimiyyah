@@ -47,31 +47,6 @@
     large:  { w: 54, h: 268 }
   };
 
-  /* Wide screens only: some planks run on past the bays and out onto the wall
-     as a ledge of spare books - one per row, alternating sides. Pure
-     decoration, so it is keyed to the row, not the data, and hidden from
-     assistive tech. Items are listed nearest the bay first; `fit` is the
-     ledge width (see .ledge in styles.css) an item needs before it shows, so
-     a narrower margin drops the outermost things rather than clipping them.
-     A book gives the binding to borrow, its size and whether it leans; an image gives
-     its file and width. */
-  var LEDGES = [
-    [{ book: 5, size: "medium" }, { book: 0, size: "medium" }, { book: 3, size: "medium", fit: 1 }, { book: 1, size: "large", lean: true, fit: 3 }],
-    [{ book: 2, size: "large" }, { img: "ledge-stack-ink.svg", width: 124, fit: 2 }],
-    [{ book: 1, size: "large" }, { book: 4, size: "small", fit: 1 }, { img: "ledge-stack-pens.svg", width: 124, fit: 3 }],
-    [{ book: 0, size: "medium" }, { book: 2, size: "large", lean: true, fit: 1 }]
-  ];
-
-  var NUMERALS = [[10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"]];
-
-  function roman(n) {
-    var out = "";
-    NUMERALS.forEach(function (pair) {
-      while (n >= pair[0]) { out += pair[1]; n -= pair[0]; }
-    });
-    return out;
-  }
-
   /* A slot awaiting real content from the masjid. content/curriculum.json
      marks these by prefixing the copy with TODO:, so that is the test. */
   function isTodo(book) {
@@ -149,41 +124,8 @@
       pair.forEach(function (year, j) {
         row.appendChild(buildBay(year, i + j, ctl));
       });
-      row.appendChild(buildLedge(i / 2));
       mount.appendChild(row);
     }
-  }
-
-  function buildLedge(r) {
-    var side = r % 2 ? "r" : "l";
-    var ledge = document.createElement("div");
-    ledge.className = "ledge ledge--" + side;
-    ledge.setAttribute("aria-hidden", "true");
-
-    var items = document.createElement("div");
-    items.className = "ledge__items";
-    LEDGES[r % LEDGES.length].forEach(function (item) {
-      var el;
-      if (item.img) {
-        el = document.createElement("img");
-        el.src = "assets/img/" + item.img;
-        el.alt = "";
-        el.width = item.width;
-        el.className = "ledge__art";
-      } else {
-        // A spare binding: the spine's parts with an empty cartouche.
-        el = document.createElement("div");
-        el.className = "spine spine--loose" + (item.lean ? " spine--lean" : "");
-        setBinding(el, item.book, item.size);
-        el.innerHTML = '<span class="spine__fin"></span><span class="spine__cart"><span class="spine__cart-in"></span></span>' +
-          '<span class="spine__fin spine__fin--foot"></span><span class="spine__medal"></span>';
-      }
-      if (item.fit) el.classList.add("ledge__far" + item.fit);
-      items.appendChild(el);
-    });
-
-    ledge.appendChild(items);
-    return ledge;
   }
 
   function setBinding(el, i, size) {
@@ -223,7 +165,7 @@
 
     var label = document.createElement("p");
     label.className = "bay__year";
-    label.innerHTML = '<span class="bay__numeral">' + roman(index + 1) + "</span>" + esc(year.name);
+    label.innerHTML = '<span class="bay__numeral">' + (index + 1) + "</span>" + esc(year.name);
 
     bay.append(well, plank, label);
     return bay;

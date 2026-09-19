@@ -1,7 +1,7 @@
 {
   "heading": "Our Teachers",
   "kicker": "Taught by text, with a teacher",
-  "note": "Add or remove teachers by editing this list. 'kicker' is the small label above the heading, whose last word is set in gold italic. 'honorific' is the small line above a name; 'bio' may be left empty.",
+  "note": "Add or remove teachers by editing this list; the first is shown large. 'kicker' is the small label above the heading. 'honorific' is the small line above a name; 'bio' may be left empty.",
   "teachers": [
     {
       "honorific": "Moulana",

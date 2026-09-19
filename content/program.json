@@ -22,6 +22,7 @@
     "body": "Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Throughout this course, students will attain a mastery of the Arabic language, through which they will gain a deep understanding of the Qur'an and Hadith."
   },
   "details": {
+    "kicker": "Jamiyah Islamiyyah Abu Bakr",
     "heading": "Details",
     "lede": "Class timings, monthly fees and the family discount."
   },
@@ -30,7 +31,7 @@
     "groups": [
       {
         "label": "Part-time",
-        "years": "Years I – IV",
+        "years": "Years 1 – 4",
         "rows": [
           {
             "days": "Monday to Friday",
@@ -40,7 +41,7 @@
       },
       {
         "label": "Full-time",
-        "years": "Years V – VII",
+        "years": "Years 5 – 7",
         "rows": [
           {
             "days": "Monday to Friday",
