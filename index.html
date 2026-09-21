@@ -20,11 +20,11 @@
     })();
   </script>
 
-  <link rel="icon" href="assets/img/logo.png">
+  <link rel="icon" href="assets/img/logo_gold_web.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=29">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Gilda+Display&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=46">
 </head>
 <body id="top">
 
@@ -38,10 +38,6 @@
     <button class="round" type="button" data-menu-open aria-controls="site-menu" aria-expanded="false" aria-label="Open menu">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
-    <a class="brand" href="#top">
-      <img class="brand__mark" src="assets/img/logo.png" alt="" width="58" height="58">
-      <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
-    </a>
     <div class="site-header__end">
       <button class="round theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode">
         <svg class="theme-toggle__moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
@@ -74,20 +70,18 @@
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero__img" aria-hidden="true"></div>
     <div class="wrap hero__body">
-      <p class="hero__eyebrow in" data-slot="hero-eyebrow"></p>
-      <svg class="hero__orn in" viewBox="0 0 130 10" aria-hidden="true"><path d="M0 5h48M82 5h48" stroke="currentColor" stroke-width="1"/><path d="M52 5l4-4 4 4-4 4Z M70 5l4-4 4 4-4 4Z" fill="currentColor"/><circle cx="65" cy="5" r="2.5" fill="currentColor"/></svg>
       <h1 class="hero__title in" id="hero-title" data-slot="hero-title">The Seven-Year Alimiyyah Program</h1>
       <p class="hero__sub in" data-slot="hero-subtitle"></p>
       <div class="hero__cta in" data-slot="hero-cta"></div>
     </div>
-    <a class="hero__explore" href="#about" aria-label="Scroll to the introduction"><i></i></a>
   </section>
 
   <!-- ========================== INTRODUCTION ========================== -->
-  <section class="section intro" id="about" aria-labelledby="intro-label">
+  <section class="section intro" id="about" aria-labelledby="intro-heading">
     <div class="wrap">
-      <div class="section__head section__head--tight rv">
-        <p class="section__eyebrow" id="intro-label" data-slot="intro-label">Introduction</p>
+      <div class="section__head rv">
+        <p class="section__eyebrow" data-slot="intro-kicker"></p>
+        <h2 class="section__heading" id="intro-heading" data-slot="intro-label">Introduction</h2>
       </div>
       <p class="intro__statement rv" data-slot="intro-body"></p>
       <div class="program rv">
@@ -97,17 +91,20 @@
     </div>
   </section>
 
+  <hr class="section-rule">
+
   <!-- ====================== PROGRAM: the bookshelf ===================== -->
   <section class="section library" id="program" aria-labelledby="curriculum-heading">
     <div class="wrap" id="curriculum">
       <div class="section__head rv">
         <p class="section__eyebrow" data-slot="curriculum-kicker"></p>
         <h2 class="section__heading" id="curriculum-heading" data-slot="curriculum-label">Curriculum</h2>
-        <p class="section__lede" data-slot="curriculum-intro"></p>
       </div>
       <div class="case" data-slot="curriculum"></div>
     </div>
   </section>
+
+  <hr class="section-rule">
 
   <!-- ============================ DETAILS ============================= -->
   <section class="section" id="details" aria-labelledby="details-heading">
@@ -115,7 +112,6 @@
       <div class="section__head rv">
         <p class="section__eyebrow" data-slot="details-kicker"></p>
         <h2 class="section__heading" id="details-heading" data-slot="details-heading">Details</h2>
-        <p class="section__lede" data-slot="details-lede"></p>
       </div>
       <div class="details rv">
         <section class="panel" aria-labelledby="fees-heading">
@@ -146,7 +142,7 @@
 
   <!-- ============================ ARTICLES ============================ -->
   <!-- Brothers' and sisters' libraries; the switch in either head swaps both
-       Articles (a featured slider) and Videos (a carousel) together. -->
+       Articles (a featured article over a carousel) and Videos (a carousel) together. -->
   <section class="section" id="articles" aria-labelledby="articles-heading">
     <div class="wrap">
       <div class="section__head rv">
@@ -178,6 +174,8 @@
     </div>
   </section>
 
+  <hr class="section-rule">
+
   <!-- =========================== TESTIMONIES ========================== -->
   <!-- Each testimony stands in a mihrab niche, hung straight on the page. -->
   <section class="section" id="alumni" aria-labelledby="alumni-heading">
@@ -197,7 +195,7 @@
   <div class="wrap">
     <div class="site-footer__grid">
       <a class="brand brand--footer" href="#top">
-        <img class="brand__mark" src="assets/img/logo.png" alt="" width="58" height="58">
+        <img class="brand__mark" src="assets/img/logo_gold_web.png" alt="" width="80" height="58">
         <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
       </a>
       <div>
@@ -210,8 +208,8 @@
 </footer>
 
 <script src="assets/js/carousel.js?v=5"></script>
-<script src="assets/js/curriculum.js?v=7"></script>
+<script src="assets/js/curriculum.js?v=11"></script>
 <script src="assets/js/nav.js?v=3"></script>
-<script src="assets/js/main.js?v=15"></script>
+<script src="assets/js/main.js?v=18"></script>
 </body>
 </html>

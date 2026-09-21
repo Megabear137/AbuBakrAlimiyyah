@@ -50,11 +50,10 @@
 
   /* ------------------------------ hero ------------------------------- */
   function renderHero(hero) {
-    setText("hero-eyebrow", hero.eyebrow);
     setText("hero-subtitle", hero.subtitle);
 
-    // One word of the title can be set apart - `titleEmphasis` (gold italic in
-    // light mode; in dark the whole title is gold).
+    // One word of the title can be set apart - `titleEmphasis` (italic; gold in
+    // light mode, where in dark the whole title is gold).
     var title = slot("hero-title");
     if (title && hero.title) {
       var html = esc(hero.title);
@@ -79,6 +78,7 @@
   function renderProgram(data) {
     if (data.hero) renderHero(data.hero);
     if (data.introduction) {
+      setText("intro-kicker", data.introduction.kicker);
       setText("intro-label", data.introduction.label);
       setText("intro-body", data.introduction.body);
     }
@@ -89,7 +89,6 @@
     if (data.details) {
       setText("details-kicker", data.details.kicker);
       setText("details-heading", data.details.heading);
-      setText("details-lede", data.details.lede);
     }
     if (data.timings) {
       setText("timings-heading", data.timings.heading);
@@ -214,49 +213,58 @@
 
   function pad(n) { return (n < 10 ? "0" : "") + n; }
 
-  // Articles: one at a time in a featured slider - a board panel, the article
-  // beside it with prev/next, dashes and a count, and an "Up next" rail of the
-  // following two. Returns a handle with destroy(), like a carousel.
-  function renderArticles(mount, items) {
+  // Articles: the featured one on top - a board panel and the article beside
+  // it - and beneath it a carousel of every article, the featured one marked;
+  // clicking a card features it. Returns a handle with destroy(), like a carousel.
+  function renderArticles(mount, items, label) {
     var n = items.length;
     var at = 0;
-    var slider = el("div", "slider" + (n > 1 ? "" : " slider--single"));
+    var feature = el("div", "slider");
     var art = el("div", "slider__art board", ICONS.book);
-    var main = el("div", "slider__main");
     var body = el("div", "slider__body");
     body.setAttribute("aria-live", "polite");
-    main.appendChild(body);
-    slider.append(art, main);
+    feature.append(art, body);
+    mount.appendChild(feature);
 
-    var dashes, count, rail;
+    var cards = [];
+    var carousel = null;
     if (n > 1) {
-      var nav = el("div", "slider__nav");
-      var prev = el("button", "round round--arrow round--prev", ICONS.chev);
-      var next = el("button", "round round--arrow", ICONS.chev);
-      prev.type = next.type = "button";
-      prev.setAttribute("aria-label", "Previous article");
-      next.setAttribute("aria-label", "Next article");
-      prev.addEventListener("click", function () { show(at - 1); });
-      next.addEventListener("click", function () { show(at + 1); });
-      dashes = el("span", "slider__dashes");
-      dashes.setAttribute("aria-hidden", "true");
-      for (var i = 0; i < n; i++) dashes.appendChild(el("i"));
-      count = el("span", "slider__count");
-      nav.append(prev, next, dashes, count);
-      main.appendChild(nav);
-
-      rail = el("div", "slider__next");
-      slider.appendChild(rail);
+      var list = el("div", "slider__list");
+      mount.appendChild(list);
+      carousel = createCarousel({
+        mount: list,
+        items: items,
+        label: label,
+        perView: function () { var w = window.innerWidth; return w < 560 ? 1 : w < 880 ? 2 : w < 1200 ? 3 : 4; },
+        render: function (a, j) {
+          var card = el("button", "slider__card board" + (j % 2 ? " board--rust" : ""),
+            "<b>" + pad(j + 1) + "</b>" +
+            (a.subject ? "<em>" + esc(a.subject) + "</em>" : "") +
+            "<span>" + esc(a.title) + "</span>");
+          card.type = "button";
+          card.setAttribute("aria-label", "Show article " + (j + 1) + ": " + a.title);
+          card.addEventListener("click", function () {
+            show(j);
+            // On a phone the featured article may be scrolled away above the cards.
+            if (feature.getBoundingClientRect().top < 0) {
+              var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+              feature.scrollIntoView({ block: "start", behavior: still ? "auto" : "smooth" });
+            }
+          });
+          cards.push(card);
+          return card;
+        }
+      });
     }
-    mount.appendChild(slider);
 
     function show(i) {
-      at = (i + n) % n;
+      at = i;
       var a = items[at];
       body.innerHTML =
         '<div class="slider__tags">' +
           (a.subject ? '<span class="chip">' + esc(a.subject) + "</span>" : "") +
           (a.readMinutes ? "<span>" + esc(a.readMinutes) + " min read</span>" : "") +
+          (n > 1 ? '<span class="slider__count">' + pad(at + 1) + " / " + pad(n) + "</span>" : "") +
         "</div>" +
         linkedTitle("h3", "slider__title", a.title, a.href) +
         (a.author ? '<p class="slider__by">' + esc(a.author) + "</p>" : "") +
@@ -265,25 +273,16 @@
       body.classList.remove("media-swap");
       void body.offsetWidth;               // restart the animation
       body.classList.add("media-swap");
-      if (n < 2) return;
-
-      Array.prototype.forEach.call(dashes.children, function (d, j) { d.classList.toggle("on", j === at); });
-      count.textContent = pad(at + 1) + " / " + pad(n);
-
-      rail.innerHTML = '<p class="slider__next-label">Up next</p>';
-      for (var k = 1; k <= Math.min(2, n - 1); k++) {
-        var j = (at + k) % n;
-        var card = el("button", "slider__card board" + (k % 2 ? " board--rust" : ""),
-          "<b>" + (j + 1) + "</b><span>" + esc(items[j].title) + "</span>");
-        card.type = "button";
-        card.setAttribute("aria-label", "Show article " + (j + 1) + ": " + items[j].title);
-        card.addEventListener("click", show.bind(null, j));
-        rail.appendChild(card);
-      }
+      cards.forEach(function (c, j) { c.setAttribute("aria-current", j === at ? "true" : "false"); });
     }
 
     show(0);
-    return { destroy: function () { slider.remove(); } };
+    return {
+      destroy: function () {
+        if (carousel) carousel.destroy();
+        mount.textContent = "";
+      }
+    };
   }
 
   // Videos: a carousel of wide cards, the caption beneath the picture.
@@ -433,7 +432,6 @@
     loadJSON("content/curriculum.json").then(function (data) {
       setText("curriculum-label", data.label);
       setText("curriculum-kicker", data.kicker);
-      setText("curriculum-intro", data.intro);
       renderCurriculum(slot("curriculum"), data);
     }),
     loadJSON("content/teachers.json").then(renderTeachers),

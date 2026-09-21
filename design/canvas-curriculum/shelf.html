@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Resolve the live stylesheet, scripts, content and images from the site root. -->
+<base href="../../">
+<title>The shelf, one year at a time — mockups</title>
+<script>
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("alimiyyah.theme"); } catch (e) {}
+    var q = /[?&]theme=(\w+)/.exec(location.search);
+    if (q) t = q[1];
+    if (t !== "light" && t !== "dark") t = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+<link rel="icon" href="assets/img/logo_gold_web.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Gilda+Display&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=37">
+<style>
+/* =====================================================================
+   THE SHELF, ONE YEAR AT A TIME — the live bookshelf (curriculum.js,
+   unchanged: the kitab spines, the small open card, See more and the
+   folio) cut into single years, with the bay's frame and dark well taken
+   away so the books stand on the page on a wooden support.
+
+   R1  Roadmap · oak plank    modern IV's pinned numeral and progress
+                              track; a year per section, its books on a
+                              thick plank running the column's width.
+   R2  Roadmap · wall shelf   the same, the shelf as wide as its books,
+                              hung on two wooden brackets.
+   T1  Tabs · plank           a sliding year switch over one year's books
+                              on a plank cut to their width.
+   T2  Tabs · label plates    the tabs are brass label plates set into the
+                              front of a long board the books stand on.
+
+   Each year is its own renderCurriculum() call, so one book can be open
+   per year. The year label under a bay is hidden: the numeral, heading
+   or tab names it instead.
+   ===================================================================== */
+
+:root {
+  --m-panel: #fffaf2;
+  --m-panel-line: var(--gilt-edge);
+  --m-panel-text: var(--brown-ink);
+  --m-board: linear-gradient(160deg, var(--board), var(--board-deep));
+  --m-chip-bg: rgba(189, 93, 15, 0.1);
+
+  /* The wooden support, shared: the site's oak and grain */
+  --plank-face:
+    linear-gradient(180deg, rgba(255, 232, 196, 0.28), rgba(255, 232, 196, 0) 35%, rgba(0, 0, 0, 0.32)),
+    var(--grain),
+    linear-gradient(180deg, var(--wood-hi), var(--wood-lo));
+  --plank-size: 100% 100%, var(--grain-size), 100% 100%;
+  --plank-shadow: 0 18px 24px -14px rgba(40, 18, 4, 0.75);
+}
+[data-theme="dark"] {
+  --m-panel: var(--g-card);
+  --m-panel-line: rgba(227, 179, 74, 0.22);
+  --m-panel-text: var(--g-text);
+  --m-chip-bg: rgba(227, 179, 74, 0.12);
+  --plank-shadow: 0 18px 28px -12px rgba(0, 0, 0, 0.9);
+}
+
+/* ---------------- Canvas chrome ---------------- */
+.canvas-head { padding: 4.5rem 0 1rem; text-align: center; }
+.canvas-head h1 { font-family: var(--title); font-weight: 400; font-size: clamp(2.2rem, 1.4rem + 3vw, 3.8rem); letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.05; background: var(--g-title); -webkit-background-clip: text; background-clip: text; color: transparent; margin-top: 0.8rem; }
+.canvas-head p { max-width: 660px; margin: 1rem auto 0; color: var(--g-muted); font-family: var(--display); font-style: italic; font-size: 1.2rem; }
+.jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 1.8rem; }
+.jump a { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid var(--g-line); color: var(--g-text); font-size: 0.82rem; font-weight: 500; text-decoration: none; }
+.jump a:hover { border-color: var(--g-accent); color: var(--g-accent); }
+.mode-switch { position: fixed; right: 16px; bottom: 16px; z-index: 60; display: flex; padding: 4px; border-radius: 999px; background: rgba(26, 13, 4, 0.82); border: 1px solid rgba(227, 179, 74, 0.35); backdrop-filter: blur(6px); }
+.mode-switch button { padding: 0.45rem 1rem; border-radius: 999px; color: var(--gold-pale); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.mode-switch button[aria-pressed="true"] { background: linear-gradient(180deg, #f3cf6e, #d49a2a); color: var(--espresso); }
+.mock { padding: clamp(4rem, 8vw, 6.5rem) 0 1rem; }
+.mock + .mock { border-top: 1px dashed var(--g-dash); margin-top: clamp(3rem, 6vw, 5rem); }
+.mock__label { display: flex; gap: 1.1rem; align-items: flex-start; max-width: 820px; margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
+.mock__num { flex: none; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(180deg, #f3cf6e, #d49a2a); color: var(--espresso); font-family: var(--display); font-size: 1.3rem; font-weight: 700; box-shadow: 0 0 0 5px rgba(227, 179, 74, 0.2); }
+.mock__title { font-family: var(--display); font-size: 1.9rem; line-height: 1.1; color: var(--g-text); }
+.mock__desc { margin-top: 0.35rem; color: var(--g-muted); font-size: 0.92rem; }
+.mock__desc b { color: var(--g-accent); font-weight: 600; }
+.section__head { margin-bottom: clamp(1.6rem, 3.5vw, 2.4rem); }
+.foot-note { padding: 4rem 0 6rem; text-align: center; color: var(--g-muted); font-family: var(--display); font-style: italic; }
+
+/* ---------------- The bay, unframed ---------------- */
+/* No frame, no gold top line, no dark well: the spines stand on the page. */
+.bare .case { gap: 0; }
+.bare .bay { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.bare .bay::before { display: none; }
+.bare .bay__well,
+[data-theme="dark"] .bare .bay__well { background: none; box-shadow: none; border-radius: 0; }
+.bare .bay__year { display: none; }
+.bare .folio { border-radius: 14px; margin-bottom: 4px; }
+
+/* Support 1 · a thick oak plank: a lit top face, a grained front edge */
+.plank .bay__plank,
+.board-front {
+  position: relative; height: 24px; border-radius: 3px;
+  background: var(--plank-face); background-size: var(--plank-size);
+  box-shadow: inset 0 1px 0 rgba(255, 240, 214, 0.45), var(--plank-shadow);
+}
+.plank .bay__plank::before,
+.board-front::before {              /* the top face, seen from a little above */
+  content: ""; position: absolute; left: 6px; right: 6px; top: -7px; height: 8px;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--wood-hi) 70%, #fff), var(--wood-hi));
+  clip-path: polygon(0 100%, 6px 0, calc(100% - 6px) 0, 100% 100%);
+}
+.plank .bay__plank { margin-inline: -18px; }
+
+/* Support 2 · a wall shelf: a thinner board on two wooden brackets */
+.brackets .bay__plank {
+  position: relative; height: 14px; margin-inline: -26px; border-radius: 2px;
+  background: var(--plank-face); background-size: var(--plank-size);
+  box-shadow: inset 0 1px 0 rgba(255, 240, 214, 0.45), 0 8px 10px -8px rgba(40, 18, 4, 0.8);
+}
+.brackets .bay__plank::before,
+.brackets .bay__plank::after {      /* corbels: a post that swells and turns in under the board */
+  content: ""; position: absolute; top: 100%; width: 24px; height: 40px;
+  background: linear-gradient(90deg, var(--wood-lo), var(--wood-hi) 45%, var(--wood-lo));
+  clip-path: polygon(0 0, 100% 0, 100% 20%, 80% 30%, 80% 78%, 64% 100%, 36% 100%, 20% 78%, 20% 30%, 0 20%);
+  filter: drop-shadow(0 6px 5px rgba(40, 18, 4, 0.4));
+}
+.brackets .bay__plank::before { left: 16%; }
+.brackets .bay__plank::after { right: 16%; }
+.brackets .bay__well { padding-inline: 34px; }
+.brackets .shelf-slot { padding-bottom: 44px; }
+
+/* A shelf cut to its books: the bay shrinks to fit, and takes the full
+   width once a book's folio is open. */
+.fitted .bay { width: fit-content; max-width: 100%; margin-inline: auto; }
+.fitted .bay:has(.folio) { width: 100%; }
+.fitted .bay__well { min-width: 360px; }
+/* The open card is min(256px, 100%) on the site; a percentage inside a
+   shrink-to-fit bay lets its unwrapped text set the width, so fix it here. */
+.fitted .book--open { width: 256px; max-width: calc(100vw - 72px); }
+
+/* The books rise into place when a year is switched in */
+.rising .book { animation: m-rise 0.5s var(--ease-out) both; animation-delay: calc(var(--n, 0) * 45ms); }
+@keyframes m-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+/* ================= R · Roadmap ================= */
+.road { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); }
+.road__side { position: sticky; top: 14vh; align-self: start; }
+.road__num { font-family: var(--title); font-size: 8.5rem; line-height: 0.9; letter-spacing: 0.04em; background: var(--g-title); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.road__name { margin-top: 0.4rem; font-family: var(--display); font-size: 1.7rem; font-weight: 600; }
+.road__sub { font-size: 0.8rem; color: var(--g-muted); }
+.track { list-style: none; margin: 1.8rem 0 0; padding: 0; display: grid; gap: 4px; }
+.track button { display: grid; grid-template-columns: 30px 1fr; align-items: center; gap: 10px; width: 100%; padding: 4px 0; text-align: left; font-size: 0.8rem; color: var(--g-muted); }
+.track button::before { content: ""; height: 4px; border-radius: 2px; background: var(--g-dash); transition: background 0.3s; }
+.track button.done::before { background: color-mix(in srgb, var(--g-mark) 55%, transparent); }
+.track button[aria-current="true"] { color: var(--g-text); font-weight: 600; }
+.track button[aria-current="true"]::before { background: var(--g-mark); }
+.road__year { padding: 1rem 0 3.4rem; scroll-margin-top: 8vh; }
+.road__year h3 { display: flex; align-items: baseline; gap: 0.9rem; font-family: var(--display); font-size: 1.8rem; font-weight: 600; margin-bottom: 0.2rem; }
+.road__year h3 span { font-family: var(--sans); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g-muted); }
+.road--quiet .road__year h3 { justify-content: center; font-size: 1.3rem; color: var(--g-muted); }
+
+/* ================= T · Tabs ================= */
+.tabs-bar { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin-bottom: 1.2rem; }
+.tabs-bar p { font-family: var(--display); font-style: italic; font-size: 1.25rem; color: var(--g-muted); }
+.tabs-bar p b { font-style: normal; color: var(--g-text); }
+.seg { position: relative; display: inline-flex; padding: 5px; border-radius: 999px; background: var(--m-panel); border: 1px solid var(--m-panel-line); box-shadow: 0 14px 30px -22px rgba(70, 34, 6, 0.7); max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.seg__thumb { position: absolute; top: 5px; bottom: 5px; left: 0; width: 0; border-radius: 999px; background: var(--m-board); box-shadow: inset 0 0 0 1px rgba(238, 194, 90, 0.45); transition: left 0.4s var(--ease-out), width 0.4s var(--ease-out); }
+[data-theme="dark"] .seg__thumb { background: linear-gradient(180deg, #f3cf6e, #d49a2a); }
+.seg button { position: relative; z-index: 1; flex: none; min-width: 48px; padding: 0.55rem 0.9rem; border-radius: 999px; font-family: var(--display); font-size: 1.15rem; font-weight: 600; line-height: 1; color: var(--m-panel-text); transition: color 0.3s; }
+.seg button[aria-selected="true"] { color: var(--gold-light); }
+[data-theme="dark"] .seg button[aria-selected="true"] { color: var(--espresso); }
+
+/* T2: the board the books stand on, its front carrying the year plates */
+.plates-stage .bay__plank { display: none; }
+.board-front { height: auto; padding: 12px clamp(10px, 3vw, 26px) 14px; margin-top: 7px; border-radius: 4px; }
+.plates { display: flex; justify-content: center; gap: clamp(6px, 1.2vw, 14px); overflow-x: auto; scrollbar-width: none; padding: 2px; }
+.plate {
+  flex: none; display: grid; justify-items: center; gap: 1px; min-width: 88px; padding: 0.35rem 0.8rem 0.4rem;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #e9c878, #b88a33 55%, #9a6f24);
+  box-shadow: inset 0 1px 0 rgba(255, 246, 214, 0.7), inset 0 -1px 0 rgba(60, 34, 6, 0.5), 0 2px 3px rgba(40, 18, 4, 0.55);
+  color: #3a2208; transition: transform 0.2s, box-shadow 0.25s, filter 0.25s;
+  filter: saturate(0.55) brightness(0.9);
+}
+.plate b { font-family: var(--display); font-size: 1.2rem; font-weight: 700; line-height: 1; }
+.plate span { font-size: 0.56rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap; }
+.plate:hover { filter: none; transform: translateY(-1px); }
+.plate[aria-selected="true"] { filter: none; background: linear-gradient(180deg, #f8dc8e, #e3b34a 55%, #c48f2c); box-shadow: inset 0 1px 0 rgba(255, 250, 230, 0.9), 0 0 0 2px rgba(255, 236, 190, 0.5), 0 0 18px rgba(247, 205, 110, 0.65); }
+/* the two pins that hold each plate */
+.plate::before, .plate::after { content: ""; position: absolute; }
+.plate { position: relative; }
+.plate::before, .plate::after { top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff2c8, #7a5210); }
+.plate::before { left: 5px; }
+.plate::after { right: 5px; }
+.plates-caption { margin-top: 1rem; text-align: center; font-family: var(--display); font-style: italic; font-size: 1.2rem; color: var(--g-muted); }
+.plates-caption b { font-style: normal; color: var(--g-text); }
+
+/* ---------------- Narrow screens ---------------- */
+@media (max-width: 980px) {
+  .road { grid-template-columns: 1fr; gap: 1rem; }
+  .road__side { top: 0; z-index: 5; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 0 1rem; padding: 0.8rem var(--gutter); margin-inline: calc(-1 * var(--gutter)); background: color-mix(in srgb, var(--bg-color) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--g-line); }
+  .road__num { font-size: 3rem; grid-row: span 2; }
+  .road__name { margin: 0; font-size: 1.3rem; }
+  .track { grid-column: 1 / -1; margin-top: 0.6rem; grid-template-columns: repeat(7, 1fr); }
+  .track button { grid-template-columns: 1fr; padding: 6px 0; }
+  .track button span { display: none; }
+}
+@media (max-width: 640px) {
+  .plank .bay__plank { margin-inline: -6px; }
+  .brackets .bay__plank { margin-inline: -8px; }
+  .brackets .bay__well { padding-inline: 14px; }
+  .fitted .bay__well { min-width: 0; }
+  .plates { justify-content: flex-start; }
+  .plate { min-width: 74px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="mode-switch" role="group" aria-label="Mockup mode">
+  <button type="button" data-mode="light">Light</button>
+  <button type="button" data-mode="dark">Dark</button>
+</div>
+
+<header class="wrap canvas-head">
+  <p class="section__eyebrow">Curriculum · the shelf</p>
+  <h1>One year at a time</h1>
+  <p>The live bookshelf, with its spines, open card and folio, cut into single years. The bay's frame is gone and the books stand on a wooden support. <a href="design/canvas-curriculum/modern.html">Modern patterns</a> · <a href="design/canvas-curriculum/index.html">Round 1</a></p>
+  <nav class="jump" aria-label="Options">
+    <a href="design/canvas-curriculum/shelf.html#r1">R1 · Roadmap, oak plank</a>
+    <a href="design/canvas-curriculum/shelf.html#r2">R2 · Roadmap, wall shelf</a>
+    <a href="design/canvas-curriculum/shelf.html#t1">T1 · Tabs, plank</a>
+    <a href="design/canvas-curriculum/shelf.html#t2">T2 · Tabs, label plates</a>
+  </nav>
+</header>
+
+<main>
+  <section class="mock" id="r1">
+    <div class="wrap">
+      <div class="mock__label"><span class="mock__num">R1</span><div>
+        <h2 class="mock__title">Roadmap · oak plank</h2>
+        <p class="mock__desc">Modern IV's pinned numeral and progress track on the left, following the scroll. On the right each year is a heading over its books, which stand on a thick oak plank running the column's width, its top face lit. The spines behave as on the site: click one to open its card, then See more for the folio. <b>Try it: scroll, then open a book.</b></p>
+      </div></div>
+      <div class="section__head"><p class="section__eyebrow">Seven years</p><h2 class="section__heading">Curriculum</h2></div>
+      <div data-mock="road" data-support="plank"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="r2">
+    <div class="wrap">
+      <div class="mock__label"><span class="mock__num">R2</span><div>
+        <h2 class="mock__title">Roadmap · wall shelf</h2>
+        <p class="mock__desc">The same scroll, with each year's books on a small wall shelf only as wide as the books, hung on two wooden brackets, so it reads as seven shelves up a wall. The year's heading is a quiet centred line, since the pinned numeral already names it. The shelf widens when a book opens and takes the full column for the folio. <b>Try it: open a book, then See more.</b></p>
+      </div></div>
+      <div class="section__head"><p class="section__eyebrow">Seven years</p><h2 class="section__heading">Curriculum</h2></div>
+      <div data-mock="road" data-support="brackets"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="t1">
+    <div class="wrap">
+      <div class="mock__label"><span class="mock__num">T1</span><div>
+        <h2 class="mock__title">Tabs · plank</h2>
+        <p class="mock__desc">One year at a time. A sliding year switch names the year and its subjects, and below it that year's books stand on an oak plank cut to their width. Switching years brings the new books up onto the plank one after another. <b>Try it: switch years, open a book.</b></p>
+      </div></div>
+      <div class="section__head"><p class="section__eyebrow">Seven years</p><h2 class="section__heading">Curriculum</h2></div>
+      <div data-mock="tabs"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="t2">
+    <div class="wrap">
+      <div class="mock__label"><span class="mock__num">T2</span><div>
+        <h2 class="mock__title">Tabs · label plates</h2>
+        <p class="mock__desc">The tabs are part of the shelf. The books stand on a long oak board whose front edge carries seven pinned brass label plates, like a library's shelf labels. The chosen plate is lit, and clicking another brings its year's books onto the board. <b>Try it: click a plate.</b></p>
+      </div></div>
+      <div class="section__head"><p class="section__eyebrow">Seven years</p><h2 class="section__heading">Curriculum</h2></div>
+      <div data-mock="plates"></div>
+    </div>
+  </section>
+
+  <p class="foot-note">Only Second Year holds real books; the rest are the JSON's placeholders.</p>
+</main>
+
+<script src="assets/js/curriculum.js?v=7"></script>
+<script>
+(function () {
+  "use strict";
+
+  var root = document.documentElement;
+  var modeBtns = document.querySelectorAll("[data-mode]");
+  function showMode() { modeBtns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === root.dataset.theme)); }); }
+  modeBtns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      root.dataset.theme = b.dataset.mode;
+      try { localStorage.setItem("alimiyyah.theme", b.dataset.mode); } catch (e) {}
+      showMode();
+    });
+  });
+  showMode();
+
+  var ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+  var SECOND = 1;
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function el(html) { var t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstChild; }
+  function subjects(y) { var s = []; y.books.forEach(function (b) { if (s.indexOf(b.subject) < 0) s.push(b.subject); }); return s; }
+
+  /* One year's bay from the live renderer, the books numbered for the rise */
+  function shelfFor(mount, year, rise) {
+    renderCurriculum(mount, { years: [year] });
+    mount.classList.toggle("rising", !!rise);
+    mount.querySelectorAll(".book").forEach(function (b, n) { b.style.setProperty("--n", n); });
+  }
+
+  /* ================= R · Roadmap ================= */
+  function mockRoad(mount, years) {
+    var support = mount.dataset.support;
+    var box = el('<div class="road' + (support === "brackets" ? " road--quiet" : "") + '"><div class="road__side"><div class="road__num" aria-hidden="true"></div><div><p class="road__name"></p><p class="road__sub"></p></div><ol class="track"></ol></div><div class="road__years"></div></div>');
+    var num = box.querySelector(".road__num"), name = box.querySelector(".road__name"), sub = box.querySelector(".road__sub"), track = box.querySelector(".track"), list = box.querySelector(".road__years");
+    var sections = years.map(function (y, yi) {
+      var t = el('<li><button type="button" aria-label="Go to ' + esc(y.name) + '"><span>' + esc(y.name) + "</span></button></li>");
+      t.firstChild.addEventListener("click", function () { sections[yi].scrollIntoView({ behavior: "smooth", block: "start" }); });
+      track.appendChild(t);
+      var sec = el('<section class="road__year" aria-label="' + esc(y.name) + '"><h3>' + esc(y.name) + "<span>" + y.books.length + " books</span></h3>" +
+        '<div class="shelf-slot bare ' + support + (support === "brackets" ? " fitted" : "") + '"><div class="case"></div></div></section>');
+      list.appendChild(sec);
+      shelfFor(sec.querySelector(".case"), y, false);
+      return sec;
+    });
+    function setYear(yi) {
+      num.textContent = ROMAN[yi];
+      name.textContent = years[yi].name;
+      sub.textContent = "Year " + (yi + 1) + " of " + years.length + " · " + years[yi].books.length + " books";
+      track.querySelectorAll("button").forEach(function (b, n) { b.setAttribute("aria-current", String(n === yi)); b.classList.toggle("done", n < yi); });
+    }
+    setYear(0);
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) setYear(sections.indexOf(e.target)); });
+      }, { rootMargin: "-40% 0px -55% 0px" });
+      sections.forEach(function (s) { io.observe(s); });
+    }
+    mount.appendChild(box);
+  }
+
+  /* Year tabs with arrow keys, for both tab mockups */
+  function wireTabs(list, count, pick) {
+    list.addEventListener("keydown", function (e) {
+      var tabs = Array.prototype.slice.call(list.querySelectorAll("[role=tab]"));
+      var cur = tabs.indexOf(document.activeElement);
+      var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (!d || cur < 0) return;
+      var n = (cur + d + count) % count;
+      pick(n); tabs[n].focus(); e.preventDefault();
+    });
+  }
+  function selectTab(tabs, i) {
+    tabs.forEach(function (b, n) { b.setAttribute("aria-selected", String(n === i)); b.tabIndex = n === i ? 0 : -1; });
+  }
+
+  /* ================= T1 · Tabs, plank ================= */
+  function mockTabs(mount, years) {
+    var bar = el('<div class="tabs-bar"><div class="seg" role="tablist" aria-label="Year"><span class="seg__thumb" aria-hidden="true"></span></div><p aria-live="polite"></p></div>');
+    var seg = bar.firstChild, thumb = seg.firstChild, caption = bar.lastChild;
+    var slot = el('<div class="shelf-slot bare plank fitted" role="tabpanel"><div class="case"></div></div>');
+    var tabs = years.map(function (y, i) {
+      var b = el('<button type="button" role="tab" aria-label="' + esc(y.name) + '">' + ROMAN[i] + "</button>");
+      b.addEventListener("click", function () { pick(i, true); });
+      seg.appendChild(b);
+      return b;
+    });
+    function place() {
+      var b = tabs.filter(function (t) { return t.getAttribute("aria-selected") === "true"; })[0];
+      if (b) { thumb.style.left = b.offsetLeft + "px"; thumb.style.width = b.offsetWidth + "px"; }
+    }
+    function pick(i, rise) {
+      selectTab(tabs, i); place();
+      var y = years[i];
+      caption.innerHTML = "<b>" + esc(y.name) + "</b> · " + y.books.length + " books · " + esc(subjects(y).join(", "));
+      shelfFor(slot.firstChild, y, rise);
+    }
+    wireTabs(seg, years.length, function (i) { pick(i, true); });
+    window.addEventListener("resize", place);
+    if (document.fonts) document.fonts.ready.then(place);
+    mount.appendChild(bar); mount.appendChild(slot);
+    pick(SECOND, false);
+    requestAnimationFrame(place);
+  }
+
+  /* ================= T2 · Tabs, label plates ================= */
+  function mockPlates(mount, years) {
+    var slot = el('<div class="shelf-slot bare plates-stage" role="tabpanel"><div class="case"></div></div>');
+    var board = el('<div class="board-front"><div class="plates" role="tablist" aria-label="Year"></div></div>');
+    var plates = board.firstChild;
+    var caption = el('<p class="plates-caption" aria-live="polite"></p>');
+    var tabs = years.map(function (y, i) {
+      var b = el('<button class="plate" type="button" role="tab"><b>' + ROMAN[i] + "</b><span>" + esc(y.name) + "</span></button>");
+      b.addEventListener("click", function () { pick(i, true); });
+      plates.appendChild(b);
+      return b;
+    });
+    function pick(i, rise) {
+      selectTab(tabs, i);
+      var y = years[i];
+      caption.innerHTML = "<b>" + esc(y.name) + "</b> · " + y.books.length + " books · " + esc(subjects(y).join(", "));
+      shelfFor(slot.firstChild, y, rise);
+    }
+    wireTabs(plates, years.length, function (i) { pick(i, true); });
+    mount.appendChild(slot); mount.appendChild(board); mount.appendChild(caption);
+    pick(SECOND, false);
+  }
+
+  fetch("content/curriculum.json", { cache: "no-cache" })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var years = data.years || [];
+      var build = { road: mockRoad, tabs: mockTabs, plates: mockPlates };
+      document.querySelectorAll("[data-mock]").forEach(function (m) { build[m.dataset.mock](m, years); });
+    })
+    .catch(function (e) {
+      document.querySelector("main").insertAdjacentHTML("afterbegin", '<p class="wrap" style="padding:2rem;color:#a24e0b">Serve the site root (python3 -m http.server) to load content/curriculum.json. ' + esc(e) + "</p>");
+    });
+})();
+</script>
+</body>
+</html>

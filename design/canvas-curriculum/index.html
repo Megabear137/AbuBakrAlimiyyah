@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Resolve the live stylesheet, content and images from the site root. -->
+<base href="../../">
+<title>Curriculum without the shelf — mockups</title>
+<script>
+  /* The site's own theme choice, so the mockup opens in the mode the site does. */
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("alimiyyah.theme"); } catch (e) {}
+    var q = /[?&]theme=(\w+)/.exec(location.search);
+    if (q) t = q[1];
+    if (t !== "light" && t !== "dark") t = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+<link rel="icon" href="assets/img/logo_gold_web.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Gilda+Display&family=Instrument+Sans:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=37">
+<style>
+/* =====================================================================
+   CURRICULUM WITHOUT THE SHELF — six ways to show the seven years' books.
+
+   1  Cover carousel   (the brief) year tabs, a carousel of covers, a
+                        drawer opening beneath the chosen cover.
+   2  The pile          (the brief) year tabs, the year's books lying in a
+                        pile, spines out; a spine drawn from the pile shows
+                        its cover beside the pile and its text beside that.
+   3  The path          seven years as a line of stations; the year's books
+                        as cards; a card opens a full view in a dialog.
+   4  Syllabus grid     subjects down, years across: the whole programme
+                        on one screen; a title opens its details beneath.
+   5  Contents page     a kitab's fihrist: a row per year that unfolds into
+                        its books, and a book into its description.
+   6  Turn the card     a rail of years beside a grid of covers; a cover
+                        turns over to its description.
+
+   Built on the live stylesheet and tokens, reading content/curriculum.json,
+   in light and dark. The corner switch is a mockup tool.
+   ===================================================================== */
+
+/* ---------------- Tokens for the surfaces used here ---------------- */
+:root {
+  --m-panel: #fffaf2;
+  --m-panel-line: var(--gilt-edge);
+  --m-panel-text: var(--brown-ink);
+  --m-panel-muted: rgba(70, 44, 22, 0.72);
+  --m-board: linear-gradient(160deg, var(--board), var(--board-deep));
+  --m-board-text: #fbeedd;
+  --m-board-muted: rgba(251, 238, 221, 0.78);
+  --m-board-title: var(--gold-light);
+  --m-board-line: rgba(238, 194, 90, 0.3);
+  --m-shadow: 0 22px 44px -26px rgba(70, 34, 6, 0.75);
+  --m-chip-bg: rgba(189, 93, 15, 0.1);
+  --m-chip-text: var(--rust-ink);
+  --m-sel: var(--rust);
+}
+[data-theme="dark"] {
+  --m-panel: var(--g-card);
+  --m-panel-line: rgba(227, 179, 74, 0.22);
+  --m-panel-text: var(--g-text);
+  --m-panel-muted: var(--g-muted);
+  --m-board: linear-gradient(180deg, rgba(255, 236, 210, 0.06), rgba(255, 236, 210, 0.025));
+  --m-board-text: var(--g-text);
+  --m-board-muted: var(--g-muted);
+  --m-board-title: var(--gold-light);
+  --m-board-line: rgba(227, 179, 74, 0.22);
+  --m-shadow: 0 22px 44px -26px rgba(0, 0, 0, 0.9);
+  --m-chip-bg: rgba(227, 179, 74, 0.12);
+  --m-chip-text: var(--gold-light);
+  --m-sel: var(--gold);
+}
+
+.panel-cream { background: var(--m-panel); border: 1px solid var(--m-panel-line); color: var(--m-panel-text); border-radius: 18px; }
+.panel-board { background: var(--m-board); color: var(--m-board-text); border-radius: 22px; box-shadow: var(--m-shadow); }
+[data-theme="dark"] .panel-board { border: 1px solid var(--m-board-line); box-shadow: inset 0 1px 0 rgba(227, 179, 74, 0.45), var(--m-shadow); }
+
+/* ---------------- Canvas chrome ---------------- */
+.canvas-head { padding: 4.5rem 0 1rem; text-align: center; }
+.canvas-head h1 { font-family: var(--title); font-weight: 400; font-size: clamp(2.2rem, 1.4rem + 3vw, 3.8rem); letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.05; background: var(--g-title); -webkit-background-clip: text; background-clip: text; color: transparent; margin-top: 0.8rem; }
+.canvas-head p { max-width: 640px; margin: 1rem auto 0; color: var(--g-muted); font-family: var(--display); font-style: italic; font-size: 1.2rem; }
+.jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 1.8rem; }
+.jump a { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid var(--g-line); color: var(--g-text); font-size: 0.82rem; font-weight: 500; text-decoration: none; }
+.jump a:hover { border-color: var(--g-accent); color: var(--g-accent); }
+
+.mode-switch { position: fixed; right: 16px; bottom: 16px; z-index: 60; display: flex; padding: 4px; border-radius: 999px; background: rgba(26, 13, 4, 0.82); border: 1px solid rgba(227, 179, 74, 0.35); backdrop-filter: blur(6px); }
+.mode-switch button { padding: 0.45rem 1rem; border-radius: 999px; color: var(--gold-pale); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.mode-switch button[aria-pressed="true"] { background: linear-gradient(180deg, #f3cf6e, #d49a2a); color: var(--espresso); }
+
+.mock { padding: clamp(4rem, 8vw, 6.5rem) 0 1rem; }
+.mock + .mock { border-top: 1px dashed var(--g-dash); margin-top: clamp(3rem, 6vw, 5rem); }
+.mock__label { display: flex; gap: 1.1rem; align-items: flex-start; max-width: 820px; margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
+.mock__num { flex: none; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(180deg, #f3cf6e, #d49a2a); color: var(--espresso); font-family: var(--display); font-size: 1.5rem; font-weight: 700; box-shadow: 0 0 0 5px rgba(227, 179, 74, 0.2); }
+.mock__title { font-family: var(--display); font-size: 1.9rem; line-height: 1.1; color: var(--g-text); }
+.mock__title small { font-family: var(--sans); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--g-accent); margin-left: 0.6rem; vertical-align: middle; }
+.mock__desc { margin-top: 0.35rem; color: var(--g-muted); font-size: 0.92rem; }
+.mock__desc b { color: var(--g-accent); font-weight: 600; }
+
+/* ---------------- Shared pieces ---------------- */
+.chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.2rem 0.7rem; border-radius: 999px; background: var(--m-chip-bg); color: var(--m-chip-text); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
+.chip::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.panel-board .chip { background: rgba(238, 194, 90, 0.14); color: var(--gold-light); }
+.urdu { font-family: var(--urdu); font-weight: 400; direction: rtl; }
+.rise { animation: m-rise 0.5s var(--ease-out) both; }
+@keyframes m-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.cover { display: block; width: 100%; aspect-ratio: 3 / 4; border-radius: 4px 8px 8px 4px; box-shadow: inset 4px 0 0 rgba(0, 0, 0, 0.25), 0 18px 30px -16px rgba(26, 10, 2, 0.8); background: var(--board-deep); object-fit: cover; }
+
+/* Detail text used by several options */
+.info__title { font-family: var(--display); font-weight: 600; font-size: clamp(1.8rem, 1.4rem + 1.4vw, 2.5rem); line-height: 1.05; margin: 0.7rem 0 0.2rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.9rem; }
+.info__title .urdu { font-size: 0.7em; }
+.panel-board .info__title { color: var(--m-board-title); }
+.info__meta { font-size: 0.8rem; color: var(--m-board-muted); letter-spacing: 0.04em; }
+.panel-cream .info__meta { color: var(--m-panel-muted); }
+.info__desc { margin-top: 1rem; max-width: 60ch; }
+.info__actions { display: flex; gap: 0.8rem; margin-top: 1.4rem; flex-wrap: wrap; }
+
+/* The year tabs (options 1 and 2): a segmented bar of Roman numerals, the
+   chosen year named in full beneath it. */
+.years { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+.years__bar { display: flex; gap: 4px; padding: 5px; border-radius: 999px; background: var(--m-panel); border: 1px solid var(--m-panel-line); box-shadow: 0 14px 30px -22px rgba(70, 34, 6, 0.7); max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.years__bar button { flex: none; min-width: 52px; padding: 0.55rem 0.9rem; border-radius: 999px; font-family: var(--display); font-size: 1.2rem; font-weight: 600; line-height: 1; color: var(--m-panel-text); transition: background 0.25s, color 0.25s; }
+.years__bar button:hover { background: var(--m-chip-bg); }
+.years__bar button[aria-selected="true"] { background: var(--m-board); color: var(--gold-light); box-shadow: inset 0 0 0 1px rgba(238, 194, 90, 0.45); }
+[data-theme="dark"] .years__bar button[aria-selected="true"] { background: linear-gradient(180deg, #f3cf6e, #d49a2a); color: var(--espresso); }
+.years__name { font-family: var(--display); font-style: italic; font-size: 1.3rem; color: var(--g-muted); letter-spacing: 0.04em; }
+.years__name b { font-style: normal; font-weight: 600; color: var(--g-text); }
+
+/* ================= 1 · Cover carousel ================= */
+.cc { display: grid; grid-template-columns: 46px minmax(0, 1fr) 46px; gap: 14px; align-items: center; }
+.cc__track { display: flex; gap: 26px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 18px 6px 22px; scrollbar-width: none; }
+.cc__track::-webkit-scrollbar { display: none; }
+.cc__book { flex: 0 0 172px; scroll-snap-align: start; text-align: center; transition: transform 0.35s var(--ease-out); }
+.cc__book .cover { transition: box-shadow 0.3s; }
+.cc__book:hover { transform: translateY(-6px); }
+.cc__book[aria-expanded="true"] { transform: translateY(-10px); }
+.cc__book[aria-expanded="true"] .cover { box-shadow: 0 0 0 3px var(--m-sel), 0 0 0 7px rgba(227, 179, 74, 0.25), 0 24px 34px -16px rgba(26, 10, 2, 0.85); }
+.cc__book h3 { margin-top: 0.9rem; font-family: var(--display); font-size: 1.25rem; font-weight: 600; line-height: 1.1; color: var(--g-text); }
+.cc__book p { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--g-accent); margin-top: 0.25rem; }
+.cc__dots { display: flex; justify-content: center; gap: 8px; margin-top: 0.4rem; }
+.cc__dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--g-dash); transition: width 0.3s, background 0.3s; }
+.cc__dots i.on { width: 26px; border-radius: 4px; background: var(--g-mark); }
+
+.cc__drawer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s var(--ease-out); margin-inline: 60px; }
+.cc__drawer.open { grid-template-rows: 1fr; }
+.cc__drawer > div { min-height: 0; overflow: hidden; padding-top: 22px; }
+.cc__panel { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; padding: clamp(1.6rem, 3vw, 2.4rem) clamp(1.5rem, 3.5vw, 2.8rem); }
+.cc__panel::before { content: none; position: absolute; top: -11px; left: var(--caret, 50%); width: 22px; height: 22px; translate: -50% 0; rotate: 45deg; background: var(--board); border-radius: 4px 0 0 0; transition: left 0.35s var(--ease-out); }
+[data-theme="dark"] .cc__panel::before { background: #2b1a0e; border: 1px solid var(--m-board-line); border-right: 0; border-bottom: 0; }
+.cc__drawer.open .cc__panel::before { content: ""; }
+.cc__close { align-self: start; }
+
+/* ================= 2 · The pile ================= */
+.pile-stage { display: grid; grid-template-columns: minmax(260px, 340px) 230px minmax(0, 1fr); gap: clamp(1.5rem, 3.5vw, 3rem); align-items: end; }
+.pile { position: relative; display: flex; flex-direction: column-reverse; align-items: center; padding: 0 12px 14px; }
+/* The table the pile lies on */
+.pile::after { content: ""; position: absolute; left: -6%; right: -6%; bottom: 0; height: 14px; border-radius: 3px; background: linear-gradient(180deg, var(--wood-hi), var(--wood) 40%, var(--wood-lo)); box-shadow: 0 16px 24px -14px rgba(40, 18, 4, 0.8); }
+[data-theme="dark"] .pile::after { background: linear-gradient(180deg, rgba(227, 179, 74, 0.55), rgba(227, 179, 74, 0.1)); height: 2px; box-shadow: 0 0 18px rgba(227, 179, 74, 0.35); }
+.spine-h {
+  --w: 100%; --t: 46px; --c: #4a1813; --lab: #1a1210; --x: 0px; --r: 0deg;
+  position: relative; display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 12px;
+  width: var(--w); height: var(--t); padding: 0 14px 0 0;
+  border-radius: 3px 5px 5px 3px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.35)),
+    var(--c);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3), 0 3px 4px -2px rgba(0, 0, 0, 0.5);
+  color: var(--gilt); text-align: left;
+  transform: translateX(var(--x)) rotate(var(--r));
+  transition: transform 0.35s var(--ease-out), height 0.45s var(--ease-out), opacity 0.35s, margin 0.45s var(--ease-out);
+}
+/* The double gilt rule round the spine, and the headband square at its end */
+.spine-h::before { content: ""; position: absolute; inset: 5px 8px 5px 40px; border: 1px solid rgba(217, 170, 72, 0.55); border-radius: 2px; pointer-events: none; }
+.spine-h__end { height: 100%; border-radius: 3px 0 0 3px; background: repeating-linear-gradient(90deg, #7a1d16 0 4px, #d9aa48 4px 8px); opacity: 0.85; width: 8px; justify-self: start; }
+.spine-h__title { position: relative; justify-self: start; padding: 0.15rem 0.9rem; background: var(--lab); clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%); font-family: var(--display); font-size: 1.05rem; font-weight: 600; letter-spacing: 0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.spine-h__sub { position: relative; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(217, 170, 72, 0.85); }
+.spine-h:hover { transform: translateX(calc(var(--x) + 10px)) rotate(var(--r)); }
+.spine-h.taken { height: 0; opacity: 0; transform: translateY(-12px) rotate(0deg); pointer-events: none; }
+.pile__hint { text-align: center; margin-top: 1rem; font-family: var(--display); font-style: italic; color: var(--g-muted); }
+
+.pile-cover { position: relative; }
+.pile-cover .cover { transform: rotate(-2deg); }
+.pile-cover__shadow { position: absolute; left: 8%; right: 8%; bottom: -10px; height: 18px; border-radius: 50%; background: radial-gradient(closest-side, rgba(40, 18, 4, 0.45), transparent); z-index: -1; }
+.pile-info { align-self: center; padding-bottom: 0.5rem; }
+.pile-info .info__title { color: var(--g-text); }
+.pile-info .info__meta { color: var(--g-muted); }
+.pile-info .info__desc { color: var(--g-text); }
+.pile-info .btn--line { color: var(--g-text); background: transparent; border-color: var(--g-line); }
+.take-in { animation: m-take 0.6s var(--ease-out) both; }
+@keyframes m-take { from { opacity: 0; transform: translateX(-70px) rotate(-8deg); } to { opacity: 1; transform: none; } }
+
+/* ================= 3 · The path ================= */
+.path { position: relative; display: grid; grid-template-columns: repeat(7, minmax(92px, 1fr)); margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); max-width: 980px; overflow-x: auto; scrollbar-width: none; padding: 6px 0 4px; }
+.path__line { position: absolute; left: calc(100% / 14); right: calc(100% / 14); top: 32px; height: 2px; background: var(--g-line); }
+.path__done { position: absolute; left: 0; top: 0; bottom: 0; background: var(--g-mark); transition: width 0.5s var(--ease-out); }
+.path__stop { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.55rem; padding: 0 4px; }
+.path__stop i { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; font-style: normal; font-family: var(--display); font-size: 1.35rem; font-weight: 700; background: var(--m-panel); border: 1px solid var(--m-panel-line); color: var(--m-panel-text); transition: transform 0.3s var(--ease-out), background 0.3s; }
+[data-theme="dark"] .path__stop i { background: #22120a; }
+.path__stop.past i { border-color: var(--g-mark); }
+.path__stop[aria-selected="true"] i { background: var(--m-board); color: var(--gold-light); transform: scale(1.12); box-shadow: 0 0 0 5px rgba(227, 179, 74, 0.25); border-color: transparent; }
+[data-theme="dark"] .path__stop[aria-selected="true"] i { background: linear-gradient(180deg, #f3cf6e, #d49a2a); color: var(--espresso); }
+.path__stop span { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g-muted); white-space: nowrap; }
+.path__stop[aria-selected="true"] span { color: var(--g-text); }
+.path__stop small { font-size: 0.7rem; color: var(--g-muted); margin-top: -0.4rem; }
+.path-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.pcard { position: relative; display: grid; grid-template-columns: 78px 1fr; gap: 1.1rem; align-items: center; padding: 16px 18px 16px 16px; text-align: left; transition: transform 0.3s var(--ease-out), box-shadow 0.3s; }
+.pcard:hover { transform: translateY(-4px); box-shadow: var(--m-shadow); }
+.pcard h3 { font-family: var(--display); font-size: 1.35rem; line-height: 1.1; margin: 0.4rem 0 0.25rem; }
+.pcard p { font-size: 0.8rem; color: var(--m-panel-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pcard .more { display: inline-block; margin-top: 0.4rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-accent); }
+
+.dlg { width: min(860px, calc(100vw - 32px)); max-height: calc(100vh - 32px); padding: 0; border: 0; background: transparent; color: inherit; overflow: visible; }
+.dlg::backdrop { background: rgba(20, 9, 2, 0.6); backdrop-filter: blur(3px); }
+.dlg[open] .dlg__card { animation: m-rise 0.4s var(--ease-out) both; }
+.dlg__card { position: relative; display: grid; grid-template-columns: 250px 1fr; gap: clamp(1.4rem, 3vw, 2.4rem); padding: clamp(1.4rem, 3vw, 2.4rem); max-height: calc(100vh - 32px); overflow: auto; }
+[data-theme="dark"] .dlg__card { background: #24130a; }
+.dlg__close { position: absolute; top: 14px; right: 14px; }
+.dlg .info__title { padding-right: 50px; }
+
+/* ================= 4 · Syllabus grid ================= */
+.grid-scroll { overflow-x: auto; border-radius: 22px; }
+.syl { width: 100%; min-width: 980px; border-collapse: separate; border-spacing: 0; }
+.syl th, .syl td { padding: 10px; border-bottom: 1px solid var(--m-panel-line); vertical-align: top; }
+.syl thead th { padding: 16px 10px; font-family: var(--display); font-size: 1.6rem; font-weight: 700; color: var(--g-accent); text-align: center; border-bottom: 2px solid var(--g-line); }
+.syl thead th small { display: block; font-family: var(--sans); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--m-panel-muted); }
+.syl tbody th { position: sticky; left: 0; z-index: 1; background: var(--m-panel); text-align: left; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--m-panel-text); white-space: nowrap; vertical-align: middle; width: 110px; }
+[data-theme="dark"] .syl tbody th { background: #24130a; }
+.syl tbody tr:last-child > * { border-bottom: 0; }
+.syl td { text-align: center; }
+.syl td:nth-child(odd) { background: rgba(189, 93, 15, 0.035); }
+[data-theme="dark"] .syl td:nth-child(odd) { background: rgba(255, 236, 210, 0.02); }
+.syl .none { color: var(--g-dash); }
+.tbook { display: block; width: 100%; padding: 0.5rem 0.55rem; border-radius: 10px; border-left: 4px solid var(--c, #4a1813); background: color-mix(in srgb, var(--c, #4a1813) 9%, transparent); font-family: var(--display); font-size: 1.02rem; font-weight: 600; line-height: 1.12; text-align: left; color: var(--m-panel-text); transition: background 0.2s, transform 0.2s; }
+[data-theme="dark"] .tbook { border-left-color: var(--gold); background: rgba(255, 236, 210, 0.05); }
+.tbook + .tbook { margin-top: 6px; }
+.tbook:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--c, #4a1813) 18%, transparent); }
+.tbook[aria-expanded="true"] { background: var(--m-board); color: var(--gold-light); border-left-color: var(--gold); }
+.syl-detail { display: grid; grid-template-columns: 120px 1fr auto; gap: 1.6rem; align-items: start; margin-top: 18px; padding: 1.4rem 1.8rem; }
+.syl-detail .info__title { font-size: 1.9rem; margin-top: 0.4rem; }
+.syl-empty { margin-top: 18px; text-align: center; font-family: var(--display); font-style: italic; font-size: 1.15rem; color: var(--g-muted); }
+
+/* ================= 5 · Contents page ================= */
+.fih { max-width: 940px; margin: 0 auto; padding: 0.6rem clamp(1rem, 3vw, 2.2rem); }
+.fih__year + .fih__year { border-top: 1px solid var(--m-panel-line); }
+.fih__head { display: grid; grid-template-columns: 64px 1fr auto 28px; gap: 1.1rem; align-items: center; width: 100%; padding: 1.2rem 0; text-align: left; }
+.fih__num { font-family: var(--display); font-size: 2.4rem; font-weight: 700; line-height: 1; color: var(--g-accent); text-align: center; }
+.fih__name { font-family: var(--display); font-size: 1.6rem; font-weight: 600; line-height: 1.1; }
+.fih__subs { display: block; font-family: var(--sans); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--m-panel-muted); margin-top: 0.3rem; }
+.fih__fan { display: flex; }
+.fih__fan { padding-right: 6px; }
+.fih__fan img { width: 34px; aspect-ratio: 3 / 4; border-radius: 2px 3px 3px 2px; box-shadow: -3px 0 6px -2px rgba(0, 0, 0, 0.5); transition: margin 0.35s var(--ease-out); }
+.fih__fan img + img { margin-left: -14px; }
+.fih__fan img:nth-child(odd) { rotate: -3deg; }
+.fih__fan img:nth-child(even) { rotate: 2deg; }
+.fih__head:hover .fih__fan img + img { margin-left: -4px; }
+.fih__chev { width: 22px; height: 22px; transition: transform 0.35s var(--ease-out); color: var(--g-accent); }
+.fih__head[aria-expanded="true"] .fih__chev { transform: rotate(180deg); }
+.fold { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s var(--ease-out); }
+.fold.open { grid-template-rows: 1fr; }
+.fold > div { min-height: 0; overflow: hidden; }
+.fih__list { list-style: none; margin: 0 0 1.4rem 82px; padding: 0; counter-reset: b; }
+.fih__row { display: flex; align-items: baseline; gap: 0.7rem; width: 100%; padding: 0.55rem 0; text-align: left; }
+.fih__row::before { counter-increment: b; content: counter(b) "."; font-family: var(--display); font-weight: 700; color: var(--g-accent); width: 1.4rem; flex: none; }
+.fih__row b { font-family: var(--display); font-size: 1.25rem; font-weight: 600; }
+.fih__row .urdu { font-size: 0.95rem; color: var(--m-panel-muted); }
+.fih__row .dots { flex: 1; border-bottom: 1px dotted var(--m-panel-muted); opacity: 0.6; translate: 0 -4px; min-width: 20px; }
+.fih__row em { font-style: normal; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--m-chip-text); }
+.fih__row:hover b { color: var(--g-accent); }
+.fih__row[aria-expanded="true"] b { color: var(--g-accent); }
+.fih__desc { display: grid; grid-template-columns: 70px 1fr; gap: 1rem; margin: 0.2rem 0 0.8rem 2.1rem; padding: 0.9rem 1rem; border-radius: 12px; background: var(--m-chip-bg); font-size: 0.9rem; }
+.fih__desc a { display: inline-block; margin-top: 0.4rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-accent); text-decoration: none; }
+
+/* ================= 6 · Turn the card ================= */
+.turn { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: clamp(1.5rem, 3vw, 2.6rem); align-items: start; }
+.rail { display: flex; flex-direction: column; gap: 4px; padding: 8px; position: sticky; top: 20px; }
+.rail button { display: grid; grid-template-columns: 38px 1fr; align-items: center; gap: 0.6rem; padding: 0.55rem 0.8rem; border-radius: 12px; text-align: left; transition: background 0.2s; }
+.rail button:hover { background: var(--m-chip-bg); }
+.rail b { font-family: var(--display); font-size: 1.35rem; font-weight: 700; color: var(--g-accent); text-align: center; }
+.rail span { font-size: 0.86rem; font-weight: 500; line-height: 1.2; }
+.rail small { display: block; font-size: 0.7rem; color: var(--m-panel-muted); }
+.rail button[aria-selected="true"] { background: var(--m-board); color: var(--m-board-text); }
+.rail button[aria-selected="true"] b { color: var(--gold-light); }
+.rail button[aria-selected="true"] small { color: var(--m-board-muted); }
+[data-theme="dark"] .rail button[aria-selected="true"] { background: rgba(227, 179, 74, 0.14); box-shadow: inset 3px 0 0 var(--gold); }
+.turn-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 22px; }
+.tcard { perspective: 1200px; }
+.tcard__inner { position: relative; display: block; width: 100%; aspect-ratio: 3 / 4; transform-style: preserve-3d; transition: transform 0.7s var(--ease-out); }
+.tcard__inner[aria-expanded="true"] { transform: rotateY(180deg); }
+.tcard__face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 4px 10px 10px 4px; }
+.tcard__face .cover { height: 100%; }
+.tcard__back { transform: rotateY(180deg); display: flex; flex-direction: column; padding: 1.3rem 1.3rem 1.2rem; text-align: left; overflow: hidden; }
+.tcard__back .info__title { font-size: 1.6rem; }
+.tcard__back p { font-size: 0.86rem; margin-top: 0.6rem; overflow: hidden; }
+.tcard__back .tcard__foot { margin-top: auto; padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-light); border-top: 1px solid var(--m-board-line); }
+.tcard__cap { margin-top: 0.8rem; text-align: center; }
+.tcard__cap b { display: block; font-family: var(--display); font-size: 1.2rem; font-weight: 600; line-height: 1.1; }
+.tcard__cap span { font-size: 0.64rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--g-accent); }
+
+.section__head { margin-bottom: clamp(1.6rem, 3.5vw, 2.4rem); }
+.foot-note { padding: 4rem 0 6rem; text-align: center; color: var(--g-muted); font-family: var(--display); font-style: italic; }
+
+/* ---------------- Narrow screens ---------------- */
+@media (max-width: 980px) {
+  .pile-stage { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pile { grid-column: 1 / -1; max-width: 380px; width: 100%; margin: 0 auto; }
+  .path-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .turn { grid-template-columns: 1fr; }
+  .rail { position: static; flex-direction: row; overflow-x: auto; scrollbar-width: none; }
+  .rail button { flex: none; }
+}
+@media (max-width: 720px) {
+  .cc { grid-template-columns: minmax(0, 1fr); }
+  .cc > .round { display: none; }
+  .cc__drawer { margin-inline: 0; }
+  .cc__panel { grid-template-columns: 1fr; }
+  .cc__close { position: absolute; top: 14px; right: 14px; }
+  .path-grid { grid-template-columns: 1fr; }
+  .dlg__card { grid-template-columns: 1fr; }
+  .dlg__card .cover { max-width: 200px; }
+  .syl-detail { grid-template-columns: 1fr; }
+  .syl-detail .cover { max-width: 120px; }
+  .turn-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fih__fan { display: none; }
+  .fih__head { grid-template-columns: 48px 1fr 24px; }
+  .fih__list { margin-left: 0; }
+}
+@media (max-width: 560px) {
+  .pile-stage { grid-template-columns: 1fr; }
+  .pile-cover { max-width: 220px; margin: 0 auto; }
+  .fih__desc { grid-template-columns: 1fr; margin-left: 0; }
+  .fih__desc img { display: none; }
+  .turn-grid { gap: 22px 14px; }
+  .tcard__back { padding: 0.9rem; }
+  .tcard__back .info__title { font-size: 1.2rem; }
+  .tcard__back p { font-size: 0.78rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="mode-switch" role="group" aria-label="Mockup mode">
+  <button type="button" data-mode="light">Light</button>
+  <button type="button" data-mode="dark">Dark</button>
+</div>
+
+<header class="wrap canvas-head">
+  <p class="section__eyebrow">Curriculum</p>
+  <h1>Beyond the shelf</h1>
+  <p>Six ways to show the seven years' books, each readable at a glance and opened with a click. Built on the live stylesheet, reading content/curriculum.json.</p>
+  <nav class="jump" aria-label="Options">
+    <a href="design/canvas-curriculum/index.html#m1">1 · Cover carousel</a>
+    <a href="design/canvas-curriculum/index.html#m2">2 · The pile</a>
+    <a href="design/canvas-curriculum/index.html#m3">3 · The path</a>
+    <a href="design/canvas-curriculum/index.html#m4">4 · Syllabus grid</a>
+    <a href="design/canvas-curriculum/index.html#m5">5 · Contents page</a>
+    <a href="design/canvas-curriculum/index.html#m6">6 · Turn the card</a>
+  </nav>
+</header>
+
+<main>
+  <section class="mock" id="m1">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">1</span>
+        <div>
+          <h2 class="mock__title">Cover carousel <small>your idea</small></h2>
+          <p class="mock__desc">A tab per year over a carousel of the year's covers. Clicking a cover lifts it and opens a board beneath it, its notch pointing at the cover, with the subject, title, description and See more. <b>Try it: switch years, click a cover, click another.</b></p>
+        </div>
+      </div>
+      <div class="section__head"><p class="section__eyebrow">Seven years</p><h2 class="section__heading">Curriculum</h2></div>
+      <div data-mock="carousel"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="m2">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">2</span>
+        <div>
+          <h2 class="mock__title">The pile <small>your idea</small></h2>
+          <p class="mock__desc">A tab per year. The year's books lie in a pile on the left, titles readable along their spines. Clicking a spine draws that book out of the pile: its cover stands beside the pile and its description beside the cover, and the book shown before goes back on the pile. <b>Try it: click the spines.</b></p>
+        </div>
+      </div>
+      <div class="section__head"><p class="section__eyebrow">Seven years</p><h2 class="section__heading">Curriculum</h2></div>
+      <div data-mock="pile"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="m3">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">3</span>
+        <div>
+          <h2 class="mock__title">The path</h2>
+          <p class="mock__desc">The seven years as stations on one line, so the length and order of the programme shows at a glance and the line fills up to the chosen year. The year's books are cream cards (cover, subject, title, first line). A card opens the full view in a dialog, like the folio. <b>Try it: pick a year, open a card.</b></p>
+        </div>
+      </div>
+      <div class="section__head"><p class="section__eyebrow">Seven years</p><h2 class="section__heading">Curriculum</h2></div>
+      <div data-mock="path"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="m4">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">4</span>
+        <div>
+          <h2 class="mock__title">Syllabus grid</h2>
+          <p class="mock__desc">The whole programme at once: subjects down the side, years across the top, a title in each cell, edged in its binding colour. It shows how a subject runs from year to year. Clicking a title opens its details under the grid. On phones the grid scrolls sideways with the subjects pinned. <b>Try it: click any title.</b></p>
+        </div>
+      </div>
+      <div class="section__head"><p class="section__eyebrow">Seven years</p><h2 class="section__heading">Curriculum</h2></div>
+      <div data-mock="grid"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="m5">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">5</span>
+        <div>
+          <h2 class="mock__title">Contents page</h2>
+          <p class="mock__desc">A kitab's fihrist. Each year is one row with its numeral, its subjects and a fan of its covers. The row opens into a numbered list of books with dotted leaders to the subject, and a book opens into its description. The quietest option, and it reads well on a phone. <b>Try it: open a year, then a book.</b></p>
+        </div>
+      </div>
+      <div class="section__head"><p class="section__eyebrow">Seven years</p><h2 class="section__heading">Curriculum</h2></div>
+      <div data-mock="contents"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="m6">
+    <div class="wrap">
+      <div class="mock__label">
+        <span class="mock__num">6</span>
+        <div>
+          <h2 class="mock__title">Turn the card</h2>
+          <p class="mock__desc">A rail of the years (a row of them on phones) beside a grid of covers, each captioned with its title and subject. Clicking a cover turns it over to the board side, which holds the subject, title, description and See more. Clicking again turns it back. <b>Try it: click a cover.</b></p>
+        </div>
+      </div>
+      <div class="section__head"><p class="section__eyebrow">Seven years</p><h2 class="section__heading">Curriculum</h2></div>
+      <div data-mock="turn"></div>
+    </div>
+  </section>
+
+  <p class="foot-note">Only Second Year holds real books; the rest are the JSON's placeholders.</p>
+</main>
+
+<dialog class="dlg" id="dlg" aria-labelledby="dlg-title"></dialog>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Mode switch (mockup tool) ---------- */
+  var root = document.documentElement;
+  var modeBtns = document.querySelectorAll("[data-mode]");
+  function showMode() {
+    modeBtns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === root.dataset.theme)); });
+  }
+  modeBtns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      root.dataset.theme = b.dataset.mode;
+      try { localStorage.setItem("alimiyyah.theme", b.dataset.mode); } catch (e) {}
+      showMode();
+    });
+  });
+  showMode();
+
+  /* ---------- Helpers ---------- */
+  var ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+  var BINDINGS = [
+    ["#4a1813", "#1a1210"], ["#2c1d13", "#5a1916"], ["#1c2a22", "#4a1813"],
+    ["#5e3b1f", "#1c2a22"], ["#16120f", "#5a1916"], ["#3b2416", "#16120f"]
+  ];
+  var THICK = { small: 40, medium: 46, large: 52 };
+  var SECOND = 1;   // Second Year has the real books, so each option opens on it
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function el(html) { var t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstChild; }
+  function titleHtml(b) {
+    return esc(b.title) + (b.titleUrdu ? ' <span class="urdu" lang="ur">' + esc(b.titleUrdu) + "</span>" : "");
+  }
+  function authorLine(b) {
+    return b.author && !/^\s*TODO/i.test(b.author) ? "by " + esc(b.author) : "";
+  }
+  var CHEV = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+  var CLOSE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  var MORE = '<a class="btn btn--gold btn--sm" href="#" onclick="return false">See more</a>';
+
+  /* The drawn binding, face-on: the same drawing as curriculum.js's drawnCover. */
+  var coverCache = {};
+  function cover(book, i) {
+    var key = book.title + "|" + i;
+    if (coverCache[key]) return coverCache[key];
+    var binding = BINDINGS[i % BINDINGS.length], gilt = "#d9aa48", W = 300, H = 400;
+    function cart(cx, cy, w, h) {
+      var x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - h / 2, y1 = cy + h / 2;
+      return "M" + cx + " " + y0 + "L" + x1 + " " + (y0 + h * 0.12) + "L" + x1 + " " + (y0 + h * 0.88) +
+             "L" + cx + " " + y1 + "L" + x0 + " " + (y0 + h * 0.88) + "L" + x0 + " " + (y0 + h * 0.12) + "Z";
+    }
+    function finial(y, flip) {
+      return '<g transform="translate(150 ' + y + ") scale(1 " + (flip ? -1 : 1) + ')">' +
+        '<path d="M0 0V16" stroke="' + gilt + '" stroke-width="1.4"/>' +
+        '<rect x="-4" y="16" width="8" height="8" transform="rotate(45 0 20)" fill="' + gilt + '"/></g>';
+    }
+    var lines = [], line = "";
+    String(book.title || "").split(/\s+/).forEach(function (w) {
+      if (line && (line + " " + w).length > 11) { lines.push(line); line = w; }
+      else line = line ? line + " " + w : w;
+    });
+    if (line) lines.push(line);
+    lines = lines.slice(0, 3);
+    var size = lines.length > 2 ? 21 : 25, lead = size + 5;
+    var top = 170 - ((lines.length - 1) * lead) / 2 + size * 0.35;
+    var text = lines.map(function (l, n) {
+      return '<text x="150" y="' + (top + n * lead) + '" text-anchor="middle" fill="' + gilt +
+        '" font-family="Georgia, serif" font-size="' + size + '" font-weight="600">' + esc(l) + "</text>";
+    }).join("");
+    var svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">' +
+      '<defs><filter id="g" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>' +
+      '<feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.5 0 0 0 -0.22"/></filter>' +
+      '<linearGradient id="l" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-opacity="0.45"/><stop offset="0.16" stop-opacity="0.05"/>' +
+      '<stop offset="0.5" stop-color="#fff" stop-opacity="0.09"/><stop offset="1" stop-opacity="0.3"/></linearGradient></defs>' +
+      '<rect width="300" height="400" fill="' + binding[0] + '"/><rect width="300" height="400" filter="url(#g)"/><rect width="300" height="400" fill="url(#l)"/>' +
+      '<rect x="14" y="14" width="272" height="372" fill="none" stroke="' + gilt + '" stroke-width="1.6" opacity="0.85"/>' +
+      '<rect x="20" y="20" width="260" height="360" fill="none" stroke="' + gilt + '" stroke-width="0.8" opacity="0.6"/>' +
+      '<g fill="' + gilt + '" opacity="0.8"><circle cx="30" cy="30" r="3.2"/><circle cx="270" cy="30" r="3.2"/><circle cx="30" cy="370" r="3.2"/><circle cx="270" cy="370" r="3.2"/></g>' +
+      finial(62, false) + finial(338, true) +
+      '<path d="' + cart(150, 170, 196, 132) + '" fill="' + gilt + '"/><path d="' + cart(150, 170, 190, 126) + '" fill="' + binding[1] + '"/>' +
+      '<path d="' + cart(150, 170, 176, 112) + '" fill="none" stroke="' + gilt + '" stroke-width="0.9" opacity="0.55"/>' + text +
+      '<circle cx="150" cy="296" r="15" fill="none" stroke="' + gilt + '" stroke-width="1.2"/><circle cx="150" cy="296" r="7" fill="' + gilt + '" opacity="0.9"/></svg>';
+    return (coverCache[key] = "data:image/svg+xml," + encodeURIComponent(svg));
+  }
+  function coverImg(book, i, cls) {
+    return '<img class="cover' + (cls ? " " + cls : "") + '" src="' + (book.cover || cover(book, i)) + '" alt="" loading="lazy">';
+  }
+
+  /* Year tabs shared by options 1 and 2 */
+  function yearTabs(mount, years, start, onPick) {
+    var wrap = el('<div class="years"><div class="years__bar" role="tablist" aria-label="Year"></div><p class="years__name" aria-live="polite"></p></div>');
+    var bar = wrap.firstChild, name = wrap.lastChild;
+    years.forEach(function (y, i) {
+      var b = el('<button type="button" role="tab" aria-label="' + esc(y.name) + '">' + ROMAN[i] + "</button>");
+      b.addEventListener("click", function () { pick(i); });
+      bar.appendChild(b);
+    });
+    function pick(i) {
+      Array.prototype.forEach.call(bar.children, function (b, n) {
+        b.setAttribute("aria-selected", String(n === i));
+        b.tabIndex = n === i ? 0 : -1;
+      });
+      name.innerHTML = "<b>" + esc(years[i].name) + "</b> · " + years[i].books.length + " books";
+      onPick(i);
+    }
+    bar.addEventListener("keydown", function (e) {
+      var cur = Array.prototype.indexOf.call(bar.children, document.activeElement);
+      var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (!d || cur < 0) return;
+      var n = (cur + d + years.length) % years.length;
+      pick(n); bar.children[n].focus(); e.preventDefault();
+    });
+    mount.appendChild(wrap);
+    pick(start);
+  }
+
+  /* ================= 1 · Cover carousel ================= */
+  function mockCarousel(mount, years) {
+    var stage = el('<div></div>');
+    var cc = el('<div class="cc"><button class="round round--arrow round--prev" type="button" aria-label="Previous books">' + CHEV + '</button>' +
+      '<div class="cc__track"></div><button class="round round--arrow" type="button" aria-label="Next books">' + CHEV + "</button></div>");
+    var track = cc.querySelector(".cc__track");
+    var dots = el('<div class="cc__dots" aria-hidden="true"></div>');
+    var drawer = el('<div class="cc__drawer"><div><div class="cc__panel panel-board" role="region" aria-label="Book details"></div></div></div>');
+    var panel = drawer.querySelector(".cc__panel");
+    var year = 0, open = -1;
+
+    cc.firstChild.addEventListener("click", function () { track.scrollBy({ left: -track.clientWidth, behavior: "smooth" }); });
+    cc.lastChild.addEventListener("click", function () { track.scrollBy({ left: track.clientWidth, behavior: "smooth" }); });
+
+    function pages() { return Math.max(1, Math.ceil((track.scrollWidth - 4) / track.clientWidth)); }
+    function syncDots() {
+      var n = pages(), p = Math.round(track.scrollLeft / track.clientWidth);
+      if (dots.children.length !== n) dots.innerHTML = new Array(n + 1).join("<i></i>");
+      Array.prototype.forEach.call(dots.children, function (d, k) { d.classList.toggle("on", k === p); });
+      dots.style.visibility = n > 1 ? "visible" : "hidden";
+      cc.firstChild.style.visibility = cc.lastChild.style.visibility = n > 1 ? "visible" : "hidden";
+      caret();
+    }
+    function caret() {
+      if (open < 0) return;
+      var b = track.children[open], pr = panel.getBoundingClientRect(), br = b.getBoundingClientRect();
+      var x = Math.max(28, Math.min(pr.width - 28, br.left + br.width / 2 - pr.left));
+      panel.style.setProperty("--caret", x + "px");
+    }
+    track.addEventListener("scroll", function () { requestAnimationFrame(syncDots); });
+    window.addEventListener("resize", syncDots);
+
+    function show(i) {
+      var books = years[year].books;
+      if (open === i) i = -1;
+      open = i;
+      Array.prototype.forEach.call(track.children, function (b, n) { b.setAttribute("aria-expanded", String(n === i)); });
+      drawer.classList.toggle("open", i >= 0);
+      if (i < 0) return;
+      var b = books[i];
+      panel.innerHTML =
+        '<div class="rise"><span class="chip">' + esc(b.subject) + "</span>" +
+        '<h3 class="info__title">' + titleHtml(b) + "</h3>" +
+        '<p class="info__meta">' + esc(years[year].name) + " · Book " + (i + 1) + " of " + books.length + (authorLine(b) ? " · " + authorLine(b) : "") + "</p>" +
+        '<p class="info__desc">' + esc(b.description) + '</p><div class="info__actions">' + MORE + "</div></div>" +
+        '<button class="round cc__close" type="button" aria-label="Close details">' + CLOSE + "</button>";
+      panel.querySelector(".cc__close").addEventListener("click", function () { show(open); track.children[i].focus(); });
+      requestAnimationFrame(caret);
+    }
+
+    function load(y) {
+      year = y; open = -1;
+      drawer.classList.remove("open");
+      track.innerHTML = "";
+      years[y].books.forEach(function (b, i) {
+        var btn = el('<button class="cc__book rise" type="button" aria-expanded="false" style="animation-delay:' + i * 50 + 'ms">' +
+          coverImg(b, i) + "<h3>" + esc(b.title) + "</h3><p>" + esc(b.subject) + "</p></button>");
+        btn.addEventListener("click", function () { show(i); });
+        track.appendChild(btn);
+      });
+      track.scrollLeft = 0;
+      requestAnimationFrame(syncDots);
+    }
+
+    yearTabs(stage, years, SECOND, load);
+    stage.appendChild(cc); stage.appendChild(dots); stage.appendChild(drawer);
+    mount.appendChild(stage);
+    requestAnimationFrame(syncDots);
+  }
+
+  /* ================= 2 · The pile ================= */
+  function mockPile(mount, years) {
+    var stage = el("<div></div>");
+    var body = el('<div class="pile-stage"><div><div class="pile" role="group" aria-label="Books"></div><p class="pile__hint">Draw a book from the pile</p></div>' +
+      '<div class="pile-cover"></div><div class="pile-info" aria-live="polite"></div></div>');
+    var pile = body.querySelector(".pile"), coverBox = body.querySelector(".pile-cover"), info = body.querySelector(".pile-info");
+    var year = 0;
+
+    function take(i) {
+      var books = years[year].books, b = books[i];
+      Array.prototype.forEach.call(pile.children, function (s, n) {
+        s.classList.toggle("taken", n === i);
+        s.setAttribute("aria-pressed", String(n === i));
+      });
+      coverBox.innerHTML = '<div class="take-in">' + coverImg(b, i) + '</div><div class="pile-cover__shadow"></div>';
+      info.innerHTML = '<div class="rise" style="animation-delay:.12s"><span class="chip">' + esc(b.subject) + "</span>" +
+        '<h3 class="info__title">' + titleHtml(b) + "</h3>" +
+        '<p class="info__meta">' + esc(years[year].name) + " · Book " + (i + 1) + " of " + books.length + (authorLine(b) ? " · " + authorLine(b) : "") + "</p>" +
+        '<p class="info__desc">' + esc(b.description) + '</p><div class="info__actions">' + MORE + "</div></div>";
+    }
+
+    function load(y) {
+      year = y;
+      pile.innerHTML = "";
+      years[y].books.forEach(function (b, i) {
+        var bind = BINDINGS[i % BINDINGS.length];
+        var size = String(b.book_size || "medium").toLowerCase();
+        // A pile, not a stack of bars: widths and offsets vary a little, by position.
+        var w = { small: 86, medium: 93, large: 100 }[size] || 93;
+        var x = [0, -8, 6, -3, 9, -6, 4][i % 7], r = [0, -0.8, 0.6, -0.4, 0.9, -0.5, 0.3][i % 7];
+        var s = el('<button class="spine-h" type="button" aria-pressed="false" style="--w:' + w + "%;--t:" + (THICK[size] || 46) +
+          "px;--c:" + bind[0] + ";--lab:" + bind[1] + ";--x:" + x + "px;--r:" + r + 'deg">' +
+          '<span class="spine-h__end"></span><span class="spine-h__title">' + esc(b.title) + '</span><span class="spine-h__sub">' + esc(b.subject) + "</span></button>");
+        s.addEventListener("click", function () { take(i); });
+        pile.appendChild(s);
+      });
+      take(0);
+    }
+
+    yearTabs(stage, years, SECOND, load);
+    stage.appendChild(body);
+    mount.appendChild(stage);
+  }
+
+  /* ================= 3 · The path ================= */
+  var dlg = document.getElementById("dlg"), dlgReturn = null;
+  function openDialog(year, b, i, from) {
+    dlgReturn = from;
+    dlg.innerHTML = '<div class="dlg__card panel-cream">' + coverImg(b, i) +
+      '<div><span class="chip">' + esc(b.subject) + '</span><h3 class="info__title" id="dlg-title">' + titleHtml(b) + "</h3>" +
+      '<p class="info__meta">' + esc(year.name) + " · Book " + (i + 1) + " of " + year.books.length + (authorLine(b) ? " · " + authorLine(b) : "") + "</p>" +
+      '<p class="info__desc">' + esc(b.long || b.description) + "</p></div>" +
+      '<button class="round dlg__close" type="button" aria-label="Close">' + CLOSE + "</button></div>";
+    dlg.querySelector(".dlg__close").addEventListener("click", function () { dlg.close(); });
+    dlg.showModal();
+    dlg.querySelector(".dlg__close").focus();
+  }
+  dlg.addEventListener("close", function () { if (dlgReturn) dlgReturn.focus(); });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+  function mockPath(mount, years) {
+    var path = el('<div class="path" role="tablist" aria-label="Year"><div class="path__line"><div class="path__done"></div></div></div>');
+    var grid = el('<div class="path-grid"></div>');
+    var done = path.querySelector(".path__done");
+    var stops = years.map(function (y, i) {
+      var s = el('<button class="path__stop" type="button" role="tab"><i>' + ROMAN[i] + "</i><span>" + esc(y.name) + "</span><small>" + y.books.length + " books</small></button>");
+      s.addEventListener("click", function () { pick(i); });
+      path.appendChild(s);
+      return s;
+    });
+    function pick(y) {
+      stops.forEach(function (s, n) { s.setAttribute("aria-selected", String(n === y)); s.classList.toggle("past", n < y); });
+      done.style.width = (years.length > 1 ? (y / (years.length - 1)) * 100 : 0) + "%";
+      grid.innerHTML = "";
+      years[y].books.forEach(function (b, i) {
+        var c = el('<button class="pcard panel-cream rise" type="button" aria-haspopup="dialog" style="animation-delay:' + i * 50 + 'ms">' + coverImg(b, i) +
+          '<div><span class="chip">' + esc(b.subject) + "</span><h3>" + esc(b.title) + "</h3><p>" + esc(b.description) + '</p><span class="more">Read more ›</span></div></button>');
+        c.addEventListener("click", function () { openDialog(years[y], b, i, c); });
+        grid.appendChild(c);
+      });
+    }
+    mount.appendChild(path); mount.appendChild(grid);
+    pick(SECOND);
+  }
+
+  /* ================= 4 · Syllabus grid ================= */
+  function mockGrid(mount, years) {
+    var subjects = [];
+    years.forEach(function (y) { y.books.forEach(function (b) { if (subjects.indexOf(b.subject) < 0) subjects.push(b.subject); }); });
+    var html = '<div class="grid-scroll panel-cream"><table class="syl"><thead><tr><th scope="col" aria-label="Subject"></th>';
+    years.forEach(function (y, i) { html += '<th scope="col">' + ROMAN[i] + "<small>" + esc(y.name.replace(/\s*Year/, "")) + "</small></th>"; });
+    html += "</tr></thead><tbody>";
+    subjects.forEach(function (s) {
+      html += '<tr><th scope="row">' + esc(s) + "</th>";
+      years.forEach(function (y, yi) {
+        var cell = "";
+        y.books.forEach(function (b, bi) {
+          if (b.subject === s) cell += '<button class="tbook" type="button" aria-expanded="false" data-y="' + yi + '" data-b="' + bi + '" style="--c:' + BINDINGS[bi % BINDINGS.length][0] + '">' + esc(b.title) + "</button>";
+        });
+        html += "<td>" + (cell || '<span class="none" aria-label="None">—</span>') + "</td>";
+      });
+      html += "</tr>";
+    });
+    html += "</tbody></table></div>";
+    var table = el(html);
+    var detail = el('<div aria-live="polite"><p class="syl-empty">Choose a title to read about it.</p></div>');
+    var cur = null;
+    table.addEventListener("click", function (e) {
+      var t = e.target.closest(".tbook");
+      if (!t) return;
+      if (cur) cur.setAttribute("aria-expanded", "false");
+      if (cur === t) { cur = null; detail.innerHTML = '<p class="syl-empty">Choose a title to read about it.</p>'; return; }
+      cur = t; t.setAttribute("aria-expanded", "true");
+      var y = years[+t.dataset.y], i = +t.dataset.b, b = y.books[i];
+      detail.innerHTML = '<div class="syl-detail panel-board rise">' + coverImg(b, i) +
+        '<div><span class="chip">' + esc(b.subject) + " · " + esc(y.name) + '</span><h3 class="info__title">' + titleHtml(b) + "</h3>" +
+        '<p class="info__desc">' + esc(b.description) + "</p></div><div>" + MORE + "</div></div>";
+    });
+    mount.appendChild(table); mount.appendChild(detail);
+  }
+
+  /* ================= 5 · Contents page ================= */
+  function mockContents(mount, years) {
+    var box = el('<div class="fih panel-cream"></div>');
+    years.forEach(function (y, yi) {
+      var subs = [];
+      y.books.forEach(function (b) { if (subs.indexOf(b.subject) < 0) subs.push(b.subject); });
+      var id = "fih-" + yi;
+      var item = el('<div class="fih__year"><button class="fih__head" type="button" aria-expanded="false" aria-controls="' + id + '">' +
+        '<span class="fih__num">' + ROMAN[yi] + '</span><span class="fih__name">' + esc(y.name) + '<span class="fih__subs">' + y.books.length + " books · " + esc(subs.join(" · ")) + "</span></span>" +
+        '<span class="fih__fan" aria-hidden="true">' + y.books.map(function (b, i) { return '<img src="' + cover(b, i) + '" alt="">'; }).join("") + "</span>" +
+        '<svg class="fih__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>' +
+        '<div class="fold" id="' + id + '"><div><ol class="fih__list"></ol></div></div></div>');
+      var list = item.querySelector(".fih__list");
+      y.books.forEach(function (b, i) {
+        var li = el('<li><button class="fih__row" type="button" aria-expanded="false"><b>' + esc(b.title) + "</b>" +
+          (b.titleUrdu ? '<span class="urdu" lang="ur">' + esc(b.titleUrdu) + "</span>" : "") +
+          '<span class="dots"></span><em>' + esc(b.subject) + '</em></button><div class="fold"><div><div class="fih__desc">' +
+          '<img class="cover" src="' + cover(b, i) + '" alt=""><div><p>' + esc(b.description) + '</p><a href="#" onclick="return false">See more ›</a></div></div></div></div></li>');
+        var row = li.firstChild, fold = li.lastChild;
+        row.addEventListener("click", function () {
+          var was = row.getAttribute("aria-expanded") === "true";
+          list.querySelectorAll(".fih__row").forEach(function (r) { r.setAttribute("aria-expanded", "false"); r.nextSibling.classList.remove("open"); });
+          row.setAttribute("aria-expanded", String(!was)); fold.classList.toggle("open", !was);
+        });
+        list.appendChild(li);
+      });
+      var head = item.firstChild, yfold = item.lastChild;
+      head.addEventListener("click", function () {
+        var was = head.getAttribute("aria-expanded") === "true";
+        head.setAttribute("aria-expanded", String(!was)); yfold.classList.toggle("open", !was);
+      });
+      if (yi === SECOND) { head.setAttribute("aria-expanded", "true"); yfold.classList.add("open"); }
+      box.appendChild(item);
+    });
+    mount.appendChild(box);
+  }
+
+  /* ================= 6 · Turn the card ================= */
+  function mockTurn(mount, years) {
+    var wrap = el('<div class="turn"><div class="rail panel-cream" role="tablist" aria-label="Year" aria-orientation="vertical"></div><div class="turn-grid"></div></div>');
+    var rail = wrap.firstChild, grid = wrap.lastChild;
+    years.forEach(function (y, i) {
+      var b = el('<button type="button" role="tab"><b>' + ROMAN[i] + "</b><span>" + esc(y.name) + "<small>" + y.books.length + " books</small></span></button>");
+      b.addEventListener("click", function () { pick(i); });
+      rail.appendChild(b);
+    });
+    function pick(y) {
+      Array.prototype.forEach.call(rail.children, function (b, n) { b.setAttribute("aria-selected", String(n === y)); });
+      grid.innerHTML = "";
+      years[y].books.forEach(function (b, i) {
+        var card = el('<div class="tcard rise" style="animation-delay:' + i * 50 + 'ms"><button class="tcard__inner" type="button" aria-expanded="false" aria-label="' + esc(b.title) + ', turn over">' +
+          '<span class="tcard__face">' + coverImg(b, i) + "</span>" +
+          '<span class="tcard__face tcard__back panel-board"><span class="chip">' + esc(b.subject) + '</span><span class="info__title">' + titleHtml(b) + "</span>" +
+          "<p>" + esc(b.description) + '</p><span class="tcard__foot"><span>See more ›</span><span>Turn back ↺</span></span></span></button>' +
+          '<div class="tcard__cap"><b>' + esc(b.title) + "</b><span>" + esc(b.subject) + "</span></div></div>");
+        var inner = card.firstChild;
+        inner.addEventListener("click", function () {
+          var was = inner.getAttribute("aria-expanded") === "true";
+          grid.querySelectorAll(".tcard__inner").forEach(function (x) { x.setAttribute("aria-expanded", "false"); });
+          inner.setAttribute("aria-expanded", String(!was));
+        });
+        grid.appendChild(card);
+      });
+    }
+    mount.appendChild(wrap);
+    pick(SECOND);
+  }
+
+  /* ---------- Load ---------- */
+  fetch("content/curriculum.json", { cache: "no-cache" })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var years = data.years || [];
+      var build = { carousel: mockCarousel, pile: mockPile, path: mockPath, grid: mockGrid, contents: mockContents, turn: mockTurn };
+      document.querySelectorAll("[data-mock]").forEach(function (m) { build[m.dataset.mock](m, years); });
+    })
+    .catch(function (e) {
+      document.querySelector("main").insertAdjacentHTML("afterbegin", '<p class="wrap" style="padding:2rem;color:#a24e0b">Serve the site root (python3 -m http.server) to load content/curriculum.json. ' + esc(e) + "</p>");
+    });
+})();
+</script>
+</body>
+</html>

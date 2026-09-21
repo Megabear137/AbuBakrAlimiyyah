@@ -7,7 +7,7 @@
    design/canvas-daynight/: a centred header over a full-height banner that
    blends into the ground, centred section heads (a ✦ eyebrow, letter-
    spaced display capitals, an italic lede), fee panels and timing tiles,
-   a teacher mosaic, an article slider with an "Up next" rail, three videos
+   a teacher mosaic, a featured article over a carousel of the rest, three videos
    across, and the testimonies in mihrab niches.
 
    Colour belongs to the mode. Light is Chocolate & Bright Gold (theme 12 of
@@ -23,7 +23,7 @@
     5. Hero
     6. Introduction
     7. Curriculum bookshelf
-    8. Kitab spines & the open book
+    8. Kitab spines, the slip & the folio
     9. Details
    10. Carousels, teachers, testimonies
    11. Articles, videos & footer
@@ -40,7 +40,7 @@
   --choc-deep:    #8d5537;
   --board:        #6b3f26;   /* the panels that carry text sit on a darker board */
   --board-deep:   #3c2213;
-  --espresso:     #241205;   /* ink on gold: buttons, the play button, the open book */
+  --espresso:     #241205;   /* ink on gold: buttons, the play button */
   --gold:         #e3b34a;
   --gold-light:   #eec25a;
   --gold-pale:    #f7e0a4;
@@ -76,8 +76,9 @@
   --on-choc:      #fbeedd;
   --cream:        #fcf4e6;
 
+  --title: "Gilda Display", "Cormorant Garamond", Georgia, serif;   /* section titles */
   --display: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
-  --ui:      "Instrument Sans", "Segoe UI", system-ui, sans-serif;   /* the open book and the folio */
+  --ui:      "Instrument Sans", "Segoe UI", system-ui, sans-serif;   /* the slip and the folio */
   --sans:    "Poppins", "Instrument Sans", system-ui, sans-serif;     /* the page */
   --urdu:    "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
 
@@ -208,12 +209,12 @@ main { position: relative; }
 .section__eyebrow:empty { display: none; }
 .section__heading {
   margin: 0.9rem 0 0.6rem;
-  padding-left: 0.14em;                  /* balances the tracking after the last letter */
-  font-family: var(--display);
+  padding-left: 0.12em;                  /* balances the tracking after the last letter */
+  font-family: var(--title);
   font-size: clamp(2rem, 1.2rem + 3.4vw, 4.2rem);
-  font-weight: 600;
+  font-weight: 400;                      /* Gilda Display has one weight */
   line-height: 1.05;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   overflow-wrap: anywhere;
   background: var(--g-title);
@@ -234,16 +235,27 @@ main { position: relative; }
 .section__tools { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; margin-top: 1.4rem; }
 .section__tools > div:empty { display: none; }
 
-/* The rule between sections: 4px of deep gold, solid across the middle, with
-   a lit edge beneath it (dark mode draws B's thin gold line instead). */
+/* The rule between sections: 4px of deep gold with a lit edge beneath it,
+   parted in the middle for the logo (dark mode draws B's thin gold line and
+   the gold logo instead). The box is as tall as the logo; the negative
+   margins keep the line where the 4px rule stood. */
 .section-rule {
-  width: min(820px, 70%);
-  height: 4px;
-  margin: var(--section-gap) auto 0;
+  --rule-logo: url("../img/logo_black_web.png");
+  --rule-line: #9a6508;
+  --rule-edge: rgba(255, 248, 236, 0.7);
+  --rule-h: 4px;
+  --rule-mark: 80px;          /* the logo's height */
+  --rule-half-gap: 84px;      /* centre to each line's inner end */
+  width: min(820px, 80%);
+  height: var(--rule-mark);
+  margin: calc(var(--section-gap) - var(--rule-mark) / 2) auto calc(var(--rule-mark) / -2);
   border: 0;
-  border-radius: 2px;
-  background: linear-gradient(90deg, transparent, #9a6508 18%, #9a6508 82%, transparent);
-  box-shadow: 0 1px 0 rgba(255, 248, 236, 0.7);
+  background:
+    var(--rule-logo) center / auto var(--rule-mark) no-repeat,
+    linear-gradient(90deg, transparent, var(--rule-line) 36%) left center / calc(50% - var(--rule-half-gap)) var(--rule-h) no-repeat,
+    linear-gradient(270deg, transparent, var(--rule-line) 36%) right center / calc(50% - var(--rule-half-gap)) var(--rule-h) no-repeat,
+    linear-gradient(90deg, transparent, var(--rule-edge) 36%) left 0 top calc(50% + var(--rule-h) / 2 + 0.5px) / calc(50% - var(--rule-half-gap)) 1px no-repeat,
+    linear-gradient(270deg, transparent, var(--rule-edge) 36%) right 0 top calc(50% + var(--rule-h) / 2 + 0.5px) / calc(50% - var(--rule-half-gap)) 1px no-repeat;
 }
 
 .btn {
@@ -318,7 +330,6 @@ main { position: relative; }
    Scroll-driven, so browsers without view timelines simply show everything. */
 @keyframes rise { from { opacity: 0; transform: translateY(34px); } to { opacity: 1; transform: none; } }
 @keyframes drift { from { transform: scale(1.12); } to { transform: scale(1.02); } }
-@keyframes wheel { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(10px); } }
 
 .in { animation: rise 1s var(--ease-out) both; }
 .hero .in:nth-child(2) { animation-delay: 0.1s; }
@@ -340,7 +351,7 @@ main { position: relative; }
 .site-header { position: absolute; inset: 0 0 auto; z-index: 10; }
 .site-header__inner {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 1rem;
   height: 120px;
@@ -361,7 +372,9 @@ main { position: relative; }
   gap: 0.4rem;
   text-decoration: none;
 }
-.brand__mark { width: 58px; height: 58px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(227, 179, 74, 0.3); }
+/* The gold logo in both modes: the header's photograph and the footer's
+   board are dark in light mode too (the black logo is for the light ground). */
+.brand__mark { width: auto; height: 58px; }
 .brand__name {
   color: var(--gold-pale);
   font-family: var(--display);
@@ -424,10 +437,13 @@ main { position: relative; }
   min-height: max(640px, 100vh);
   overflow: hidden;
 }
+/* The box is a third as tall again as the banner and hangs from its foot, so the
+   photo sits higher: the dome is cropped and the mihrab shows, but the
+   chandelier's gilt top stays below the header's mark. */
 .hero__img {
   position: absolute;
-  inset: 0;
-  background: var(--choc-deep) url("../img/hero-masjid.jpg") center 35% / cover no-repeat;
+  inset: -35% 0 0;
+  background: var(--choc-deep) url("../img/hero-masjid.jpg") center bottom / cover no-repeat;
   animation: drift 14s ease-out both;
 }
 .hero__img::after {
@@ -456,20 +472,6 @@ main { position: relative; }
 }
 .hero__body { position: relative; z-index: 1; padding-block: 120px 7rem; }
 
-.hero__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  color: var(--gold-pale);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-}
-.hero__eyebrow::before { content: ""; width: 7px; height: 7px; flex: none; border-radius: 50%; background: var(--gold); }
-.hero__eyebrow:empty { display: none; }
-.hero__orn { display: block; width: 130px; margin: 1rem 0 1.6rem; color: var(--gold); }
-
 .hero__title {
   max-width: 15ch;
   color: #fff6ea;
@@ -493,29 +495,6 @@ main { position: relative; }
 }
 .hero__sub:empty { display: none; }
 .hero__cta:empty { display: none; }
-
-/* A mouse outline with a falling dot: the way on down the page. */
-.hero__explore {
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  bottom: 36px;
-  transform: translateX(-50%);
-  color: var(--g-muted);
-}
-.hero__explore i { position: relative; display: block; width: 22px; height: 34px; border: 1px solid currentColor; border-radius: 12px; }
-.hero__explore i::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 7px;
-  width: 4px;
-  height: 7px;
-  margin-left: -2px;
-  border-radius: 2px;
-  background: var(--g-mark);
-  animation: wheel 1.8s infinite;
-}
 
 /* --------------------------- 6. Introduction ----------------------- */
 .intro { padding-top: clamp(3rem, 6vw, 70px); }
@@ -676,49 +655,50 @@ main { position: relative; }
 }
 .folio { border-radius: 14px 14px 0 0; }
 
-/* ------------------- 8. Kitab spines & the open book --------------- */
-/* An Islamic binding: a flat goatskin spine with no raised bands, a double
-   gilt frame down its length, the title in a pointed cartouche between two
-   finials, a small medallion at the foot and a two-colour chevron headband.
-   Width, height, leather and cartouche colour arrive from curriculum.js as
-   --w, --h, --c and --lab: size from the book's `book_size`, colours from its
-   position in its year. */
+/* ------------------ 8. Kitab spines, the slip & the folio ------------- */
+/* An Islamic binding, the "emerald panel" of
+   design/canvas-spines/goatskin.html: a tooled frame with a braid down both
+   edges, a lighter panel inside them, a pendant at the head, the title in a
+   dark ogee cartouche, a lozenge, the subject, and a chevron headband. The
+   ornament is an SVG curriculum.js draws at the book's own size
+   (.spine__art); the title and subject are HTML set over it (.spine__box),
+   sized there to fit. --w and --h come from the book's `book_size`; the
+   leather (--c), the headband's thread (--hb) and metal (--hm, --hm-pale)
+   and the lettering (--ink, --ink-sub) from its `color`, in the sets of
+   design/canvas-spines/colours.html. */
+.book { flex: none; display: flex; align-items: flex-end; }
+
 .spine {
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.45'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-  --cart: polygon(50% 0, 100% 12%, 100% 88%, 50% 100%, 0 88%, 0 12%);
 
   position: relative;
   flex: none;
+  display: block;
   width: var(--w);
   height: var(--h);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  padding: 14px 0 10px;
+  padding: 0;
   border-radius: 2px;
-  color: var(--gilt);
   background:
-    linear-gradient(180deg, rgba(225, 195, 145, 0.12), transparent 6%, transparent 94%, rgba(225, 195, 145, 0.12)),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1) 14%, rgba(255, 235, 200, 0.1) 38%, rgba(0, 0, 0, 0.05) 62%, rgba(0, 0, 0, 0.55)),
+    linear-gradient(180deg, rgba(240, 215, 150, 0.1), transparent 6%, transparent 94%, rgba(240, 215, 150, 0.1)),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.08) 14%, rgba(255, 246, 232, 0.09) 38%, rgba(0, 0, 0, 0.04) 62%, rgba(0, 0, 0, 0.5)),
     var(--grain),
     var(--c);
   background-blend-mode: normal, normal, soft-light, normal;
   box-shadow: inset 0 1px 0 rgba(255, 235, 200, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.45), 4px 0 8px -3px rgba(0, 0, 0, 0.55);
-  font-family: var(--display);
   transform-origin: 0% 100%;
   transition: transform 0.55s var(--ease-out), box-shadow 0.55s;
 }
 
-/* Hover leans the book out from the shelf, pivoting on its bottom corner. */
-.spine:not(.spine--open):not(.spine--todo):hover {
+/* Hover leans the book out from the shelf, pivoting on its bottom corner;
+   the slip is drawn out from behind it. */
+.spine:not(.spine--todo):hover {
   z-index: 3;
   transform: translateY(-10px) rotate(-6deg);
   box-shadow: inset 0 1px 0 rgba(255, 235, 200, 0.14), 12px 14px 22px -8px rgba(0, 0, 0, 0.65);
 }
-.spine:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+.spine:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
 
-.spine::before {                         /* chevron headband */
+.spine::before {                         /* chevron headband, leather and metal */
   content: "";
   position: absolute;
   left: 5px;
@@ -727,219 +707,136 @@ main { position: relative; }
   height: 4px;
   border-radius: 2px 2px 0 0;
   background:
-    linear-gradient(135deg, #8a2a20 25%, transparent 25%) -2px 0 / 4px 4px,
-    linear-gradient(225deg, #8a2a20 25%, transparent 25%) -2px 0 / 4px 4px,
-    linear-gradient(315deg, #1f4a3a 25%, transparent 25%) 0 0 / 4px 4px,
-    linear-gradient(45deg,  #1f4a3a 25%, transparent 25%) 0 0 / 4px 4px,
-    #e3cf98;
+    linear-gradient(135deg, var(--hb) 25%, transparent 25%) -2px 0 / 4px 4px,
+    linear-gradient(225deg, var(--hb) 25%, transparent 25%) -2px 0 / 4px 4px,
+    linear-gradient(315deg, var(--hm) 25%, transparent 25%) 0 0 / 4px 4px,
+    linear-gradient(45deg,  var(--hm) 25%, transparent 25%) 0 0 / 4px 4px,
+    var(--hm-pale);
 }
-.spine::after {                          /* double gilt frame */
-  content: "";
-  position: absolute;
-  inset: 6px 5px;
-  border: 1px solid var(--gilt);
-  opacity: 0.75;
-  box-shadow: inset 0 0 0 2px transparent, inset 0 0 0 3px rgba(201, 164, 87, 0.5);
-  pointer-events: none;
-}
+.spine__art { position: absolute; inset: 0; display: block; overflow: visible; pointer-events: none; }
 
-.gilt-text {
-  background: linear-gradient(180deg, #f0d69a, #c79d4c 55%, #e6c687);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.spine__fin { flex: none; position: relative; width: 10px; height: 12px; margin-top: 4px; }
-.spine__fin::before {
-  content: "";
+/* The text reads down the spine, centred both ways in the box the drawing
+   leaves for it. Solid colour, not a gilt gradient, so it reads at a glance. */
+.spine__box {
   position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 4px;
-  width: 1px;
-  background: var(--gilt);
-}
-.spine__fin::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 6px;
-  height: 6px;
-  margin-left: -3px;
-  background: var(--gilt);
-  transform: rotate(45deg);
-}
-.spine__fin--foot { margin-top: 0; transform: scaleY(-1); }
-
-.spine__cart {
-  position: relative;
-  flex: 1 1 auto;
-  width: calc(var(--w) - 16px);
-  background: var(--gilt);
-  clip-path: var(--cart);
-}
-.spine__cart-in {
-  position: absolute;
-  inset: 1.5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.35), rgba(255, 235, 200, 0.06) 45%, rgba(0, 0, 0, 0.3)), var(--lab);
-  clip-path: var(--cart);
-}
-.spine__cart-in::before {
-  content: "";
-  position: absolute;
-  inset: 3px;
-  border: 1px solid var(--gilt);
-  opacity: 0.5;
-  clip-path: var(--cart);
-}
-.spine__title {
+  overflow: hidden;
   writing-mode: vertical-rl;
-  font-size: 11.5px;
+}
+.spine__box > span { display: block; text-align: center; }
+.spine__title > span {
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 14.5px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1;
-  white-space: nowrap;
+  letter-spacing: 0.01em;
+  line-height: 1.02;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 }
-.spine__subject {
-  flex: none;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  writing-mode: vertical-rl;
-  font-size: 9.5px;
-  font-style: italic;
+.spine__subject > span {
+  color: var(--ink-sub);
+  font-family: var(--ui);
+  font-size: 8.5px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   line-height: 1;
+  text-transform: uppercase;
   white-space: nowrap;
 }
-.spine__medal {
-  flex: none;
-  position: relative;
-  width: 12px;
-  height: 12px;
-  margin-bottom: 6px;
-  border: 1px solid var(--gilt);
-  border-radius: 50%;
-}
-.spine__medal::after { content: ""; position: absolute; inset: 2.5px; border-radius: 50%; background: var(--gilt); }
-
 
 /* A slot with no book yet - the TODO entries in content/curriculum.json */
 .spine--todo {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 0;
   background: rgba(230, 186, 90, 0.05);
   border: 1.5px dashed rgba(230, 186, 90, 0.5);
   border-radius: 3px;
   box-shadow: none;
   cursor: default;
 }
-.spine--todo::before,
-.spine--todo::after { display: none; }
-.spine--todo .spine__title {
+.spine--todo::before { display: none; }
+.spine__todo {
   color: rgba(230, 186, 90, 0.75);
+  font-family: var(--display);
   font-size: 10px;
   font-style: italic;
   font-weight: 500;
   letter-spacing: 0.24em;
+  writing-mode: vertical-rl;
 }
 
-/* A slot: just its spine until the book opens. The binding's --w, --h, --c
-   and --lab are set here, so the spine and the open card both read them. */
-.book { flex: none; display: flex; align-items: flex-end; }
-
-/* The book turned to face the reader: a small cream card inside a gilt rule,
-   holding the book's text and, at its foot, two real buttons - See more and
-   Close. Close is the spine <button> itself, restyled, so focus stays put as
-   the book opens and closes. The card keeps the book's own height (--h), so
-   the shelf line doesn't jump. The shortest book, 256x236, holds a title, the
-   Urdu, a subject and about two sentences, so descriptions in
-   curriculum.json should stay near that; the folio has room for more. */
-.book--open {
-  position: relative;
-  width: min(256px, 100%);
-  height: var(--h);
-  display: grid;
-  grid-template: "face face" minmax(0, 1fr) "more close" auto / 1fr auto;
-  margin-inline: 6px;
-  padding: 1rem 1.1rem 0.7rem;
-  background: linear-gradient(160deg, #fbf6e9, #efe6cf);
-  border-radius: 4px;
-  color: var(--brown-ink);
-  box-shadow: 0 0 0 1px var(--gold), 0 14px 30px rgba(0, 0, 0, 0.5);
+/* ------------------------------ The slip ------------------------------- */
+/* Pointing at a book (or tabbing to it) draws a leaf out from behind it:
+   the folio's paper and ruling, so the preview already looks like the page
+   it opens to, with a ribbon marking it (red; lapis in dark). It is only a
+   preview - never focused, never under the pointer - placed by curriculum.js in page
+   coordinates, on the book's right or, near the edge of the screen, its
+   left (.slip--left). Option 3 of design/canvas-spines/hover.html. */
+.slip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  padding: 1.15rem 1.25rem 1rem;
+  background: linear-gradient(170deg, #f7edd6, #ead9b8);
+  color: #3b2712;
+  box-shadow: inset 0 0 30px rgba(120, 84, 34, 0.2), 8px 16px 26px -10px rgba(0, 0, 0, 0.6);
   font-family: var(--ui);
   text-align: left;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transform: translateX(-26px);
+  transition: opacity 0.22s, transform 0.4s var(--ease-out), clip-path 0.45s var(--ease-out), visibility 0s linear 0.45s;
 }
-.book--open::after {                     /* the gilt rule inside the edge */
+.slip--left { clip-path: inset(0 0 0 100%); transform: translateX(26px); }
+.slip.slip--on {
+  visibility: visible;
+  opacity: 1;
+  clip-path: inset(-20px -40px -40px -20px);   /* room for the shadow */
+  transform: none;
+  transition-delay: 0s;
+}
+.slip::before {                          /* the jadwal: ink, red and gold */
   content: "";
   position: absolute;
-  inset: 5px;
-  border: 1px solid var(--gilt);
-  opacity: 0.55;
-  pointer-events: none;
+  inset: 7px;
+  border: 1px solid rgba(60, 38, 14, 0.55);
+  box-shadow: 0 0 0 2px #f4e8cf, 0 0 0 3px var(--gilt), inset 0 0 0 2px #f4e8cf, inset 0 0 0 3px rgba(138, 42, 32, 0.5);
 }
-
-.face { grid-area: face; min-height: 0; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 0.45rem; }
-.face__head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.7rem; }
-.face__title { font-family: var(--display); font-size: 1.3rem; font-weight: 600; line-height: 1.1; }
-.face__urdu { font-family: var(--urdu); font-size: 1rem; line-height: 1.9; white-space: nowrap; color: var(--brown-ink); }
-.face__meta {
-  margin-top: 0.15rem;
-  color: var(--gold-ink);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.slip > * { position: relative; }
+.slip .slip__ribbon {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  width: 9px;
+  height: 34px;
+  background: linear-gradient(90deg, #6e1f17, #9a3326 50%, #6e1f17);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
 }
-.face__rule { flex: none; height: 1px; margin: 0.55rem 0 0.6rem; background: rgba(154, 101, 8, 0.35); }
-.face__body { min-height: 0; overflow: hidden; color: var(--brown-ink); font-size: 0.8rem; line-height: 1.55; }
-
-/* The foot: a rule across the card, See more on the left, Close on the right.
-   Both carry the top border (with no gap between them) so the rule is one line. */
-.face__more,
-.spine.spine--open {
-  position: relative;
-  z-index: 1;
-  padding: 0.5rem 0 0.1rem;
-  border-top: 1px solid rgba(154, 101, 8, 0.4);
-  font-family: var(--ui);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  line-height: 1.2;
-  text-transform: uppercase;
+.slip__subject,
+.slip__hint { color: #8a2a20; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.slip__head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; margin-top: 0.15rem; padding-right: 0.9rem; }
+.slip__title { font-family: var(--display); font-size: 1.35rem; font-weight: 600; line-height: 1.1; }
+.slip__urdu { flex: none; color: #5a3a16; font-family: var(--urdu); font-size: 1rem; line-height: 1.9; white-space: nowrap; }
+.slip__rule { display: block; height: 1px; margin: 0.5rem 0 0.55rem; background: repeating-linear-gradient(90deg, rgba(60, 38, 14, 0.5) 0 6px, transparent 6px 10px); }
+.slip__body {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
 }
-.face__more { grid-area: more; justify-self: stretch; text-align: left; color: var(--gold-ink); }
-.face__more::after { content: " \2192"; }
-.face__more:hover { color: var(--rust-ink); }
-
-.spine.spine--open {                     /* the spine, standing in as Close */
-  grid-area: close;
-  width: auto;
-  height: auto;
-  display: block;
-  gap: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  color: var(--ink-muted);
-  text-align: right;
-  transform: none;
-  transition: none;
-}
-.spine.spine--open:hover { color: var(--rust-ink); }
-.spine.spine--open::before,
-.spine.spine--open::after { display: none; }
-.book--open button:focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 2px; border-radius: 2px; }
+.slip__hint { margin-top: 0.7rem; letter-spacing: 0.12em; }
+.slip__hint::after { content: " \2192"; }
 
 /* ------------------------------ The folio ------------------------------ */
-/* "See more": the book at full size, in place of the bay's well. A ruled
+/* Clicking a spine: the book at full size, in place of the bay's well. A ruled
    manuscript leaf - the jadwal, thin-thick-thin rules in gold, ink and red -
    on an aged ground with faint foxing. The cover runs down the left side;
    beside it the subject, the title with its Urdu or Arabic name on the same
@@ -1242,7 +1139,7 @@ main { position: relative; }
 .teacher:hover { transform: translateY(-4px); }
 .teacher > * { position: relative; z-index: 1; }
 .teacher--lead { grid-row: span 2; padding: 2rem; }
-.teacher__honorific { color: var(--gold-ink); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.34em; text-transform: uppercase; }
+.teacher__honorific { color: var(--brown-ink); font-size: 0.92rem; font-weight: 600; letter-spacing: 0.04em; }
 .teacher__name { margin-top: 0.3rem; color: var(--brown-ink); font-family: var(--display); font-size: 1.7rem; font-weight: 600; line-height: 1.1; }
 .teacher--lead .teacher__name { font-size: 2.6rem; }
 .teacher__bio { margin-top: 0.3rem; color: var(--brown-ink); font-size: 0.88rem; font-weight: 400; }
@@ -1383,20 +1280,19 @@ main { position: relative; }
 }
 .seg__btn[aria-pressed="true"] { background: linear-gradient(180deg, #f3cf6e, #d49a2a); color: var(--espresso); }
 
-/* Articles: one at a time. A board panel, the article beside it with
-   prev/next, a dash per article and a count, and an "Up next" rail of the
-   following two, each of which opens its article. */
+/* Articles: the featured one on top - a board panel, the article beside it
+   with its count - and beneath it a carousel of every article, the featured
+   card marked; each card features its article. */
 .slider {
   display: grid;
-  grid-template-columns: 330px minmax(0, 1fr) 170px;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
   align-items: center;
 }
-.slider--single { grid-template-columns: 330px minmax(0, 1fr); }
 .slider__art {
   display: grid;
   place-items: center;
-  aspect-ratio: 3 / 3.8;
+  aspect-ratio: 3 / 3.4;
   border-radius: 18px;
   border: 1px solid rgba(189, 93, 15, 0.75);
   color: var(--gold);
@@ -1404,8 +1300,7 @@ main { position: relative; }
 }
 .slider__art svg { width: 64px; height: 64px; }
 .slider__body { position: relative; }
-.slider__tags,
-.slider__next-label {
+.slider__tags {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1435,43 +1330,45 @@ main { position: relative; }
 }
 .slider__by { color: var(--g-muted); font-family: var(--display); font-size: 1.2rem; font-style: italic; }
 .slider__text { max-width: 34rem; margin: 1rem 0 1.8rem; color: var(--g-muted); font-weight: 400; line-height: 1.8; }
-.slider__nav { display: flex; align-items: center; gap: 0.7rem; margin-top: 2.2rem; }
-.slider__dashes { display: flex; gap: 6px; margin-left: 1rem; }
-.slider__dashes i { width: 14px; height: 3px; border-radius: 2px; background: var(--g-dash); transition: width 0.3s, background 0.3s; }
-.slider__dashes i.on { width: 28px; background: var(--g-mark); }
-.slider__count { margin-left: auto; color: var(--g-muted); font-size: 0.72rem; font-variant-numeric: tabular-nums; letter-spacing: 0.24em; }
+.slider__count { margin-left: auto; color: var(--g-muted); font-variant-numeric: tabular-nums; letter-spacing: 0.24em; }
 
-.slider__next { display: grid; gap: 1rem; }
-.slider__next-label { font-size: 0.6rem; letter-spacing: 0.34em; }
+.slider__list { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.slider__list .carousel__slide { display: flex; }   /* cards as tall as the tallest */
 .slider__card {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  aspect-ratio: 3 / 3.6;
-  padding: 0.9rem;
+  gap: 0.35rem;
+  width: 100%;
+  min-height: 150px;
+  padding: 3rem 1.1rem 1.1rem;
   overflow: hidden;
   border-radius: 12px;
   border: 1px solid rgba(189, 93, 15, 0.6);
   text-align: left;
-  transition: transform 0.3s var(--ease-out);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
 }
 .slider__card:hover { transform: translateY(-3px); }
+.slider__card[aria-current="true"] { box-shadow: 0 0 0 2px var(--gold), 0 18px 30px -18px rgba(20, 9, 2, 0.8); }
 .slider__card b {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 12px;
   display: grid;
   place-items: center;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: rgba(20, 9, 2, 0.7);
   color: var(--gold);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
-.slider__card span { color: var(--gold-pale); font-family: var(--display); font-size: 1.05rem; font-weight: 500; line-height: 1.2; }
+.slider__card[aria-current="true"] b { background: var(--gold); color: var(--espresso); }
+.slider__card em { color: var(--gold); font-size: 0.6rem; font-style: normal; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; }
+.slider__card span { color: var(--gold-pale); font-family: var(--display); font-size: 1.15rem; font-weight: 500; line-height: 1.2; }
 
 /* Videos: a carousel, three across; the caption beneath the picture. */
 .vid { position: relative; }
@@ -1578,14 +1475,12 @@ main { position: relative; }
    come from the [data-theme="dark"] tokens in section 1; this redraws the
    panels, which keep their colours in light. */
 [data-theme="dark"] body { font-weight: 300; }
-[data-theme="dark"] .section__heading { font-weight: 500; }
 [data-theme="dark"] .details__sub { font-weight: 500; }
 [data-theme="dark"] .section-rule {
-  height: 1px;
-  border-radius: 0;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  box-shadow: none;
-  opacity: 0.55;
+  --rule-logo: url("../img/logo_gold_web.png");
+  --rule-line: rgba(227, 179, 74, 0.55);
+  --rule-edge: transparent;
+  --rule-h: 1px;
 }
 [data-theme="dark"] .btn--gold { box-shadow: 0 10px 30px -10px rgba(227, 179, 74, 0.6); }
 [data-theme="dark"] .round {
@@ -1610,14 +1505,14 @@ main { position: relative; }
   color: transparent;
   text-shadow: none;
 }
-[data-theme="dark"] .hero__title em { color: inherit; font-style: normal; }
+[data-theme="dark"] .hero__title em { color: inherit; font-style: italic; }
 
 /* Our Program */
 [data-theme="dark"] .program { border-color: var(--g-line); background: var(--g-card); box-shadow: none; }
 [data-theme="dark"] .program__heading { color: var(--gold); font-weight: 500; }
 [data-theme="dark"] .program__body { color: var(--g-muted); font-weight: 300; }
 
-/* The shelf: glass bays lit from above, a dark leaf for the open book and the folio. */
+/* The shelf: glass bays lit from above, a dark leaf for the slip and the folio. */
 [data-theme="dark"] .bay {
   border-color: var(--g-line);
   background: linear-gradient(160deg, rgba(255, 236, 210, 0.06), rgba(255, 236, 210, 0.015));
@@ -1629,24 +1524,24 @@ main { position: relative; }
 }
 [data-theme="dark"] .bay__year { color: var(--gold-pale); text-shadow: none; }
 [data-theme="dark"] .bay__numeral { color: var(--gold); }
-[data-theme="dark"] .book--open {
-  border-radius: 12px;
+[data-theme="dark"] .slip {
+  border-radius: 10px;
   background: linear-gradient(160deg, #2e190b, #1c0e05);
   color: var(--g-text);
-  box-shadow: 0 0 0 1px rgba(227, 179, 74, 0.5), 0 20px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 1px rgba(227, 179, 74, 0.4), 0 20px 40px rgba(0, 0, 0, 0.6);
 }
-[data-theme="dark"] .book--open::after { border-color: rgba(227, 179, 74, 0.35); border-radius: 8px; }
-[data-theme="dark"] .face__title { color: var(--gold-light); }
-[data-theme="dark"] .face__urdu { color: var(--gold-pale); }
-[data-theme="dark"] .face__meta { color: var(--gold); }
-[data-theme="dark"] .face__rule { background: rgba(227, 179, 74, 0.3); }
-[data-theme="dark"] .face__body { color: var(--g-muted); }
-[data-theme="dark"] .face__more,
-[data-theme="dark"] .spine.spine--open { border-top-color: rgba(227, 179, 74, 0.3); }
-[data-theme="dark"] .face__more { color: var(--gold); }
-[data-theme="dark"] .spine.spine--open { color: var(--g-muted); }
-[data-theme="dark"] .face__more:hover,
-[data-theme="dark"] .spine.spine--open:hover { color: var(--gold-light); }
+[data-theme="dark"] .slip::before { border: 1px solid rgba(227, 179, 74, 0.25); border-radius: 6px; box-shadow: none; }
+[data-theme="dark"] .slip__subject,
+[data-theme="dark"] .slip__hint { color: var(--gold); }
+[data-theme="dark"] .slip__title { color: var(--gold-light); }
+[data-theme="dark"] .slip__urdu { color: var(--gold-pale); }
+/* The ribbon in lapis, not the leaf's oxblood, which sank into the espresso;
+   lapis and gold is the illuminators' pairing. */
+[data-theme="dark"] .slip .slip__ribbon {
+  background: linear-gradient(90deg, #1c4670, #3574ad 50%, #1c4670);
+}
+[data-theme="dark"] .slip__rule { background: linear-gradient(90deg, rgba(227, 179, 74, 0.5), transparent); }
+[data-theme="dark"] .slip__body { color: var(--g-muted); }
 [data-theme="dark"] .folio {
   background: linear-gradient(160deg, #2e190b, #1c0e05);
   color: var(--g-text);
@@ -1701,7 +1596,7 @@ main { position: relative; }
     linear-gradient(155deg, #a2521a, #5b2c0c);
 }
 [data-theme="dark"] .teacher::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(20, 9, 2, 0.85)); pointer-events: none; }
-[data-theme="dark"] .teacher__honorific { color: var(--gold); }
+[data-theme="dark"] .teacher__honorific { color: #fff6ea; }
 [data-theme="dark"] .teacher__name { color: #fff6ea; font-weight: 500; }
 [data-theme="dark"] .teacher__bio { color: var(--g-muted); font-weight: 300; }
 [data-theme="dark"] .teacher--lead .teacher__bio { border-top: 0; padding-top: 0; margin-top: 0.3rem; }
@@ -1787,8 +1682,6 @@ main { position: relative; }
   .program { grid-template-columns: minmax(0, 1fr); }
   .program { gap: 0.75rem; }
   .slider__art { width: 100%; max-width: 320px; }
-  .slider__next { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .slider__next-label { grid-column: 1 / -1; }
   .mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .teacher--lead { grid-column: span 2; grid-row: span 1; }
 }
@@ -1804,7 +1697,6 @@ main { position: relative; }
   .fees { grid-template-columns: minmax(0, 1fr); }
   .program { padding: 1.6rem; }
   .program__heading { white-space: normal; }
-  .slider__dashes { display: none; }
 }
 
 @media (max-width: 560px) {

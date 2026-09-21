@@ -36,7 +36,7 @@ fetched with `cache: "no-cache"`, so content edits don't need this.
 **light and dark**, both laid out after mockup B, "Night Masjid", of `design/canvas-modern/`
 (`b-night.html`): a centred header over a full-height banner, centred section heads (a ✦ eyebrow,
 letter-spaced display capitals, an italic lede), fee panels and timing tiles, a teacher mosaic, an
-article slider with an "Up next" rail, three videos across. **Alumni is the exception**: in both modes
+featured article over a carousel of articles, three videos across. **Alumni is the exception**: in both modes
 it keeps the site's mihrab niches, hung straight on the page (the wooden wall behind them was removed
 in both). Each mode keeps its own colours — dark is B's espresso and gold; light is the palette below
 on a **pale tint of the shelf's wood** (#f2dec6 → #e9cdae, plain, no grain) with **every section title
@@ -82,17 +82,31 @@ column and no mention of the year. Round 3 made the reading bay widen across its
 half-row cover was cut to a strip that read as stretched. Rounds 1 and 2 are historical, and both
 wrongly pair Second Year with Third; on the site it stands on the right beside First Year.
 
+`design/canvas-spines/` settled the spines and how a book is opened, in three rounds, and **the
+choices of rounds 2 and 3 are built**. Round 1 (`index.html`) offered four green-and-gold bindings;
+**1, tooled goatskin**, won. Round 2 (`goatskin.html`) shared its green and gold four ways; **3, the
+emerald panel**, won. Round 3 (`hover.html`) replaced the small card that opened in the shelf with a
+preview on hover and the folio on click; **3, the pulled slip**, won. Round 4 (`colours.html`) kept that
+binding and tried ten sets of leathers; **1 (lapis), 2 (ink), 3 (oxblood), 5 (navy and black in silver),
+7 (aubergine), 8 (petrol) and 9 (slate in copper)** were chosen and are built as the values of a year's `color`. The rest of
+round 4, and the green of rounds 1–3, are historical. So are the other options of rounds 1–3.
+
 **The light palette is not the canvas-glass green.** It is *Chocolate & Bright Gold*, theme 12 (round
 3) of `design/canvas-gold/`: the brand brown `--rust` rgb(189, 93, 15) for the dots, the active dash and
 the chip bullet (round buttons and carousel arrows are cream with a brown chevron, see below);
 **all text on the light ground and the cream panels is `--brown-ink`, the dark brown #462c16** — section
-titles (as a gradient through it), body copy, the program panel, teacher names, the open book. Small
+titles (as a gradient through it), body copy, the program panel, teacher names, the slip. Small
 labels on the ground are gold darkened to #7d5006 (~5:1). `--brown-ink` is its own token, *not*
 `--wood`: text must never follow the wood. The darker board (`--board` → `--board-deep`) carries the
 Details panels and tiles, the article panel, the plain video tiles and the footer, with bright gold
 titles and a rust edge; gold buttons with `--espresso` ink. The other themes in `design/canvas-gold/`
-are historical. The wooden shelf and the book leathers were never recoloured. `assets/img/logo.png` is
-still the green placeholder.
+are historical. The wooden shelf and the book leathers were never recoloured.
+
+**The logo** is `assets/img/logo_{black,gold,white}.png` (4236px masters); the page uses trimmed 520px
+copies, `logo_black_web.png` and `logo_gold_web.png` (`convert logo_X.png -trim +repage -resize 520x
+-strip logo_X_web.png`). Black goes on the light ground (the section dividers in light mode), gold on
+everything dark: the dividers in dark mode, and the footer in *both* modes (the header has no logo), because the
+banner photo and the footer board are dark in light mode too.
 
 **Dark mode** is B's own: an espresso ground (#26140a → #1a0d04 under two faint warm glows), gold
 gradient capitals, and panels of dark glass (`rgba(255, 236, 210, 0.045)`) edged in faint gold, with
@@ -129,9 +143,9 @@ book, teacher, testimony, article, video or price is a JSON edit only. (The few 
 Changing what is displayed therefore usually means editing **both** the JSON shape and the matching
 render function in `main.js` — not the HTML. JSON fields that shape presentation:
 
-- `hero.titleEmphasis` — the word of `hero.title` set in gold italic (light; in dark the whole title is gold).
-- Every section head is `kicker` (the ✦ eyebrow; the ✦ are CSS), `heading` and, where there is one, a
-  lede: `details.kicker/heading/lede`, `curriculum.kicker/label/intro`, `teachers.kicker/heading`,
+- `hero.titleEmphasis` — the word of `hero.title` set in italic (gold in light; in dark the whole title is gold).
+- Every section head is `kicker` (the ✦ eyebrow; the ✦ are CSS) and `heading`, with no lede:
+  `introduction.kicker/label`, `details.kicker/heading`, `curriculum.kicker/label`, `teachers.kicker/heading`,
   `articles`/`videos.kicker/heading` in `media.json`, `testimonies.kicker/heading`. An empty kicker hides.
 - `timings.groups[]` — **one tile per group**, labelled with its `label` and `years`, with a grooved
   row per `rows[]` entry (days and time). No sun/moon icon.
@@ -151,7 +165,7 @@ render function in `main.js` — not the HTML. JSON fields that shape presentati
   `prefers-color-scheme` — as `data-theme` on `<html>`; `nav.js` flips it and stores it. Keep the key the
   same in both places.
 
-One carousel serves Videos and Alumni; its arrows hide when every slide fits. It pages by whole screenfuls, sizes slides in px from the
+One carousel serves Articles, Videos and Alumni; its arrows hide when every slide fits. It pages by whole screenfuls, sizes slides in px from the
 measured viewport (re-layouts on resize and `document.fonts.ready`), and sets `tabindex="-1"` on
 off-screen slides. It returns `{go, layout, destroy}`; `destroy()` removes the carousel, its arrows and
 its resize listener, so a section can rebuild it with other items. **`controls`** is an element to put
@@ -175,20 +189,22 @@ than one page) carries the grab cursor.
 
 ### The page, top to bottom (`styles.css`, numbered sections)
 
-- **Header** — B's: a round menu button, the mark and name centred, and the sun/moon toggle beside an
-  outline "View Curriculum" pill (hidden below 980px, the name below 560px). It sits `absolute` over
+- **Header** — B's: a round menu button on the left (no mark or name: both were removed) and, on the right, the sun/moon toggle beside an
+  outline "View Curriculum" pill (hidden below 980px). It sits `absolute` over
   the banner and scrolls away with it. The round buttons over the photograph are dark glass in both
   modes. The menu is a full-screen overlay of the links (`.menu`); it becomes visible at once on open
   (only its fade-out is delayed) so focus can land on its ✕.
 - **Hero** — full height (`max(640px, 100vh)`), `hero-masjid.jpg` under a tint dark down the left for
-  the text; eyebrow, a gold ornament rule, the title in capitals, subtitle, CTA, and a scroll hint.
+  the text; the title in capitals, subtitle and CTA.
   **The banner blends into the ground**: `.hero::after` is a tall eased gradient drawn over the photo
   that ends in exactly `--hero-fade`, the top colour of each mode's ground. Change a ground and change
   `--hero-fade` with it, or a line reappears.
-- **Section heads** (`.section__head`) — centred: ✦ eyebrow, the title in letter-spaced Cormorant
-  capitals filled with `--g-title` (a dark-brown gradient in light, gold in dark), italic lede.
+- **Section heads** (`.section__head`) — centred: ✦ eyebrow, the title in letter-spaced Gilda Display
+  capitals (`--title`; chosen over ten candidates, the rest of the display text stays Cormorant) filled with `--g-title` (a dark-brown gradient in light, gold in dark), italic lede.
   **Sections are divided by `.section-rule`**: in light a 4px deep-gold bar with a lit edge (thin gold
-  lines were too faint on the tint), in dark B's 1px gold line.
+  lines were too faint on the tint), in dark B's 1px gold line. The line is parted in the middle for
+  the logo (black in light, gold in dark). It is all backgrounds on the `<hr>`, set by the `--rule-*`
+  tokens; the box is as tall as the logo, with negative margins so the line stays where it was.
 - **Our Program** — a cream panel in a gilt hairline (dark glass in dark).
 - **Bookshelf** (`.library`) — see below.
 - **Details** — Fees (two tiers) and Family discounts as two panels, then "Class Timings" and a tile
@@ -203,9 +219,12 @@ than one page) carries the grab cursor.
   `destroy()`ed first), and the choice is remembered in `localStorage` (`alimiyyah.audience`, wrapped
   in try/catch). An empty list shows a "No sisters' videos yet." card. An optional
   `moreHref`/`moreLabel` shows an "All …" link under the control.
-  - **Articles** are a slider, one at a time (`renderArticles`): a board panel, the article (subject
-    chip, read time, title, author, excerpt, a Read button when there is an `href`), prev/next, a dash
-    per article and a count, and an "Up next" rail of the next two, which open their article.
+  - **Articles** (`renderArticles`): the featured article on top — a board panel beside the article
+    (subject chip, read time, a count, title, author, excerpt, a Read button when there is an `href`) —
+    and beneath it a carousel (the shared `carousel.js`) of every article as a board card, four across
+    (three below 1200px, two below 880px, one below 560px). The featured card is marked with
+    `aria-current` and a gold ring; clicking a card features it (and scrolls the feature back into
+    view if it is above the screen).
   - **Videos** are a carousel of 16:9 cards, three across (two below 1040px, one below 700px), caption
     beneath; without a `thumbnail` they alternate the masjid photo and a plain board.
 - **Testimonies** (`.niches`) — each testimony is a **mihrab niche** (`.niche-slot` > `.niche` moulding >
@@ -234,51 +253,70 @@ produce four boards**. A bay is B's rounded frame with a gold line along its top
 glass in dark — a dark well, a glowing gold line for the plank (`.bay__plank`) and the year
 (`.bay__year`).
 
-- **A book is a slot (`.book`) holding its spine, a `<button>`.** Clicking the spine turns the book
-  face-on: the slot becomes a small card (`.book--open`) holding the text (`.face`) and **two real
-  buttons** at its foot, See more (`.face__more`) and Close. **Close is the spine button itself**,
-  restyled by `.spine.spine--open` and moved to the foot by grid areas, so focus never moves as a book
-  opens or closes and `aria-expanded` stays on one element. `fill(book, open)` writes both faces. One
-  book is open across the shelf. The card was once the button itself; that made "See more" impossible
-  without nesting buttons, so it was split. Don't fold it back.
-- **See more opens the folio** (`.folio`, `buildFolio`): the book at full size *in place of the bay's
-  well* (the well is `hidden`; plank and year label stay). A jadwal leaf: cover down the left, then
-  subject, title with the Urdu on the same line, author, `long` (or `description`) and a decorative
-  catchword. Focus goes to its ✕; Escape or ✕ returns to the small card with focus on its Close.
-  Opening any other book closes the folio. **Where bays are paired (≥881px) the reading bay takes the
+- **A book is a slot (`.book`) holding its spine, a `<button>`.** There is no small card any more.
+  **Pointing at a spine (or tabbing to it) draws out the slip**, a preview beside the book; **clicking
+  it (Enter or Space) opens the folio**. The slot keeps the spine's footprint and never moves, so the
+  slip is placed against the slot, not the spine, which leans out on hover.
+- **The slip** (`.slip`, `createSlip`) is a ruled leaf in the folio's paper and jadwal (a dark leaf in
+  dark mode) with a ribbon marker, red in light and lapis blue in dark: subject, title with the Urdu beside it, `description`, and
+  "Click to see more" ("Press Enter to see more" when it came from the keyboard). There is **one per
+  shelf, appended to `<body>`** and placed in page coordinates, so the well's sideways scroll can't clip
+  it. It sits on the book's right, or its left when the right is too near the edge of the screen
+  (`.slip--left`), and is clamped inside the viewport on phones. It is only a preview: `aria-hidden`,
+  `pointer-events: none`, never focused; the folio carries the text for everyone. The first one waits
+  120ms (so a pointer crossing the shelf doesn't flash slips), and moving along the shelf after that
+  swaps them at once. Touch is ignored (`pointerType === "touch"`), so a tap goes straight to the folio.
+  It follows its book when the well scrolls, and hides on blur, Escape and when the folio opens.
+  `renderCurriculum` destroys the previous shelf's slip before building a new one. Option 3 of
+  `design/canvas-spines/hover.html`.
+- **The folio** (`.folio`, `buildFolio`): the book at full size *in place of the bay's well* (the well
+  is `hidden`; plank and year label stay). A jadwal leaf: cover down the left, then subject, title with
+  the Urdu on the same line, author, `long` (or `description`) and a decorative catchword. Focus goes to
+  its ✕; Escape or ✕ closes it with focus back on the spine, whose `aria-expanded` tracks it. Opening
+  any other book closes the folio. **Where bays are paired (≥881px) the reading bay takes the
   row**: `shelf--reading-l`/`-r` set the tracks to `calc()` lengths (so they animate) and the neighbour
   narrows to `--narrow` 232px. That 881px must stay in step with the 880px breakpoint. The cover column
   is 200–280px and the cover is capped at 1.45× its width (`32cqi`, the folio is an inline-size
-  container), so it runs the full height at full width but never draws out on mid-size screens. A book without `cover` gets its
-  binding drawn face-on as an SVG (`drawnCover`, the same drawing as `generate_covers.py`), with empty
-  alt.
-- **Spines are Islamic kitab bindings**: flat (no raised bands — Islamic bindings don't have them), a
-  double gilt frame, the title in a pointed cartouche (a `clip-path` polygon in `--cart`) between two
-  finials, the subject, a medallion, and a two-colour chevron headband on `::before`. Keep them
-  traditional; the glossy raised-band spines of the exploration rounds were rejected.
-- **Width, height, leather and cartouche colour come from JS as `--w`, `--h`, `--c`, `--lab`.** Size is
-  data: each book's `book_size` (`small`/`medium`/`large`, default medium) picks from `SIZES`. Colour is
-  keyed to the book's *position in its year* (`BINDINGS`), so a book keeps its binding on every load.
-  They are set on the `.book` slot and inherited.
+  container), so it runs the full height at full width but never draws out on mid-size screens. A book
+  without `cover` gets its binding drawn face-on as a 300×400 SVG (`drawnCover`, the spine's drawing
+  laid out as a cover, title in Georgia because webfonts don't reach an SVG in an `<img>`), with empty alt.
+- **Spines are Islamic bindings in dark leathers and metal tooling**: the *emerald panel* (option 3) of
+  `design/canvas-spines/goatskin.html` in its layout, a variation on round 1's "tooled goatskin". A tooled
+  frame with a braid down both edges, a lighter panel inside them, a pendant at the head, the title in a
+  dark ogee cartouche with a double line and a finial at each point, a lozenge, the subject, a fillet
+  at the foot, and a leather-and-metal chevron headband on `::before`. Flat, no raised bands.
+  No stars. The ornament is an SVG `drawSpine` draws **at the book's exact size** (`.spine__art`), so
+  nothing stretches; the title and subject are HTML over it (`.spine__box`) in solid colour, not a gilt
+  gradient, for readability. The other options in `design/canvas-spines/` are historical.
+- **Titles are fitted by measuring** (`fitText`): 14.5px Cormorant bold, shrunk at most 3px on one
+  line, else wrapped to two lines down the spine and shrunk to at most 10.5px. It runs after render
+  and again on `document.fonts.ready`, and skips boxes that aren't laid out (a hidden well).
+- **Size comes from `--w`/`--h`, the binding from `color`.** Both are data. Each book's `book_size`
+  (`small`/`medium`/`large`, default medium) picks from `SIZES` (52×236, 56×252, 60×268). **Each year's `color`
+  binds all its books** (a book's own `color` overrides it; none does now), picking from `BINDINGS`: `lapis`, `ink`, `lapis-silver`, `ink-silver`, `petrol`, `slate`, `oxblood` or
+  `aubergine` (default lapis). A binding is a metal from `METALS` (gold, silver, copper: the tooling, lettering and headband)
+  and six shades of [edge leather, lighter panel]; the shade is taken by the book's *position in its
+  year*, so neighbours in one colour still differ and a book keeps its binding on every load.
+  `drawSpine` and `drawnCover` draw in the binding's metal; the CSS reads `--c` (leather), `--hb`,
+  `--hm`, `--hm-pale` (headband) and `--ink`, `--ink-sub` (lettering), set on the spine by `buildBook`.
+  One year to a binding: I lapis, II petrol, III ink, IV oxblood, V aubergine, VI ink-silver, VII
+  petrol again (VII stands alone on its board; `slate` and `lapis-silver` are unused).
 - **The 300px well height is derived**: the tallest spine (268) plus its 4px headband and the hover
-  lift. Make `large` taller in `SIZES` and the well must grow with it; don't make `small`
-  shorter than 236, or the open card clips its text.
+  lift. Make `large` taller in `SIZES` and the well must grow with it.
 - **A well scrolls sideways; it never wraps.** `justify-content: safe center` keeps the left-hand
   books reachable once a centred row overflows.
-- **The open card is small on purpose, and as tall as its book** — it keeps the spine's `--h`, so it
-  is 256 wide and 236–268 tall. The shortest, 256×236, holds a title, the Urdu, a subject and about two
-  sentences. **Descriptions in `curriculum.json` should stay near that length**; longer ones are
-  clipped by `.face__body { overflow: hidden }`. The longer text belongs in `long`, which only the
-  folio shows (blank lines split paragraphs).
-- **Hover leans the book out** (`rotate(-6deg)` about its bottom-left corner). Not on TODO or open spines.
+- **Descriptions in `curriculum.json` should stay short, about two sentences**: the slip shows
+  `description` and clamps it at six lines. The longer text belongs in `long`, which only the folio
+  shows (blank lines split paragraphs).
+- **Hover leans the book out** (`rotate(-6deg)` about its bottom-left corner). Not on TODO spines.
 - **Keyboard**: each well is a `role="group"` with one tab stop (roving `tabindex`); arrows and
-  Home/End move within it (an open book's spine is its Close button, so it stays in the set), Escape
-  closes the open book. The folio sits outside the well and handles its own Escape. Opening is Enter or Space, never an arrow,
-  because opening changes the width of the slot under the pointer. Don't reintroduce
-  `tablist`/`tab`/`tabpanel`.
+  Home/End move within it and the slip follows the focus (the well scrolls first, then focus moves with
+  `preventScroll`, so the slip is placed where the book ends up). Escape puts the slip away. The folio
+  sits outside the well and handles its own Escape. Opening is Enter or Space, never an arrow. Don't
+  reintroduce `tablist`/`tab`/`tabpanel`.
 - **A placeholder is detected from the data**: `isTodo()` tests the title for a leading `TODO`. Those
-  spines are dashed outlines reading TODO, can't be opened, and carry `aria-disabled` instead of
-  `aria-expanded`.
+  spines are dashed outlines reading TODO, can't be opened or previewed, and carry `aria-disabled`
+  instead of `aria-expanded`.
 
 ## Verifying changes
 
@@ -297,7 +335,7 @@ Gotchas:
 - **Headless Chrome clamps the window to ~485 CSS px minimum.** To test phone widths, load the page in
   an `<iframe>` of the target width inside a wrapper page and measure
   `contentDocument.documentElement.scrollWidth` vs `clientWidth`.
-- `--screenshot` cannot run JS, so to capture an interactive state (an open book, the mobile drawer)
+- `--screenshot` cannot run JS, so to capture an interactive state (a slip, an open folio, the mobile drawer)
   write a temporary `__preview.html` wrapper whose script clicks the target after a delay. **Delete
   these harness files afterwards** — `__preview.html`, `__frame.html`.
 - **The theme follows the system** when nothing is stored, and headless Chrome may report dark. To
@@ -312,18 +350,22 @@ edge — its drift animation scales it inside the banner's `overflow: hidden` �
 per-element check.
 
 The bookshelf's keyboard model is not visible in a screenshot. Drive it from an `__frame.html` harness
-with `--dump-dom`: click a spine and assert `aria-expanded`, dispatch `ArrowRight`/`End`/`Escape` at a
-`.bay__well` and assert focus, the roving `tabindex` and the open book; then click `.face__more` and
-assert the folio, the row's `shelf--reading-*` class and focus on `.folio__close`. Worth doing after any
-change to `curriculum.js`. Only Second Year has real books, so to test a folio giving way to a book in
-another bay, re-render with `renderCurriculum(mount, data)` on edited data inside the harness.
-Headless Chrome's animation clock does not advance under `--dump-dom`, so the row's track transition
-stays at its start: call `row.getAnimations().forEach(a => a.finish())` before measuring.
+with `--dump-dom`: dispatch `pointerenter` (with `pointerType: "mouse"`) at a spine and assert
+`.slip--on` and its text, then `pointerleave` and assert it goes; dispatch `ArrowRight`/`End`/`Escape`
+at a `.bay__well` and assert focus and the roving `tabindex`; click a spine and assert the folio, the
+row's `shelf--reading-*` class, `aria-expanded` and focus on `.folio__close`; Escape and assert focus
+is back on the spine. Worth doing after any change to `curriculum.js`. Only Second Year has real books,
+so to test a folio giving way to a book in another bay, open one in First Year. Headless Chrome's
+animation clock does not advance under `--dump-dom`, so the row's track transition and the slip's
+slide-in stay at their start: call `getAnimations().forEach(a => a.finish())` before measuring, or read
+classes rather than positions. To screenshot a slip, put the page in a tall `<iframe>` inside a clipped
+box and shift the iframe rather than scrolling it, pin `.hero`'s height inside it, and give the shot
+a generous `--virtual-time-budget` (30000+), or it lands before the slip slides in.
 
 ## Known placeholder state
 
-- `assets/img/logo.png` and `assets/img/hero-masjid.jpg` are **low-resolution crops taken from the old
-  mockup PNG**, meant to be replaced with real files at the same paths. The hero photo is upscaled to
+- `assets/img/hero-masjid.jpg` is a **low-resolution crop taken from the old mockup PNG**, meant to be
+  replaced with a real file at the same path. The hero photo is upscaled to
   full width, so a real photo (≥2400px wide) will sharpen the banner a lot.
 - `assets/img/ground-*.svg` and `divider-khatim.svg` belong to the old aged-leaf page, and
   `ledge-stack-*.svg` to the removed shelf ledges; none is referenced. Delete them unless those come back.

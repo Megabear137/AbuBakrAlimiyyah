@@ -1,12 +1,12 @@
 {
   "heading": "Our Teachers",
-  "kicker": "Taught by text, with a teacher",
+  "kicker": "",
   "note": "Add or remove teachers by editing this list; the first is shown large. 'kicker' is the small label above the heading. 'honorific' is the small line above a name; 'bio' may be left empty.",
   "teachers": [
     {
       "honorific": "Moulana",
       "name": "Kasim Ingar",
-      "bio": "Imam of our masjid, and teacher for over 30 years"
+      "bio": "Imam of our masjid, and teacher for over 36 years"
     },
     {
       "honorific": "Moulana",
