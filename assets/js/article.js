@@ -56,18 +56,51 @@
     return null;
   }
 
+  // The formatting a paragraph or quotation may carry: **bold**, _italic_
+  // and [words](address); a backslash keeps \\ * _ [ ] as they are. Everything
+  // else is escaped, so the text can never become markup of its own.
+  // tools/admin/editor.js reads and writes the same; keep the two in step.
+  var LINK = /^\[((?:\\.|[^\\\]])*)\]\(([^()\s]+)\)/;
+  function safeHref(u) { return !/^[a-z][a-z0-9+.-]*:/i.test(u) || /^(https?|mailto|tel):/i.test(u); }
+  function inline(s) {
+    s = String(s == null ? "" : s);
+    var out = "", open = [], i = 0, m;
+    // Bold and italic toggle; closing one that isn't innermost closes and
+    // reopens the ones inside it, so the tags always nest.
+    function toggle(tag) {
+      var at = open.lastIndexOf(tag);
+      if (at < 0) { open.push(tag); out += "<" + tag + ">"; return; }
+      var inner = open.splice(at);
+      for (var k = inner.length - 1; k >= 0; k--) out += "</" + inner[k] + ">";
+      inner.slice(1).forEach(function (t) { open.push(t); out += "<" + t + ">"; });
+    }
+    while (i < s.length) {
+      var c = s.charAt(i);
+      if (c === "\\" && /[\\*_\[\]]/.test(s.charAt(i + 1))) { out += esc(s.charAt(i + 1)); i += 2; }
+      else if (s.substr(i, 2) === "**") { toggle("strong"); i += 2; }
+      else if (c === "_") { toggle("em"); i += 1; }
+      else if (c === "[" && (m = LINK.exec(s.slice(i))) && safeHref(m[2])) {
+        out += '<a href="' + esc(m[2]) + '">' + inline(m[1]) + "</a>";
+        i += m[0].length;
+      }
+      else { out += esc(c); i += 1; }
+    }
+    while (open.length) out += "</" + open.pop() + ">";
+    return out;
+  }
+
   // The body is a list: a string is a paragraph, {heading} a section
   // heading, {quote, source} a quotation set apart.
   function renderBody(mount, body) {
     mount.textContent = "";
     (body || []).forEach(function (block) {
       if (typeof block === "string") {
-        mount.appendChild(el("p", "", esc(block)));
+        mount.appendChild(el("p", "", inline(block)));
       } else if (block && block.heading) {
         mount.appendChild(el("h2", "", esc(block.heading)));
       } else if (block && block.quote) {
         mount.appendChild(el("blockquote", "",
-          ICONS.quote + "<p>" + esc(block.quote) + "</p>" +
+          ICONS.quote + "<p>" + inline(block.quote) + "</p>" +
           (block.source ? "<cite>" + esc(block.source) + "</cite>" : "")));
       }
     });

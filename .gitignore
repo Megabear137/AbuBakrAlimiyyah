@@ -24,3 +24,6 @@ desktop.ini
 
 # Python bytecode from the canvas generators
 __pycache__/
+
+# Copies of content/media.json kept by tools/admin_server.py before each save.
+.admin-backups/

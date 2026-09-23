@@ -1531,6 +1531,8 @@ main { position: relative; }
 .prose blockquote svg { position: absolute; top: -12px; left: 50%; width: 30px; height: 24px; transform: translateX(-50%); color: var(--g-mark); }
 .prose blockquote p { font-family: var(--display); font-size: 1.7rem; font-style: italic; line-height: 1.35; }
 .prose cite { display: block; margin-top: 0.8rem; color: var(--g-accent); font-size: 0.66rem; font-style: normal; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; }
+.prose a { color: var(--g-accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.prose a:hover { text-decoration-thickness: 2px; }
 
 .more { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; }
 .more .slider__card { text-decoration: none; }

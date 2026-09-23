@@ -22,7 +22,16 @@ python3 -m http.server 8000     # then open http://localhost:8000
 **A server is mandatory.** The page `fetch`es `content/*.json`, which browsers block on `file://` —
 double-clicking `index.html` shows an error banner instead of the site. Any static server works.
 
-There is nothing to build, lint or test. Deployment is uploading the folder as-is.
+There is nothing to build, lint or test. Deployment is uploading the folder as-is (`tools/` and
+`.admin-backups/` can be left out; they do nothing on a static host).
+
+To write articles or change the bookshelf, run the admin server instead (see *The local editors*
+below):
+
+```sh
+python3 tools/admin_server.py   # http://127.0.0.1:8001: "Edit curriculum" on the home page,
+                                # "Edit article" on any article's page
+```
 
 **Bump the `?v=` query on the CSS and JS links in `index.html` (and `article.html`, which loads the same `styles.css`) whenever you change those files.** The
 static server sends no cache headers, so browsers keep old copies; a stale `main.js`/`curriculum.js`
@@ -163,7 +172,10 @@ render function in `main.js` — not the HTML. JSON fields that shape presentati
 - Each article's `id` (unique across both lists) gives it its page, `article.html?id=<id>`, which the
   featured article's title and Read button open; `body` is that page's text, a list of blocks (a
   string is a paragraph, `{"heading"}` a section heading, `{"quote", "source"}` a quotation). A
-  non-empty `href` sends the article to that address instead of its page.
+  non-empty `href` sends the article to that address instead of its page. A paragraph or quotation
+  may carry `**bold**`, `_italic_` and `[words](address)` (a backslash keeps `\ * _ [ ]` literal);
+  headings and sources are plain. `inline()` in `article.js` renders it, escaping everything else,
+  and allows only web, mail and phone links.
 
 ### The article page
 
@@ -178,6 +190,46 @@ same list** (up to four, `.more`, the home page's `.slider__card` board cards as
 their place in the list). An unknown id shows "Article not found". Its styles are at the end of
 section 11 of `styles.css`. The header, menu and footer markup is copied from `index.html` with its
 links pointed at `index.html#…`; change one, change both.
+
+### The local editors (articles and bookshelf)
+
+`tools/admin_server.py` (standard library only) serves the site like `http.server`, with
+`Cache-Control: no-store` so no `?v=` bump is needed while it runs, and adds two things: it appends
+an editor and `tools/admin/editor.css` to a page **as it sends it** (`editor.js` to `article.html`,
+`shelf.js` to `index.html` and `/`; the files on disk never have them), and it answers `GET`/`PUT` at
+`/__admin/articles` and `/__admin/curriculum` (the `RESOURCES` table: each names its file, what the
+editor is sent, and how a save is checked and applied). **The public site therefore has no editor and
+nothing that can write**: keep every admin line out of the site's HTML and JS. It binds to 127.0.0.1 and refuses a `Host` or `Origin` that isn't this machine (DNS
+rebinding, other pages' requests).
+
+An article save sends every article list; the server checks it (ids are lowercase-hyphen slugs, unique across
+the lists; a title; body blocks of the three shapes), replaces only `articles.brothers`/`sisters`,
+keeps the rest of `media.json` untouched, and writes it as `json.dumps(indent=2, ensure_ascii=False)`,
+which reproduces the file byte for byte. A curriculum save sends and replaces `years` (each needs a
+name and books; each book a title and a `book_size` of small, medium or large), keeping `label`,
+`kicker` and `note`. Either copies the old file to `.admin-backups/` (the last 30 of each,
+gitignored) and writes atomically. Each load carries a hash of the file; a save against a changed file
+gets a 409 and the editor asks before overwriting.
+
+`tools/admin/editor.js` turns the page itself into the editor: the title and excerpt edit in place,
+each body block (`.adm-block`) is its element as `article.js` draws it, made `contenteditable`, with
+tools in the left margin (type ¶/H/❝, up, down, delete). A bar at the foot formats (B, I, link) and
+adds blocks, and a side panel holds the list, position, subject, author, read time, id and `href`, and
+switches, creates and deletes articles; edits to several articles are saved together. Enter splits a
+paragraph, Backspace at its start joins it to the one before, and pasting is plain text, one paragraph
+per line. The editor keeps its own copy of `inline()` for loading and `toMarkup()` for saving; **change
+the markup in `article.js` and change both there**. "Done" reloads the page, so what shows is
+`article.js`'s own rendering of what was saved.
+
+`tools/admin/shelf.js` opens a panel beside the shelf (the page narrows for it above 1100px) with a
+year's name, binding and books in order, and the picked book's fields: title, Urdu title, subject,
+author, description (the slip), `long` (the folio), size, its own binding or the year's, cover path
+(with a thumbnail that says whether the file exists) and its year. It adds, reorders, moves and
+deletes books. While it is open, a click on a spine is caught on the shelf in the capture phase and
+picks that book instead of opening the folio ("Open full view" lets one through). Every change
+redraws the shelf with the site's own `window.renderCurriculum`, so spines, slip and folio preview
+the edit exactly. `long`, `cover` and `color` are dropped from a book when emptied; its list of
+binding names copies `BINDINGS` in `curriculum.js`, so **add a binding there, add it here**.
 
 ### Script load order matters
 
