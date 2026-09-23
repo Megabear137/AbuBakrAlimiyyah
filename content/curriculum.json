@@ -8,11 +8,11 @@
       "color": "lapis",
       "books": [
         {
-          "title": "Placeholder Book 1",
-          "titleUrdu": "",
+          "title": "Qasas 1",
+          "titleUrdu": "قصص",
           "subject": "Arabic",
           "author": "",
-          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "description": "The book of Qasas",
           "book_size": "medium"
         },
         {
@@ -278,12 +278,13 @@
       "color": "ink-silver",
       "books": [
         {
-          "title": "Placeholder Book 1",
-          "titleUrdu": "",
-          "subject": "Arabic",
-          "author": "",
-          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
+          "title": "Mishkaat ul-Masaabeeh",
+          "titleUrdu": "مشكاة المصابيح",
+          "subject": "Hadith",
+          "author": "Wali ud-Deen Muhammad ibn Abdullah",
+          "description": "A collection of Hadith compiled from multiple sources, including the Saheeh of Imam Muslim and Bukhari, the Sunan of Abu Dawud, Ibn Majah, al-Tirmizi, and Nasaa'i, as well as other sources.",
+          "book_size": "large",
+          "long": "TODO"
         },
         {
           "title": "Placeholder Book 2",
