@@ -80,7 +80,7 @@
   --display: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
   --ui:      "Instrument Sans", "Segoe UI", system-ui, sans-serif;   /* the slip and the folio */
   --sans:    "Poppins", "Instrument Sans", system-ui, sans-serif;     /* the page */
-  --urdu:    "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+  --urdu:    "Amiri", "Traditional Arabic", serif;   /* Urdu and Arabic titles: the slip, the folio */
 
   --wrap:        1180px;
   --gutter:      clamp(1rem, 4vw, 2.5rem);
@@ -822,7 +822,8 @@ main { position: relative; }
 .slip__hint { color: #8a2a20; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
 .slip__head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; margin-top: 0.15rem; padding-right: 0.9rem; }
 .slip__title { font-family: var(--display); font-size: 1.35rem; font-weight: 600; line-height: 1.1; }
-.slip__urdu { flex: none; color: #5a3a16; font-family: var(--urdu); font-size: 1rem; line-height: 1.9; white-space: nowrap; }
+.slip__urdu { flex: none; color: #5a3a16; font-family: var(--urdu); font-size: 1.2rem; line-height: 1.5; white-space: nowrap; }
+.slip__author { margin-top: 0.2rem; color: #7f7a72; font-size: 0.78rem; }   /* light grey, as written */
 .slip__rule { display: block; height: 1px; margin: 0.5rem 0 0.55rem; background: repeating-linear-gradient(90deg, rgba(60, 38, 14, 0.5) 0 6px, transparent 6px 10px); }
 .slip__body {
   display: -webkit-box;
@@ -924,7 +925,7 @@ main { position: relative; }
    the second name stays on its first line. */
 .folio__head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.9rem; margin-top: 0.2rem; }
 .folio__title { font-family: var(--display); font-size: clamp(1.5rem, 1.15rem + 1.1vw, 1.95rem); font-weight: 600; line-height: 1.05; }
-.folio__urdu { flex: none; font-family: var(--urdu); font-size: 1rem; line-height: 1.9; white-space: nowrap; color: #5a3a16; }
+.folio__urdu { flex: none; font-family: var(--urdu); font-size: 1.6rem; line-height: 1.4; white-space: nowrap; color: #5a3a16; }
 .folio__author { margin-top: 0.15rem; color: #6a4a22; font-family: var(--display); font-size: 1.05rem; font-style: italic; }
 .folio__rule { display: block; height: 1px; margin: 0.7rem 0 0.8rem; background: repeating-linear-gradient(90deg, rgba(60, 38, 14, 0.5) 0 6px, transparent 6px 10px); }
 .folio__body { max-width: 62ch; font-size: 0.9rem; line-height: 1.7; }
@@ -1604,6 +1605,7 @@ main { position: relative; }
 [data-theme="dark"] .slip__hint { color: var(--gold); }
 [data-theme="dark"] .slip__title { color: var(--gold-light); }
 [data-theme="dark"] .slip__urdu { color: var(--gold-pale); }
+[data-theme="dark"] .slip__author { color: #b3aca3; }
 /* The ribbon in lapis, not the leaf's oxblood, which sank into the espresso;
    lapis and gold is the illuminators' pairing. */
 [data-theme="dark"] .slip .slip__ribbon {

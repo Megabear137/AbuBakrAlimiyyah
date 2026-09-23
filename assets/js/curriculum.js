@@ -352,12 +352,13 @@
   }
 
   function slipHTML(data, byKey) {
-    var meta = [data.subject, author(data)].filter(Boolean).join(" · ");
+    var by = author(data);
     return '<span class="slip__ribbon"></span>' +
-      (meta ? '<p class="slip__subject">' + esc(meta) + "</p>" : "") +
+      (data.subject ? '<p class="slip__subject">' + esc(data.subject) + "</p>" : "") +
       '<p class="slip__head"><span class="slip__title">' + esc(data.title) + "</span>" +
         (data.titleUrdu ? '<span class="slip__urdu" lang="ur" dir="rtl">' + esc(data.titleUrdu) + "</span>" : "") +
       "</p>" +
+      (by ? '<p class="slip__author">' + esc(by) + "</p>" : "") +
       '<span class="slip__rule"></span>' +
       '<p class="slip__body">' + esc(data.description || "") + "</p>" +
       '<p class="slip__hint">' + (byKey ? "Press Enter to see more" : "Click to see more") + "</p>";

@@ -336,7 +336,7 @@ glass in dark — a dark well, a glowing gold line for the plank (`.bay__plank`)
   it (Enter or Space) opens the folio**. The slot keeps the spine's footprint and never moves, so the
   slip is placed against the slot, not the spine, which leans out on hover.
 - **The slip** (`.slip`, `createSlip`) is a ruled leaf in the folio's paper and jadwal (a dark leaf in
-  dark mode) with a ribbon marker, red in light and lapis blue in dark: subject, title with the Urdu beside it, `description`, and
+  dark mode) with a ribbon marker, red in light and lapis blue in dark: subject, title with the Urdu beside it, the author beneath in grey (as written, not capitals), `description`, and
   "Click to see more" ("Press Enter to see more" when it came from the keyboard). There is **one per
   shelf, appended to `<body>`** and placed in page coordinates, so the well's sideways scroll can't clip
   it. It sits on the book's right, or its left when the right is too near the edge of the screen
