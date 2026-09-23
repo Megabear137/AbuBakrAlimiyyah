@@ -213,6 +213,12 @@
 
   function pad(n) { return (n < 10 ? "0" : "") + n; }
 
+  // An article opens on its own page (article.html, by its id) unless its
+  // href sends it somewhere else.
+  function articleHref(a) {
+    return a.href || (a.id ? "article.html?id=" + encodeURIComponent(a.id) : "");
+  }
+
   // Articles: the featured one on top - a board panel and the article beside
   // it - and beneath it a carousel of every article, the featured one marked;
   // clicking a card features it. Returns a handle with destroy(), like a carousel.
@@ -260,16 +266,17 @@
     function show(i) {
       at = i;
       var a = items[at];
+      var href = articleHref(a);
       body.innerHTML =
         '<div class="slider__tags">' +
           (a.subject ? '<span class="chip">' + esc(a.subject) + "</span>" : "") +
           (a.readMinutes ? "<span>" + esc(a.readMinutes) + " min read</span>" : "") +
           (n > 1 ? '<span class="slider__count">' + pad(at + 1) + " / " + pad(n) + "</span>" : "") +
         "</div>" +
-        linkedTitle("h3", "slider__title", a.title, a.href) +
+        linkedTitle("h3", "slider__title", a.title, href) +
         (a.author ? '<p class="slider__by">' + esc(a.author) + "</p>" : "") +
         (a.excerpt ? '<p class="slider__text">' + esc(a.excerpt) + "</p>" : "") +
-        (a.href ? '<a class="btn btn--gold" href="' + esc(a.href) + '" tabindex="-1" aria-hidden="true">Read article ' + ICONS.arrow + "</a>" : "");
+        (href ? '<a class="btn btn--gold" href="' + esc(href) + '" tabindex="-1" aria-hidden="true">Read article ' + ICONS.arrow + "</a>" : "");
       body.classList.remove("media-swap");
       void body.offsetWidth;               // restart the animation
       body.classList.add("media-swap");

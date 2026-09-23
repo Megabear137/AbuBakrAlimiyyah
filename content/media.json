@@ -1,5 +1,5 @@
 {
-  "note": "Articles and videos, each kept as a separate list for brothers and sisters. The switch in each section head swaps between them. Articles show the first one featured, with a carousel of them all beneath it (clicking a card features it), so put the newest first. 'href' links the card (leave empty for no link). A video's 'thumbnail' is an image path; leave it empty for the masjid photo or a plain board. 'kicker' is the small line above each heading. Set 'moreHref' (and optionally 'moreLabel') on articles or videos to show an 'All …' link in the section head. An empty list shows a 'nothing yet' card.",
+  "note": "Articles and videos, each kept as a separate list for brothers and sisters. The switch in each section head swaps between them. Articles show the first one featured, with a carousel of them all beneath it (clicking a card features it), so put the newest first. Each article opens on its own page, article.html?id=<id>: give every article an 'id' that is unique across both lists (lowercase words joined by hyphens, and keep it once published, since links use it). 'body' is the article's text on that page, a list read top to bottom: a plain string is a paragraph, {\"heading\": \"…\"} is a section heading, and {\"quote\": \"…\", \"source\": \"…\"} is a quotation set apart ('source' optional). An article's 'href' (leave it empty normally) sends it to another address instead of its page. A video's 'href' links the card; its 'thumbnail' is an image path; leave it empty for the masjid photo or a plain board. 'kicker' is the small line above each heading. Set 'moreHref' (and optionally 'moreLabel') on articles or videos to show an 'All …' link in the section head. An empty list shows a 'nothing yet' card.",
   "audiences": {
     "brothers": "Brothers",
     "sisters": "Sisters"
@@ -9,85 +9,125 @@
     "heading": "Articles",
     "brothers": [
       {
+        "id": "brothers-1",
         "title": "TODO: Article title",
         "subject": "TODO: Subject",
         "author": "TODO: Author",
         "readMinutes": 5,
         "excerpt": "TODO: A sentence or two introducing the article.",
+        "body": [
+          "TODO: The article's text, one paragraph to each entry in this list."
+        ],
         "href": ""
       },
       {
+        "id": "brothers-2",
         "title": "TODO: Article title",
         "subject": "TODO: Subject",
         "author": "TODO: Author",
         "readMinutes": 5,
         "excerpt": "TODO: A sentence or two introducing the article.",
+        "body": [
+          "TODO: The article's text, one paragraph to each entry in this list."
+        ],
         "href": ""
       },
       {
+        "id": "brothers-3",
         "title": "TODO: Article title",
         "subject": "TODO: Subject",
         "author": "TODO: Author",
         "readMinutes": 5,
         "excerpt": "TODO: A sentence or two introducing the article.",
+        "body": [
+          "TODO: The article's text, one paragraph to each entry in this list."
+        ],
         "href": ""
       },
       {
+        "id": "brothers-4",
         "title": "TODO: Article title",
         "subject": "TODO: Subject",
         "author": "TODO: Author",
         "readMinutes": 5,
         "excerpt": "TODO: A sentence or two introducing the article.",
+        "body": [
+          "TODO: The article's text, one paragraph to each entry in this list."
+        ],
         "href": ""
       },
       {
+        "id": "brothers-5",
         "title": "TODO: Article title",
         "subject": "TODO: Subject",
         "author": "TODO: Author",
         "readMinutes": 5,
         "excerpt": "TODO: A sentence or two introducing the article.",
+        "body": [
+          "TODO: The article's text, one paragraph to each entry in this list."
+        ],
         "href": ""
       }
     ],
     "sisters": [
       {
+        "id": "sisters-1",
         "title": "TODO: Sisters' article title",
         "subject": "TODO: Subject",
         "author": "TODO: Author",
         "readMinutes": 5,
         "excerpt": "TODO: A sentence or two introducing the article.",
+        "body": [
+          "TODO: The article's text, one paragraph to each entry in this list."
+        ],
         "href": ""
       },
       {
+        "id": "sisters-2",
         "title": "TODO: Sisters' article title",
         "subject": "TODO: Subject",
         "author": "TODO: Author",
         "readMinutes": 5,
         "excerpt": "TODO: A sentence or two introducing the article.",
+        "body": [
+          "TODO: The article's text, one paragraph to each entry in this list."
+        ],
         "href": ""
       },
       {
+        "id": "sisters-3",
         "title": "TODO: Sisters' article title",
         "subject": "TODO: Subject",
         "author": "TODO: Author",
         "readMinutes": 5,
         "excerpt": "TODO: A sentence or two introducing the article.",
+        "body": [
+          "TODO: The article's text, one paragraph to each entry in this list."
+        ],
         "href": ""
       },
       {
+        "id": "sisters-4",
         "title": "TODO: Sisters' article title",
         "subject": "TODO: Subject",
         "author": "TODO: Author",
         "readMinutes": 5,
         "excerpt": "TODO: A sentence or two introducing the article.",
+        "body": [
+          "TODO: The article's text, one paragraph to each entry in this list."
+        ],
         "href": ""
       },
       {
+        "id": "sisters-5",
         "title": "TODO: Sisters' article title",
         "subject": "TODO: Subject",
         "author": "TODO: Author",
         "readMinutes": 5,
         "excerpt": "TODO: A sentence or two introducing the article.",
+        "body": [
+          "TODO: The article's text, one paragraph to each entry in this list."
+        ],
         "href": ""
       }
     ]

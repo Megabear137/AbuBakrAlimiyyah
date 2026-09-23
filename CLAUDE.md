@@ -24,7 +24,7 @@ double-clicking `index.html` shows an error banner instead of the site. Any stat
 
 There is nothing to build, lint or test. Deployment is uploading the folder as-is.
 
-**Bump the `?v=` query on the CSS and JS links in `index.html` whenever you change those files.** The
+**Bump the `?v=` query on the CSS and JS links in `index.html` (and `article.html`, which loads the same `styles.css`) whenever you change those files.** The
 static server sends no cache headers, so browsers keep old copies; a stale `main.js`/`curriculum.js`
 under a new `styles.css` renders plausible-looking but wrong markup (old spines, unstyled Details,
 carousel arrows stacked around the slides) and has already been mistaken for layout bugs. The JSON is
@@ -62,6 +62,12 @@ published canvas.
 Everything older in `design/` is **historical** — `canvas-modernize`, `canvas-bookshelf`,
 `canvas-arches`, `canvas-placement`, `canvas-forms`, `canvas/` and `wesbite_design.png`. Its layout,
 the aged-leaf ground, the khatim dividers, the plaques and the arches don't stand. Don't restore them.
+
+`design/canvas-article/` settled **the article page**, in two rounds: round 1 (`generate.py`, five
+options) chose **option 1, the banner** — the home page's banner, shorter, carrying the article's
+subject, title and byline, over one 680px column; round 2 (`generate_sides.py`) tried five ways to fill
+the column's empty margins (marginalia, rails, contents, a wooden bay, breakouts) and **none was taken:
+the sides stay empty on purpose**. Don't fill them. The other options of both rounds are historical.
 
 `design/canvas-details/` settled the two Details cards, and **both rounds are built**. Round 1
 (`index.html`) gave them a real title: **option 1**, a Cormorant display line in bright gold
@@ -136,7 +142,9 @@ list `var(--grain-size)` in its `background-size` at the same position, or the g
 ### Content is data, markup is a shell
 
 `index.html` contains no copy, no book lists, no teacher names. It provides empty elements tagged
-`data-slot="…"`; `assets/js/main.js` fetches the five `content/*.json` files and fills them in. Adding a
+`data-slot="…"`; `assets/js/main.js` fetches the five `content/*.json` files and fills them in.
+`article.html` is the one other page, a shell filled the same way by `assets/js/article.js` (see
+*The article page* below). Adding a
 book, teacher, testimony, article, video or price is a JSON edit only. (The few strings in the HTML —
 "Curriculum", "Details", "Articles" — are fallbacks.)
 
@@ -152,6 +160,24 @@ render function in `main.js` — not the HTML. JSON fields that shape presentati
 - `fees.discounts` fills the second Details panel; without rows the panel stays hidden and Fees takes
   the width.
 - The first teacher is the large tile of the mosaic. A name starting `TODO` renders as a dashed tile.
+- Each article's `id` (unique across both lists) gives it its page, `article.html?id=<id>`, which the
+  featured article's title and Read button open; `body` is that page's text, a list of blocks (a
+  string is a paragraph, `{"heading"}` a section heading, `{"quote", "source"}` a quotation). A
+  non-empty `href` sends the article to that address instead of its page.
+
+### The article page
+
+`article.html` + `article.js` (self-contained, loaded after `nav.js`; it shares no code with
+`main.js`, so the footer's contact lines are rendered by both). It reads `?id=`, finds the article in
+either list of `media.json`, and fills: the banner (`.a-hero`, the `.hero` with the tint evened out for
+a centred title) with a "← Articles" link back to `index.html#articles`, the subject chip, the title
+and author · read time; the excerpt as an italic `.lede`; the `body` blocks into `.prose` (a 680px
+column; a quotation sits between hairlines parted by the testimonies' quote mark, drawn as two
+backgrounds so the ground shows through); then, under a section rule, **the other articles of the
+same list** (up to four, `.more`, the home page's `.slider__card` board cards as links, numbered by
+their place in the list). An unknown id shows "Article not found". Its styles are at the end of
+section 11 of `styles.css`. The header, menu and footer markup is copied from `index.html` with its
+links pointed at `index.html#…`; change one, change both.
 
 ### Script load order matters
 
@@ -369,6 +395,8 @@ a generous `--virtual-time-budget` (30000+), or it lands before the slip slides 
   full width, so a real photo (≥2400px wide) will sharpen the banner a lot.
 - `assets/img/ground-*.svg` and `divider-khatim.svg` belong to the old aged-leaf page, and
   `ledge-stack-*.svg` to the removed shelf ledges; none is referenced. Delete them unless those come back.
+- Every article's `body` in `media.json` is a single `TODO:` paragraph awaiting the real text, and
+  the ids (`brothers-1` … `sisters-5`) are placeholders to replace with real slugs.
 - Anything in `content/*.json` marked `TODO:` awaits real content from the masjid — most of the
   curriculum (only Second Year is specified), teachers 4–7, testimonies 3–4, every article and video
   in `media.json`, and the footer contact details. Do not invent curriculum book lists, teacher

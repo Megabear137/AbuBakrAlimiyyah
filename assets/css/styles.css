@@ -26,7 +26,7 @@
     8. Kitab spines, the slip & the folio
     9. Details
    10. Carousels, teachers, testimonies
-   11. Articles, videos & footer
+   11. Articles, videos, footer & the article page
    12. Dark mode
    13. Responsive
    ===================================================================== */
@@ -1258,7 +1258,7 @@ main { position: relative; }
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
-/* ------------------- 11. Articles, videos & footer ----------------- */
+/* ------------- 11. Articles, videos, footer & the article page -------- */
 /* Brothers / Sisters: two buttons in one pill; the pressed one is gold. */
 .seg {
   display: inline-flex;
@@ -1469,6 +1469,73 @@ main { position: relative; }
 .site-footer__line a { color: inherit; }
 .site-footer__legal { margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--f-line); color: var(--f-muted); font-size: 0.85rem; }
 
+/* The article page (article.html): option 1 of design/canvas-article/. The
+   home page's banner, shorter, carrying the article's subject, title and
+   byline over the photograph; beneath it the excerpt as an italic lede and
+   the text in a single 680px column on the ground; then the rest of the
+   list as the home page's cards. The margins are left empty on purpose. */
+.a-hero { min-height: max(520px, 68vh); align-items: flex-end; }
+.a-hero .hero__img { inset: -20% 0 0; }
+.a-hero .hero__img::after {             /* evenly dark: the title is centred, not down the left */
+  background:
+    linear-gradient(90deg, rgba(36, 18, 5, 0.55), rgba(36, 18, 5, 0.75) 50%, rgba(36, 18, 5, 0.55)),
+    linear-gradient(180deg, rgba(36, 18, 5, 0.55), transparent 35%);
+}
+.a-hero .hero__body { padding-block: 140px clamp(4rem, 12vh, 9rem); text-align: center; }
+.a-hero .hero__title { max-width: 18ch; margin: 1.2rem auto 1.3rem; font-size: clamp(2.6rem, 1.4rem + 4vw, 5rem); }
+.a-hero .back { color: var(--gold-pale); }
+.a-hero .chip { margin-top: 1.6rem; border-color: rgba(227, 179, 74, 0.45); color: var(--gold-pale); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; }
+.a-hero .chip::before { background: var(--gold); }
+.a-hero .meta { color: rgba(255, 246, 234, 0.9); font-family: var(--display); font-size: 1.3rem; font-style: italic; }
+.a-hero .meta__dot { background: var(--gold); }
+.a-hero [data-slot]:empty { display: none; }
+
+/* "← Articles": back to the section on the home page. */
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--g-accent);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.back svg { width: 14px; height: 14px; transform: scaleX(-1); }
+.back:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+.meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.4rem 0.9rem; }
+.meta__dot { width: 4px; height: 4px; border-radius: 50%; }
+
+.read { max-width: calc(680px + 2 * var(--gutter)); padding-top: clamp(1rem, 3vw, 2rem); }
+.lede { color: var(--g-text); font-family: var(--display); font-size: clamp(1.5rem, 1.2rem + 1vw, 1.9rem); font-style: italic; font-weight: 500; line-height: 1.4; text-align: center; }
+.lede::after { content: ""; display: block; width: 64px; height: 2px; margin: 2rem auto 2.4rem; background: linear-gradient(90deg, transparent, var(--gold-ink), transparent); }
+.lede:empty { display: none; }
+
+.prose { color: var(--g-text); font-size: 1.06rem; line-height: 1.9; overflow-wrap: break-word; }
+.prose > * + * { margin-top: 1.3em; }
+.prose h2 { margin-top: 2.2em; font-family: var(--display); font-size: 1.9rem; font-weight: 600; line-height: 1.15; }
+/* A quotation between two hairlines, the testimonies' quote mark parting
+   the upper one (drawn as two backgrounds, so the ground shows through). */
+.prose blockquote {
+  position: relative;
+  margin: 2.4em 0;
+  padding: 2rem 0 1.8rem;
+  border-bottom: 1px solid var(--g-line);
+  background:
+    linear-gradient(var(--g-line), var(--g-line)) left top / calc(50% - 30px) 1px no-repeat,
+    linear-gradient(var(--g-line), var(--g-line)) right top / calc(50% - 30px) 1px no-repeat;
+  text-align: center;
+}
+.prose blockquote svg { position: absolute; top: -12px; left: 50%; width: 30px; height: 24px; transform: translateX(-50%); color: var(--g-mark); }
+.prose blockquote p { font-family: var(--display); font-size: 1.7rem; font-style: italic; line-height: 1.35; }
+.prose cite { display: block; margin-top: 0.8rem; color: var(--g-accent); font-size: 0.66rem; font-style: normal; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; }
+
+.more { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; }
+.more .slider__card { text-decoration: none; }
+.more__foot { margin-top: 2.2rem; text-align: center; }
+
 /* ---------------------------- 12. Dark mode ------------------------ */
 /* The same page after dark (mockup B): an espresso ground, gold capitals,
    and panels of dark glass edged in faint gold. The ground's own colours
@@ -1624,6 +1691,9 @@ main { position: relative; }
 }
 [data-theme="dark"] .vid__title { color: var(--gold-light); font-weight: 400; }
 
+/* The article page */
+[data-theme="dark"] .prose h2 { color: var(--gold-light); font-weight: 500; }
+
 /* Carousel arrows and dots */
 [data-theme="dark"] .carousel__arrow {
   border-color: rgba(227, 179, 74, 0.35);
@@ -1689,6 +1759,7 @@ main { position: relative; }
 /* The 880px here must stay in step with the 881px in section 7. */
 @media (max-width: 880px) {
   .shelf { grid-template-columns: minmax(0, 1fr); }
+  .more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 640px) {
@@ -1704,6 +1775,7 @@ main { position: relative; }
   .mosaic { grid-template-columns: minmax(0, 1fr); grid-auto-rows: minmax(160px, auto); }
   .teacher--lead { grid-column: auto; }
   .slider__art { aspect-ratio: 16 / 10; max-width: none; }
+  .more { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {
