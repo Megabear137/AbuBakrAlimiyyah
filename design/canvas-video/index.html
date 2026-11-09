@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video popup · mockups</title>
+  <meta name="color-scheme" content="light dark">
+  <!--
+    The video popup: five mockups on one page, switched in the corner (1-5,
+    Light | Dark; the option is kept in the address as #1 ... #5).
+
+    Behind the popup is the home page's Videos section as main.js draws it
+    (the head, the Brothers | Sisters switch, the carousel of .vid cards), so
+    each option is judged over the real ground. Every card opens the popup;
+    the ✕, the dimmed page and Escape close it. Content is content/media.json's
+    as it stands: title, subject, date and duration, all TODO.
+
+    The frame is a stand-in: the masjid photo or the plain board the card
+    shows, under the gold play button. On the site it would hold the video
+    itself (a YouTube/Vimeo embed or a <video>), which brings its own controls.
+  -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("alimiyyah.theme"); } catch (e) {}
+      if (t !== "light" && t !== "dark") {
+        t = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+  <link rel="icon" href="../../assets/img/logo_gold_web.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Gilda+Display&family=Instrument+Sans:wght@400;500;600&family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=56">
+  <link rel="stylesheet" href="../canvas-article/mockup.css">
+<style>
+/* ======================= The page behind the popup ======================= */
+.stage { padding-bottom: var(--section-gap); }
+.stage .section { padding-top: clamp(4rem, 8vw, 90px); }
+
+/* The carousel as carousel.js lays it out, held still: three across. */
+.carousel__track { width: 100%; }
+.carousel__slide { width: calc((100% - 2 * 20px) / 3); }
+@media (max-width: 1040px) { .carousel__slide { width: calc((100% - 20px) / 2); } }
+@media (max-width: 700px)  { .carousel__slide { width: 100%; } }
+
+/* On the site a card with no href isn't a link; here every card opens the popup. */
+.vid .stretched { font: inherit; letter-spacing: inherit; text-align: left; }
+.vid .stretched::before { border-radius: 14px; }
+
+.vp-lock { overflow: hidden; }
+
+/* ============================ The popup: shared ============================ */
+.vp {
+  position: fixed;
+  inset: 0;
+  z-index: 55;                 /* under the mockup switcher (60) */
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 48px);
+  overflow-y: auto;
+}
+.vp[hidden] { display: none; }
+.vp__scrim { position: fixed; inset: 0; animation: vp-fade 0.3s ease both; }
+.vp__box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(1060px, 100%, calc((100vh - 250px) * 16 / 9));
+  min-width: min(560px, 100%);
+  animation: vp-rise 0.45s var(--ease-out) both;
+}
+.vp--closing .vp__scrim { animation: vp-fade 0.22s ease reverse both; }
+.vp--closing .vp__box { animation: vp-fade 0.22s ease reverse both; }
+@keyframes vp-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes vp-rise { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: none; } }
+
+/* The frame: 16:9, the card's picture under a large play button. */
+.vp__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #0c0602;
+  transform-origin: 0 0;
+}
+.vp__poster { position: absolute; inset: 0; background-position: center; background-size: cover; }
+.vp__poster--photo { background-image: linear-gradient(180deg, rgba(20, 9, 2, 0.15), rgba(20, 9, 2, 0.55)), url("../../assets/img/hero-masjid.jpg"); }
+.vp__frame .vid__play { width: 84px; height: 84px; }
+.vp__frame .vid__play svg { width: 28px; height: 28px; margin-left: 5px; }
+.vp__frame:hover .vid__play { transform: scale(1.06); }
+
+.vp__cap { position: relative; }
+.vp__eyebrow { font-size: 0.64rem; font-weight: 600; letter-spacing: 0.34em; text-transform: uppercase; }
+.vp__title { font-family: var(--display); font-weight: 600; line-height: 1.1; }
+.vp__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.8rem; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.vp__meta i { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.6; }
+.vp__meta i[hidden] { display: none; }
+.vp__count { font-variant-numeric: tabular-nums; letter-spacing: 0.24em; }
+
+.vp__close { position: absolute; z-index: 2; }
+.vp__close svg { width: 16px; height: 16px; }
+
+/* Stepping through the list (option 5 only). */
+.vp__step, .vp__dots, .vp__count { display: none; }
+
+/* On the dark scrims the round buttons are the header's dark glass, in both modes. */
+.vp--glass .round {
+  border-color: rgba(227, 179, 74, 0.35);
+  background: rgba(26, 13, 4, 0.55);
+  color: var(--gold-pale);
+  box-shadow: none;
+}
+.vp--glass .round:hover { border-color: var(--gold); background: rgba(26, 13, 4, 0.8); color: var(--gold); }
+
+/* ==================== 1. Theatre: the lights go down ==================== */
+[data-opt="1"] .vp, [data-opt="5"] .vp { color: #fbeedd; }
+[data-opt="1"] .vp__scrim, [data-opt="5"] .vp__scrim {
+  background: radial-gradient(70% 60% at 50% 45%, rgba(58, 30, 10, 0.86), rgba(14, 7, 2, 0.95));
+  backdrop-filter: blur(6px);
+}
+[data-opt="1"] .vp__frame, [data-opt="5"] .vp__frame {
+  box-shadow: 0 0 0 1px rgba(227, 179, 74, 0.45), 0 40px 90px -30px rgba(0, 0, 0, 0.9);
+}
+[data-opt="1"] .vp__cap, [data-opt="5"] .vp__cap { margin-top: 1.5rem; text-align: center; }
+[data-opt="1"] .vp__eyebrow, [data-opt="5"] .vp__eyebrow { color: var(--gold); }
+[data-opt="1"] .vp__eyebrow::before, [data-opt="5"] .vp__eyebrow::before { content: "✦ "; }
+[data-opt="1"] .vp__eyebrow::after, [data-opt="5"] .vp__eyebrow::after { content: " ✦"; }
+[data-opt="1"] .vp__title, [data-opt="5"] .vp__title { margin: 0.5rem 0 0.5rem; color: #fff6ea; font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.3rem); }
+[data-opt="1"] .vp__meta, [data-opt="5"] .vp__meta { justify-content: center; color: rgba(251, 238, 221, 0.66); }
+[data-opt="1"] .vp__close, [data-opt="5"] .vp__close { position: fixed; top: 24px; right: 24px; }
+/* A fade, not a rise: a transform on the box would carry the fixed ✕ with it. */
+[data-opt="1"] .vp__box, [data-opt="5"] .vp__box { animation-name: vp-fade; }
+[data-theme="dark"] [data-opt="1"] .vp__title,
+[data-theme="dark"] [data-opt="5"] .vp__title { color: var(--gold-light); font-weight: 500; }
+
+/* 5. Theatre, stepping: the carousel's arrows either side, its dots and a count. */
+[data-opt="5"] .vp__step {
+  display: grid;
+  position: fixed;
+  top: 50%;
+  z-index: 2;
+  width: 52px;
+  height: 52px;
+  margin-top: -26px;
+}
+[data-opt="5"] .vp__step--prev { left: clamp(12px, 3vw, 36px); }
+[data-opt="5"] .vp__step--next { right: clamp(12px, 3vw, 36px); }
+[data-opt="5"] .vp__step svg { width: 18px; height: 18px; }
+[data-opt="5"] .vp__step--prev svg { transform: scaleX(-1); }
+[data-opt="5"] .vp__step[disabled] { opacity: 0.3; pointer-events: none; }
+[data-opt="5"] .vp__count { display: inline; color: var(--gold); }
+[data-opt="5"] .vp__count + i[hidden] { display: inline-block; }
+[data-opt="5"] .vp__dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.4rem; }
+.vp .carousel__dot { border-color: var(--gold); }
+.vp .carousel__dot[aria-current="true"] { background: var(--gold); }
+[data-opt="5"] .vp__box { width: min(1000px, 100% - 2 * 64px, calc((100vh - 290px) * 16 / 9)); }
+@media (max-width: 760px) {
+  [data-opt="5"] .vp__box { width: 100%; }
+  [data-opt="5"] .vp__step { top: auto; bottom: 20px; margin-top: 0; }
+}
+
+/* ============ 2. Board panel: the Details panels' board, framed ============ */
+[data-opt="2"] .vp__scrim { background: rgba(36, 18, 5, 0.72); backdrop-filter: blur(5px); }
+[data-opt="2"] .vp__box {
+  padding: clamp(1rem, 2.4vw, 1.6rem);
+  border-radius: 22px;
+  border: 1px solid rgba(189, 93, 15, 0.8);
+  background:
+    radial-gradient(90% 60% at 20% 0%, rgba(238, 194, 90, 0.16), transparent 60%),
+    var(--grain),
+    linear-gradient(180deg, var(--board), var(--board-deep));
+  background-size: 100% 100%, var(--grain-size), 100% 100%;
+  box-shadow: 0 50px 90px -40px rgba(10, 4, 0, 0.95);
+  color: var(--on-choc);
+}
+[data-opt="2"] .vp__box::before {       /* the gold line along the top, as on a bay */
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+[data-opt="2"] .vp__cap { order: -1; padding: 0.3rem 4rem 1.1rem 0.4rem; }
+[data-opt="2"] .vp__eyebrow { color: var(--gold); }
+[data-opt="2"] .vp__title { margin: 0.35rem 0 0.3rem; color: var(--gold-light); font-size: clamp(1.5rem, 1.1rem + 1.1vw, 2.1rem); }
+[data-opt="2"] .vp__meta { color: rgba(251, 238, 221, 0.72); }
+[data-opt="2"] .vp__frame {
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px rgba(238, 194, 90, 0.3), 0 0 0 7px rgba(10, 5, 1, 0.55), inset 0 12px 30px rgba(0, 0, 0, 0.5);
+  margin: 7px;
+}
+[data-opt="2"] .vp__close { top: clamp(1rem, 2.4vw, 1.6rem); right: clamp(1rem, 2.4vw, 1.6rem); }
+[data-theme="dark"] [data-opt="2"] .vp__scrim { background: rgba(8, 4, 1, 0.8); }
+[data-theme="dark"] [data-opt="2"] .vp__box {
+  border-color: var(--g-line);
+  background: linear-gradient(160deg, rgba(58, 33, 16, 0.92), rgba(28, 14, 5, 0.95));
+  backdrop-filter: blur(10px);
+}
+[data-theme="dark"] [data-opt="2"] .vp__title { font-weight: 500; }
+
+/* ===== 3. Cream mount: the teachers' cream card, the video matted in it ===== */
+[data-opt="3"] .vp__scrim { background: rgba(58, 34, 14, 0.62); backdrop-filter: blur(6px); }
+[data-opt="3"] .vp__box {
+  padding: clamp(14px, 2.2vw, 26px) clamp(14px, 2.2vw, 26px) clamp(1.4rem, 3vw, 2rem);
+  border-radius: 24px;
+  background: linear-gradient(160deg, #fffaf0, #f3e2c3);
+  box-shadow:
+    inset 0 0 0 1px var(--gold),
+    inset 0 0 0 7px #fbf3e2,
+    inset 0 0 0 8px rgba(201, 164, 87, 0.8),
+    0 50px 90px -40px rgba(30, 12, 2, 0.9);
+  color: var(--brown-ink);
+}
+[data-opt="3"] .vp__frame { border-radius: 12px; box-shadow: 0 0 0 1px rgba(154, 101, 8, 0.55), 0 16px 30px -18px rgba(40, 18, 4, 0.8); }
+[data-opt="3"] .vp__cap { margin-top: 1.4rem; text-align: center; }
+[data-opt="3"] .vp__eyebrow { color: #7d5006; }
+[data-opt="3"] .vp__title {
+  margin: 0.6rem 0 0.7rem;
+  font-family: var(--title);
+  font-size: clamp(1.4rem, 1rem + 1.3vw, 2.1rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[data-opt="3"] .vp__meta { justify-content: center; font-family: var(--display); font-size: 1.15rem; font-style: italic; letter-spacing: 0.02em; text-transform: none; }
+[data-opt="3"] .vp__meta i { background: var(--rust); opacity: 1; }
+[data-opt="3"] .vp__close { top: -18px; right: -18px; }
+[data-theme="dark"] [data-opt="3"] .vp__scrim { background: rgba(8, 4, 1, 0.78); }
+[data-theme="dark"] [data-opt="3"] .vp__box {
+  border: 1px solid var(--g-line);
+  background:
+    radial-gradient(120% 90% at 20% 10%, rgba(238, 194, 90, 0.22), transparent 60%),
+    linear-gradient(180deg, transparent 55%, rgba(20, 9, 2, 0.45)),
+    linear-gradient(155deg, var(--board), var(--board-deep));
+  box-shadow: 0 50px 90px -40px rgba(0, 0, 0, 0.95);
+  color: #fff6ea;
+}
+[data-theme="dark"] [data-opt="3"] .vp__eyebrow { color: var(--gold); }
+[data-theme="dark"] [data-opt="3"] .vp__title { background: var(--g-title); -webkit-background-clip: text; background-clip: text; color: transparent; }
+[data-theme="dark"] [data-opt="3"] .vp__meta { color: var(--g-muted); }
+[data-theme="dark"] [data-opt="3"] .vp__meta i { background: var(--gold); }
+@media (max-width: 640px) { [data-opt="3"] .vp__close { top: -12px; right: -8px; } }
+
+/* === 4. The card grows: its picture flies out of the carousel onto the ground === */
+[data-opt="4"] .vp__scrim { background: rgba(236, 211, 182, 0.93); backdrop-filter: blur(8px); }
+[data-theme="dark"] [data-opt="4"] .vp__scrim { background: rgba(26, 13, 4, 0.94); }
+[data-opt="4"] .vp__box { animation: none; }
+[data-opt="4"] .vp--closing .vp__box { animation: none; }
+[data-opt="4"] .vp__frame { border: 1px solid rgba(189, 93, 15, 0.6); box-shadow: 0 40px 70px -36px rgba(40, 18, 4, 0.75); }
+[data-theme="dark"] [data-opt="4"] .vp__frame { border-color: var(--g-line); box-shadow: 0 40px 70px -36px rgba(0, 0, 0, 0.95); }
+[data-opt="4"] .vp__cap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.2rem 1.5rem;
+  margin-top: 1.2rem;
+  color: var(--g-text);
+  animation: vp-fade 0.4s 0.25s ease both;
+}
+[data-opt="4"] .vp__eyebrow { grid-row: 2; color: var(--g-muted); font-size: 0.8rem; font-weight: 400; letter-spacing: 0.14em; }
+[data-opt="4"] .vp__title { grid-row: 1; font-family: var(--sans); font-size: clamp(1.25rem, 1rem + 0.8vw, 1.6rem); font-variant: small-caps; font-weight: 500; letter-spacing: 0.06em; }
+[data-opt="4"] .vp__meta { grid-column: 2; grid-row: 1 / 3; align-self: center; color: var(--g-accent); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.24em; }
+[data-theme="dark"] [data-opt="4"] .vp__title { color: var(--gold-light); font-weight: 400; }
+[data-opt="4"] .vp__close { position: fixed; top: 24px; right: 24px; animation: vp-fade 0.3s 0.2s ease both; }
+@media (max-width: 640px) { [data-opt="4"] .vp__cap { grid-template-columns: minmax(0, 1fr); } [data-opt="4"] .vp__meta { grid-column: 1; grid-row: 3; margin-top: 0.4rem; } }
+
+@media (max-width: 640px) {
+  .vp { align-items: center; padding-inline: 16px; }
+  .vp__box { min-width: 0; }
+  [data-opt="1"] .vp__close, [data-opt="4"] .vp__close, [data-opt="5"] .vp__close { top: 16px; right: 16px; }
+}
+</style>
+</head>
+<body id="top" class="on-ground" data-opt="1">
+
+<main class="stage" id="main">
+  <section class="section" id="videos" aria-labelledby="videos-heading">
+    <div class="wrap">
+      <div class="section__head">
+        <h2 class="section__heading" id="videos-heading">Videos</h2>
+        <div class="section__tools">
+          <div>
+            <div class="seg" role="group" aria-label="Library">
+              <button class="seg__btn" type="button" aria-pressed="true">Brothers</button>
+              <button class="seg__btn" type="button" aria-pressed="false">Sisters</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel" data-cards></div>
+    </div>
+  </section>
+</main>
+
+<!-- The popup. One element for all five options; the options restyle it. -->
+<div class="vp" id="vp" hidden>
+  <div class="vp__scrim" data-close></div>
+  <button class="round vp__step vp__step--prev" type="button" data-step="-1" aria-label="Previous video">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5l5 5-5 5"/></svg>
+  </button>
+  <div class="vp__box" role="dialog" aria-modal="true" aria-labelledby="vp-title">
+    <button class="round vp__close" type="button" data-close aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="vp__frame">
+      <div class="vp__poster"></div>
+      <span class="vid__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+    </div>
+    <div class="vp__cap">
+      <p class="vp__eyebrow" data-f="subject"></p>
+      <h2 class="vp__title" id="vp-title" data-f="title"></h2>
+      <p class="vp__meta"><span class="vp__count" data-f="count"></span><i aria-hidden="true" hidden></i><span data-f="date"></span><i aria-hidden="true"></i><span data-f="duration"></span></p>
+    </div>
+    <div class="vp__dots" data-dots></div>
+  </div>
+  <button class="round vp__step vp__step--next" type="button" data-step="1" aria-label="Next video">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5l5 5-5 5"/></svg>
+  </button>
+</div>
+
+<nav class="m-switch" aria-label="Mockups">
+  <span data-opt-name>Video</span>
+  <a href="#1" data-opt-link="1" title="Theatre">1</a>
+  <a href="#2" data-opt-link="2" title="Board panel">2</a>
+  <a href="#3" data-opt-link="3" title="Cream mount">3</a>
+  <a href="#4" data-opt-link="4" title="The card grows">4</a>
+  <a href="#5" data-opt-link="5" title="Theatre, stepping">5</a>
+  <i></i>
+  <button type="button" data-set-theme="light">Light</button>
+  <button type="button" data-set-theme="dark">Dark</button>
+</nav>
+
+<script>
+(function () {
+  "use strict";
+
+  // content/media.json's brothers' videos, as they stand.
+  var VIDEOS = [0, 1, 2, 3].map(function () {
+    return { title: "TODO: Video title", subject: "TODO: Subject", date: "TODO: Date", duration: "00:00" };
+  });
+  var NAMES = { 1: "Theatre", 2: "Board panel", 3: "Cream mount", 4: "The card grows", 5: "Theatre, stepping" };
+  var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
+  var CHEV = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5l5 5-5 5"/></svg>';
+
+  // Without a thumbnail main.js alternates the masjid photo and a plain board.
+  function artClass(i) { return i % 2 ? "board" + (i % 4 === 3 ? " board--rust" : "") : "photo"; }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+  /* ---- The Videos section behind: the carousel as carousel.js draws it ---- */
+  var mount = document.querySelector("[data-cards]");
+  mount.innerHTML =
+    '<button class="carousel__arrow carousel__arrow--prev" type="button" disabled aria-label="Previous">' + CHEV + "</button>" +
+    '<div class="carousel__viewport"><div class="carousel__track">' +
+    VIDEOS.map(function (v, i) {
+      var a = artClass(i);
+      return '<div class="carousel__slide"><article class="vid">' +
+        '<div class="vid__art ' + (a === "photo" ? "vid__art--photo" : a) + '">' +
+          '<span class="vid__play">' + PLAY + "</span>" +
+          '<span class="vid__time">' + v.date + " · " + v.duration + "</span></div>" +
+        '<h3 class="vid__title"><button class="stretched" type="button" data-open="' + i + '">' + v.title + "</button></h3>" +
+        '<p class="vid__meta">' + v.subject + "</p></article></div>";
+    }).join("") +
+    "</div></div>" +
+    '<button class="carousel__arrow carousel__arrow--next" type="button" aria-label="Next">' + CHEV + "</button>" +
+    '<div class="carousel__dots"><button class="carousel__dot" type="button" aria-current="true"></button><button class="carousel__dot" type="button"></button></div>';
+
+  /* -------------------------------- The popup ------------------------------ */
+  var root = document.documentElement;
+  var vp = document.getElementById("vp");
+  var box = vp.querySelector(".vp__box");
+  var frame = vp.querySelector(".vp__frame");
+  var poster = vp.querySelector(".vp__poster");
+  var dots = vp.querySelector("[data-dots]");
+  var at = 0;
+  var opener = null;
+  var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function opt() { return document.body.getAttribute("data-opt"); }
+
+  dots.innerHTML = VIDEOS.map(function (v, i) {
+    return '<button class="carousel__dot" type="button" data-go="' + i + '" aria-label="Video ' + (i + 1) + '"></button>';
+  }).join("");
+
+  function fill(i) {
+    at = i;
+    var v = VIDEOS[i];
+    vp.querySelector('[data-f="subject"]').textContent = v.subject;
+    vp.querySelector('[data-f="title"]').textContent = v.title;
+    vp.querySelector('[data-f="date"]').textContent = v.date;
+    vp.querySelector('[data-f="duration"]').textContent = v.duration;
+    vp.querySelector('[data-f="count"]').textContent = pad(i + 1) + " / " + pad(VIDEOS.length);
+    var a = artClass(i);
+    poster.className = "vp__poster " + (a === "photo" ? "vp__poster--photo" : a);
+    vp.querySelector('[data-step="-1"]').disabled = i === 0;
+    vp.querySelector('[data-step="1"]').disabled = i === VIDEOS.length - 1;
+    Array.prototype.forEach.call(dots.children, function (d, j) { d.setAttribute("aria-current", String(j === i)); });
+  }
+
+  function cardArt(i) {
+    var b = document.querySelector('[data-open="' + i + '"]');
+    return b ? b.closest(".vid").querySelector(".vid__art") : null;
+  }
+
+  // Option 4: the frame starts where the card's picture is and grows into place.
+  function flyFrom(el, reverse, done) {
+    var from = el.getBoundingClientRect();
+    var to = frame.getBoundingClientRect();
+    var visible = from.bottom > 0 && from.top < innerHeight;
+    if (still || !visible) { if (done) done(); return; }
+    var sx = from.width / to.width, sy = from.height / to.height;
+    var start = "translate(" + (from.left - to.left) + "px," + (from.top - to.top) + "px) scale(" + sx + "," + sy + ")";
+    var frames = [{ transform: start }, { transform: "none" }];
+    var anim = frame.animate(reverse ? frames.reverse() : frames,
+      { duration: reverse ? 320 : 520, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)", fill: "both" });
+    anim.onfinish = function () { anim.cancel(); if (done) done(); };
+  }
+
+  function open(i, from) {
+    fill(i);
+    opener = from || null;
+    vp.classList.remove("vp--closing");
+    vp.classList.toggle("vp--glass", opt() === "1" || opt() === "5" || opt() === "2");
+    vp.hidden = false;
+    root.classList.add("vp-lock");
+    if (opt() === "4" && from) flyFrom(cardArt(i));
+    vp.querySelector(".vp__close").focus({ preventScroll: true });
+  }
+
+  function close() {
+    if (vp.hidden) return;
+    function hide() {
+      vp.hidden = true;
+      vp.classList.remove("vp--closing");
+      root.classList.remove("vp-lock");
+      if (opener) opener.focus({ preventScroll: true });
+    }
+    if (still) return hide();
+    vp.classList.add("vp--closing");
+    if (opt() === "4") {
+      var art = cardArt(at);
+      if (art) return flyFrom(art, true, hide);
+      return hide();
+    }
+    setTimeout(hide, 220);
+  }
+
+  function step(d) {
+    var n = at + d;
+    if (n < 0 || n >= VIDEOS.length) return;
+    fill(n);
+    frame.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 300 });
+  }
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-open],[data-close],[data-step],[data-go]");
+    if (!t) return;
+    if (t.hasAttribute("data-open")) open(+t.getAttribute("data-open"), t);
+    else if (t.hasAttribute("data-close")) close();
+    else if (t.hasAttribute("data-step")) step(+t.getAttribute("data-step"));
+    else step(+t.getAttribute("data-go") - at);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (vp.hidden) return;
+    if (e.key === "Escape") { e.preventDefault(); close(); }
+    else if (opt() === "5" && (e.key === "ArrowLeft" || e.key === "ArrowRight")) step(e.key === "ArrowLeft" ? -1 : 1);
+    else if (e.key === "Tab") {           // keep focus inside the popup
+      var f = Array.prototype.filter.call(vp.querySelectorAll("button"), function (b) { return b.getClientRects().length && !b.disabled; });
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  /* ------------------------ Mockup switcher: options ----------------------- */
+  function setOpt(n) {
+    if (!NAMES[n]) n = "1";
+    document.body.setAttribute("data-opt", n);
+    document.querySelector("[data-opt-name]").textContent = "Video · " + NAMES[n];
+    document.querySelectorAll("[data-opt-link]").forEach(function (a) {
+      if (a.getAttribute("data-opt-link") === n) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+    // Show each option open; for 4, open from the card so the flight plays.
+    vp.hidden = true;
+    open(at, n === "4" ? document.querySelector('[data-open="' + at + '"]') : null);
+  }
+  addEventListener("hashchange", function () { setOpt(location.hash.slice(1)); });
+
+  /* ------------------------ Mockup switcher: light/dark -------------------- */
+  function mark() {
+    var t = root.getAttribute("data-theme");
+    document.querySelectorAll("[data-set-theme]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-set-theme") === t));
+    });
+  }
+  document.querySelectorAll("[data-set-theme]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      root.setAttribute("data-theme", b.getAttribute("data-set-theme"));
+      try { localStorage.setItem("alimiyyah.theme", b.getAttribute("data-set-theme")); } catch (e) {}
+      mark();
+    });
+  });
+  mark();
+
+  // Wait a beat so option 4's first flight starts from a laid-out card.
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () {
+    setOpt(location.hash.slice(1) || "1");
+  });
+})();
+</script>
+</body>
+</html>

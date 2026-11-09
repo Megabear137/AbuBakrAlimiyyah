@@ -1,0 +1,973 @@
+{
+  "heading": "Bookstore",
+  "kicker": "",
+  "lede": "TODO: A line about the bookstore: what it stocks, and where and when the books can be bought.",
+  "visitLabel": "Visit the Bookstore",
+  "buyLabel": "Buy",
+  "pickup": "TODO: Where and when to collect a book bought here: the masjid address, the days and times, and that the emailed receipt must be shown.",
+  "thanks": "Thank you. Your receipt is on its way to your email: bring it to the masjid to collect your book.",
+  "note": "The books the masjid sells (one posting per edition; prices from the price list 2026/27), shown with their picture, name and price. Each book with an 'id' (lowercase words joined by hyphens, unique; keep it once published, since links use it) has its own page, book.html?id=<id>, which its card opens; there it can be bought. 'buyHref' is the book's Stripe Payment Link (https://buy.stripe.com/...): the page's button opens it, Stripe takes the name, email and card, emails the buyer a receipt and the masjid the order, then sends the buyer back to book.html?id=<id>&paid=1, which shows 'thanks'. The buyer brings the receipt to collect the book. Without 'buyHref' the page shows no button; 'soldOut': true shows 'Sold out' instead. 'buyLabel' is the button's words and 'pickup' the paragraph on how and where books are collected. The home page shows three rows of books with a photograph: those marked 'featured' first, then the rest in order; bookstore.html shows them all, filtered by year and by group of subjects ('years' is the list of years a book is taught in; a book in two years stands under both). 'subjectGroups' are the groups the page filters by, in order: each a 'name' and the 'subjects' in it; a subject in no group falls into the last. 'size' is 'large' for a card two columns wide and two rows high, in its cover's colour, with its description (left out: a normal card); 'tint' (#rrggbb, optional) is a large card's colour in place of its cover's. 'subject' is the small line above a title and may be empty; 'edition' is the line under it that tells one edition of a book from another, and 'description' is shown on the book's page. 'price' is text, written as it should read (\"$12.00\"); empty hides it. 'cover' is a photograph's path (ideally 3:4, e.g. assets/img/books/name.jpg); without one the binding named by 'color' is drawn (lapis, ink, lapis-silver, ink-silver, petrol, slate, oxblood or aubergine). Edit with tools/admin_server.py, or by hand.",
+  "subjectGroups": [
+    {
+      "name": "Language",
+      "subjects": [
+        "Arabic",
+        "Nahwa",
+        "Sarf",
+        "Balagha",
+        "Urdu"
+      ]
+    },
+    {
+      "name": "Qur'an",
+      "subjects": [
+        "Tajwid",
+        "Tafseer",
+        "Usul Tafsir"
+      ]
+    },
+    {
+      "name": "Hadith",
+      "subjects": [
+        "Hadith",
+        "Usul Hadith"
+      ]
+    },
+    {
+      "name": "Fiqh",
+      "subjects": [
+        "Fiqh",
+        "Usul Fiqh",
+        "Mirath"
+      ]
+    },
+    {
+      "name": "Other",
+      "subjects": []
+    }
+  ],
+  "books": [
+    {
+      "id": "sahih-al-bukhari",
+      "title": "Ṣaḥīḥ al-Bukhārī",
+      "subject": "Hadith",
+      "years": [
+        "Seventh Year"
+      ],
+      "description": "The most authentic book after the Book of Allah: Imam al-Bukhari's collection of sound hadith, studied in full in the final year.",
+      "color": "petrol",
+      "featured": true,
+      "size": "large",
+      "prints": [
+        {
+          "edition": "Brown cover",
+          "price": "$60.00",
+          "cover": "assets/img/books/sahih-al-bukhari.jpg"
+        },
+        {
+          "edition": "Green cover",
+          "price": "$60.00",
+          "cover": "assets/img/books/sahih-al-bukhari-2.jpg"
+        }
+      ]
+    },
+    {
+      "id": "sahih-muslim",
+      "title": "Ṣaḥīḥ Muslim",
+      "subject": "Hadith",
+      "years": [
+        "Seventh Year"
+      ],
+      "description": "Imam Muslim's collection of authentic hadith, second only to al-Bukhari's and known for its careful arrangement of chains and wordings.",
+      "color": "petrol",
+      "featured": true,
+      "size": "medium",
+      "prints": [
+        {
+          "edition": "Green cover",
+          "price": "$50.00",
+          "cover": "assets/img/books/sahih-muslim.jpg"
+        },
+        {
+          "edition": "Brown cover",
+          "price": "$50.00",
+          "cover": "assets/img/books/sahih-muslim-2.jpg"
+        },
+        {
+          "edition": "Black cover",
+          "price": "$50.00",
+          "cover": "assets/img/books/sahih-muslim-3.jpg"
+        }
+      ]
+    },
+    {
+      "id": "sunan-abi-dawud",
+      "title": "Sunan Abī Dāwūd",
+      "subject": "Hadith",
+      "years": [
+        "Seventh Year"
+      ],
+      "description": "Imam Abu Dawud's collection of the hadith on which the rulings of fiqh are based, arranged by the chapters of law.",
+      "color": "petrol",
+      "featured": true,
+      "prints": [
+        {
+          "edition": "Grey cover",
+          "price": "$40.00",
+          "cover": "assets/img/books/sunan-abi-dawud-3.jpg"
+        },
+        {
+          "edition": "Red and gold cover",
+          "price": "$40.00",
+          "cover": "assets/img/books/sunan-abi-dawud.jpg"
+        },
+        {
+          "edition": "Green cover",
+          "price": "$40.00",
+          "cover": "assets/img/books/sunan-abi-dawud-2.jpg"
+        }
+      ]
+    },
+    {
+      "id": "sunan-ibn-maja",
+      "title": "Sunan Ibn Māja",
+      "subject": "Hadith",
+      "years": [
+        "Seventh Year"
+      ],
+      "description": "Imam Ibn Majah's Sunan, the sixth of the six major books of hadith, valued for the many narrations found in it alone.",
+      "color": "petrol",
+      "featured": true,
+      "prints": [
+        {
+          "edition": "Blue cover",
+          "price": "$35.00",
+          "cover": "assets/img/books/sunan-ibn-maja.jpg"
+        },
+        {
+          "edition": "Pink cover",
+          "price": "$35.00",
+          "cover": "assets/img/books/sunan-ibn-maja-2.jpg"
+        }
+      ]
+    },
+    {
+      "id": "sunan-al-nasai",
+      "title": "Sunan al-Nasāʾī",
+      "subject": "Hadith",
+      "years": [
+        "Seventh Year"
+      ],
+      "price": "$40.00",
+      "description": "Imam al-Nasa'i's Sunan, among the strictest of the collections in its choice of narrators, with special attention to hidden defects in chains.",
+      "cover": "assets/img/books/sunan-al-nasai.jpg",
+      "color": "petrol",
+      "featured": true
+    },
+    {
+      "id": "jami-al-tirmidhi",
+      "title": "Jāmiʿ al-Tirmidhī",
+      "subject": "Hadith",
+      "years": [
+        "Seventh Year"
+      ],
+      "price": "$45.00",
+      "description": "Imam al-Tirmidhi's collection, which grades each hadith and records how the Companions and jurists acted on it.",
+      "cover": "assets/img/books/jami-al-tirmidhi.jpg",
+      "color": "petrol",
+      "featured": true
+    },
+    {
+      "id": "mishkat-al-masabih",
+      "title": "Mishkāt al-Maṣābīḥ",
+      "subject": "Hadith",
+      "years": [
+        "Sixth Year"
+      ],
+      "description": "Al-Khatib al-Tibrizi's expansion of al-Baghawi's Masabih al-Sunnah: about six thousand hadith from the major collections, arranged by subject.",
+      "color": "ink-silver",
+      "featured": false,
+      "prints": [
+        {
+          "edition": "Navy cover, al-Bushra",
+          "price": "$30.00",
+          "cover": "assets/img/books/mishkat-al-masabih-2.jpg"
+        },
+        {
+          "edition": "Black and gold, Ashrafi Book Depot",
+          "price": "$30.00",
+          "cover": "assets/img/books/mishkat-al-masabih.jpg"
+        },
+        {
+          "edition": "Brown cover, al-Bushra",
+          "price": "$30.00",
+          "cover": "assets/img/books/mishkat-al-masabih-3.jpg"
+        }
+      ]
+    },
+    {
+      "id": "riyad-al-salihin",
+      "title": "Riyāḍ al-Ṣāliḥīn",
+      "subject": "Hadith",
+      "years": [
+        "Fourth Year",
+        "Fifth Year"
+      ],
+      "price": "$15.00",
+      "description": "Imam al-Nawawi's much-loved collection of hadith on character, manners, worship and the good life, each chapter opening with verses of the Qur'an.",
+      "cover": "assets/img/books/riyad-al-salihin.jpg",
+      "color": "oxblood",
+      "featured": false
+    },
+    {
+      "id": "muwatta-imam-muhammad",
+      "title": "Muwaṭṭaʾ al-Imām Muḥammad",
+      "subject": "Hadith",
+      "years": [
+        "Seventh Year"
+      ],
+      "price": "$25.00",
+      "description": "Imam Muhammad ibn al-Hasan al-Shaybani's narration of the Muwatta', which he heard from Imam Malik, with his own notes on Hanafi positions.",
+      "cover": "assets/img/books/muwatta-imam-muhammad.jpg",
+      "color": "petrol",
+      "featured": false
+    },
+    {
+      "id": "sharh-al-aqida-al-tahawiyya",
+      "title": "Sharḥ al-ʿAqīda al-Ṭaḥāwiyya",
+      "subject": "Aqidah",
+      "years": [
+        "Sixth Year"
+      ],
+      "price": "$10.00",
+      "description": "A commentary on Imam al-Tahawi's short statement of the beliefs of Ahl al-Sunnah wal-Jama'ah, accepted across the schools for over a thousand years.",
+      "cover": "assets/img/books/sharh-al-aqida-al-tahawiyya.jpg",
+      "color": "ink-silver",
+      "featured": false
+    },
+    {
+      "id": "muwatta-imam-malik",
+      "title": "Muwaṭṭaʾ al-Imām Mālik",
+      "subject": "Hadith",
+      "years": [
+        "Seventh Year"
+      ],
+      "price": "$25.00",
+      "description": "The earliest surviving book of hadith and law, compiled by Imam Malik, the Imam of Madinah.",
+      "cover": "",
+      "color": "petrol",
+      "featured": false
+    },
+    {
+      "id": "sharh-maani-al-athar",
+      "title": "Sharḥ Maʿānī al-Āthār",
+      "subject": "Usul Hadith",
+      "years": [
+        "Seventh Year"
+      ],
+      "description": "Imam al-Tahawi's collection of hadith on legal questions, which brings together narrations that seem to conflict and shows how they fit together.",
+      "color": "petrol",
+      "featured": false,
+      "prints": [
+        {
+          "edition": "Black cover, al-Bushra",
+          "price": "$25.00",
+          "cover": "assets/img/books/sharh-maani-al-athar.jpg"
+        },
+        {
+          "edition": "Black and gold, Ashrafi Book Depot",
+          "price": "$25.00",
+          "cover": "assets/img/books/sharh-maani-al-athar-2.jpg"
+        }
+      ]
+    },
+    {
+      "id": "zad-al-talibin",
+      "title": "Zād al-Ṭālibīn",
+      "subject": "Hadith",
+      "years": [
+        "Third Year"
+      ],
+      "price": "$5.00",
+      "description": "A short collection of hadith chosen by Maulana Ashiq Ilahi Bulandshahri, mostly from Mishkat al-Masabih, which gives students their first Arabic hadith to read, translate and memorise.",
+      "cover": "assets/img/books/zad-al-talibin.jpg",
+      "color": "ink",
+      "featured": false
+    },
+    {
+      "id": "tajweed-for-beginners",
+      "title": "Tajweed for Beginners",
+      "subject": "Tajwid",
+      "years": [
+        "Second Year"
+      ],
+      "price": "$5.00",
+      "description": "Qari Ismail Essack's English introduction to tajwid, taking beginners step by step through the rules of reciting the Qur'an.",
+      "cover": "assets/img/books/tajweed-for-beginners.jpg",
+      "color": "petrol",
+      "featured": false
+    },
+    {
+      "id": "tafsir-al-jalalayn",
+      "title": "Tafsīr al-Jalālayn",
+      "subject": "Tafseer",
+      "years": [
+        "Sixth Year"
+      ],
+      "description": "The concise classic commentary on the whole Qur'an by the two Jalals, al-Mahalli and al-Suyuti, explaining the meaning of every verse in a few words.",
+      "color": "ink-silver",
+      "featured": false,
+      "size": "large",
+      "prints": [
+        {
+          "edition": "Grey cover",
+          "price": "$35.00",
+          "cover": "assets/img/books/tafsir-al-jalalayn-2.jpg"
+        },
+        {
+          "edition": "Dark leather-look cover",
+          "price": "$35.00",
+          "cover": "assets/img/books/tafsir-al-jalalayn.jpg"
+        }
+      ]
+    },
+    {
+      "id": "al-muqaddima-al-jazariyya",
+      "title": "Al-Muqaddima al-Jazariyya",
+      "subject": "Tajwid",
+      "years": [
+        "Fifth Year"
+      ],
+      "price": "$3.00",
+      "description": "Imam Ibn al-Jazari's famous poem on tajwid, which gathers the rules of recitation into about a hundred verses that students memorise.",
+      "cover": "assets/img/books/al-muqaddima-al-jazariyya.jpg",
+      "color": "aubergine",
+      "featured": false,
+      "size": "medium"
+    },
+    {
+      "id": "jamal-al-quran",
+      "title": "Jamāl al-Qurʾān",
+      "subject": "Tajwid",
+      "years": [
+        "Third Year"
+      ],
+      "description": "Maulana Ashraf Ali Thanwi's short Urdu treatise on tajwid, which sets out the rules of recitation in brief lessons.",
+      "color": "ink",
+      "featured": false,
+      "prints": [
+        {
+          "edition": "Qira'at Academy edition",
+          "price": "$3.00",
+          "cover": "assets/img/books/jamal-al-quran.jpg"
+        },
+        {
+          "edition": "With the Zinat al-Furqan notes, Maktaba Rahmaniyya",
+          "price": "$3.00",
+          "cover": "assets/img/books/jamal-al-quran-2.jpg"
+        }
+      ]
+    },
+    {
+      "id": "tajweed-made-easy",
+      "title": "Tajweed Made Easy",
+      "subject": "Tajwid",
+      "years": [
+        "First Year"
+      ],
+      "price": "$6.00",
+      "description": "A beginner's guide in English to tajwid, the rules for reciting the Qur'an correctly.",
+      "cover": "",
+      "color": "lapis",
+      "featured": false
+    },
+    {
+      "id": "khulasat-al-bayan",
+      "title": "Khulāṣat al-Bayān",
+      "subject": "Tajwid",
+      "years": [
+        "Fifth Year"
+      ],
+      "price": "$5.00",
+      "description": "Qari Zia al-Din Ahmad Allahabadi's Urdu manual of tajwid. This edition also carries the texts of al-Muqaddima al-Jazariyya and Tuhfat al-Atfal.",
+      "cover": "assets/img/books/khulasat-al-bayan.jpg",
+      "color": "aubergine",
+      "featured": false
+    },
+    {
+      "id": "al-fawaid-al-makkiyya",
+      "title": "Al-Fawāʾid al-Makkiyya",
+      "subject": "Tajwid",
+      "years": [
+        "Fifth Year"
+      ],
+      "price": "$3.00",
+      "description": "A classic Urdu manual of tajwid by Qari Abdur Rahman Makki, setting out the rules for reciting the Qur'an correctly.",
+      "cover": "assets/img/books/al-fawaid-al-makkiyya.jpg",
+      "color": "aubergine",
+      "featured": false
+    },
+    {
+      "id": "taysir-mustalah-al-hadith",
+      "title": "Taysīr Muṣṭalaḥ al-Ḥadīth",
+      "subject": "Usul Hadith",
+      "years": [
+        "Sixth Year"
+      ],
+      "price": "$10.00",
+      "description": "Dr Mahmud al-Tahhan's clear modern introduction to the sciences of hadith: the terms and principles scholars use to judge whether a narration is authentic.",
+      "cover": "assets/img/books/taysir-mustalah-al-hadith.jpg",
+      "color": "ink-silver",
+      "featured": false
+    },
+    {
+      "id": "al-fawz-al-kabir",
+      "title": "Al-Fawz al-Kabīr",
+      "subject": "Usul Tafsir",
+      "years": [
+        "Sixth Year"
+      ],
+      "description": "Shah Waliullah al-Dihlawi's influential short work on the principles of tafsir: what the Qur'an teaches, and how to understand it.",
+      "color": "ink-silver",
+      "featured": false,
+      "prints": [
+        {
+          "edition": "Paperback",
+          "price": "$5.00",
+          "cover": "assets/img/books/al-fawz-al-kabir.jpg"
+        },
+        {
+          "edition": "Hardcover",
+          "price": "$5.00",
+          "cover": "assets/img/books/al-fawz-al-kabir-2.jpg"
+        }
+      ],
+      "size": "medium"
+    },
+    {
+      "id": "nafhat-al-arab",
+      "title": "Nafḥat al-ʿArab",
+      "subject": "Adab",
+      "years": [
+        "Fifth Year"
+      ],
+      "price": "$15.00",
+      "description": "An anthology of classical Arabic prose by Mawlana I'zaz Ali, with stories, wise sayings and accounts from Arab history, used to train students to read real Arabic literature.",
+      "cover": "assets/img/books/nafhat-al-arab.jpg",
+      "color": "aubergine",
+      "featured": false
+    },
+    {
+      "id": "al-hidaya",
+      "title": "Al-Hidāya",
+      "subject": "Fiqh",
+      "years": [
+        "Fifth Year",
+        "Sixth Year"
+      ],
+      "price": "$60.00",
+      "description": "Imam al-Marghinani's classic manual of Hanafi law, explaining each ruling together with its evidence. It is studied over two years.",
+      "cover": "assets/img/books/al-hidaya.jpg",
+      "color": "aubergine",
+      "featured": false,
+      "size": "large"
+    },
+    {
+      "id": "bahishti-zewar",
+      "title": "Bahishtī Zewar",
+      "subject": "Fiqh",
+      "years": [
+        "Second Year"
+      ],
+      "price": "$8.00",
+      "description": "Maulana Ashraf Ali Thanwi's famous Urdu guide to the faith and daily life: belief, purity, prayer, fasting, dealings and good conduct, written so that every household can learn its religion.",
+      "cover": "",
+      "color": "petrol",
+      "featured": false
+    },
+    {
+      "id": "al-fiqh-al-muyassar",
+      "title": "Al-Fiqh al-Muyassar",
+      "subject": "Fiqh",
+      "years": [
+        "Second Year",
+        "Third Year"
+      ],
+      "price": "$5.00",
+      "description": "Shafiq al-Rahman al-Nadwi's simplified Hanafi fiqh in Arabic. This part, on worship, covers purity, prayer, zakat, fasting and hajj in short, clear lessons.",
+      "cover": "assets/img/books/al-fiqh-al-muyassar.jpg",
+      "color": "ink",
+      "featured": false
+    },
+    {
+      "id": "mukhtasar-al-quduri",
+      "title": "Mukhtaṣar al-Qudūrī",
+      "subject": "Fiqh",
+      "years": [
+        "Fourth Year"
+      ],
+      "price": "$15.00",
+      "description": "Imam al-Quduri's concise text of Hanafi law, from purity to inheritance: the first complete book of fiqh in Arabic that students read.",
+      "cover": "assets/img/books/mukhtasar-al-quduri.jpg",
+      "color": "oxblood",
+      "featured": false,
+      "size": "medium"
+    },
+    {
+      "id": "mabadi-al-usul",
+      "title": "Mabādiʾ al-Uṣūl",
+      "subject": "Usul Fiqh",
+      "years": [
+        "Fourth Year"
+      ],
+      "price": "$3.00",
+      "description": "Mufti Saeed Ahmad Palanpuri's short introduction to the principles of jurisprudence (usul al-fiqh), preparing students for Usul al-Shashi.",
+      "cover": "assets/img/books/mabadi-al-usul.jpg",
+      "color": "oxblood",
+      "featured": false
+    },
+    {
+      "id": "nur-al-idah",
+      "title": "Nūr al-Īḍāḥ",
+      "subject": "Fiqh",
+      "years": [
+        "Seventh Year"
+      ],
+      "price": "$12.00",
+      "description": "Imam Hasan al-Shurunbulali's short Hanafi text on the fiqh of worship: purity, prayer, zakat, fasting and hajj.",
+      "cover": "assets/img/books/nur-al-idah.jpg",
+      "color": "petrol",
+      "featured": false
+    },
+    {
+      "id": "muin-al-faraid",
+      "title": "Muʿīn al-Farāʾiḍ",
+      "subject": "Mirath",
+      "years": [
+        "Fifth Year"
+      ],
+      "price": "$5.00",
+      "description": "A primer on Islamic inheritance (mirath): who inherits, what share each heir receives, and how an estate is divided.",
+      "cover": "assets/img/books/muin-al-faraid.jpg",
+      "color": "aubergine",
+      "featured": false
+    },
+    {
+      "id": "al-siraji",
+      "title": "Al-Sirājī",
+      "subject": "Mirath",
+      "years": [
+        "Fifth Year"
+      ],
+      "price": "$10.00",
+      "description": "Al-Sirajiyya of Siraj al-Din al-Sajawandi, the classic Hanafi text on inheritance, which works through the heirs, their shares and the harder cases.",
+      "cover": "assets/img/books/al-siraji.jpg",
+      "color": "aubergine",
+      "featured": false
+    },
+    {
+      "id": "usul-al-shashi",
+      "title": "Uṣūl al-Shāshī",
+      "subject": "Usul Fiqh",
+      "years": [
+        "Fifth Year"
+      ],
+      "description": "A short classic of Hanafi legal theory (usul al-fiqh): how rulings are derived from the Qur'an, the Sunnah, consensus and analogy.",
+      "color": "aubergine",
+      "featured": false,
+      "prints": [
+        {
+          "edition": "Light blue cover",
+          "price": "$10.00",
+          "cover": "assets/img/books/usul-al-shashi.jpg"
+        },
+        {
+          "edition": "Wood-grain cover",
+          "price": "$10.00",
+          "cover": "assets/img/books/usul-al-shashi-2.jpg"
+        },
+        {
+          "edition": "Brown leather-look cover",
+          "price": "$10.00",
+          "cover": "assets/img/books/usul-al-shashi-3.jpg"
+        },
+        {
+          "edition": "Lilac cover",
+          "price": "$10.00",
+          "cover": "assets/img/books/usul-al-shashi-4.jpg"
+        }
+      ],
+      "size": "medium"
+    },
+    {
+      "id": "ghazv-i-fikri",
+      "title": "Ghazv-i Fikrī",
+      "subject": "Fikr",
+      "years": [
+        "Sixth Year"
+      ],
+      "price": "$7.00",
+      "description": "A study of the intellectual challenges facing Muslims today, the ideas that question Islam's teachings, and how to answer them.",
+      "cover": "assets/img/books/ghazv-i-fikri.jpg",
+      "color": "ink-silver",
+      "featured": false
+    },
+    {
+      "id": "nur-al-yaqin",
+      "title": "Nūr al-Yaqīn",
+      "subject": "Sira",
+      "years": [
+        "Fifth Year"
+      ],
+      "price": "$10.00",
+      "description": "Shaykh Muhammad al-Khudari's concise biography of the Prophet ﷺ, written in clear and elegant Arabic.",
+      "cover": "assets/img/books/nur-al-yaqin.jpg",
+      "color": "aubergine",
+      "featured": false
+    },
+    {
+      "id": "urdu-ka-asan-qaida",
+      "title": "Urdū kā Āsān Qāʿida",
+      "subject": "Urdu",
+      "years": [
+        "First Year"
+      ],
+      "price": "$1.00",
+      "description": "A first primer of Urdu: the letters, their joined forms and simple words, so that beginners learn to read and write Urdu quickly and easily.",
+      "cover": "assets/img/books/urdu-ka-asan-qaida.jpg",
+      "color": "lapis",
+      "featured": false,
+      "tint": "#6c474f"
+    },
+    {
+      "id": "urdu-khushkhati",
+      "title": "Urdū Khushkhaṭī",
+      "subject": "Urdu",
+      "years": [
+        "First Year"
+      ],
+      "price": "$10.00",
+      "description": "Practice in Urdu handwriting: students copy the letters, their joined forms and whole words until they write Urdu neatly and clearly.",
+      "cover": "assets/img/books/urdu-khushkhati.jpg",
+      "color": "lapis",
+      "featured": false
+    },
+    {
+      "id": "tasheel-al-nahw",
+      "title": "Tashīl al-Naḥw",
+      "subject": "Nahwa",
+      "years": [
+        "First Year"
+      ],
+      "description": "A primer of Arabic grammar (nahw) that sets out the basic rules of the sentence simply, with plenty of exercises.",
+      "color": "lapis",
+      "featured": false,
+      "size": "large",
+      "prints": [
+        {
+          "edition": "Version 2.2, blue cover",
+          "price": "$9.00",
+          "cover": "assets/img/books/tasheel-al-nahw.jpg"
+        },
+        {
+          "edition": "Jamiah Islamiyah Abu Bakr edition, maroon cover",
+          "price": "$9.00",
+          "cover": "assets/img/books/tasheel-al-nahw-2.jpg"
+        }
+      ]
+    },
+    {
+      "id": "qasas-al-nabiyyin",
+      "title": "Qaṣaṣ al-Nabiyyīn",
+      "subject": "Arabic",
+      "years": [
+        "First Year",
+        "Second Year"
+      ],
+      "price": "$7.00",
+      "description": "The first part of Shaykh Abul Hasan Ali Nadwi's stories of the prophets, written for young readers in simple, flowing Arabic. Students read real Arabic narrative from their first year.",
+      "cover": "assets/img/books/qasas-al-nabiyyin.jpg",
+      "color": "lapis",
+      "featured": false
+    },
+    {
+      "id": "achhi-baatein",
+      "title": "Achchhī Bāteṉ",
+      "subject": "Urdu",
+      "years": [
+        "First Year",
+        "Second Year"
+      ],
+      "price": "$6.00",
+      "description": "The first Urdu reader of the course. Short lessons on good manners and conduct teach students to read Urdu and give them its basic words and grammar.",
+      "cover": "assets/img/books/achhi-baatein.jpg",
+      "color": "lapis",
+      "featured": false
+    },
+    {
+      "id": "durus-al-lugha",
+      "title": "Durūs al-Lugha al-ʿArabiyya",
+      "subject": "Arabic",
+      "years": [
+        "First Year",
+        "Second Year"
+      ],
+      "price": "$25.00",
+      "description": "Dr V. Abdur Rahim's course of the Islamic University of Madinah, studied complete, in all three books. It teaches Arabic through Arabic, one lesson at a time.",
+      "cover": "assets/img/books/durus-al-lugha.jpg",
+      "color": "lapis",
+      "featured": false
+    },
+    {
+      "id": "hidayat-al-nahw",
+      "title": "Hidāyat al-Naḥw",
+      "subject": "Nahwa",
+      "years": [
+        "Fourth Year"
+      ],
+      "price": "$5.00",
+      "description": "A classic textbook of Arabic grammar (nahw) in the Dars-i Nizami, setting out the rules of the noun, the verb and the particle in concise Arabic.",
+      "cover": "assets/img/books/hidayat-al-nahw.jpg",
+      "color": "oxblood",
+      "featured": false,
+      "size": "medium"
+    },
+    {
+      "id": "tasheel-al-sarf",
+      "title": "Tashīl al-Ṣarf",
+      "subject": "Sarf",
+      "years": [
+        "First Year"
+      ],
+      "price": "$9.00",
+      "description": "A primer of Arabic morphology (sarf): how words are built from their roots and how verbs change their forms.",
+      "cover": "assets/img/books/tasheel-al-sarf.jpg",
+      "color": "lapis",
+      "featured": false
+    },
+    {
+      "id": "durus-al-balagha",
+      "title": "Durūs al-Balāgha",
+      "subject": "Balagha",
+      "years": [
+        "Fifth Year"
+      ],
+      "description": "A short introduction to Arabic rhetoric (balagha) and its three branches: meaning (ma'ani), imagery (bayan) and ornament (badi').",
+      "color": "aubergine",
+      "featured": false,
+      "prints": [
+        {
+          "edition": "Blue and white cover",
+          "price": "$6.00",
+          "cover": "assets/img/books/durus-al-balagha.jpg"
+        },
+        {
+          "edition": "Blue and cream cover",
+          "price": "$7.00",
+          "cover": "assets/img/books/durus-al-balagha-2.jpg"
+        },
+        {
+          "edition": "Leather-look cover",
+          "price": "$8.00",
+          "cover": "assets/img/books/durus-al-balagha-3.jpg"
+        }
+      ],
+      "size": "medium"
+    },
+    {
+      "id": "asan-nahw",
+      "title": "Āsān Naḥw",
+      "subject": "Nahwa",
+      "years": [
+        "Second Year"
+      ],
+      "price": "$6.00",
+      "description": "An Urdu primer of Arabic grammar (nahw) in two short parts, both studied, that explains the basic rules simply and practises them with exercises.",
+      "cover": "assets/img/books/asan-nahw.jpg",
+      "color": "petrol",
+      "featured": false
+    },
+    {
+      "id": "ilm-al-nahw",
+      "title": "ʿIlm al-Naḥw",
+      "subject": "Nahwa",
+      "years": [
+        "Third Year"
+      ],
+      "price": "$5.00",
+      "description": "Maulana Mushtaq Ahmad Charthawali's Urdu course in Arabic grammar (nahw), setting out the rules of the sentence and its case endings in order.",
+      "cover": "assets/img/books/ilm-al-nahw.jpg",
+      "color": "ink",
+      "featured": false
+    },
+    {
+      "id": "ilm-al-sarf-awwalin",
+      "title": "ʿIlm al-Ṣarf (Awwalīn)",
+      "subject": "Sarf",
+      "years": [
+        "Second Year"
+      ],
+      "price": "$6.00",
+      "description": "The first half of Maulana Mushtaq Ahmad Charthawali's Urdu course in Arabic morphology (sarf): the patterns of the verb and how its forms are made.",
+      "cover": "assets/img/books/ilm-al-sarf-awwalin.jpg",
+      "color": "petrol",
+      "featured": false
+    },
+    {
+      "id": "ilm-al-sarf-akhirin",
+      "title": "ʿIlm al-Ṣarf (Ākhirīn)",
+      "subject": "Sarf",
+      "years": [
+        "Third Year"
+      ],
+      "price": "$6.00",
+      "description": "The second half of Maulana Mushtaq Ahmad Charthawali's course in Arabic morphology (sarf), completing the verb forms and the weak and irregular roots.",
+      "cover": "assets/img/books/ilm-al-sarf-akhirin.jpg",
+      "color": "ink",
+      "featured": false
+    },
+    {
+      "id": "ilm-al-sigha",
+      "title": "ʿIlm al-Ṣīgha",
+      "subject": "Sarf",
+      "years": [
+        "Fourth Year"
+      ],
+      "price": "$5.00",
+      "description": "An advanced book of Arabic morphology (sarf), here in Urdu with notes, that takes students through the rarer patterns and the changes in weak and doubled roots.",
+      "cover": "assets/img/books/ilm-al-sigha.jpg",
+      "color": "oxblood",
+      "featured": false
+    },
+    {
+      "id": "talim-al-islam",
+      "title": "Taʿlīm al-Islām",
+      "subject": "Islamic Studies",
+      "years": [
+        "First Year",
+        "Second Year"
+      ],
+      "price": "$6.00",
+      "description": "Mufti Kifayatullah Dehlawi's classic primer of the faith in questions and answers: belief, purity, prayer and the other basics every Muslim needs. This edition adds forty hadith and forty sunnah supplications.",
+      "cover": "assets/img/books/talim-al-islam.jpg",
+      "color": "lapis",
+      "featured": false
+    }
+  ],
+  "layouts": {
+    "Language": {
+      "order": [
+        "urdu-ka-asan-qaida",
+        "tasheel-al-nahw",
+        "urdu-khushkhati",
+        "achhi-baatein",
+        "durus-al-balagha",
+        "ilm-al-nahw",
+        "asan-nahw",
+        "hidayat-al-nahw",
+        "durus-al-lugha",
+        "qasas-al-nabiyyin",
+        "ilm-al-sarf-akhirin",
+        "tasheel-al-sarf",
+        "ilm-al-sarf-awwalin",
+        "ilm-al-sigha"
+      ],
+      "large": [
+        "tasheel-al-nahw",
+        "hidayat-al-nahw"
+      ],
+      "medium": [
+        "urdu-ka-asan-qaida",
+        "durus-al-balagha",
+        "durus-al-lugha",
+        "ilm-al-sigha"
+      ]
+    },
+    "Qur'an": {
+      "order": [
+        "tafsir-al-jalalayn",
+        "al-fawaid-al-makkiyya",
+        "jamal-al-quran",
+        "tajweed-made-easy",
+        "tajweed-for-beginners",
+        "khulasat-al-bayan",
+        "al-muqaddima-al-jazariyya",
+        "al-fawz-al-kabir"
+      ],
+      "large": [
+        "tafsir-al-jalalayn",
+        "al-muqaddima-al-jazariyya"
+      ],
+      "medium": [
+        "al-fawaid-al-makkiyya",
+        "al-fawz-al-kabir"
+      ]
+    },
+    "Hadith": {
+      "order": [
+        "sahih-al-bukhari",
+        "sahih-muslim",
+        "sunan-al-nasai",
+        "sunan-ibn-maja",
+        "sunan-abi-dawud",
+        "muwatta-imam-malik",
+        "muwatta-imam-muhammad",
+        "jami-al-tirmidhi",
+        "mishkat-al-masabih",
+        "riyad-al-salihin",
+        "zad-al-talibin",
+        "taysir-mustalah-al-hadith",
+        "sharh-maani-al-athar"
+      ],
+      "large": [
+        "sahih-al-bukhari",
+        "sahih-muslim"
+      ],
+      "medium": [
+        "sunan-al-nasai",
+        "sunan-ibn-maja",
+        "sunan-abi-dawud",
+        "muwatta-imam-muhammad",
+        "muwatta-imam-malik",
+        "jami-al-tirmidhi",
+        "mishkat-al-masabih",
+        "riyad-al-salihin"
+      ]
+    },
+    "Fiqh": {
+      "order": [
+        "al-hidaya",
+        "al-fiqh-al-muyassar",
+        "nur-al-idah",
+        "bahishti-zewar",
+        "mukhtasar-al-quduri",
+        "usul-al-shashi",
+        "mabadi-al-usul",
+        "al-siraji",
+        "muin-al-faraid"
+      ],
+      "large": [
+        "al-hidaya"
+      ],
+      "medium": [
+        "al-fiqh-al-muyassar",
+        "mukhtasar-al-quduri",
+        "usul-al-shashi",
+        "muin-al-faraid"
+      ]
+    },
+    "Other": {
+      "order": [
+        "sharh-al-aqida-al-tahawiyya",
+        "ghazv-i-fikri",
+        "nur-al-yaqin",
+        "talim-al-islam",
+        "nafhat-al-arab"
+      ],
+      "large": [
+        "sharh-al-aqida-al-tahawiyya"
+      ],
+      "medium": []
+    }
+  }
+}

@@ -26,7 +26,7 @@
     8. Kitab spines, the slip & the folio
     9. Details
    10. Carousels, teachers, testimonies
-   11. Articles, videos, footer & the article page
+   11. Articles, videos, footer, the article, teacher & bookstore pages
    12. Dark mode
    13. Responsive
    ===================================================================== */
@@ -234,6 +234,8 @@ main { position: relative; }
 .section__lede:empty { display: none; }
 .section__tools { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; margin-top: 1.4rem; }
 .section__tools > div:empty { display: none; }
+/* Videos has no switch: with its link hidden too, the box would only leave a gap. */
+.section__tools:not(:has(> div:not(:empty), > a:not([hidden]))) { display: none; }
 
 /* The rule between sections: 4px of deep gold with a lit edge beneath it,
    parted in the middle for the logo (dark mode draws B's thin gold line and
@@ -823,7 +825,7 @@ main { position: relative; }
 .slip__head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; margin-top: 0.15rem; padding-right: 0.9rem; }
 .slip__title { font-family: var(--display); font-size: 1.35rem; font-weight: 600; line-height: 1.1; }
 .slip__urdu { flex: none; color: #5a3a16; font-family: var(--urdu); font-size: 1.2rem; line-height: 1.5; white-space: nowrap; }
-.slip__author { margin-top: 0.2rem; color: #7f7a72; font-size: 0.78rem; }   /* light grey, as written */
+.slip__author { margin-top: 0.2rem; color: #7f7a72; font-family: var(--display); font-size: 0.95rem; font-style: italic; }   /* grey, as written; Cormorant has the transliteration's ḥ, ṣ, ʿ */
 .slip__rule { display: block; height: 1px; margin: 0.5rem 0 0.55rem; background: repeating-linear-gradient(90deg, rgba(60, 38, 14, 0.5) 0 6px, transparent 6px 10px); }
 .slip__body {
   display: -webkit-box;
@@ -888,6 +890,9 @@ main { position: relative; }
   box-shadow: 0 0 0 1px rgba(60, 38, 14, 0.5), 0 0 0 3px #f7edd6, 0 0 0 4px var(--gilt), 0 14px 22px -12px rgba(0, 0, 0, 0.6);
 }
 .folio__cover img { width: 100%; height: 100%; border-radius: 1px; object-fit: cover; object-position: 50% 30%; }
+/* A tight crop (the book alone, tools/covers.py) keeps its own shape at the
+   top of the leaf, so the whole book shows. */
+.folio__cover--tight { align-self: start; aspect-ratio: 1 / var(--ratio); max-height: none; }
 
 /* Close sits in the top-right corner of the leaf, a solid rust disc in a
    gilt ring so it reads at a glance. The text column keeps clear of it. */
@@ -1111,14 +1116,17 @@ main { position: relative; }
 }
 .carousel__dot[aria-current="true"] { width: 24px; border-radius: 5px; background: var(--rust); }
 
-/* Teachers: a mosaic. The first teacher (the imam) stands large, two rows
-   tall; the rest fill the grid beside and below. Each is a cream card in a
+/* Teachers: a mosaic on four equal columns. A card spans its teacher's
+   width (1-4 columns, .teacher--w2..4) and height (1-3 rows, .teacher--h2..3)
+   from teachers.json; the cards are packed densely so a big card further
+   down leaves no hole. Each is a cream card in a
    double gold frame drawn with inset shadows, the name the focus, and the
    bio of the large card set off by a gold hairline. */
 .mosaic {
   display: grid;
-  grid-template-columns: 1.5fr repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: 200px;
+  grid-auto-flow: dense;
   gap: 1.2rem;
 }
 .teacher {
@@ -1139,12 +1147,46 @@ main { position: relative; }
 }
 .teacher:hover { transform: translateY(-4px); }
 .teacher > * { position: relative; z-index: 1; }
-.teacher--lead { grid-row: span 2; padding: 2rem; }
+.teacher--lead { padding: 2rem; }
+.teacher--w2 { grid-column: span 2; }
+.teacher--w3 { grid-column: span 3; }
+.teacher--w4 { grid-column: span 4; }
+.teacher--h2 { grid-row: span 2; }
+.teacher--h3 { grid-row: span 3; }
 .teacher__honorific { color: var(--brown-ink); font-size: 0.92rem; font-weight: 600; letter-spacing: 0.04em; }
 .teacher__name { margin-top: 0.3rem; color: var(--brown-ink); font-family: var(--display); font-size: 1.7rem; font-weight: 600; line-height: 1.1; }
 .teacher--lead .teacher__name { font-size: 2.6rem; }
 .teacher__bio { margin-top: 0.3rem; color: var(--brown-ink); font-size: 0.88rem; font-weight: 400; }
 .teacher--lead .teacher__bio { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(154, 101, 8, 0.3); }
+/* A card two or more columns wide may set its bio to the right of the name
+   (bioBeside in teachers.json): the two centred in the card's height, parted
+   by a gold hairline that replaces the lead's rule above the bio (so this
+   must follow that rule). On phones, every card one column, the bio goes
+   back underneath. */
+@media (min-width: 561px) {
+  .teacher--beside {
+    display: grid;
+    grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+    align-content: center;
+    column-gap: 2rem;
+  }
+  .teacher--beside > * { grid-column: 1; }
+  .teacher--beside .teacher__bio {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    margin: 0;
+    padding: 0.2rem 0 0.2rem 2rem;
+    border-top: 0;
+    border-left: 1px solid rgba(154, 101, 8, 0.3);
+  }
+}
+/* A teacher with a page: the name's link covers the card (the name itself
+   stays unpositioned, so the link's box is the card's). */
+.teacher--link .teacher__name { position: static; }
+.teacher--link .stretched::before { z-index: 2; }
+.teacher--link .stretched:focus-visible { outline: 0; }
+.teacher--link:has(.stretched:focus-visible) { outline: 2px solid var(--gold-ink); outline-offset: 3px; }
 /* A placeholder (a name starting TODO): a dashed, paler card. */
 .teacher--todo {
   background: rgba(255, 250, 240, 0.72);
@@ -1415,6 +1457,85 @@ main { position: relative; }
 }
 .vid__title { margin-top: 0.9rem; color: var(--g-text); font-size: 1.05rem; font-variant: small-caps; font-weight: 500; letter-spacing: 0.06em; }
 .vid__meta { color: var(--g-muted); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; }
+/* A card that plays in the popup: its title is a button stretched over the card. */
+.vid button.stretched { padding: 0; text-align: left; }
+.vid .stretched:focus-visible { outline: 0; }
+.vid:has(.stretched:focus-visible) .vid__art { outline: 2px solid var(--gold-ink); outline-offset: 3px; }
+
+/* The video popup (main.js, openVideo): option 4 of design/canvas-video/. The
+   card's picture grows out of the carousel into a large frame on the ground,
+   dimmed and blurred; the caption beneath it is the card's, larger. The player
+   goes in once the frame has landed, and comes out as it flies back. */
+.vp-lock { overflow: hidden; scrollbar-gutter: stable; }
+.vp {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 48px);
+  overflow-y: auto;
+}
+.vp[hidden] { display: none; }
+.vp__scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(236, 211, 182, 0.93);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  animation: vp-in 0.3s ease both;
+}
+.vp__box {
+  position: relative;
+  width: min(1060px, 100%, calc((100vh - 250px) * 16 / 9));
+  min-width: min(560px, 100%);
+}
+.vp__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(189, 93, 15, 0.6);
+  background-color: var(--board-deep);
+  box-shadow: 0 40px 70px -36px rgba(40, 18, 4, 0.75);
+  transform-origin: 0 0;
+}
+.vp__poster { position: absolute; inset: 0; background-position: center; background-size: cover; }
+.vp__poster .vid__play { width: 84px; height: 84px; }
+.vp__poster .vid__play svg { width: 28px; height: 28px; margin-left: 5px; }
+.vp__media { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; animation: vp-in 0.3s ease both; }
+.vp__cap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.6rem 1.5rem;
+  margin-top: 1.2rem;
+  animation: vp-in 0.4s 0.25s ease both;
+}
+.vp__title { color: var(--g-text); font-size: clamp(1.25rem, 1rem + 0.8vw, 1.6rem); font-variant: small-caps; font-weight: 500; letter-spacing: 0.06em; }
+.vp__subject { margin-top: 0.2rem; color: var(--g-muted); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.vp__subject:empty,
+.vp__meta:empty { display: none; }
+.vp__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--g-accent);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.vp__meta i { width: 4px; height: 4px; border-radius: 50%; background: var(--g-mark); }
+.vp__close { position: fixed; top: 24px; right: 24px; z-index: 1; animation: vp-in 0.3s 0.2s ease both; }
+.vp__close svg { width: 16px; height: 16px; }
+.vp--closing .vp__scrim,
+.vp--closing .vp__cap,
+.vp--closing .vp__close,
+.vp--fading .vp__box { animation: vp-out 0.22s ease both; }
+@keyframes vp-in { from { opacity: 0; } }
+@keyframes vp-out { to { opacity: 0; } }
 
 /* An audience with nothing posted yet. */
 .media-empty {
@@ -1538,6 +1659,306 @@ main { position: relative; }
 .more { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; }
 .more .slider__card { text-decoration: none; }
 .more__foot { margin-top: 2.2rem; text-align: center; }
+
+/* The teacher page (teacher.html): option 2 of design/canvas-teacher/. No
+   photograph: the teacher's own mosaic card - cream in its double gold frame
+   - grown into the head of the page, then the logo rule, the biography in
+   the article's 680px column with a drop cap, and the other teachers as
+   the mosaic's cards. */
+.t-head { padding-top: 130px; }
+.t-card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(2.4rem, 6vw, 4.2rem) clamp(1.6rem, 6vw, 5rem);
+  border-radius: 24px;
+  background: linear-gradient(160deg, #fffaf0, #f3e2c3);
+  box-shadow:
+    inset 0 0 0 1px var(--gold),
+    inset 0 0 0 7px #fbf3e2,
+    inset 0 0 0 8px rgba(201, 164, 87, 0.8),
+    0 40px 60px -36px rgba(40, 18, 4, 0.7);
+  color: var(--brown-ink);
+  text-align: center;
+  animation: rise 1s var(--ease-out) both;
+}
+.t-card .back { margin-bottom: 2.2rem; color: var(--g-accent); }
+.t-card__honorific { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.34em; text-transform: uppercase; }
+.t-card__name {
+  margin-top: 0.8rem;
+  font-family: var(--title);
+  font-size: clamp(2.3rem, 1.3rem + 3.4vw, 4.2rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.05;
+  overflow-wrap: break-word;
+  text-transform: uppercase;
+}
+.t-card__bio {
+  max-width: 30rem;
+  margin: 1.6rem auto 0;
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(154, 101, 8, 0.3);
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-style: italic;
+  line-height: 1.35;
+}
+.t-card__honorific:empty,
+.t-card__bio:empty { display: none; }
+.t-head + [data-slot] > .section-rule { margin-top: clamp(2.5rem, 5vw, 4rem); }
+.t-head + [data-slot] .read { padding-top: clamp(3.5rem, 7vw, 5rem); }
+.prose--dropcap > p:first-child::first-letter {
+  float: left;
+  margin: 0.08em 0.14em 0 0;
+  font-family: var(--title);
+  font-size: 4.6em;
+  line-height: 0.8;
+  background: var(--g-title);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* The other teachers: the mosaic's small cards, three across. */
+.t-others { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 200px; gap: 1.2rem; }
+
+/* A page with no photograph under the header: cream rounds in light, as the
+   carousel arrows are, instead of the dark glass meant for the photo. Dark
+   mode keeps its glass (section 12). */
+.on-ground .site-header .round {
+  border-color: var(--gilt-edge);
+  background: #fffaf2;
+  color: var(--brown-ink);
+  box-shadow: 0 10px 22px -14px rgba(70, 34, 6, 0.7);
+}
+.on-ground .site-header .round:hover { background: var(--gold-light); color: var(--espresso); }
+.on-ground .site-header .btn--line { border-color: var(--g-line); background: rgba(255, 250, 242, 0.6); color: var(--brown-ink); }
+
+/* The bookstore: a bento grid. Tiles of two sizes, each washed in the
+   colour of its own cover (--tone, measured by tools/covers.py; a book
+   without a photograph takes its binding's), the photograph cut to the book
+   alone leaning out of the tile's corner and straightening when pointed at.
+   A large book's tile (.store-card--lead, the book's size "large") is two
+   by two, in the cover's colour itself or the book's own tint, with the
+   description. The home page has its section head over the grid and the
+   button beneath; bookstore.html has a masthead (.store-mast) and the subject
+   groups over it. Option 2 of the best
+   options of design/canvas-library/ (best-2-bento.html, generate_round5.py). */
+.store { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(220px, auto); grid-auto-flow: dense; gap: 14px; }
+.store > .media-empty { grid-column: 1 / -1; }
+.store-card {
+  --tone: #a16541;
+  --wash: color-mix(in oklab, var(--tone) 13%, #fdf6ec);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: var(--wash);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--tone) 20%, transparent), 0 1px 2px rgba(60, 30, 10, 0.06);
+  color: var(--brown-ink);
+  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+}
+.store-card[hidden] { display: none; }
+.store-card:hover, .store-card:focus-within { transform: translateY(-5px); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--tone) 30%, transparent), 0 26px 40px -26px rgba(40, 18, 4, 0.7); }
+.store-card--link .stretched::before { z-index: 2; border-radius: 24px; }
+.store-card--link .stretched:focus-visible { outline: 0; }
+.store-card--link:has(.stretched:focus-visible) { outline: 2px solid var(--rust); outline-offset: 3px; }
+.store-card__flag { width: max-content; margin-bottom: 1.2rem; padding: 0.35rem 0.75rem; border: 1px solid rgba(251, 238, 221, 0.4); border-radius: 999px; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; }
+.store-card__sub { color: color-mix(in oklab, var(--tone) 70%, #7d5006); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; }
+.store-card__title { max-width: 58%; margin-top: 0.5rem; font-family: var(--display); font-size: 1.35rem; font-weight: 600; line-height: 1.08; }
+.store-card__edition { max-width: 58%; margin-top: 0.3rem; font-family: var(--display); font-size: 0.95rem; font-style: italic; line-height: 1.15; opacity: 0.75; }
+.store-card__years { margin-top: 0.4rem; font-size: 0.66rem; font-weight: 500; letter-spacing: 0.1em; opacity: 0.7; }
+.store-card__price { width: max-content; margin-top: auto; padding: 0.4rem 0.8rem; border-radius: 999px; background: rgba(255, 255, 255, 0.72); font-size: 0.78rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.store-card__price--todo { opacity: 0.55; }
+.store-card__price--sold { color: #a3301c; }
+/* The photograph, leaning out of the corner; a spine's shadow down its left. */
+.store-card__pic { position: absolute; z-index: -1; right: -2%; bottom: -9%; width: 44%; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 3px 6px 6px 3px;
+  box-shadow: -10px 16px 26px -10px rgba(20, 8, 2, 0.6); transform: rotate(9deg); transition: transform 0.6s var(--ease-out); }
+.store-card__pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }   /* a tall book loses its foot, never its head */
+.store-card__pic img.is-zoom { transform: scale(1.16); }   /* a photograph not yet cut by tools/covers.py */
+.store-card__pic::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0) 5%, rgba(255, 255, 255, 0.12) 7%, rgba(0, 0, 0, 0) 12%); }
+.store-card:hover .store-card__pic, .store-card:focus-within .store-card__pic { transform: rotate(2deg) translateY(-14px); }
+/* A book of several prints: their pictures fanned out from a point below
+   the tile, the first in front (--f is a picture's place behind it), spread
+   a little wider when pointed at. */
+.store-card__pic--fan { --rest: 9deg; --step: -9deg; --lift: 0px; transform-origin: 50% 135%;
+  transform: translateY(var(--lift)) rotate(calc(var(--rest) + var(--f) * var(--step))); }
+.store-card:hover .store-card__pic--fan, .store-card:focus-within .store-card__pic--fan { --rest: 4deg; --step: -12deg; --lift: -14px; transform: translateY(var(--lift)) rotate(calc(var(--rest) + var(--f) * var(--step))); }
+/* The lead: two by two, in the cover's colour itself. */
+.store-card--lead { grid-column: span 2; grid-row: span 2; padding: clamp(1.6rem, 3vw, 2.4rem); color: #fbeedd;
+  background: radial-gradient(120% 90% at 85% 20%, color-mix(in oklab, var(--tone) 70%, #fff), transparent 60%), var(--tone); }
+.store-card--lead .store-card__sub { color: var(--gold-pale); }
+.store-card--lead .store-card__title { max-width: 52%; font-size: clamp(1.9rem, 1.3rem + 1.8vw, 2.8rem); font-weight: 500; }
+.store-card--lead .store-card__edition { max-width: 52%; font-size: 1.15rem; }
+.store-card__desc { max-width: 50%; margin-top: 1rem; font-family: var(--display); font-size: 1.15rem; line-height: 1.4; opacity: 0.9; }
+.store-card--lead .store-card__price { background: rgba(255, 255, 255, 0.14); color: #fbeedd; font-size: 0.9rem; }
+.store-card--lead .store-card__price--sold { color: #ffd5c8; }
+.store-card--lead .store-card__pic { right: 7%; bottom: 9%; width: 40%; box-shadow: -18px 30px 44px -14px rgba(0, 0, 0, 0.6); transform: rotate(-5deg); }
+.store-card--lead:hover .store-card__pic, .store-card--lead:focus-within .store-card__pic { transform: rotate(0) translateY(-10px) scale(1.02); }
+.store-card--lead .store-card__pic--fan { --rest: 2deg; --step: -8deg; transform: translateY(var(--lift)) rotate(calc(var(--rest) + var(--f) * var(--step))); }
+.store-card--lead:hover .store-card__pic--fan, .store-card--lead:focus-within .store-card__pic--fan { --rest: 5deg; --step: -11deg; --lift: -10px; transform: translateY(var(--lift)) rotate(calc(var(--rest) + var(--f) * var(--step))); }
+/* The medium: the lead two wide and exactly one row high. contain: size
+   keeps its content from growing the row (it takes the normal tiles'
+   height), so it carries no description and a smaller title. The book is
+   taller than the tile, so it hangs from the top and its lower half is cut off. */
+.store-card--wide { grid-row: auto; contain: size; padding: 1.5rem 1.8rem; }
+.store-card--wide .store-card__flag { margin-bottom: 0.7rem; }
+.store-card--wide .store-card__title { font-size: clamp(1.5rem, 1.1rem + 0.8vw, 1.9rem); }
+.store-card--wide .store-card__desc { display: none; }
+.store-card--wide .store-card__pic { top: 9%; bottom: auto; }
+/* The home page: the way to bookstore.html under the grid. */
+.store__foot { margin-top: clamp(2rem, 4vw, 2.8rem); text-align: center; }
+/* bookstore.html: no banner; the way home, the masthead, the subject groups, the grid. */
+.store-page { padding-top: 130px; }
+.store-page .back { margin-bottom: 1.4rem; }
+/* The masthead: a very large Cormorant title set left, the lede in a column
+   beside it on its baseline, a hairline under both. Option 2 of
+   design/canvas-store-title/. */
+.store-mast { display: grid; grid-template-columns: auto minmax(0, 22rem); align-items: end; justify-content: space-between; gap: 1rem 3rem; margin: 0 0 1.6rem; padding-bottom: 1.4rem; border-bottom: 1px solid var(--g-line); }
+.store-mast__kicker { margin-bottom: 0.4rem; color: var(--g-accent); font: 600 0.62rem var(--sans); letter-spacing: 0.26em; text-transform: uppercase; }
+.store-mast__kicker:empty, .store-mast__lede:empty { display: none; }
+.store-mast__title { color: var(--g-text); font: 500 clamp(4rem, 2rem + 8vw, 9.5rem) var(--display); letter-spacing: -0.03em; line-height: 0.8; }
+.store-mast__lede { padding-bottom: 0.4rem; color: var(--g-muted); font: italic 1.25rem/1.45 var(--display); }
+@media (max-width: 760px) { .store-mast { grid-template-columns: minmax(0, 1fr); } }
+.store-filters { margin: 0 0 1.8rem; }
+.store-filters[hidden] { display: none; }
+.store-filter__label { margin-bottom: 0.45rem; color: var(--g-accent); font: 600 0.6rem var(--sans); letter-spacing: 0.26em; text-transform: uppercase; }
+/* The subject groups: words, the chosen one underlined. */
+.store-groups { display: flex; flex-wrap: wrap; gap: 0.2rem 1.6rem; }
+.store-groups__btn { padding: 0.1rem 0 0.35rem; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--g-muted); font: 500 1.35rem var(--display); cursor: pointer; transition: color 0.2s, border-color 0.2s; }
+.store-groups__btn sup { margin-left: 0.3rem; font: 400 0.7rem var(--sans); opacity: 0.7; }
+.store-groups__btn:hover { color: var(--g-text); }
+.store-groups__btn[aria-pressed="true"] { color: var(--g-text); font-weight: 600; border-bottom-color: var(--rust); }
+
+/* What the book page keeps of the old bookstore leaf: its paper and rules,
+   the cover, the three red dots. */
+.b-leaf {
+  --leaf: #f8efdd;
+  --leaf-2: #efe1c4;
+  --leaf-ink: var(--brown-ink);
+  --leaf-muted: rgba(70, 44, 22, 0.72);
+  --leaf-gold: #b07f22;
+  --rubric: #a3301c;
+}
+.b-leaf .store-card__cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 2px 4px 4px 2px;
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.25) inset, -8px 12px 20px -10px rgba(30, 12, 2, 0.6), 0 2px 4px rgba(30, 12, 2, 0.3);
+}
+.b-leaf .store-card__dots {
+  width: 22px;
+  height: 18px;
+  background:
+    radial-gradient(circle, var(--rubric) 2.4px, transparent 3px) 50% 0 / 8px 8px no-repeat,
+    radial-gradient(circle, var(--rubric) 2.4px, transparent 3px) 0 100% / 8px 8px no-repeat,
+    radial-gradient(circle, var(--rubric) 2.4px, transparent 3px) 100% 100% / 8px 8px no-repeat;
+}
+
+/* The book page (book.html): the book's bookstore leaf opened into the head
+   of the page - the same jadwal of a gold rule and a red one - with the
+   cover down the left and the colophon beside it, then the price, the way
+   to buy it (a gold button to its Stripe Payment Link, "Sold out", or the
+   thanks once Stripe sends the buyer back) and how it is collected. */
+.b-head { padding-top: 130px; }
+.b-leaf {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(200px, 340px) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.8rem, 4vw, 3.6rem);
+  max-width: 960px;
+  margin: 0 auto;
+  padding: clamp(2.6rem, 6vw, 4.4rem) clamp(1.8rem, 6vw, 4.4rem);
+  border-radius: 3px;
+  background: radial-gradient(130% 100% at 50% 30%, var(--leaf), var(--leaf-2));
+  box-shadow: 0 40px 60px -36px rgba(60, 30, 8, 0.7), 0 2px 4px rgba(60, 30, 8, 0.08);
+  color: var(--leaf-ink);
+  text-align: center;
+  animation: rise 1s var(--ease-out) both;
+}
+.b-leaf::before, .b-leaf::after { content: ""; position: absolute; inset: 12px; border: 1px solid var(--leaf-gold); pointer-events: none; }
+.b-leaf::after { inset: 17px; border-color: var(--rubric); }
+.b-leaf__cover .store-card__cover { width: 100%; }
+/* The cover in a slight frame: a cream mat in a gold hairline. The tight
+   crop (the book alone) keeps its own proportions and loses the book's
+   shading, which the frame now gives. */
+.b-frame { display: block; padding: 10px; border-radius: 3px; background: #fffaf1;
+  box-shadow: inset 0 0 0 1px var(--leaf-gold), 0 22px 34px -22px rgba(40, 18, 4, 0.6), 0 2px 4px rgba(40, 18, 4, 0.12); }
+.b-frame .store-card__cover--tight { aspect-ratio: auto; border-radius: 1px; box-shadow: 0 0 0 1px rgba(60, 30, 8, 0.12); }
+[data-theme="dark"] .b-frame { background: #21140a; box-shadow: inset 0 0 0 1px var(--leaf-gold), 0 26px 40px -22px rgba(0, 0, 0, 0.85); }
+.b-leaf__cover:empty { display: none; }
+.b-leaf:has(.b-leaf__cover:empty) { grid-template-columns: minmax(0, 1fr); }
+.b-leaf__body { display: flex; flex-direction: column; align-items: center; }
+.b-leaf .back { margin-bottom: 1.8rem; }
+.b-leaf__subject { margin-bottom: 0.7rem; color: var(--rubric); font: 600 0.68rem var(--sans); letter-spacing: 0.26em; text-transform: uppercase; }
+.b-leaf__title {
+  font-family: var(--title);
+  font-size: clamp(2rem, 1.2rem + 2.6vw, 3.4rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1.08;
+  overflow-wrap: break-word;
+  text-transform: uppercase;
+}
+/* Each line under a rule shorter than the last, as on the leaf. */
+.b-leaf__category::before,
+.b-leaf__price::before { content: ""; display: block; height: 1px; margin: 1rem auto; background: var(--leaf-gold); opacity: 0.6; }
+.b-leaf__category::before { width: 12rem; }
+.b-leaf__price::before { width: 6rem; }
+.b-leaf__category { color: var(--leaf-muted); font: italic 1.25rem var(--display); }
+.b-leaf__edition { margin-top: 0.6rem; color: var(--leaf-muted); font: italic 1.1rem var(--display); }
+.b-leaf__desc { max-width: 32rem; margin-top: 1.2rem; font: 1.15rem/1.5 var(--display); }
+.b-leaf__price { font: 600 1.15rem var(--sans); font-variant-numeric: lining-nums tabular-nums; }
+/* A book of several prints: a row of them, each its cover in a small mat
+   and its price; the chosen one ringed in red. */
+.b-leaf__prints { margin-top: 1.4rem; }
+.b-prints__label { margin-bottom: 0.7rem; color: var(--leaf-muted); font: 600 0.62rem var(--sans); letter-spacing: 0.26em; text-transform: uppercase; }
+.b-prints { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
+.b-print { display: flex; flex-direction: column; align-items: center; gap: 0.45rem; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
+/* Each in the cover's frame made small: a cream mat in a gold hairline
+   hugging the tight crop (the book alone, its own proportions). The row
+   stands on the books' feet. */
+.b-prints { align-items: flex-end; }
+.b-print__pic { display: block; padding: 4px; border-radius: 2px; background: #fffaf1;
+  box-shadow: inset 0 0 0 1px var(--leaf-gold), 0 8px 14px -10px rgba(40, 18, 4, 0.6); transition: transform 0.25s var(--ease-out), box-shadow 0.25s; }
+.b-print__pic img { display: block; width: 56px; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 1px; }
+.b-print__pic img.is-tight { aspect-ratio: auto; box-shadow: 0 0 0 1px rgba(60, 30, 8, 0.12); }
+.b-print__price { font: 600 0.78rem var(--sans); font-variant-numeric: lining-nums tabular-nums; opacity: 0.75; }
+.b-print:hover .b-print__pic { transform: translateY(-3px); }
+.b-print[aria-pressed="true"] .b-print__pic { box-shadow: inset 0 0 0 1px var(--leaf-gold), 0 0 0 2px var(--rubric), 0 8px 14px -10px rgba(40, 18, 4, 0.6); }
+.b-print[aria-pressed="true"] .b-print__price { opacity: 1; color: var(--rubric); }
+.b-print:focus-visible { outline: 0; }
+.b-print:focus-visible .b-print__pic { outline: 2px solid var(--rust); outline-offset: 4px; }
+[data-theme="dark"] .b-print__pic { background: #21140a; }
+.b-leaf__price--todo { opacity: 0.55; }
+.b-leaf__buy { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin-top: 1.6rem; }
+.b-leaf__buy:empty { display: none; }
+.b-leaf__note { color: var(--leaf-muted); font-size: 0.74rem; letter-spacing: 0.04em; }
+.b-leaf__sold { color: var(--rubric); font: italic 600 1.5rem var(--display); }
+.b-leaf__thanks {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  max-width: 28rem;
+  padding: 1rem 1.3rem;
+  border: 1px solid var(--leaf-gold);
+  border-radius: 10px;
+  background: rgba(176, 127, 34, 0.08);
+  font: italic 500 1.25rem/1.35 var(--display);
+  text-align: left;
+}
+.b-leaf__thanks i { flex: none; display: grid; place-items: center; width: 28px; height: 28px; margin-top: 0.1rem; border-radius: 50%; background: var(--leaf-gold); color: var(--leaf); }
+.b-leaf__thanks svg { width: 16px; height: 16px; }
+.b-leaf__pickup { max-width: 30rem; margin-top: 1.6rem; color: var(--leaf-muted); font-size: 0.95rem; line-height: 1.7; }
+.b-leaf [data-slot]:empty:not(.b-leaf__cover) { display: none; }
+.b-leaf .store-card__dots { margin-top: 1.4rem; }
 
 /* ---------------------------- 12. Dark mode ------------------------ */
 /* The same page after dark (mockup B): an espresso ground, gold capitals,
@@ -1671,12 +2092,41 @@ main { position: relative; }
 [data-theme="dark"] .teacher__name { color: #fff6ea; font-weight: 500; }
 [data-theme="dark"] .teacher__bio { color: var(--g-muted); font-weight: 300; }
 [data-theme="dark"] .teacher--lead .teacher__bio { border-top: 0; padding-top: 0; margin-top: 0.3rem; }
+@media (min-width: 561px) {
+  [data-theme="dark"] .teacher--beside .teacher__bio { margin-top: 0; padding: 0.2rem 0 0.2rem 2rem; border-left-color: rgba(233, 196, 106, 0.25); }
+}
 [data-theme="dark"] .teacher--todo,
 [data-theme="dark"] .teacher--todo:nth-child(3n + 2) {
   border-style: dashed;
   background: repeating-linear-gradient(135deg, rgba(255, 236, 210, 0.03) 0 10px, transparent 10px 20px);
 }
 [data-theme="dark"] .teacher--todo .teacher__name { color: var(--g-muted); }
+
+/* The teacher page: the card is a board tile, the name in gold capitals. */
+[data-theme="dark"] .t-card {
+  border: 1px solid var(--g-line);
+  background:
+    radial-gradient(120% 90% at 20% 10%, rgba(238, 194, 90, 0.22), transparent 60%),
+    linear-gradient(180deg, transparent 55%, rgba(20, 9, 2, 0.45)),
+    linear-gradient(155deg, var(--board), var(--board-deep));
+  box-shadow: 0 40px 70px -40px rgba(0, 0, 0, 0.9);
+  color: #fff6ea;
+}
+[data-theme="dark"] .t-card__name {
+  background: var(--g-title);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-theme="dark"] .t-card__bio { border-top-color: var(--g-line); color: var(--g-text); font-weight: 400; }
+[data-theme="dark"] .on-ground .site-header .round {
+  border-color: rgba(227, 179, 74, 0.3);
+  background: rgba(26, 13, 4, 0.4);
+  color: var(--gold-pale);
+  box-shadow: none;
+}
+[data-theme="dark"] .on-ground .site-header .round:hover { border-color: var(--gold); background: rgba(26, 13, 4, 0.6); color: var(--gold); }
+[data-theme="dark"] .on-ground .site-header .btn--line { border-color: rgba(227, 179, 74, 0.35); background: rgba(26, 13, 4, 0.3); color: var(--gold-pale); }
 
 /* Articles and videos */
 [data-theme="dark"] .seg { border-color: var(--g-line); background: none; box-shadow: none; }
@@ -1694,6 +2144,10 @@ main { position: relative; }
   box-shadow: none;
 }
 [data-theme="dark"] .vid__title { color: var(--gold-light); font-weight: 400; }
+[data-theme="dark"] .vid:has(.stretched:focus-visible) .vid__art { outline-color: var(--gold); }
+[data-theme="dark"] .vp__scrim { background: rgba(26, 13, 4, 0.94); }
+[data-theme="dark"] .vp__frame { border-color: var(--g-line); box-shadow: 0 40px 70px -36px rgba(0, 0, 0, 0.95); }
+[data-theme="dark"] .vp__title { color: var(--gold-light); font-weight: 400; }
 
 /* The article page */
 [data-theme="dark"] .prose h2 { color: var(--gold-light); font-weight: 500; }
@@ -1748,6 +2202,27 @@ main { position: relative; }
   color: var(--g-text);
 }
 
+/* The bookstore: tiles washed darker in their covers' colours, the outlined
+   tiles on dark glass; the book page's leaf dark, its rules gold and a
+   warmer red. */
+[data-theme="dark"] .store-card { --wash: color-mix(in oklab, var(--tone) 42%, #150a03); color: #f3e6d3; box-shadow: inset 0 0 0 1px rgba(255, 236, 210, 0.08); }
+[data-theme="dark"] .store-card__sub { color: var(--gold-pale); opacity: 0.8; }
+[data-theme="dark"] .store-card__price { background: rgba(255, 236, 210, 0.1); }
+[data-theme="dark"] .store-card__price--sold { color: #f3a08a; }
+[data-theme="dark"] .store-card--lead { background: radial-gradient(120% 90% at 85% 20%, color-mix(in oklab, var(--tone) 85%, #fff), transparent 60%), color-mix(in oklab, var(--tone) 80%, #000); }
+[data-theme="dark"] .store-groups__btn[aria-pressed="true"] { color: var(--gold-pale); border-bottom-color: var(--gold); }
+[data-theme="dark"] .b-leaf {
+  --leaf: #2c1c0f;
+  --leaf-2: #21140a;
+  --leaf-ink: #f1e3c9;
+  --leaf-muted: rgba(241, 227, 201, 0.64);
+  --leaf-gold: #d9aa48;
+  --rubric: #e8906a;
+}
+[data-theme="dark"] .b-leaf { box-shadow: 0 40px 60px -30px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 236, 210, 0.06); }
+[data-theme="dark"] .b-leaf__title { color: var(--gold-light); }
+[data-theme="dark"] .store-card--link:has(.stretched:focus-visible) { outline-color: var(--gold); }
+
 /* ---------------------------- 13. Responsive ----------------------- */
 @media (max-width: 980px) {
   .site-header__cta { display: none; }
@@ -1757,13 +2232,15 @@ main { position: relative; }
   .program { gap: 0.75rem; }
   .slider__art { width: 100%; max-width: 320px; }
   .mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .teacher--lead { grid-column: span 2; grid-row: span 1; }
+  .teacher--lead { padding: 1.6rem; }
+  .teacher--w3, .teacher--w4 { grid-column: span 2; }
 }
 
 /* The 880px here must stay in step with the 881px in section 7. */
 @media (max-width: 880px) {
   .shelf { grid-template-columns: minmax(0, 1fr); }
   .more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .t-others { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 640px) {
@@ -1772,14 +2249,19 @@ main { position: relative; }
   .fees { grid-template-columns: minmax(0, 1fr); }
   .program { padding: 1.6rem; }
   .program__heading { white-space: normal; }
+  .vp__close { top: 16px; right: 16px; }
+  .vp__poster .vid__play { width: 64px; height: 64px; }
+  .vp__poster .vid__play svg { width: 22px; height: 22px; margin-left: 4px; }
 }
 
 @media (max-width: 560px) {
   .brand__name { display: none; }
   .mosaic { grid-template-columns: minmax(0, 1fr); grid-auto-rows: minmax(160px, auto); }
-  .teacher--lead { grid-column: auto; }
+  .teacher--w2, .teacher--w3, .teacher--w4 { grid-column: auto; }
+  .teacher--h2, .teacher--h3 { grid-row: auto; }
   .slider__art { aspect-ratio: 16 / 10; max-width: none; }
   .more { grid-template-columns: minmax(0, 1fr); }
+  .t-others { grid-template-columns: minmax(0, 1fr); grid-auto-rows: minmax(160px, auto); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1788,4 +2270,26 @@ main { position: relative; }
     animation: none !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* The bookstore: four across, two below 980px (the lead no longer two
+   rows high, so a medium, its book hung from the top), one below 560px. */
+@media (max-width: 980px) {
+  .store { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .store-card--lead { grid-row: auto; contain: size; padding: 1.5rem 1.8rem; }
+  .store-card--lead .store-card__flag { margin-bottom: 0.7rem; }
+  .store-card--lead .store-card__title { font-size: clamp(1.5rem, 1.1rem + 0.8vw, 1.9rem); }
+  .store-card--lead .store-card__desc { display: none; }
+  .store-card--lead .store-card__pic { top: 9%; bottom: auto; }
+}
+@media (max-width: 760px) {
+  .b-leaf { grid-template-columns: minmax(0, 1fr); }
+  .b-leaf__cover { width: min(66%, 260px); margin: 0 auto; }
+}
+@media (max-width: 560px) {
+  .store { grid-template-columns: minmax(0, 1fr); grid-auto-rows: minmax(200px, auto); }
+  .store-card--lead { grid-column: auto; min-height: 420px; }
+  .store-card--lead { contain: none; }
+  .store-card--wide { min-height: 0; }
+  .store-card__desc { display: none; }
 }

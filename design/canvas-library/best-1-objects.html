@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bookstore · Objects</title>
+  <meta name="color-scheme" content="light dark">
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("alimiyyah.theme"); } catch (e) {}
+      if (t !== "light" && t !== "dark") {
+        t = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+  <link rel="icon" href="../../assets/img/logo_gold_web.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Gilda+Display&family=Courier+Prime:wght@400;700&family=Instrument+Sans:wght@400;500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=76">
+  <link rel="stylesheet" href="../canvas-article/mockup.css">
+<!-- Best options, option best-1-objects: Objects. Round 2's 3D book objects, redone with the photographs. -->
+<style>
+/* The frame: the home section between the site's rules; the page under the header. */
+.r3-home { padding-top: 110px; }
+.r3-home > section { padding-block: clamp(4rem, 8vw, 110px); }
+.r3-page { padding: 120px 0 clamp(4rem, 8vw, 110px); }
+.r3-wrap { width: min(100% - 2 * var(--gutter), 1180px); margin-inline: auto; }
+.r3-back { display: inline-block; margin-bottom: 1.4rem; color: var(--g-muted); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.3em; text-decoration: none; text-transform: uppercase; }
+.r3-back:hover { color: var(--g-text); }
+.m-switch { font-size: 0.72rem; }
+.m-switch a, .m-switch button { min-width: 26px; padding: 0.5rem 0.55rem; }
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@property --tone { syntax: "<color>"; inherits: true; initial-value: #1c3f7a; }
+
+.r5-sub { color: var(--g-accent); font: 600 0.6rem/1.3 var(--sans); letter-spacing: 0.24em; text-transform: uppercase; }
+.r5-title { color: var(--g-text); font-family: var(--display); font-size: 1.3rem; font-weight: 600; line-height: 1.1; }
+.r5-ed { color: var(--g-muted); font-family: var(--display); font-size: 1rem; font-style: italic; line-height: 1.2; }
+.r5-price { font-family: var(--display); font-size: 1.3rem; font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
+.r5-link { color: inherit; text-decoration: none; }
+.r5-link::after { content: ""; position: absolute; inset: 0; z-index: 2; }
+.r5-foot { margin-top: clamp(2rem, 4vw, 3rem); text-align: center; }
+.r5-filter { display: flex; justify-content: center; margin: -0.5rem 0 clamp(2.4rem, 5vw, 3.6rem); }
+.r5-filter .seg { flex-wrap: wrap; justify-content: center; }
+.r5-filter .seg__btn { min-width: 3rem; }
+[data-theme="dark"] .r5-filter .seg { border-color: var(--g-line); background: var(--g-card); box-shadow: none; }
+[data-theme="dark"] .r5-filter .seg__btn { color: var(--g-muted); }
+[data-theme="dark"] .r5-filter .seg__btn[aria-pressed="true"] { color: var(--espresso); }
+.r5-group + .r5-group { margin-top: clamp(3.2rem, 6vw, 5rem); }
+.r5-gh { display: flex; align-items: baseline; gap: 0.9rem; margin-bottom: clamp(1.4rem, 3vw, 2rem); padding-bottom: 0.8rem; border-bottom: 1px solid var(--g-line);
+  color: var(--g-text); font-family: var(--title); font-size: clamp(1.35rem, 1rem + 1vw, 1.9rem); font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; }
+.r5-gh b { color: var(--g-accent); font-family: var(--display); font-weight: 600; letter-spacing: 0.04em; }
+.r5-gh em { margin-left: auto; color: var(--g-muted); font-family: var(--display); font-size: 1.05rem; letter-spacing: 0; text-transform: none; }
+img.is-drawn, img.is-crop { transform: none !important; }
+.r3-page .section__head { margin-bottom: clamp(1.6rem, 3vw, 2.4rem); }
+
+.ob { --w: 170px; --h: 227px; --t: 30px; --back: #2a160a; }
+.ob-home { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 2.2fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.ob-head__kicker { color: var(--g-accent); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; }
+.ob-head h2, .ob-head h1 { margin: 0.6rem 0 1.4rem; color: var(--g-text); font-family: var(--display); font-size: clamp(2.8rem, 2rem + 2.6vw, 4.6rem); font-weight: 500; line-height: 0.95; }
+.ob-head h2 em, .ob-head h1 em { color: var(--rust-ink); }
+[data-theme="dark"] .ob-head h2 em, [data-theme="dark"] .ob-head h1 em { color: var(--gold-light); }
+.ob-head p { max-width: 24rem; color: var(--g-muted); font-family: var(--display); font-size: 1.2rem; font-style: italic; line-height: 1.4; }
+.ob-link { display: inline-flex; align-items: center; gap: 1rem; margin-top: 1.8rem; padding-bottom: 0.4rem; border-bottom: 1px solid currentColor; color: var(--g-text);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.26em; text-decoration: none; text-transform: uppercase; }
+.ob-link svg { width: 36px; transition: transform 0.3s var(--ease-out); }
+.ob-link:hover svg { transform: translateX(6px); }
+
+.ob-row { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 2.4rem 1rem; }
+.ob-item { display: flex; flex-direction: column; align-items: center; color: var(--g-text); text-align: center; text-decoration: none; }
+.ob-stage { position: relative; display: grid; place-items: center; width: 100%; height: calc(var(--h) + 40px); perspective: 900px; }
+.ob-stage::after { content: ""; position: absolute; bottom: 4px; left: 50%; width: calc(var(--w) * 1.1); height: 22px; transform: translateX(-50%); border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(40, 18, 4, 0.45), transparent); transition: transform 0.6s var(--ease-out), opacity 0.6s; }
+.ob-book { position: relative; width: var(--w); height: var(--h); transform-style: preserve-3d; transform: rotateY(-32deg) rotateX(4deg); transition: transform 0.7s var(--ease-out); }
+.ob-item:hover .ob-book, .ob-item:focus-visible .ob-book { transform: rotateY(-6deg) translateY(-10px); }
+.ob-item:hover .ob-stage::after { transform: translateX(-50%) scale(0.85); opacity: 0.7; }
+.ob-book > img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 1px 4px 4px 1px; transform: translateZ(calc(var(--t) / 2)); }
+.ob-book::before { content: ""; position: absolute; top: 3px; left: 0; width: calc(var(--t) - 2px); height: calc(var(--h) - 6px);
+  transform: translateX(calc(var(--w) - var(--t) / 2 - 3px)) rotateY(90deg);
+  background: repeating-linear-gradient(90deg, #fbf5e8 0 1px, #e2d4b9 1px 2px), #f3e9d6; }
+.ob-book::after { content: ""; position: absolute; inset: 0; border-radius: 1px 4px 4px 1px; transform: translateZ(calc(var(--t) / -2)); background: var(--back);
+  box-shadow: -14px 6px 40px 4px rgba(30, 12, 2, 0.45); }
+/* The sticker: a round label on the cover's lower corner. */
+.ob-sticker { position: absolute; right: 12px; bottom: 16px; z-index: 1; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%;
+  transform: translateZ(calc(var(--t) / 2 + 1px)) rotate(-12deg); background: radial-gradient(circle at 35% 30%, #f9df97, #e0a937 70%); color: #2b1606;
+  box-shadow: 0 0 0 2px #fff8e6, 0 0 0 3px rgba(150, 100, 20, 0.6), 2px 4px 8px rgba(30, 12, 2, 0.4);
+  font-family: var(--display); font-size: 1rem; font-weight: 700; font-variant-numeric: lining-nums; line-height: 1; }
+.ob-name { margin-top: 0.9rem; font-family: var(--display); font-size: 1.3rem; font-weight: 600; line-height: 1.15; }
+.ob-sub { margin-top: 0.3rem; color: var(--g-muted); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; }
+
+/* The page: bookmarks hanging from a rail, the chosen one pulled longer. */
+.ob-pagehead { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2rem; align-items: end; margin-bottom: 2.2rem; }
+.ob-rail { position: relative; display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); padding-top: 6px; }
+.ob-rail::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; border-radius: 3px; background: linear-gradient(180deg, #6a4325, #3a2212); }
+.ob-mark { position: relative; padding: 1rem 0.9rem 1.6rem; min-width: 84px; border: 0; background: var(--c, #8a4009); color: #fff6ea;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 12px), 0 100%); font: 600 0.62rem/1 var(--sans); letter-spacing: 0.22em; text-transform: uppercase;
+  cursor: pointer; transform: translateY(-14px); transition: transform 0.35s var(--ease-out), filter 0.2s; filter: saturate(0.75) brightness(0.92); }
+.ob-mark:hover { transform: translateY(-6px); }
+.ob-mark[aria-pressed="true"] { transform: translateY(0); filter: none; }
+.ob-mark span { display: block; margin-top: 0.4rem; font-family: var(--display); font-size: 1rem; letter-spacing: 0; text-transform: none; opacity: 0.8; }
+
+@media (max-width: 1100px) { .ob-home { grid-template-columns: minmax(0, 1fr); text-align: center; } .ob-head p { margin-inline: auto; } }
+@media (max-width: 900px) { .ob-row { --n: 3 !important; } }
+@media (max-width: 720px) { .ob { --w: 128px; --h: 171px; --t: 24px; } .ob-row { --n: 2 !important; } .ob-sticker { width: 52px; height: 52px; font-size: 0.82rem; right: 8px; bottom: 10px; } .ob-pagehead { grid-template-columns: minmax(0, 1fr); } }
+
+.r3-wrap { width: min(100% - 2 * var(--gutter), 1180px); margin-inline: auto; }
+.ob-home-sec { padding-block: clamp(4rem, 8vw, 110px); }
+.ob { --w: 168px; --h: 224px; --t: 28px; }
+.ob-face { position: absolute; inset: 0; overflow: hidden; border-radius: 1px 4px 4px 1px; transform: translateZ(calc(var(--t) / 2)); background: var(--back); }
+.ob-face img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.16); }
+.ob-face img.is-crop { transform: none; }
+.ob-item .ob-stage { height: calc(var(--w) * 1.5 + 40px); place-items: end center; padding-bottom: 20px; }
+.ob-face::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0) 5%, rgba(255, 255, 255, 0.14) 7%, rgba(0, 0, 0, 0) 13%, rgba(0, 0, 0, 0) 80%, rgba(255, 255, 255, 0.08)); }
+.ob-book::after { background: var(--back); }
+.ob-name { font-size: 1.2rem; }
+.ob-ed { margin-top: 0.15rem; color: var(--g-muted); font-family: var(--display); font-size: 0.95rem; font-style: italic; line-height: 1.2; }
+.ob-price { margin-top: 0.45rem; color: var(--g-text); font-family: var(--display); font-size: 1.2rem; font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
+.ob-price--out { color: var(--rust-ink); font-family: var(--sans); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+[data-theme="dark"] .ob-price { color: var(--gold-light); }
+[data-theme="dark"] .ob-price--out { color: #f3a08a; }
+.ob-row--page { --n: 5; gap: 3rem 1rem; }
+.ob-mark { min-width: 64px; }
+.ob-rail { justify-content: flex-start; }
+@media (max-width: 1100px) { .ob-row--page { --n: 4; } }
+</style>
+</head>
+<body id="top" class="on-ground">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <button class="round" type="button" data-menu-open aria-controls="site-menu" aria-expanded="false" aria-label="Open menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <div class="site-header__end">
+      <button class="round theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode">
+        <svg class="theme-toggle__moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+        <svg class="theme-toggle__sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn btn--line btn--sm site-header__cta" href="../../index.html#curriculum">View Curriculum</a>
+    </div>
+  </div>
+</header>
+<nav class="menu" id="site-menu" aria-label="Primary">
+  <button class="round menu__close" type="button" data-menu-close aria-label="Close menu">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <ul class="menu__list">
+    <li><a href="../../index.html#top">Home</a></li>
+    <li><a href="../../index.html#about">About</a></li>
+    <li><a href="../../index.html#program">Program</a></li>
+    <li><a href="../../index.html#teachers">Teachers</a></li>
+    <li><a href="../../index.html#articles">Articles</a></li>
+    <li><a href="../../index.html#videos">Videos</a></li>
+    <li><a href="../../index.html#alumni">Alumni</a></li>
+    <li><a href="../../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main id="main" class="r3-home">
+  <hr class="section-rule">
+  <section class="ob ob-home-sec" aria-labelledby="bs-h">
+    <div class="r3-wrap ob-home">
+      <div class="ob-head">
+        <h2 id="bs-h">The <em>Bookstore</em></h2>
+        <p>67 books for all seven years</p>
+        <a class="ob-link" href="#">Visit the Bookstore <svg viewBox="0 0 40 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 6h38M33 1l5 5-5 5"/></svg></a>
+      </div>
+      <div class="ob-row" style="--n:4"><a class="ob-item" href="#" data-years="Seventh Year" style="--back:color-mix(in oklab, #4f4442 70%, #120804);--h:calc(var(--w) * 1.435)"><span class="ob-stage"><span class="ob-book"><span class="ob-face"><img class="is-crop" src="crops/sahih-al-bukhari.jpg" alt="" loading="lazy"></span></span></span><span class="ob-name">Ṣaḥīḥ al-Bukhārī</span><span class="ob-ed">Brown cover</span><span class="ob-sub">Hadith · VII</span><span class="ob-price">$60.00</span></a><a class="ob-item" href="#" data-years="Seventh Year" style="--back:color-mix(in oklab, #867a74 70%, #120804);--h:calc(var(--w) * 1.471)"><span class="ob-stage"><span class="ob-book"><span class="ob-face"><img class="is-crop" src="crops/sahih-muslim.jpg" alt="" loading="lazy"></span></span></span><span class="ob-name">Ṣaḥīḥ Muslim</span><span class="ob-ed">Green cover</span><span class="ob-sub">Hadith · VII</span><span class="ob-price">$50.00</span></a><a class="ob-item" href="#" data-years="Seventh Year" style="--back:color-mix(in oklab, #b2a59d 70%, #120804);--h:calc(var(--w) * 1.473)"><span class="ob-stage"><span class="ob-book"><span class="ob-face"><img class="is-crop" src="crops/sunan-abi-dawud-3.jpg" alt="" loading="lazy"></span></span></span><span class="ob-name">Sunan Abī Dāwūd</span><span class="ob-ed">Grey cover</span><span class="ob-sub">Hadith · VII</span><span class="ob-price">$40.00</span></a><a class="ob-item" href="#" data-years="Seventh Year" style="--back:color-mix(in oklab, #3d404d 70%, #120804);--h:calc(var(--w) * 1.340)"><span class="ob-stage"><span class="ob-book"><span class="ob-face"><img class="is-crop" src="crops/sunan-ibn-maja.jpg" alt="" loading="lazy"></span></span></span><span class="ob-name">Sunan Ibn Māja</span><span class="ob-ed">Blue cover</span><span class="ob-sub">Hadith · VII</span><span class="ob-price">$35.00</span></a></div>
+    </div>
+  </section>
+  <hr class="section-rule">
+</main>
+
+<footer class="site-footer" id="contact">
+  <div class="wrap">
+    <div class="site-footer__grid">
+      <a class="brand brand--footer" href="../../index.html#top">
+        <img class="brand__mark" src="../../assets/img/logo_gold_web.png" alt="" width="80" height="58">
+        <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
+      </a>
+      <div>
+        <h2 class="site-footer__heading">Contact</h2>
+        <address class="site-footer__contact">
+          <span class="site-footer__line"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/></svg></i>TODO: masjid street address, city, postal code</span>
+          <span class="site-footer__line"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="M4 7l8 6 8-6"/></svg></i>TODO: info@example.org</span>
+          <span class="site-footer__line"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg></i>TODO: (000) 000-0000</span>
+        </address>
+      </div>
+    </div>
+    <p class="site-footer__legal">&copy; 2026 Jamiyah Islamiyyah Abu Bakr</p>
+  </div>
+</footer>
+
+<nav class="m-switch" aria-label="Mockups">
+  <a href="1-shelf.html">R1</a><a href="r2-1-window.html">R2</a><a href="r3-01-bento.html">R3</a><a href="r4-01-hashiya.html">R4</a><a href="r5-01-studio.html">R5</a><a href="best-1-objects.html" aria-current="page">Best</a><a href="r6-01-spines.html">R6</a><i></i><a href="best-1-objects.html" title="Objects" aria-current="page">1</a><a href="best-2-bento.html" title="Bento">2</a><a href="best-3-accordion.html" title="Accordion">3</a><a href="best-4-stage.html" title="Colour stage">4</a><i></i>
+  <a href="best-1-objects.html" aria-current="page">Home</a><a href="best-1-objects-page.html">Page</a><i></i>
+  <button type="button" data-set-theme="light">Light</button>
+  <button type="button" data-set-theme="dark">Dark</button>
+</nav>
+
+<script src="../../assets/js/nav.js?v=3"></script>
+<script>
+  // The switcher's Light | Dark, kept in step with the header's toggle.
+  (function () {
+    var root = document.documentElement;
+    function mark() {
+      var t = root.getAttribute("data-theme");
+      document.querySelectorAll("[data-set-theme]").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-set-theme") === t));
+      });
+    }
+    document.querySelectorAll("[data-set-theme]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var t = b.getAttribute("data-set-theme");
+        root.setAttribute("data-theme", t);
+        try { localStorage.setItem("alimiyyah.theme", t); } catch (e) {}
+        mark();
+      });
+    });
+    new MutationObserver(mark).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    mark();
+  })();
+</script>
+
+<script>
+  // The bookmarks filter the books by year.
+  document.querySelectorAll(".ob-mark").forEach(function (m) {
+    m.addEventListener("click", function () {
+      var f = m.dataset.f;
+      document.querySelectorAll(".ob-mark").forEach(function (x) { x.setAttribute("aria-pressed", String(x === m)); });
+      document.querySelectorAll(".ob-item").forEach(function (b) { b.hidden = !!f && b.dataset.years.split("|").indexOf(f) < 0; });
+    });
+  });
+</script>
+</body>
+</html>

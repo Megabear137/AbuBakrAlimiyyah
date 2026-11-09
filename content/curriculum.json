@@ -1,58 +1,95 @@
 {
   "label": "Curriculum",
   "kicker": "",
-  "note": "Only Second Year is filled in from the design mockup. Every entry marked TODO is a placeholder — replace the text, keep the shape. Fields: title (English), titleUrdu (Urdu/Arabic script, may be empty), subject, author (may be empty), description, book_size (small, medium or large — how big the book stands on the shelf; defaults to medium). Each year has a color, the binding of all its books: lapis, ink, lapis-silver, ink-silver, petrol, slate, oxblood or aubergine (defaults to lapis); a book may carry its own color to differ from its year. Optional, for the full view a reader opens with See more: cover (path to a photograph of the book, ideally about 3:4, e.g. assets/img/books/achi-baatain.jpg — without one the binding is drawn instead) and long (a longer description; blank lines separate paragraphs; without it the description is used).",
+  "note": "The books, years and prices follow the masjid's price list (2026/27). Fields: title (English), titleUrdu (Urdu/Arabic script, may be empty), subject, author (may be empty), description, book_size (small, medium or large — how big the book stands on the shelf; defaults to medium). Each year has a color, the binding of all its books: lapis, ink, lapis-silver, ink-silver, petrol, slate, oxblood or aubergine (defaults to lapis); a book may carry its own color to differ from its year. Optional, for the full view a reader opens with See more: cover (path to a photograph of the book, ideally about 3:4, e.g. assets/img/books/achi-baatain.jpg — without one the binding is drawn instead) and long (a longer description; blank lines separate paragraphs; without it the description is used).",
   "years": [
     {
       "name": "First Year",
       "color": "lapis",
       "books": [
         {
-          "title": "Qasas 1",
-          "titleUrdu": "قصص",
-          "subject": "Arabic",
-          "author": "",
-          "description": "The book of Qasas",
-          "book_size": "medium"
-        },
-        {
-          "title": "Placeholder Book 2",
-          "titleUrdu": "",
+          "title": "Achchhī Bāteṉ",
+          "titleUrdu": "اچھی باتیں",
           "subject": "Urdu",
           "author": "",
-          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
+          "description": "The first Urdu reader of the course. Short lessons on good manners and conduct teach students to read Urdu and give them its basic words and grammar.",
+          "book_size": "medium",
+          "long": "Achhi Baatein (\"Good Things\") is a beginner's Urdu reader made up of short lessons on good character, manners and everyday Islamic conduct. Each lesson is simple enough for a new reader and carries a moral the students can act on.\n\nStudents learn to read Urdu script fluently, build a working vocabulary and meet the basics of Urdu grammar. Urdu matters in the course because many of the commentaries and explanations used in later years are written in it.",
+          "cover": "assets/img/books/achhi-baatein.jpg"
         },
         {
-          "title": "Placeholder Book 3",
-          "titleUrdu": "",
+          "title": "Urdū kā Āsān Qāʿida",
+          "titleUrdu": "اردو کا آسان قاعدہ",
+          "subject": "Urdu",
+          "author": "",
+          "description": "A first primer of Urdu: the letters, their joined forms and simple words, so that beginners learn to read and write Urdu quickly and easily.",
+          "book_size": "small",
+          "cover": "assets/img/books/urdu-ka-asan-qaida.jpg"
+        },
+        {
+          "title": "Taʿlīm al-Islām",
+          "titleUrdu": "تعلیم الاسلام",
+          "subject": "Islamic Studies",
+          "author": "Muftī Muḥammad Kifāyatullāh Dehlawī",
+          "description": "Mufti Kifayatullah Dehlawi's classic primer of the faith in questions and answers: belief, purity, prayer and the other basics every Muslim needs. This edition adds forty hadith and forty sunnah supplications.",
+          "book_size": "small",
+          "cover": "assets/img/books/talim-al-islam.jpg"
+        },
+        {
+          "title": "Durūs al-Lugha al-ʿArabiyya",
+          "titleUrdu": "دروس اللغة العربية",
+          "subject": "Arabic",
+          "author": "",
+          "description": "Dr V. Abdur Rahim's course of the Islamic University of Madinah, in three books. It teaches Arabic through Arabic, one lesson at a time.",
+          "book_size": "medium",
+          "long": "Durus al-Lugha al-Arabiyya was written by Dr V. Abdur Rahim for the Islamic University of Madinah to teach Arabic to non-Arab students, in three books, all of which are studied. The first starts from nothing and builds up with demonstratives, possession (idafa), prepositions, adjectives, and the plural and dual, each lesson introducing a few new words and one point of grammar.\n\nThe lessons are written entirely in Arabic and are built around short dialogues and examples. Students learn to speak, read and write simple Arabic, and the book complements the grammar studied in Tashil al-Nahw and Tashil al-Sarf.",
+          "cover": "assets/img/books/durus-al-lugha.jpg"
+        },
+        {
+          "title": "Urdū Khushkhaṭī",
+          "titleUrdu": "اردو خوشخطی",
+          "subject": "Urdu",
+          "author": "",
+          "description": "Practice in Urdu handwriting: students copy the letters, their joined forms and whole words until they write Urdu neatly and clearly.",
+          "book_size": "small",
+          "cover": "assets/img/books/urdu-khushkhati.jpg"
+        },
+        {
+          "title": "Qaṣaṣ al-Nabiyyīn",
+          "titleUrdu": "قصص النبيين",
+          "subject": "Arabic",
+          "author": "",
+          "description": "The first part of Shaykh Abul Hasan Ali Nadwi's stories of the prophets, written for young readers in simple, flowing Arabic. Students read real Arabic narrative from their first year.",
+          "book_size": "medium",
+          "long": "Qasas al-Nabiyyin was written by Shaykh Abul Hasan Ali Nadwi to give beginners stories of the prophets in Arabic that is easy to follow but still natural and eloquent. Its sentences are short, its vocabulary repeats, and the language grows richer from part to part.\n\nIn class each story is read, translated and discussed, so students learn new words, see the grammar they are studying at work in real sentences, and come to know the lives of the prophets and the lessons in them. Later parts of the series continue the stories, and the last part tells the life of the Prophet ﷺ.",
+          "cover": "assets/img/books/qasas-al-nabiyyin.jpg"
+        },
+        {
+          "title": "Tashīl al-Naḥw",
+          "titleUrdu": "تسهيل النحو",
           "subject": "Nahwa",
           "author": "",
-          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
+          "description": "A primer of Arabic grammar (nahw) that sets out the basic rules of the sentence simply, with plenty of exercises.",
+          "book_size": "large",
+          "long": "Tashil al-Nahw (\"Making Grammar Easy\") introduces nahw, the grammar of how Arabic words combine into sentences. It begins with the three kinds of word (noun, verb and particle) and moves on to phrases, the nominal and verbal sentence, and case endings (i'rab) and what governs them.\n\nEach rule is explained briefly, illustrated with examples and followed by exercises, so that students can analyse simple sentences on their own. It lays the foundation for every Arabic text studied later in the course.",
+          "cover": "assets/img/books/tasheel-al-nahw.jpg"
         },
         {
-          "title": "Placeholder Book 4",
-          "titleUrdu": "",
+          "title": "Tashīl al-Ṣarf",
+          "titleUrdu": "تسهيل الصرف",
           "subject": "Sarf",
           "author": "",
-          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
+          "description": "A primer of Arabic morphology (sarf): how words are built from their roots and how verbs change their forms.",
+          "book_size": "large",
+          "long": "Tashil al-Sarf (\"Making Morphology Easy\") teaches sarf, the study of word patterns. Students learn to find the root letters of a word, to conjugate verbs in the past and present tenses, the imperative and prohibition, and to recognise the derived nouns built on each verb.\n\nThe book drills these patterns through tables and exercises until they become second nature. With them, a student can recognise and look up almost any Arabic word, which is essential for reading the classical texts.",
+          "cover": "assets/img/books/tasheel-al-sarf.jpg"
         },
         {
-          "title": "Placeholder Book 5",
+          "title": "Tajweed Made Easy",
           "titleUrdu": "",
-          "subject": "Fiqh",
+          "subject": "Tajwid",
           "author": "",
-          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
-        },
-        {
-          "title": "Placeholder Book 6",
-          "titleUrdu": "",
-          "subject": "Hadith",
-          "author": "",
-          "description": "A stand-in for a First Year book. Replace this entry in curriculum.json with the real title, subject and description.",
+          "description": "A beginner's guide in English to tajwid, the rules for reciting the Qur'an correctly.",
           "book_size": "small"
         }
       ]
@@ -62,52 +99,68 @@
       "color": "petrol",
       "books": [
         {
-          "title": "Achi Baatain",
+          "title": "ʿIlm al-Ṣarf (Awwalīn)",
+          "titleUrdu": "علم الصرف اولین",
+          "subject": "Sarf",
+          "author": "Maulānā Mushtāq Aḥmad Charthāwalī",
+          "description": "The first half of Maulana Mushtaq Ahmad Charthawali's Urdu course in Arabic morphology (sarf): the patterns of the verb and how its forms are made.",
+          "book_size": "small",
+          "cover": "assets/img/books/ilm-al-sarf-awwalin.jpg"
+        },
+        {
+          "title": "Āsān Naḥw",
+          "titleUrdu": "آسان نحو",
+          "subject": "Nahwa",
+          "author": "",
+          "description": "An Urdu primer of Arabic grammar (nahw) in two short parts, both studied, that explains the basic rules simply and practises them with exercises.",
+          "book_size": "small",
+          "cover": "assets/img/books/asan-nahw.jpg"
+        },
+        {
+          "title": "Qaṣaṣ al-Nabiyyīn",
+          "titleUrdu": "قصص النبيين",
+          "subject": "Arabic",
+          "author": "",
+          "description": "Shaykh Abul Hasan Ali Nadwi's stories of the prophets, written for young readers in simple, flowing Arabic that grows richer from part to part.",
+          "book_size": "medium",
+          "long": "Qasas al-Nabiyyin was written by Shaykh Abul Hasan Ali Nadwi to give beginners stories of the prophets in Arabic that is easy to follow but still natural and eloquent. Its sentences are short, its vocabulary repeats, and the language grows richer from part to part.\n\nIn class each story is read, translated and discussed, so students learn new words, see the grammar they are studying at work in real sentences, and come to know the lives of the prophets and the lessons in them. Later parts of the series continue the stories, and the last part tells the life of the Prophet ﷺ.",
+          "cover": "assets/img/books/qasas-al-nabiyyin.jpg"
+        },
+        {
+          "title": "Al-Fiqh al-Muyassar",
+          "titleUrdu": "الفقه الميسر",
+          "subject": "Fiqh",
+          "author": "Shafīq al-Raḥmān al-Nadwī",
+          "description": "Shafiq al-Rahman al-Nadwi's simplified Hanafi fiqh in Arabic. This part, on worship, covers purity, prayer, zakat, fasting and hajj in short, clear lessons.",
+          "book_size": "medium",
+          "cover": "assets/img/books/al-fiqh-al-muyassar.jpg"
+        },
+        {
+          "title": "Durūs al-Lugha al-ʿArabiyya (Book 2)",
+          "titleUrdu": "دروس اللغة العربية",
+          "subject": "Arabic",
+          "author": "",
+          "description": "The second of Dr V. Abdur Rahim's three books for the Islamic University of Madinah, which teach Arabic through Arabic, one lesson at a time.",
+          "book_size": "medium"
+        },
+        {
+          "title": "Achchhī Bāteṉ",
           "titleUrdu": "اچھی باتیں",
           "subject": "Urdu",
           "author": "",
-          "description": "Achi Baatain is the first of the Urdu books taught to the students. It will give them a beginners understanding to urdu words and grammar.",
-          "book_size": "medium"
+          "description": "Short Urdu lessons on good manners and conduct that build the students' Urdu reading, vocabulary and grammar.",
+          "book_size": "medium",
+          "long": "Achhi Baatein (\"Good Things\") is a beginner's Urdu reader made up of short lessons on good character, manners and everyday Islamic conduct. Each lesson is simple enough for a new reader and carries a moral the students can act on.\n\nStudents learn to read Urdu script fluently, build a working vocabulary and meet the basics of Urdu grammar. Urdu matters in the course because many of the commentaries and explanations used in later years are written in it.",
+          "cover": "assets/img/books/achhi-baatein.jpg"
         },
         {
-          "title": "Tasheel ul-Nahwa",
-          "titleUrdu": "",
-          "subject": "Nahwa",
-          "author": "",
-          "description": "TODO: Description of Tasheel ul-Nahwa.",
-          "book_size": "large"
-        },
-        {
-          "title": "Tasheel ul-Sarf",
-          "titleUrdu": "",
-          "subject": "Sarf",
-          "author": "",
-          "description": "TODO: Description of Tasheel ul-Sarf.",
-          "book_size": "large"
-        },
-        {
-          "title": "Duroos 1",
-          "titleUrdu": "",
-          "subject": "Arabic",
-          "author": "",
-          "description": "TODO: Description of Duroos 1.",
-          "book_size": "medium"
-        },
-        {
-          "title": "Qasas 1",
-          "titleUrdu": "",
-          "subject": "Arabic",
-          "author": "",
-          "description": "TODO: Description of Qasas 1.",
-          "book_size": "small"
-        },
-        {
-          "title": "Placeholder Book 6",
-          "titleUrdu": "",
-          "subject": "Hadith",
-          "author": "",
-          "description": "A stand-in for a Second Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
+          "title": "Taʿlīm al-Islām",
+          "titleUrdu": "تعلیم الاسلام",
+          "subject": "Islamic Studies",
+          "author": "Muftī Muḥammad Kifāyatullāh Dehlawī",
+          "description": "Mufti Kifayatullah Dehlawi's classic primer of the faith in questions and answers: belief, purity, prayer and the other basics every Muslim needs. This edition adds forty hadith and forty sunnah supplications.",
+          "book_size": "small",
+          "cover": "assets/img/books/talim-al-islam.jpg"
         }
       ]
     },
@@ -116,52 +169,49 @@
       "color": "ink",
       "books": [
         {
-          "title": "Placeholder Book 1",
-          "titleUrdu": "",
-          "subject": "Arabic",
-          "author": "",
-          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
-        },
-        {
-          "title": "Placeholder Book 2",
-          "titleUrdu": "",
-          "subject": "Urdu",
-          "author": "",
-          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
-        },
-        {
-          "title": "Placeholder Book 3",
-          "titleUrdu": "",
-          "subject": "Nahwa",
-          "author": "",
-          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
-        },
-        {
-          "title": "Placeholder Book 4",
-          "titleUrdu": "",
-          "subject": "Sarf",
-          "author": "",
-          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
-        },
-        {
-          "title": "Placeholder Book 5",
-          "titleUrdu": "",
+          "title": "Al-Fiqh al-Muyassar",
+          "titleUrdu": "الفقه الميسر",
           "subject": "Fiqh",
-          "author": "",
-          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
+          "author": "Shafīq al-Raḥmān al-Nadwī",
+          "description": "Shafiq al-Rahman al-Nadwi's simplified Hanafi fiqh in Arabic. This part, on worship, covers purity, prayer, zakat, fasting and hajj in short, clear lessons.",
+          "book_size": "medium",
+          "cover": "assets/img/books/al-fiqh-al-muyassar.jpg"
         },
         {
-          "title": "Placeholder Book 6",
-          "titleUrdu": "",
+          "title": "ʿIlm al-Naḥw",
+          "titleUrdu": "علم النحو",
+          "subject": "Nahwa",
+          "author": "Maulānā Mushtāq Aḥmad Charthāwalī",
+          "description": "Maulana Mushtaq Ahmad Charthawali's Urdu course in Arabic grammar (nahw), setting out the rules of the sentence and its case endings in order.",
+          "book_size": "small",
+          "cover": "assets/img/books/ilm-al-nahw.jpg"
+        },
+        {
+          "title": "ʿIlm al-Ṣarf (Ākhirīn)",
+          "titleUrdu": "علم الصرف آخرین",
+          "subject": "Sarf",
+          "author": "Maulānā Mushtāq Aḥmad Charthāwalī",
+          "description": "The second half of Maulana Mushtaq Ahmad Charthawali's course in Arabic morphology (sarf), completing the verb forms and the weak and irregular roots.",
+          "book_size": "small",
+          "cover": "assets/img/books/ilm-al-sarf-akhirin.jpg"
+        },
+        {
+          "title": "Zād al-Ṭālibīn",
+          "titleUrdu": "زاد الطالبين",
           "subject": "Hadith",
-          "author": "",
-          "description": "A stand-in for a Third Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
+          "author": "Maulānā ʿĀshiq Ilāhī Bulandshahrī",
+          "description": "A short collection of hadith chosen by Maulana Ashiq Ilahi Bulandshahri, mostly from Mishkat al-Masabih, which gives students their first Arabic hadith to read, translate and memorise.",
+          "book_size": "small",
+          "cover": "assets/img/books/zad-al-talibin.jpg"
+        },
+        {
+          "title": "Jamāl al-Qurʾān",
+          "titleUrdu": "جمال القرآن",
+          "subject": "Tajwid",
+          "author": "Maulānā Ashraf ʿAlī Thānwī",
+          "description": "Maulana Ashraf Ali Thanwi's short Urdu treatise on tajwid, which sets out the rules of recitation in brief lessons.",
+          "book_size": "small",
+          "cover": "assets/img/books/jamal-al-quran.jpg"
         }
       ]
     },
@@ -170,52 +220,50 @@
       "color": "oxblood",
       "books": [
         {
-          "title": "Placeholder Book 1",
-          "titleUrdu": "",
-          "subject": "Arabic",
-          "author": "",
-          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
-        },
-        {
-          "title": "Placeholder Book 2",
-          "titleUrdu": "",
-          "subject": "Urdu",
-          "author": "",
-          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
-        },
-        {
-          "title": "Placeholder Book 3",
-          "titleUrdu": "",
-          "subject": "Nahwa",
-          "author": "",
-          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
-        },
-        {
-          "title": "Placeholder Book 4",
-          "titleUrdu": "",
-          "subject": "Sarf",
-          "author": "",
-          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
-        },
-        {
-          "title": "Placeholder Book 5",
-          "titleUrdu": "",
-          "subject": "Fiqh",
-          "author": "",
-          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
-        },
-        {
-          "title": "Placeholder Book 6",
-          "titleUrdu": "",
+          "title": "Riyāḍ al-Ṣāliḥīn",
+          "titleUrdu": "رياض الصالحين",
           "subject": "Hadith",
           "author": "",
-          "description": "A stand-in for a Fourth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
+          "description": "Imam al-Nawawi's much-loved collection of hadith on character, manners, worship and the good life, each chapter opening with verses of the Qur'an.",
+          "book_size": "medium",
+          "long": "Riyad al-Salihin (\"The Gardens of the Righteous\") was compiled by Imam Yahya ibn Sharaf al-Nawawi. It holds nearly two thousand hadith, mostly from the most authentic collections, in chapters on sincerity, repentance, patience, good character, manners, worship, remembrance and preparing for the hereafter.\n\nFor many students it is their first full book of hadith in Arabic. They practise reading and translating hadith, learn their meanings and lessons, and come to know the Sunnah as a guide to daily life.",
+          "cover": "assets/img/books/riyad-al-salihin.jpg"
+        },
+        {
+          "title": "Mukhtaṣar al-Qudūrī",
+          "titleUrdu": "مختصر القدوري",
+          "subject": "Fiqh",
+          "author": "Imām Abū al-Ḥusayn al-Qudūrī",
+          "description": "Imam al-Quduri's concise text of Hanafi law, from purity to inheritance: the first complete book of fiqh in Arabic that students read.",
+          "book_size": "medium",
+          "cover": "assets/img/books/mukhtasar-al-quduri.jpg"
+        },
+        {
+          "title": "ʿIlm al-Ṣīgha",
+          "titleUrdu": "علم الصيغه",
+          "subject": "Sarf",
+          "author": "",
+          "description": "An advanced book of Arabic morphology (sarf), here in Urdu with notes, that takes students through the rarer patterns and the changes in weak and doubled roots.",
+          "book_size": "small",
+          "cover": "assets/img/books/ilm-al-sigha.jpg"
+        },
+        {
+          "title": "Hidāyat al-Naḥw",
+          "titleUrdu": "هداية النحو",
+          "subject": "Nahwa",
+          "author": "",
+          "description": "A classic textbook of Arabic grammar (nahw) in the Dars-i Nizami, setting out the rules of the noun, the verb and the particle in concise Arabic.",
+          "book_size": "small",
+          "cover": "assets/img/books/hidayat-al-nahw.jpg"
+        },
+        {
+          "title": "Mabādiʾ al-Uṣūl",
+          "titleUrdu": "مبادئ الأصول",
+          "subject": "Usul Fiqh",
+          "author": "Muftī Saʿīd Aḥmad Pālanpūrī",
+          "description": "Mufti Saeed Ahmad Palanpuri's short introduction to the principles of jurisprudence (usul al-fiqh), preparing students for Usul al-Shashi.",
+          "book_size": "small",
+          "cover": "assets/img/books/mabadi-al-usul.jpg"
         }
       ]
     },
@@ -224,52 +272,121 @@
       "color": "aubergine",
       "books": [
         {
-          "title": "Placeholder Book 1",
-          "titleUrdu": "",
-          "subject": "Arabic",
-          "author": "",
-          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
-        },
-        {
-          "title": "Placeholder Book 2",
-          "titleUrdu": "",
-          "subject": "Urdu",
-          "author": "",
-          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
-        },
-        {
-          "title": "Placeholder Book 3",
-          "titleUrdu": "",
-          "subject": "Nahwa",
-          "author": "",
-          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
-        },
-        {
-          "title": "Placeholder Book 4",
-          "titleUrdu": "",
-          "subject": "Sarf",
-          "author": "",
-          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
-        },
-        {
-          "title": "Placeholder Book 5",
-          "titleUrdu": "",
+          "title": "Al-Hidāya",
+          "titleUrdu": "الهداية شرح بداية المبتدئ",
           "subject": "Fiqh",
           "author": "",
-          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
+          "description": "Imam al-Marghinani's classic manual of Hanafi law, explaining each ruling together with its evidence. It is studied over two years.",
+          "book_size": "large",
+          "long": "Al-Hidaya is Imam Burhan al-Din al-Marghinani's own commentary on his short text Bidayat al-Mubtadi. For each ruling it gives the positions of Imam Abu Hanifa and his students Abu Yusuf and Muhammad, often alongside Imam al-Shafi'i's. It then argues for each position from the Qur'an, the Sunnah and reasoning.\n\nFor centuries it has been the central text of Hanafi law, and it is the heart of the fiqh studied in the later years. Students learn the rulings themselves, how jurists reason from evidence, and the vocabulary of the school, which prepares them to use fatwa collections and the larger works.",
+          "cover": "assets/img/books/al-hidaya.jpg"
         },
         {
-          "title": "Placeholder Book 6",
-          "titleUrdu": "",
+          "title": "Tarjamat al-Qurʾān",
+          "titleUrdu": "ترجمة القرآن الكريم",
+          "subject": "Tafseer",
+          "author": "",
+          "description": "The translation of the Qur'an, word by word and verse by verse, so that students understand the Book of Allah directly in Arabic.",
+          "book_size": "large",
+          "long": "In Tarjamat al-Qur'an students go through the Qur'an and translate it themselves, word by word and then verse by verse. Along the way they explain the grammar and morphology of difficult words and note the context of each passage.\n\nThe class brings together everything learned in the earlier years of Arabic. It gives students a working understanding of the whole Qur'an, and of its most common vocabulary and expressions, before they begin formal tafsir."
+        },
+        {
+          "title": "Uṣūl al-Shāshī",
+          "titleUrdu": "أصول الشاشي",
+          "subject": "Usul Fiqh",
+          "author": "",
+          "description": "A short classic of Hanafi legal theory (usul al-fiqh): how rulings are derived from the Qur'an, the Sunnah, consensus and analogy.",
+          "book_size": "medium",
+          "long": "Usul al-Shashi, attributed to the early Hanafi scholar al-Shashi, is a traditional first book in usul al-fiqh, the principles by which law is drawn from its sources. It treats the four sources in turn: the Book, the Sunnah, consensus (ijma') and analogy (qiyas).\n\nUnder the Book it covers how wording conveys meaning: general and specific, absolute and restricted, command and prohibition, literal and figurative, and the different levels of clarity. Its concise definitions and examples give students the method behind the rulings they study in Al-Hidaya.",
+          "cover": "assets/img/books/usul-al-shashi.jpg"
+        },
+        {
+          "title": "Riyāḍ al-Ṣāliḥīn",
+          "titleUrdu": "رياض الصالحين",
           "subject": "Hadith",
           "author": "",
-          "description": "A stand-in for a Fifth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
+          "description": "Imam al-Nawawi's much-loved collection of hadith on character, manners, worship and the good life, each chapter opening with verses of the Qur'an.",
+          "book_size": "medium",
+          "long": "Riyad al-Salihin (\"The Gardens of the Righteous\") was compiled by Imam Yahya ibn Sharaf al-Nawawi. It holds nearly two thousand hadith, mostly from the most authentic collections, in chapters on sincerity, repentance, patience, good character, manners, worship, remembrance and preparing for the hereafter.\n\nFor many students it is their first full book of hadith in Arabic. They practise reading and translating hadith, learn their meanings and lessons, and come to know the Sunnah as a guide to daily life.",
+          "cover": "assets/img/books/riyad-al-salihin.jpg"
+        },
+        {
+          "title": "Al-Fawāʾid al-Makkiyya",
+          "titleUrdu": "الفوائد المكية",
+          "subject": "Tajwid",
+          "author": "",
+          "description": "A classic Urdu manual of tajwid by Qari Abdur Rahman Makki, setting out the rules for reciting the Qur'an correctly.",
+          "book_size": "small",
+          "long": "Al-Fawa'id al-Makkiyya explains the science of tajwid in clear Urdu. It covers the points of articulation of the letters (makharij) and their qualities (sifat), heavy and light letters, the rules of noon and meem sakin, the kinds of prolongation (madd), and stopping and starting.\n\nStudents study the rules and apply them in their own recitation, correcting their reading of the Qur'an under a teacher. It prepares them for the more concise Arabic text of Al-Muqaddima al-Jazariyya.",
+          "cover": "assets/img/books/al-fawaid-al-makkiyya.jpg"
+        },
+        {
+          "title": "Al-Muqaddima al-Jazariyya",
+          "titleUrdu": "المقدمة الجزرية",
+          "subject": "Tajwid",
+          "author": "",
+          "description": "Imam Ibn al-Jazari's famous poem on tajwid, which gathers the rules of recitation into about a hundred verses that students memorise.",
+          "book_size": "small",
+          "long": "Al-Muqaddima al-Jazariyya was composed by Imam Muhammad ibn al-Jazari, the great authority on the readings of the Qur'an. In about a hundred lines of verse it covers the points of articulation and qualities of the letters, heavy and light pronunciation, noon and meem sakin, prolongation, stopping, and how certain words are written in the Uthmani script.\n\nBecause it is in verse, it is memorised, and each line is then explained. It gives students a firm, precise grasp of tajwid in Arabic and a text they can carry with them.",
+          "cover": "assets/img/books/al-muqaddima-al-jazariyya.jpg"
+        },
+        {
+          "title": "Khulāṣat al-Bayān",
+          "titleUrdu": "خلاصة البيان في تجويد القرآن",
+          "subject": "Tajwid",
+          "author": "Qārī Ḍiyāʾ al-Dīn Aḥmad Ilāhābādī",
+          "description": "Qari Zia al-Din Ahmad Allahabadi's Urdu manual of tajwid. This edition also carries the texts of al-Muqaddima al-Jazariyya and Tuhfat al-Atfal.",
+          "book_size": "small",
+          "cover": "assets/img/books/khulasat-al-bayan.jpg"
+        },
+        {
+          "title": "Muʿīn al-Farāʾiḍ",
+          "titleUrdu": "معين الفرائض",
+          "subject": "Mirath",
+          "author": "",
+          "description": "A primer on Islamic inheritance (mirath): who inherits, what share each heir receives, and how an estate is divided.",
+          "book_size": "small",
+          "long": "Mu'in al-Fara'id introduces the law of inheritance according to the Hanafi school. It explains the heirs with fixed shares, the residuary heirs ('asaba), who excludes whom, and the cases in which shares are increased or reduced ('awl and radd).\n\nThe book teaches students to work out the division of an estate step by step and gives them many worked problems. It is a practical science that the Prophet ﷺ urged Muslims to learn, and one people often bring to the scholars.",
+          "cover": "assets/img/books/muin-al-faraid.jpg"
+        },
+        {
+          "title": "Al-Sirājī",
+          "titleUrdu": "السراجي",
+          "subject": "Mirath",
+          "author": "Sirāj al-Dīn al-Sajāwandī",
+          "description": "Al-Sirajiyya of Siraj al-Din al-Sajawandi, the classic Hanafi text on inheritance, which works through the heirs, their shares and the harder cases.",
+          "book_size": "small",
+          "cover": "assets/img/books/al-siraji.jpg"
+        },
+        {
+          "title": "Nūr al-Yaqīn",
+          "titleUrdu": "نور اليقين",
+          "subject": "Sira",
+          "author": "",
+          "description": "Shaykh Muhammad al-Khudari's concise biography of the Prophet ﷺ, written in clear and elegant Arabic.",
+          "book_size": "medium",
+          "long": "Nur al-Yaqin fi Sirat Sayyid al-Mursalin was written by the Egyptian scholar Shaykh Muhammad al-Khudari Bek. It tells the life of the Prophet ﷺ in order: Arabia before Islam, his birth and early life, revelation, the years of calling people to Islam in Makkah, the Hijrah, the battles and treaties of Madinah, and his final days.\n\nIts Arabic is clear and well written, so students strengthen their reading while learning the sirah in detail, including its dates, places and people.",
+          "cover": "assets/img/books/nur-al-yaqin.jpg"
+        },
+        {
+          "title": "Nafḥat al-ʿArab",
+          "titleUrdu": "نفحة العرب",
+          "subject": "Adab",
+          "author": "",
+          "description": "An anthology of classical Arabic prose by Mawlana I'zaz Ali, with stories, wise sayings and accounts from Arab history, used to train students to read real Arabic literature.",
+          "book_size": "small",
+          "long": "Nafhat al-Arab was compiled by Mawlana I'zaz Ali of Deoband as a reader of Arabic literature (adab). It gathers short stories, anecdotes, proverbs and wise sayings, accounts of the Arabs before and after Islam, and passages of eloquent prose, chosen for their language as well as their lessons.\n\nWith it students move from textbook Arabic to the style of the classical authors. They widen their vocabulary and learn to appreciate the beauty and force of the language.",
+          "cover": "assets/img/books/nafhat-al-arab.jpg"
+        },
+        {
+          "title": "Durūs al-Balāgha",
+          "titleUrdu": "دروس البلاغة",
+          "subject": "Balagha",
+          "author": "",
+          "description": "A short introduction to Arabic rhetoric (balagha) and its three branches: meaning (ma'ani), imagery (bayan) and ornament (badi').",
+          "book_size": "small",
+          "long": "Durus al-Balagha was written by Hifni Nasif and his colleagues in Egypt as a first book in balagha, the art of eloquent speech. It begins with what makes a word or sentence eloquent. It then covers ma'ani, how a sentence's form suits what the situation calls for; bayan, simile, metaphor and metonymy; and badi', the ornaments of sound and meaning.\n\nThe rules are illustrated with verses of the Qur'an, hadith and poetry, and followed by exercises. Balagha lets students see why the Qur'an is unmatched in its eloquence and read the tafsir that discuss it.",
+          "cover": "assets/img/books/durus-al-balagha.jpg"
         }
       ]
     },
@@ -278,53 +395,74 @@
       "color": "ink-silver",
       "books": [
         {
-          "title": "Mishkaat ul-Masaabeeh",
+          "title": "Mishkāt al-Maṣābīḥ",
           "titleUrdu": "مشكاة المصابيح",
           "subject": "Hadith",
-          "author": "Wali ud-Deen Muhammad ibn Abdullah",
-          "description": "A collection of Hadith compiled from multiple sources, including the Saheeh of Imam Muslim and Bukhari, the Sunan of Abu Dawud, Ibn Majah, al-Tirmizi, and Nasaa'i, as well as other sources.",
+          "author": "Walī al-Dīn Muḥammad ibn ʿAbd Allāh al-Khaṭīb al-Tibrīzī",
+          "description": "Al-Khatib al-Tibrizi's expansion of al-Baghawi's Masabih al-Sunnah: about six thousand hadith from the major collections, arranged by subject.",
           "book_size": "large",
-          "long": "TODO"
+          "long": "Mishkat al-Masabih was compiled by Wali al-Din Muhammad ibn Abd Allah al-Khatib al-Tibrizi. He took Imam al-Baghawi's Masabih al-Sunnah, named the collection each hadith comes from, and added a section of further hadith to each chapter.\n\nEach chapter is in three parts: hadith from al-Bukhari and Muslim, then hadith from the other collections, such as Abu Dawud, al-Tirmidhi, al-Nasa'i, Ibn Majah and Ahmad, and then the additions. Its chapters cover belief, worship, transactions, manners, the virtues of the Prophet ﷺ and his Companions, and the end of time.\n\nWith some six thousand hadith it gives students a survey of the whole Sunnah before the final year. They read it with attention to the meaning, rulings and grading of each hadith.",
+          "cover": "assets/img/books/mishkat-al-masabih.jpg"
         },
         {
-          "title": "Placeholder Book 2",
-          "titleUrdu": "",
-          "subject": "Urdu",
-          "author": "",
-          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
+          "title": "Tafsīr al-Jalālayn",
+          "titleUrdu": "تفسير الجلالين",
+          "subject": "Tafseer",
+          "author": "Jalāl al-Dīn al-Maḥallī & Jalāl al-Dīn al-Suyūṭī",
+          "description": "The concise classic commentary on the whole Qur'an by the two Jalals, al-Mahalli and al-Suyuti, explaining the meaning of every verse in a few words.",
+          "book_size": "large",
+          "long": "Tafsir al-Jalalayn (\"The Commentary of the Two Jalals\") was begun by Imam Jalal al-Din al-Mahalli, who explained the second half of the Qur'an and al-Fatihah. After his death his student Imam Jalal al-Din al-Suyuti completed it from al-Baqarah to al-Isra' in the same style.\n\nIt weaves short explanations into the text of the Qur'an itself: the meaning of difficult words, the grammar of a phrase, what a pronoun refers to, variant readings and the occasions of revelation. Its brevity lets students go through the whole Qur'an with its meaning, and it is a gateway to the longer works of tafsir.",
+          "cover": "assets/img/books/tafsir-al-jalalayn.jpg"
         },
         {
-          "title": "Placeholder Book 3",
-          "titleUrdu": "",
-          "subject": "Nahwa",
-          "author": "",
-          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
-        },
-        {
-          "title": "Placeholder Book 4",
-          "titleUrdu": "",
-          "subject": "Sarf",
-          "author": "",
-          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
-        },
-        {
-          "title": "Placeholder Book 5",
-          "titleUrdu": "",
+          "title": "Al-Hidāya",
+          "titleUrdu": "الهداية شرح بداية المبتدئ",
           "subject": "Fiqh",
           "author": "",
-          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
+          "description": "Imam al-Marghinani's classic manual of Hanafi law, explaining each ruling together with its evidence. It is studied over two years.",
+          "book_size": "large",
+          "long": "Al-Hidaya is Imam Burhan al-Din al-Marghinani's own commentary on his short text Bidayat al-Mubtadi. For each ruling it gives the positions of Imam Abu Hanifa and his students Abu Yusuf and Muhammad, often alongside Imam al-Shafi'i's. It then argues for each position from the Qur'an, the Sunnah and reasoning.\n\nFor centuries it has been the central text of Hanafi law, and it is the heart of the fiqh studied in the later years. Students learn the rulings themselves, how jurists reason from evidence, and the vocabulary of the school, which prepares them to use fatwa collections and the larger works.",
+          "cover": "assets/img/books/al-hidaya.jpg"
         },
         {
-          "title": "Placeholder Book 6",
-          "titleUrdu": "",
-          "subject": "Hadith",
+          "title": "Sharḥ al-ʿAqīda al-Ṭaḥāwiyya",
+          "titleUrdu": "شرح العقيدة الطحاوية",
+          "subject": "Aqidah",
+          "author": "Imām Abū Jaʿfar al-Ṭaḥāwī",
+          "description": "A commentary on Imam al-Tahawi's short statement of the beliefs of Ahl al-Sunnah wal-Jama'ah, accepted across the schools for over a thousand years.",
+          "book_size": "small",
+          "long": "Al-Aqida al-Tahawiyya sets out the creed of Ahl al-Sunnah wal-Jama'ah as held by Imam Abu Hanifa and his students Abu Yusuf and Muhammad. Imam Abu Ja'far al-Tahawi was one of the great hadith scholars and jurists of Egypt.\n\nIn short statements it covers the oneness of Allah and His attributes, the Qur'an as His speech, prophethood and the finality of the Prophet ﷺ, divine decree, the unseen, the hereafter, faith, and the place of the Companions. Students learn each point with its evidence and the errors of the sects it answers.",
+          "cover": "assets/img/books/sharh-al-aqida-al-tahawiyya.jpg"
+        },
+        {
+          "title": "Al-Fawz al-Kabīr",
+          "titleUrdu": "الفوز الكبير",
+          "subject": "Usul Tafsir",
+          "author": "Shāh Walī Allāh al-Dihlawī",
+          "description": "Shah Waliullah al-Dihlawi's influential short work on the principles of tafsir: what the Qur'an teaches, and how to understand it.",
+          "book_size": "medium",
+          "long": "Al-Fawz al-Kabir fi Usul al-Tafsir was written in Persian by Shah Waliullah al-Dihlawi, the great reviver of eighteenth-century India, and later put into Arabic. He arranges the teachings of the Qur'an under five sciences: rulings, debate with the misguided, Allah's blessings, the days of Allah (the history of nations), and death and what follows it.\n\nHe goes on to discuss difficult passages, abrogation (naskh), the occasions of revelation and the style of the Qur'an. The book gives students a framework for reading tafsir and understanding the Qur'an as a whole.",
+          "cover": "assets/img/books/al-fawz-al-kabir.jpg"
+        },
+        {
+          "title": "Taysīr Muṣṭalaḥ al-Ḥadīth",
+          "titleUrdu": "تيسير مصطلح الحديث",
+          "subject": "Usul Hadith",
+          "author": "Dr Maḥmūd al-Ṭaḥḥān",
+          "description": "Dr Mahmud al-Tahhan's clear modern introduction to the sciences of hadith: the terms and principles scholars use to judge whether a narration is authentic.",
+          "book_size": "small",
+          "long": "Mustalah al-Hadith is the study of the terms and methods of the hadith scholars. Students learn the parts of a hadith, its chain (sanad) and text (matn), and the grades of sahih, hasan and da'if with the conditions for each.\n\nThey also learn the kinds of break and hidden defect in a chain, how narrators are assessed, the ways hadith were received and passed on, and the major collections. It prepares them to read the commentaries in the final year and to understand the judgements scholars make on each narration.",
+          "cover": "assets/img/books/taysir-mustalah-al-hadith.jpg"
+        },
+        {
+          "title": "Ghazv-i Fikrī",
+          "titleUrdu": "غزوِ فکری",
+          "subject": "Fikr",
           "author": "",
-          "description": "A stand-in for a Sixth Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
+          "description": "A study of the intellectual challenges facing Muslims today, the ideas that question Islam's teachings, and how to answer them.",
+          "book_size": "small",
+          "long": "Ghazv-i Fikri (\"Intellectual Invasion\") looks at the ideas and movements that have challenged Islamic belief and practice in the modern age, such as secularism, materialism, orientalism and modernist readings of Islam. It looks at their origins and their claims, and at how they spread through education and the media.\n\nStudents learn to recognise these ideas and to answer them from the Qur'an, the Sunnah and sound reasoning. The aim is that they leave the course able to guide people facing these questions today.",
+          "cover": "assets/img/books/ghazv-i-fikri.jpg"
         }
       ]
     },
@@ -333,52 +471,111 @@
       "color": "petrol",
       "books": [
         {
-          "title": "Placeholder Book 1",
-          "titleUrdu": "",
-          "subject": "Arabic",
-          "author": "",
-          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
-        },
-        {
-          "title": "Placeholder Book 2",
-          "titleUrdu": "",
-          "subject": "Urdu",
-          "author": "",
-          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
-        },
-        {
-          "title": "Placeholder Book 3",
-          "titleUrdu": "",
-          "subject": "Nahwa",
-          "author": "",
-          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
-        },
-        {
-          "title": "Placeholder Book 4",
-          "titleUrdu": "",
-          "subject": "Sarf",
-          "author": "",
-          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "large"
-        },
-        {
-          "title": "Placeholder Book 5",
-          "titleUrdu": "",
-          "subject": "Fiqh",
-          "author": "",
-          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "medium"
-        },
-        {
-          "title": "Placeholder Book 6",
-          "titleUrdu": "",
+          "title": "Ṣaḥīḥ al-Bukhārī",
+          "titleUrdu": "صحيح البخاري",
           "subject": "Hadith",
           "author": "",
-          "description": "A stand-in for a Seventh Year book. Replace this entry in curriculum.json with the real title, subject and description.",
-          "book_size": "small"
+          "description": "The most authentic book after the Book of Allah: Imam al-Bukhari's collection of sound hadith, studied in full in the final year.",
+          "book_size": "large",
+          "long": "Al-Jami' al-Sahih of Imam Muhammad ibn Isma'il al-Bukhari holds only hadith that met his very strict conditions for authenticity, selected over some sixteen years. It is arranged in books and chapters covering belief, worship, transactions, family life, history, tafsir and manners.\n\nIts chapter headings are famous for carrying Imam al-Bukhari's own understanding of the hadith beneath them. In the final year students read the whole book with its chains, study the meaning and rulings of the hadith, and receive it through a connected chain of teachers going back to the author.",
+          "cover": "assets/img/books/sahih-al-bukhari.jpg"
+        },
+        {
+          "title": "Ṣaḥīḥ Muslim",
+          "titleUrdu": "صحيح مسلم",
+          "subject": "Hadith",
+          "author": "",
+          "description": "Imam Muslim's collection of authentic hadith, second only to al-Bukhari's and known for its careful arrangement of chains and wordings.",
+          "book_size": "large",
+          "long": "The Sahih of Imam Muslim ibn al-Hajjaj al-Naysaburi gathers authentic hadith under the subjects of belief, worship, transactions, manners and more. Imam Muslim set out his method in a famous introduction.\n\nHis book is prized for its arrangement: each hadith is given in one place with all its chains and wordings, so differences between narrations can be compared at a glance. Students read it in the final year alongside its commentaries, above all Imam al-Nawawi's.",
+          "cover": "assets/img/books/sahih-muslim.jpg"
+        },
+        {
+          "title": "Sunan Abī Dāwūd",
+          "titleUrdu": "سنن أبي داود",
+          "subject": "Hadith",
+          "author": "",
+          "description": "Imam Abu Dawud's collection of the hadith on which the rulings of fiqh are based, arranged by the chapters of law.",
+          "book_size": "large",
+          "long": "The Sunan of Imam Abu Dawud Sulayman ibn al-Ash'ath al-Sijistani gathers the hadith used as evidence by the jurists. It is arranged by the topics of fiqh, from purification and prayer to trade, marriage, punishments and manners.\n\nImam Abu Dawud often comments on the strength of a hadith or the differences between its narrations. That makes it essential for the study of legal hadith, and in the final year students compare its evidence with the positions they learned in Al-Hidaya.",
+          "cover": "assets/img/books/sunan-abi-dawud-3.jpg"
+        },
+        {
+          "title": "Sunan Ibn Māja",
+          "titleUrdu": "سنن ابن ماجه",
+          "subject": "Hadith",
+          "author": "",
+          "description": "Imam Ibn Majah's Sunan, the sixth of the six major books of hadith, valued for the many narrations found in it alone.",
+          "book_size": "large",
+          "long": "The Sunan of Imam Muhammad ibn Yazid ibn Majah al-Qazwini is arranged by the topics of law and conduct, opening with a chapter on following the Sunnah. Later scholars counted it among the six major books of hadith.\n\nIt contains many hadith not found in the other five, and its chapters are brief and well ordered. Students read it in the final year as part of their reading of the six books.",
+          "cover": "assets/img/books/sunan-ibn-maja.jpg"
+        },
+        {
+          "title": "Sunan al-Nasāʾī",
+          "titleUrdu": "سنن النسائي",
+          "subject": "Hadith",
+          "author": "",
+          "description": "Imam al-Nasa'i's Sunan, among the strictest of the collections in its choice of narrators, with special attention to hidden defects in chains.",
+          "book_size": "large",
+          "long": "The Sunan of Imam Ahmad ibn Shu'ayb al-Nasa'i, known as al-Mujtaba, is a selection from his larger collection. It is arranged by the topics of law, and its long sections on purification and prayer are especially detailed.\n\nImam al-Nasa'i was very strict about narrators and careful to point out differences between narrations and hidden defects in their chains. Students read it in the final year as one of the six books.",
+          "cover": "assets/img/books/sunan-al-nasai.jpg"
+        },
+        {
+          "title": "Jāmiʿ al-Tirmidhī",
+          "titleUrdu": "جامع الترمذي",
+          "subject": "Hadith",
+          "author": "",
+          "description": "Imam al-Tirmidhi's collection, which grades each hadith and records how the Companions and jurists acted on it.",
+          "book_size": "large",
+          "long": "The Jami' of Imam Muhammad ibn Isa al-Tirmidhi covers law, manners, tafsir, virtues and more. Unlike the other collections, it states after each hadith whether it is sahih, hasan or weak, and notes other narrations on the same subject.\n\nIt also records which Companions and jurists acted on each hadith and where they differed, which makes it a rich source for comparing the schools of law. It ends with a short work on the defects of hadith (Kitab al-Ilal). Students read it in full in the final year.",
+          "cover": "assets/img/books/jami-al-tirmidhi.jpg"
+        },
+        {
+          "title": "Sharḥ Maʿānī al-Āthār",
+          "titleUrdu": "شرح معاني الآثار",
+          "subject": "Usul Hadith",
+          "author": "",
+          "description": "Imam al-Tahawi's collection of hadith on legal questions, which brings together narrations that seem to conflict and shows how they fit together.",
+          "book_size": "medium",
+          "long": "In Sharh Ma'ani al-Athar, Imam Abu Ja'far al-Tahawi takes one question of law at a time. He gathers the hadith and the reports of the Companions on each side, and then reconciles them or weighs them through their chains, their context and sound reasoning.\n\nIts method shows the evidence behind the Hanafi positions and teaches students how a jurist deals with narrations that appear to conflict. Students read it in the final year alongside the six books.",
+          "cover": "assets/img/books/sharh-maani-al-athar.jpg"
+        },
+        {
+          "title": "Shamāʾil al-Tirmidhī",
+          "titleUrdu": "شمائل الترمذي",
+          "subject": "Hadith",
+          "author": "",
+          "description": "Imam al-Tirmidhi's collection of hadith describing the Prophet ﷺ: his appearance, character, habits and worship.",
+          "book_size": "medium",
+          "long": "Al-Shama'il al-Muhammadiyya of Imam al-Tirmidhi gathers some four hundred hadith in chapters on the blessed features of the Prophet ﷺ: his appearance and hair, his clothes and ring, how he ate and slept, his speech and laughter, his worship, his humility and character, and his passing.\n\nReading it brings students close to the person of the Prophet ﷺ, increases their love for him and shows them his Sunnah in the smallest details of daily life."
+        },
+        {
+          "title": "Muwaṭṭaʾ al-Imām Mālik",
+          "titleUrdu": "موطأ الإمام مالك",
+          "subject": "Hadith",
+          "author": "",
+          "description": "The earliest surviving book of hadith and law, compiled by Imam Malik, the Imam of Madinah.",
+          "book_size": "medium",
+          "long": "The Muwatta' of Imam Malik ibn Anas gathers the hadith of the Prophet ﷺ, the sayings of the Companions and their Successors, and the practice of the people of Madinah. Imam Malik arranged them by the topics of law and often added his own judgement.\n\nIt is the oldest major collection to come down to us, and the scholars praised it highly. Students read the narration of Yahya ibn Yahya al-Laythi, and see how hadith and Madinan practice together shaped early fiqh."
+        },
+        {
+          "title": "Muwaṭṭaʾ al-Imām Muḥammad",
+          "titleUrdu": "موطأ الإمام محمد",
+          "subject": "Hadith",
+          "author": "",
+          "description": "Imam Muhammad ibn al-Hasan al-Shaybani's narration of the Muwatta', which he heard from Imam Malik, with his own notes on Hanafi positions.",
+          "book_size": "medium",
+          "long": "Imam Muhammad ibn al-Hasan al-Shaybani was a student of both Imam Abu Hanifa and Imam Malik, and he heard the Muwatta' from Imam Malik himself. In his narration he follows many of the hadith with his own comment, saying either that he takes it or how the Hanafis understand it, and gives the position of Imam Abu Hanifa.\n\nIt shows the Hanafi school working directly with the hadith of Madinah, and is one of its earliest and most important sources. Students read it in the final year alongside Imam Malik's own narration.",
+          "cover": "assets/img/books/muwatta-imam-muhammad.jpg"
+        },
+        {
+          "title": "Nūr al-Īḍāḥ",
+          "titleUrdu": "نور الإيضاح",
+          "subject": "Fiqh",
+          "author": "Imām Ḥasan al-Shurunbulālī",
+          "description": "Imam Hasan al-Shurunbulali's short Hanafi text on the fiqh of worship: purity, prayer, zakat, fasting and hajj.",
+          "book_size": "small",
+          "cover": "assets/img/books/nur-al-idah.jpg"
         }
       ]
     }

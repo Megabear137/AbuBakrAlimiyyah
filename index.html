@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Gilda+Display&family=Instrument+Sans:wght@400;500;600&family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=55">
+  <link rel="stylesheet" href="assets/css/styles.css?v=88">
 </head>
 <body id="top">
 
@@ -58,6 +58,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#program">Program</a></li>
     <li><a href="#teachers">Teachers</a></li>
+    <li><a href="bookstore.html">Bookstore</a></li>
     <li><a href="#articles">Articles</a></li>
     <li><a href="#videos">Videos</a></li>
     <li><a href="#alumni">Alumni</a></li>
@@ -106,6 +107,19 @@
 
   <hr class="section-rule">
 
+  <!-- ============================ TEACHERS ============================ -->
+  <section class="section" id="teachers" aria-labelledby="teachers-heading">
+    <div class="wrap">
+      <div class="section__head rv">
+        <p class="section__eyebrow" data-slot="teachers-kicker"></p>
+        <h2 class="section__heading" id="teachers-heading" data-slot="teachers-heading">Our Teachers</h2>
+      </div>
+      <div class="mosaic rv" data-slot="teachers"></div>
+    </div>
+  </section>
+
+  <hr class="section-rule">
+
   <!-- ============================ DETAILS ============================= -->
   <section class="section" id="details" aria-labelledby="details-heading">
     <div class="wrap">
@@ -127,14 +141,18 @@
 
   <hr class="section-rule">
 
-  <!-- ============================ TEACHERS ============================ -->
-  <section class="section" id="teachers" aria-labelledby="teachers-heading">
+  <!-- ============================ BOOKSTORE =========================== -->
+  <!-- The featured books as a bento grid, each tile in its cover's colour,
+       a large book two by two; bookstore.js draws them. bookstore.html has
+       every book. -->
+  <section class="section" id="bookstore" aria-labelledby="bookstore-heading">
     <div class="wrap">
       <div class="section__head rv">
-        <p class="section__eyebrow" data-slot="teachers-kicker"></p>
-        <h2 class="section__heading" id="teachers-heading" data-slot="teachers-heading">Our Teachers</h2>
+        <p class="section__eyebrow" data-slot="bookstore-kicker"></p>
+        <h2 class="section__heading" id="bookstore-heading" data-slot="bookstore-heading">Bookstore</h2>
       </div>
-      <div class="mosaic rv" data-slot="teachers"></div>
+      <div class="store rv" data-slot="bookstore"></div>
+      <p class="store__foot rv"><a class="btn btn--gold" href="bookstore.html"><span data-slot="bookstore-visit-label">Visit the Bookstore</span> <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a></p>
     </div>
   </section>
 
@@ -166,7 +184,6 @@
         <p class="section__eyebrow" data-slot="videos-kicker"></p>
         <h2 class="section__heading" id="videos-heading" data-slot="videos-heading">Videos</h2>
         <div class="section__tools">
-          <div data-slot="videos-audience"></div>
           <a class="more-link" data-slot="videos-more" hidden></a>
         </div>
       </div>
@@ -208,8 +225,9 @@
 </footer>
 
 <script src="assets/js/carousel.js?v=5"></script>
-<script src="assets/js/curriculum.js?v=14"></script>
+<script src="assets/js/curriculum.js?v=19"></script>
 <script src="assets/js/nav.js?v=3"></script>
-<script src="assets/js/main.js?v=19"></script>
+<script src="assets/js/bookstore.js?v=17"></script>
+<script src="assets/js/main.js?v=29"></script>
 </body>
 </html>

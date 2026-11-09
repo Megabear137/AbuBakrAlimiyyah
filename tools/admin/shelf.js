@@ -4,7 +4,8 @@
    public site never carries it. "Edit curriculum" opens a panel beside
    the shelf: pick a book (click its spine, or choose it from its year's
    list) and edit it, add books, reorder them or move them to another
-   year. Every change redraws the shelf with the site's own
+   year (drag a spine onto another, in its year or another, or onto a
+   bay's empty shelf). Every change redraws the shelf with the site's own
    renderCurriculum, so the spines, the slip on hover and the folio show
    the edit as it will be published. Saving writes the years of
    content/curriculum.json through the server; nothing is written until
@@ -67,6 +68,100 @@
     window.renderCurriculum(mount, { years: store.years });
     var spine = spineOf(sel.y, sel.b);
     if (spine) spine.closest(".book").classList.add("adm-picked");
+    mount.querySelectorAll(".spine").forEach(function (s) { s.draggable = true; });
+  }
+
+  // Moves a book to a place in a year (its own or another); the pick goes with it.
+  function moveBook(fy, fb, ty, tb) {
+    var picked = book(), pickedYear = year();
+    var b = store.years[fy].books.splice(fb, 1)[0];
+    store.years[ty].books.splice(tb, 0, b);
+    if (picked) {
+      store.years.forEach(function (yr, i) {
+        var at = yr.books.indexOf(picked);
+        if (at >= 0) sel = { y: i, b: at };
+      });
+    } else {
+      sel = { y: store.years.indexOf(pickedYear), b: -1 };
+    }
+    changed();
+    draw();
+    paintPanel();
+  }
+
+  /* ---------------------------- dragging spines -------------------------- */
+  // A spine dropped on another goes before it, or after it when dropped on
+  // its right half; dropped on a bay anywhere else, it goes to the end of
+  // that year. A gold bar, or the well's outline, shows where.
+  var drag = null;             // {y, b} of the book being dragged
+
+  function placeOf(slot) {
+    var bay = slot.closest(".bay");
+    return { y: Array.prototype.indexOf.call(mount.querySelectorAll(".bay"), bay),
+             b: Array.prototype.indexOf.call(bay.querySelectorAll(".book"), slot) };
+  }
+  function dropTarget(e) {
+    var slot = e.target.closest && e.target.closest(".book");
+    if (slot && mount.contains(slot)) {
+      var r = slot.getBoundingClientRect();
+      return { slot: slot, after: e.clientX > r.left + r.width / 2 };
+    }
+    var bay = e.target.closest && e.target.closest(".bay");
+    return bay && mount.contains(bay) ? { bay: bay } : null;
+  }
+  function clearDrop() {
+    mount.querySelectorAll(".adm-drop-before, .adm-drop-after, .adm-drop-into").forEach(function (n) {
+      n.classList.remove("adm-drop-before", "adm-drop-after", "adm-drop-into");
+    });
+  }
+
+  function onDragStart(e) {
+    var slot = on && e.target.closest && e.target.closest(".book");
+    if (!slot || !mount.contains(slot)) return;
+    drag = placeOf(slot);
+    slot.classList.add("adm-dragging");
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", drag.y + ":" + drag.b);
+    // The hover preview gets out of the way (the well's Escape puts it away).
+    var well = slot.closest(".bay__well");
+    if (well) well.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+  }
+  function onDragOver(e) {
+    if (!drag) return;
+    var t = dropTarget(e);
+    if (!t) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    clearDrop();
+    if (t.slot) {
+      if (!t.slot.classList.contains("adm-dragging")) t.slot.classList.add(t.after ? "adm-drop-after" : "adm-drop-before");
+    } else {
+      var well = t.bay.querySelector(".bay__well");
+      if (well) well.classList.add("adm-drop-into");
+    }
+  }
+  function onDrop(e) {
+    if (!drag) return;
+    e.preventDefault();
+    var t = dropTarget(e), from = drag;
+    onDragEnd();
+    if (!t) return;
+    var to;
+    if (t.slot) {
+      to = placeOf(t.slot);
+      if (t.after) to.b++;
+      if (to.y === from.y && from.b < to.b) to.b--;
+    } else {
+      var y = Array.prototype.indexOf.call(mount.querySelectorAll(".bay"), t.bay);
+      to = { y: y, b: store.years[y].books.length - (y === from.y ? 1 : 0) };
+    }
+    if (to.y === from.y && to.b === from.b) return;
+    moveBook(from.y, from.b, to.y, to.b);
+  }
+  function onDragEnd() {
+    drag = null;
+    clearDrop();
+    mount.querySelectorAll(".adm-dragging").forEach(function (n) { n.classList.remove("adm-dragging"); });
   }
 
   function spineOf(y, b) {
@@ -219,14 +314,8 @@
     if (!t) return;
     if (t.dataset.pick != null) return pick(sel.y, +t.dataset.pick, true);
     if (t.dataset.move) {
-      var parts = t.dataset.move.split(":"), from = +parts[0], to = from + +parts[1];
-      var books = year().books;
-      books.splice(to, 0, books.splice(from, 1)[0]);
-      if (sel.b === from) sel.b = to; else if (sel.b === to) sel.b = from;
-      changed();
-      draw();
-      paintPanel();
-      return;
+      var parts = t.dataset.move.split(":");
+      return moveBook(sel.y, +parts[0], sel.y, +parts[0] + +parts[1]);
     }
     var act = t.dataset.p;
     if (act === "add") addBook();
@@ -329,8 +418,8 @@
   /* -------------------------------- set-up ------------------------------ */
   function enter() {
     on = true;
-    document.body.classList.add("adm-shelf");
-    ui.launch.hidden = true;
+    document.body.classList.add("adm-side", "adm-shelf");
+    ui.launches.hidden = true;
 
     ui.panel = el("aside", "adm-panel adm-panel--shelf");
     ui.panel.setAttribute("aria-label", "Curriculum editor");
@@ -386,11 +475,17 @@
   function boot() {
     if (!mount || !window.renderCurriculum) return;
     mount.addEventListener("click", onShelfClick, true);
+    mount.addEventListener("dragstart", onDragStart);
+    mount.addEventListener("dragover", onDragOver);
+    mount.addEventListener("drop", onDrop);
+    mount.addEventListener("dragend", onDragEnd);
     Promise.all([load(), drawn()]).then(function () {
-      ui.launch = el("button", "adm-btn adm-btn--gold adm-launch", "✎ Edit curriculum");
-      ui.launch.type = "button";
-      ui.launch.addEventListener("click", enter);
-      document.body.appendChild(ui.launch);
+      // The home page's editors share one stack of launch buttons.
+      ui.launches = document.querySelector(".adm-launches") || document.body.appendChild(el("div", "adm-launches"));
+      var launch = el("button", "adm-btn adm-btn--gold adm-launch", "✎ Edit curriculum");
+      launch.type = "button";
+      launch.addEventListener("click", enter);
+      ui.launches.prepend(launch);
     }).catch(function (err) {
       console.error("The bookshelf editor could not load curriculum.json.", err);
     });

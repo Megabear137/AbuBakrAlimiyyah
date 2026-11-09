@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bookstore — Jamiyah Islamiyyah Abu Bakr</title>
+  <meta name="description" content="Books sold at Jamiyah Islamiyyah Abu Bakr.">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- Light or dark before first paint: the viewer's last choice, else the
+       system setting. nav.js owns the toggle; keep the key in step with it. -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("alimiyyah.theme"); } catch (e) {}
+      if (t !== "light" && t !== "dark") {
+        t = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+
+  <link rel="icon" href="assets/img/logo_gold_web.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Gilda+Display&family=Instrument+Sans:wght@400;500;600&family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=88">
+</head>
+<body id="top" class="on-ground">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================== HEADER ============================== -->
+<!-- As on the home page: a round menu button, and the light/dark toggle
+     beside an outline pill. There is no banner here, so they sit on the
+     ground (.on-ground: cream rounds in light). -->
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <button class="round" type="button" data-menu-open aria-controls="site-menu" aria-expanded="false" aria-label="Open menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <div class="site-header__end">
+      <button class="round theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode">
+        <svg class="theme-toggle__moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+        <svg class="theme-toggle__sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn btn--line btn--sm site-header__cta" href="index.html#curriculum">View Curriculum</a>
+    </div>
+  </div>
+</header>
+
+<!-- The menu: the site's links over the whole screen, opened from the round button. -->
+<nav class="menu" id="site-menu" aria-label="Primary">
+  <button class="round menu__close" type="button" data-menu-close aria-label="Close menu">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <ul class="menu__list">
+    <li><a href="index.html#top">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#program">Program</a></li>
+    <li><a href="index.html#teachers">Teachers</a></li>
+    <li><a href="bookstore.html">Bookstore</a></li>
+    <li><a href="index.html#articles">Articles</a></li>
+    <li><a href="index.html#videos">Videos</a></li>
+    <li><a href="index.html#alumni">Alumni</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+  <!-- ========================== THE BOOKSTORE ========================= -->
+  <!-- bookstore.js fills every slot from content/bookstore.json: the subject
+       masthead (the kicker, the heading #bookstore-heading and the lede), the
+       subject groups to filter by, then the bento grid of every book. -->
+  <section class="section store-page" aria-labelledby="bookstore-heading">
+    <div class="wrap">
+      <a class="back" href="index.html#bookstore"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg> Home</a>
+      <div class="store-mast">
+        <div><p class="store-mast__kicker" data-slot="bookstore-kicker"></p><h1 class="store-mast__title" id="bookstore-heading" data-slot="bookstore-heading">Bookstore</h1></div>
+        <p class="store-mast__lede" data-slot="bookstore-lede"></p>
+      </div>
+      <div class="store-filters" data-slot="bookstore-filters" hidden></div>
+      <div class="store" data-slot="bookstore"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="site-footer" id="contact">
+  <div class="wrap">
+    <div class="site-footer__grid">
+      <a class="brand brand--footer" href="index.html">
+        <img class="brand__mark" src="assets/img/logo_gold_web.png" alt="" width="80" height="58">
+        <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
+      </a>
+      <div>
+        <h2 class="site-footer__heading">Contact</h2>
+        <address class="site-footer__contact" data-slot="footer-contact"></address>
+      </div>
+    </div>
+    <p class="site-footer__legal">&copy; <span data-slot="year"></span> Jamiyah Islamiyyah Abu Bakr</p>
+  </div>
+</footer>
+
+<script src="assets/js/nav.js?v=3"></script>
+<script src="assets/js/curriculum.js?v=19"></script>
+<script src="assets/js/bookstore.js?v=17"></script>
+</body>
+</html>

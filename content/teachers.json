@@ -1,42 +1,120 @@
 {
   "heading": "Our Teachers",
   "kicker": "",
-  "note": "Add or remove teachers by editing this list; the first is shown large. 'kicker' is the small label above the heading. 'honorific' is the small line above a name; 'bio' may be left empty.",
+  "note": "Add or remove teachers by editing this list; 'width' is how many columns a card spans (1 to 4) and 'height' how many rows (1 to 3); both default to 1, and the cards stand in the order of the list. 'kicker' is the small label above the heading. 'honorific' is the small line above a name; 'bio' is the short line on the card and may be left empty. 'id' gives the teacher their own page, teacher.html?id=<id> (lowercase words joined by hyphens, unique); 'body' is that page's biography, a list in which a string is a paragraph and {\"heading\": \"...\"} a section heading.",
   "teachers": [
     {
+      "id": "kasim-ingar",
       "honorific": "Moulana",
       "name": "Kasim Ingar",
-      "bio": "Imam of our masjid, and teacher for over 36 years"
+      "bio": "Imam of our masjid, and teacher for over 36 years. Imam of our masjid, and teacher for over 36 years Imam of",
+      "body": [
+        "TODO: The teacher's biography, for their own page."
+      ],
+      "width": 4,
+      "bioBeside": true
     },
     {
-      "honorific": "Moulana",
-      "name": "Salim Chauhan",
-      "bio": ""
+      "id": "hanif-luharvi",
+      "honorific": "Sheikh",
+      "name": "Hanif Luharvi",
+      "bio": "Short Bio",
+      "body": [],
+      "width": 2,
+      "bioBeside": true
     },
     {
+      "id": "zuber-motala",
       "honorific": "Moulana",
       "name": "Zuber Motala",
-      "bio": ""
+      "bio": "Short bio",
+      "body": [
+        "TODO: The teacher's biography, for their own page."
+      ],
+      "width": 2,
+      "bioBeside": true
     },
     {
+      "id": "salim-chauhan",
       "honorific": "Moulana",
-      "name": "TODO: Fourth teacher",
-      "bio": "TODO: Short line about this teacher."
+      "name": "Salim Chauhan",
+      "bio": "Bio",
+      "body": [
+        "TODO: The teacher's biography, for their own page."
+      ],
+      "width": 2,
+      "bioBeside": true
     },
     {
-      "honorific": "Moulana",
-      "name": "TODO: Fifth teacher",
-      "bio": "TODO: Short line about this teacher."
+      "id": "aiyub-degiya",
+      "honorific": "Mufti",
+      "name": "Aiyub Degiya",
+      "bio": "TODO: Short line about this teacher.",
+      "body": [
+        "TODO: The teacher's biography, for their own page."
+      ],
+      "width": 2,
+      "bioBeside": true
     },
     {
-      "honorific": "Moulana",
-      "name": "TODO: Sixth teacher",
-      "bio": "TODO: Short line about this teacher."
+      "id": "omer-khurshid",
+      "honorific": "Sheikh",
+      "name": "Omer Khurshid",
+      "bio": "TODO: Short line about this teacher.",
+      "body": [
+        "TODO: The teacher's biography, for their own page."
+      ],
+      "width": 2,
+      "bioBeside": true
     },
     {
+      "id": "nouman-dasu",
+      "honorific": "Qari ",
+      "name": "Nouman Dasu",
+      "bio": "",
+      "body": [],
+      "width": 2,
+      "bioBeside": true
+    },
+    {
+      "id": "teacher-7",
+      "honorific": "Mufti",
+      "name": "Shoaib Ingar",
+      "bio": "TODO: Short line about this teacher.",
+      "body": [
+        "TODO: The teacher's biography, for their own page."
+      ],
+      "width": 2,
+      "bioBeside": true
+    },
+    {
+      "id": "idris-ingar",
+      "honorific": "Qari",
+      "name": "Idris Ingar",
+      "bio": "",
+      "body": [],
+      "width": 2,
+      "bioBeside": true
+    },
+    {
+      "id": "teacher-6",
+      "honorific": "Mufti",
+      "name": "Umar Patel",
+      "bio": "TODO: Short line about this teacher.",
+      "body": [
+        "TODO: The teacher's biography, for their own page."
+      ],
+      "width": 2,
+      "bioBeside": true
+    },
+    {
+      "id": "fahim",
       "honorific": "Moulana",
-      "name": "TODO: Seventh teacher",
-      "bio": "TODO: Short line about this teacher."
+      "name": "Fahim",
+      "bio": "",
+      "body": [],
+      "width": 2,
+      "bioBeside": true
     }
   ]
 }

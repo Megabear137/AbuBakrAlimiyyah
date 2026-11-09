@@ -14,7 +14,10 @@
 
    The folio is the book at full size across the whole bay, its cover
    down the left side and its description beside it, drawn as a ruled
-   manuscript leaf (design/canvas-expand/widen.html). Where bays are
+   manuscript leaf (design/canvas-expand/widen.html). A photographed
+   cover is shown as its tight crop (tools/covers.py, which applies the
+   hand edits of tools/cover_edits.json), the whole photograph until the
+   crops have loaded or where a photograph has none. Where bays are
    paired the reading bay widens across the row and its neighbour narrows.
    Closing it returns focus to the spine.
 
@@ -92,8 +95,21 @@
   var uid = 0;          // ids for the gradients and patterns in each drawing
   var folioCount = 0;   // ids for the folio headings
 
+  // The tight crops by photograph (assets/img/books/tight/covers.json),
+  // fetched once, when the shelf is first drawn.
+  var tight = null;
+  function loadTight() {
+    if (tight) return;
+    tight = {};
+    fetch("assets/img/books/tight/covers.json", { cache: "no-cache" })
+      .then(function (r) { return r.ok ? r.json() : {}; })
+      .then(function (m) { tight = m || {}; })
+      .catch(function () {});
+  }
+
   function renderCurriculum(mount, data) {
     if (!mount || !data || !data.years) return;
+    loadTight();
     mount.textContent = "";
     if (mount._slip) mount._slip.destroy();
 
@@ -215,6 +231,9 @@
     book._book = data;
     book._index = i;
     book._spine = spine;
+    book._dims = dims;
+    book._bind = bind;
+    book._w = dims.w;
 
     if (todo) {
       // Nothing to open yet: announce it as unavailable.
@@ -294,10 +313,23 @@
 
     var current = null, showT = 0, hideT = 0;
 
+    // As wide as its title and Urdu need on one line, from 252px up to 460px;
+    // a longer title wraps.
+    function width(vw) {
+      var max = Math.min(460, vw - 16);
+      var head = el.querySelector(".slip__head");
+      el.style.width = max + "px";
+      var pad = el.clientWidth - head.clientWidth;
+      head.style.width = "max-content";
+      var need = head.getBoundingClientRect().width + pad;
+      head.style.width = "";
+      return Math.min(max, Math.max(252, Math.ceil(need)));
+    }
+
     function place() {
       var r = current.getBoundingClientRect();
       var vw = document.documentElement.clientWidth;
-      var w = Math.min(252, vw - 16);
+      var w = Math.min(width(vw), vw - 16);
       var right = vw - r.right >= w + 12 || r.left < w + 12;
       var left = right ? r.right - 4 : r.left + 4 - w;
       left = Math.max(8, Math.min(left, vw - w - 8));
@@ -400,27 +432,64 @@
   }
 
   /* Titles are set as large as they fit: one line if that can be had within
-     3px of the full size, else two lines down the spine before they get any
-     smaller. Subjects stay on one line. Boxes not laid out (a hidden well)
+     1.5px of the full size, else two lines down the spine; one that would
+     still go below 14px widens its book until it doesn't. A
+     subject that won't fit on one line closes up its letter-spacing, then
+     takes two lines. Boxes not laid out (a hidden well)
      are left for the next call. */
   function fitText(scope) {
-    Array.prototype.forEach.call(scope.querySelectorAll(".spine__box"), function (box) {
-      if (!box.clientHeight) return;
-      var t = box.firstChild, isTitle = box.classList.contains("spine__title");
-      var max = isTitle ? 14.5 : 8.5, min = isTitle ? 10.5 : 6.5;
-      function fits() { return t.scrollHeight <= box.clientHeight + 0.5 && t.scrollWidth <= box.clientWidth + 0.5; }
-      function down(from, to) {
-        for (var size = from; size >= to; size -= 0.5) {
-          t.style.fontSize = size + "px";
-          if (fits()) return true;
-        }
-        return false;
+    Array.prototype.forEach.call(scope.querySelectorAll(".book"), function (book) {
+      var spine = book._spine;
+      if (!spine || !spine.clientHeight || spine.classList.contains("spine--todo")) return;
+      // Start from the book's own width each time, since the fonts may have changed.
+      if (book._w !== book._dims.w) widen(book, book._dims.w);
+      // A title that has to wrap widens its book until its lines can be read at
+      // 14px, 2px at a time and by 32px at most. (Width can't help one line.)
+      while (cramped(spine.querySelector(".spine__title")) && book._w < book._dims.w + 32) {
+        widen(book, book._w + 2);
       }
-      t.style.whiteSpace = "nowrap";
-      if (down(max, Math.max(min, max - 3))) return;
-      if (isTitle) t.style.whiteSpace = "normal";
-      down(max, min);
+      var sub = spine.querySelector(".spine__subject");
+      if (sub) fitBox(sub);
     });
+  }
+
+  function cramped(box) {
+    var size = fitBox(box);
+    return box.firstChild.style.whiteSpace === "normal" && size < 14;
+  }
+
+  // Redraws a spine at another width; the slot follows through --w.
+  function widen(book, w) {
+    book._w = w;
+    book.style.setProperty("--w", w + "px");
+    book._spine.innerHTML = drawSpine(book._book, w, book._dims.h, book._bind);
+  }
+
+  // Sets a box's text as large as fits and returns that size (0 if it never fits).
+  function fitBox(box) {
+    var t = box.firstChild, isTitle = box.classList.contains("spine__title");
+    var max = isTitle ? 14.5 : 8.5, min = isTitle ? 10.5 : 6.5;
+    function fits() { return t.scrollHeight <= box.clientHeight + 0.5 && t.scrollWidth <= box.clientWidth + 0.5; }
+    function down(from, to) {
+      for (var size = from; size >= to; size -= 0.5) {
+        t.style.fontSize = size + "px";
+        if (fits()) return size;
+      }
+      return 0;
+    }
+    var size;
+    t.style.whiteSpace = "nowrap";
+    t.style.letterSpacing = "";
+    t.style.lineHeight = "";
+    if ((size = down(max, isTitle ? max - 1.5 : max - 3))) return size;
+    if (!isTitle) {
+      // A long subject closes up its spacing before anything else.
+      t.style.letterSpacing = "0.04em";
+      if ((size = down(max, 7))) return size;
+    }
+    t.style.whiteSpace = "normal";
+    if (isTitle) t.style.lineHeight = "1.2";   // lines that don't touch
+    return down(max, min);
   }
 
   /* The drawing's parts, shared with the folio's cover. */
@@ -490,10 +559,9 @@
     el.innerHTML =
       '<button type="button" class="folio__close" aria-label="Close ' + esc(data.title) + ' in full">' +
         '<span aria-hidden="true">✕</span></button>' +
-      // width/height give the 3:4 box before the image decodes, so a phone's
-      // stacked folio doesn't jump when the cover arrives.
-      '<div class="folio__cover"><img src="' + esc(data.cover || drawnCover(data, i)) +
-        '" width="300" height="400" alt="' + (data.cover ? "Cover of " + esc(data.title) : "") + '"></div>' +
+      // width/height give the box its shape before the image decodes, so a
+      // phone's stacked folio doesn't jump when the cover arrives.
+      coverHTML(data, i) +
       '<div class="folio__text">' +
         (data.subject ? '<p class="folio__subject">' + esc(data.subject) + "</p>" : "") +
         '<div class="folio__head">' +
@@ -510,6 +578,20 @@
         '<p class="folio__catch" aria-hidden="true">' + esc(catchword) + "</p>" +
       "</div>";
     return el;
+  }
+
+  /* The folio's cover: the tight crop at its own shape (the book whole,
+     never trimmed), else the photograph or the drawn binding in a 3:4 box. */
+  function coverHTML(data, i) {
+    var t = data.cover && tight && tight[data.cover];
+    var ratio = t && t.tight && +t.ratio > 0 ? +t.ratio : 0;
+    var alt = data.cover ? "Cover of " + esc(data.title) : "";
+    if (ratio) {
+      return '<div class="folio__cover folio__cover--tight" style="--ratio: ' + ratio + '"><img src="' + esc(t.tight) +
+        '" width="300" height="' + Math.round(300 * ratio) + '" alt="' + alt + '"></div>';
+    }
+    return '<div class="folio__cover"><img src="' + esc(data.cover || drawnCover(data, i)) +
+      '" width="300" height="400" alt="' + alt + '"></div>';
   }
 
   /* An author still marked TODO is not shown at all. */
@@ -572,4 +654,6 @@
   }
 
   global.renderCurriculum = renderCurriculum;
+  // The bookstore draws a book without a photograph the same way.
+  renderCurriculum.drawnCover = drawnCover;
 })(window);

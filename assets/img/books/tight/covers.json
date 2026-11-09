@@ -1,0 +1,372 @@
+{
+  "assets/img/books/achhi-baatein.jpg": {
+    "tight": "assets/img/books/tight/achhi-baatein.jpg?v=f35ef969",
+    "ratio": 1.548,
+    "tint": "#5a4947"
+  },
+  "assets/img/books/al-fawaid-al-makkiyya.jpg": {
+    "tight": "assets/img/books/tight/al-fawaid-al-makkiyya.jpg?v=2af3ef5b",
+    "ratio": 1.503,
+    "tint": "#283e44"
+  },
+  "assets/img/books/al-fawz-al-kabir-2.jpg": {
+    "tight": "assets/img/books/tight/al-fawz-al-kabir-2.jpg?v=3e5ade8c",
+    "ratio": 1.43,
+    "tint": "#545563"
+  },
+  "assets/img/books/al-fawz-al-kabir.jpg": {
+    "tight": "assets/img/books/tight/al-fawz-al-kabir.jpg?v=96e0f261",
+    "ratio": 1.202,
+    "tint": "#918e9a"
+  },
+  "assets/img/books/al-fiqh-al-muyassar.jpg": {
+    "tight": "assets/img/books/tight/al-fiqh-al-muyassar.jpg?v=3f6729ec",
+    "ratio": 1.362,
+    "tint": "#a83742"
+  },
+  "assets/img/books/al-hidaya.jpg": {
+    "tight": "assets/img/books/tight/al-hidaya.jpg?v=81523023",
+    "ratio": 1.414,
+    "tint": "#5f626d"
+  },
+  "assets/img/books/al-muqaddima-al-jazariyya.jpg": {
+    "tight": "assets/img/books/tight/al-muqaddima-al-jazariyya.jpg?v=1698cb05",
+    "ratio": 1.587,
+    "tint": "#ad3e2b"
+  },
+  "assets/img/books/al-qiraa-al-wadiha.jpg": {
+    "tight": "assets/img/books/tight/al-qiraa-al-wadiha.jpg?v=585117ad",
+    "ratio": 1.484,
+    "tint": "#a0a39d"
+  },
+  "assets/img/books/al-siraji.jpg": {
+    "tight": "assets/img/books/tight/al-siraji.jpg?v=edcffa0a",
+    "ratio": 1.318,
+    "tint": "#685e5f"
+  },
+  "assets/img/books/arabi-ka-muallim.jpg": {
+    "tight": "assets/img/books/tight/arabi-ka-muallim.jpg?v=5fc3fa0d",
+    "ratio": 1.515,
+    "tint": "#c05999"
+  },
+  "assets/img/books/asan-nahw.jpg": {
+    "tight": "assets/img/books/tight/asan-nahw.jpg?v=41c3f34f",
+    "ratio": 1.542,
+    "tint": "#c0b79f"
+  },
+  "assets/img/books/asan-sarf-part-3.jpg": {
+    "tight": "assets/img/books/tight/asan-sarf-part-3.jpg?v=1557e664",
+    "ratio": 1.567,
+    "tint": "#5a6b9b"
+  },
+  "assets/img/books/asan-sarf.jpg": {
+    "tight": "assets/img/books/tight/asan-sarf.jpg?v=53f1a7b7",
+    "ratio": 1.609,
+    "tint": "#b39dc2"
+  },
+  "assets/img/books/durus-al-balagha-2.jpg": {
+    "tight": "assets/img/books/tight/durus-al-balagha-2.jpg?v=baeccfbd",
+    "ratio": 1.314,
+    "tint": "#213340"
+  },
+  "assets/img/books/durus-al-balagha-3.jpg": {
+    "tight": "assets/img/books/tight/durus-al-balagha-3.jpg?v=3bd0a7c7",
+    "ratio": 1.41,
+    "tint": "#aba39b"
+  },
+  "assets/img/books/durus-al-balagha.jpg": {
+    "tight": "assets/img/books/tight/durus-al-balagha.jpg?v=1617d79f",
+    "ratio": 1.331,
+    "tint": "#2c324d"
+  },
+  "assets/img/books/durus-al-lugha.jpg": {
+    "tight": "assets/img/books/tight/durus-al-lugha.jpg?v=0da8bd89",
+    "ratio": 1.335,
+    "tint": "#9da2a9"
+  },
+  "assets/img/books/faiz-e-siddiq.jpg": {
+    "tight": "assets/img/books/tight/faiz-e-siddiq.jpg?v=295d5af2",
+    "ratio": 1.249,
+    "tint": "#899095"
+  },
+  "assets/img/books/ghazv-i-fikri.jpg": {
+    "tight": "assets/img/books/tight/ghazv-i-fikri.jpg?v=51a7417b",
+    "ratio": 1.568,
+    "tint": "#6d5c52"
+  },
+  "assets/img/books/hidayat-al-nahw.jpg": {
+    "tight": "assets/img/books/tight/hidayat-al-nahw.jpg?v=da4374ea",
+    "ratio": 1.193,
+    "tint": "#a87150"
+  },
+  "assets/img/books/ilm-al-nahw.jpg": {
+    "tight": "assets/img/books/tight/ilm-al-nahw.jpg?v=9ba6d654",
+    "ratio": 1.143,
+    "tint": "#aeabaa"
+  },
+  "assets/img/books/ilm-al-sarf-akhirin.jpg": {
+    "tight": "assets/img/books/tight/ilm-al-sarf-akhirin.jpg?v=1b3e42ec",
+    "ratio": 1.563,
+    "tint": "#969893"
+  },
+  "assets/img/books/ilm-al-sarf-awwalin.jpg": {
+    "tight": "assets/img/books/tight/ilm-al-sarf-awwalin.jpg?v=3d2caab8",
+    "ratio": 1.544,
+    "tint": "#685957"
+  },
+  "assets/img/books/ilm-al-sigha.jpg": {
+    "tight": "assets/img/books/tight/ilm-al-sigha.jpg?v=4db0fa5e",
+    "ratio": 1.288,
+    "tint": "#b9b491"
+  },
+  "assets/img/books/jamal-al-quran-2.jpg": {
+    "tight": "assets/img/books/tight/jamal-al-quran-2.jpg?v=0a93ee21",
+    "ratio": 1.555,
+    "tint": "#8a6577"
+  },
+  "assets/img/books/jamal-al-quran.jpg": {
+    "tight": "assets/img/books/tight/jamal-al-quran.jpg?v=ec73b8cc",
+    "ratio": 1.556,
+    "tint": "#3e4256"
+  },
+  "assets/img/books/jami-al-tirmidhi.jpg": {
+    "tight": "assets/img/books/tight/jami-al-tirmidhi.jpg?v=76f238af",
+    "ratio": 1.425,
+    "tint": "#5e5661"
+  },
+  "assets/img/books/khulasat-al-bayan.jpg": {
+    "tight": "assets/img/books/tight/khulasat-al-bayan.jpg?v=e2d049a0",
+    "ratio": 1.111,
+    "tint": "#a2ac98"
+  },
+  "assets/img/books/kitab-al-nahw.jpg": {
+    "tight": "assets/img/books/tight/kitab-al-nahw.jpg?v=ed910475",
+    "ratio": 1.326,
+    "tint": "#a5b3b1"
+  },
+  "assets/img/books/mabadi-al-usul.jpg": {
+    "tight": "assets/img/books/tight/mabadi-al-usul.jpg?v=c584be12",
+    "ratio": 1.611,
+    "tint": "#1d1f25"
+  },
+  "assets/img/books/mishkat-al-masabih-2.jpg": {
+    "tight": "assets/img/books/tight/mishkat-al-masabih-2.jpg?v=63e0afad",
+    "ratio": 1.422,
+    "tint": "#7d7d72"
+  },
+  "assets/img/books/mishkat-al-masabih-3.jpg": {
+    "tight": "assets/img/books/tight/mishkat-al-masabih-3.jpg?v=6fa9ea71",
+    "ratio": 1.383,
+    "tint": "#a68478"
+  },
+  "assets/img/books/mishkat-al-masabih.jpg": {
+    "tight": "assets/img/books/tight/mishkat-al-masabih.jpg?v=897717ec",
+    "ratio": 1.409,
+    "tint": "#b9b6a3"
+  },
+  "assets/img/books/muin-al-faraid.jpg": {
+    "tight": "assets/img/books/tight/muin-al-faraid.jpg?v=b2a8bad6",
+    "ratio": 1.541,
+    "tint": "#c1bea1"
+  },
+  "assets/img/books/mukhtasar-al-quduri.jpg": {
+    "tight": "assets/img/books/tight/mukhtasar-al-quduri.jpg?v=bacad7ad",
+    "ratio": 1.364,
+    "tint": "#bca295"
+  },
+  "assets/img/books/muwatta-imam-muhammad.jpg": {
+    "tight": "assets/img/books/tight/muwatta-imam-muhammad.jpg?v=181c8e89",
+    "ratio": 1.369,
+    "tint": "#7a767a"
+  },
+  "assets/img/books/nafhat-al-arab.jpg": {
+    "tight": "assets/img/books/tight/nafhat-al-arab.jpg?v=88299653",
+    "ratio": 1.51,
+    "tint": "#b6afaa"
+  },
+  "assets/img/books/nur-al-idah.jpg": {
+    "tight": "assets/img/books/tight/nur-al-idah.jpg?v=4d04e83d",
+    "ratio": 1.342,
+    "tint": "#43474f"
+  },
+  "assets/img/books/nur-al-yaqin.jpg": {
+    "tight": "assets/img/books/tight/nur-al-yaqin.jpg?v=176ff9f6",
+    "ratio": 1.253,
+    "tint": "#1d253b"
+  },
+  "assets/img/books/qasas-al-nabiyyin.jpg": {
+    "tight": "assets/img/books/tight/qasas-al-nabiyyin.jpg?v=45c68e4e",
+    "ratio": 1.564,
+    "tint": "#a2cb81"
+  },
+  "assets/img/books/riyad-al-salihin.jpg": {
+    "tight": "assets/img/books/tight/riyad-al-salihin.jpg?v=dd8922f4",
+    "ratio": 1.466,
+    "tint": "#323740"
+  },
+  "assets/img/books/sahih-al-bukhari-2.jpg": {
+    "tight": "assets/img/books/tight/sahih-al-bukhari-2.jpg?v=84ef2046",
+    "ratio": 1.411,
+    "tint": "#8a8984"
+  },
+  "assets/img/books/sahih-al-bukhari.jpg": {
+    "tight": "assets/img/books/tight/sahih-al-bukhari.jpg?v=b39032ab",
+    "ratio": 1.435,
+    "tint": "#4f4442"
+  },
+  "assets/img/books/sahih-muslim-2.jpg": {
+    "tight": "assets/img/books/tight/sahih-muslim-2.jpg?v=0076eea8",
+    "ratio": 1.403,
+    "tint": "#bfad9a"
+  },
+  "assets/img/books/sahih-muslim-3.jpg": {
+    "tight": "assets/img/books/tight/sahih-muslim-3.jpg?v=2ae7aa38",
+    "ratio": 1.374,
+    "tint": "#beb49e"
+  },
+  "assets/img/books/sahih-muslim.jpg": {
+    "tight": "assets/img/books/tight/sahih-muslim.jpg?v=449e5c0b",
+    "ratio": 1.385,
+    "tint": "#8a7b76"
+  },
+  "assets/img/books/sharh-al-aqida-al-tahawiyya.jpg": {
+    "tight": "assets/img/books/tight/sharh-al-aqida-al-tahawiyya.jpg?v=759360e9",
+    "ratio": 1.314,
+    "tint": "#59566b"
+  },
+  "assets/img/books/sharh-maani-al-athar-2.jpg": {
+    "tight": "assets/img/books/tight/sharh-maani-al-athar-2.jpg?v=15dd6e64",
+    "ratio": 1.642,
+    "tint": "#b6ac8a"
+  },
+  "assets/img/books/sharh-maani-al-athar.jpg": {
+    "tight": "assets/img/books/tight/sharh-maani-al-athar.jpg?v=a53ece29",
+    "ratio": 1.455,
+    "tint": "#928b7d"
+  },
+  "assets/img/books/sunan-abi-dawud-2.jpg": {
+    "tight": "assets/img/books/tight/sunan-abi-dawud-2.jpg?v=111ffba5",
+    "ratio": 1.43,
+    "tint": "#367770"
+  },
+  "assets/img/books/sunan-abi-dawud-3.jpg": {
+    "tight": "assets/img/books/tight/sunan-abi-dawud-3.jpg?v=d75a1ee3",
+    "ratio": 1.473,
+    "tint": "#b2a59d"
+  },
+  "assets/img/books/sunan-abi-dawud.jpg": {
+    "tight": "assets/img/books/tight/sunan-abi-dawud.jpg?v=1e7ec921",
+    "ratio": 1.501,
+    "tint": "#bea494"
+  },
+  "assets/img/books/sunan-al-nasai.jpg": {
+    "tight": "assets/img/books/tight/sunan-al-nasai.jpg?v=4100d37a",
+    "ratio": 1.452,
+    "tint": "#b79f91"
+  },
+  "assets/img/books/sunan-ibn-maja-2.jpg": {
+    "tight": "assets/img/books/tight/sunan-ibn-maja-2.jpg?v=c92b4c34",
+    "ratio": 1.452,
+    "tint": "#928981"
+  },
+  "assets/img/books/sunan-ibn-maja.jpg": {
+    "tight": "assets/img/books/tight/sunan-ibn-maja.jpg?v=d7831e72",
+    "ratio": 1.34,
+    "tint": "#3d404d"
+  },
+  "assets/img/books/tadrib-al-nahw.jpg": {
+    "tight": "assets/img/books/tight/tadrib-al-nahw.jpg?v=a11f029c",
+    "ratio": 1.296,
+    "tint": "#adb4ab"
+  },
+  "assets/img/books/tafsir-al-jalalayn-2.jpg": {
+    "tight": "assets/img/books/tight/tafsir-al-jalalayn-2.jpg?v=a0b1cad5",
+    "ratio": 1.408,
+    "tint": "#aca2a0"
+  },
+  "assets/img/books/tafsir-al-jalalayn.jpg": {
+    "tight": "assets/img/books/tight/tafsir-al-jalalayn.jpg?v=5e54c14d",
+    "ratio": 1.393,
+    "tint": "#313439"
+  },
+  "assets/img/books/tajweed-for-beginners.jpg": {
+    "tight": "assets/img/books/tight/tajweed-for-beginners.jpg?v=2614e6b6",
+    "ratio": 1.517,
+    "tint": "#bc9a7b"
+  },
+  "assets/img/books/talim-al-haq.jpg": {
+    "tight": "assets/img/books/tight/talim-al-haq.jpg?v=7a260310",
+    "ratio": 1.816,
+    "tint": "#3b4742"
+  },
+  "assets/img/books/talim-al-islam.jpg": {
+    "tight": "assets/img/books/tight/talim-al-islam.jpg?v=fdf96e06",
+    "ratio": 1.556,
+    "tint": "#a9a99a"
+  },
+  "assets/img/books/tamrin-al-nahw.jpg": {
+    "tight": "assets/img/books/tight/tamrin-al-nahw.jpg?v=263162f3",
+    "ratio": 1.603,
+    "tint": "#9c9177"
+  },
+  "assets/img/books/tarikh-e-islam.jpg": {
+    "tight": "assets/img/books/tight/tarikh-e-islam.jpg?v=b11f554e",
+    "ratio": 1.545,
+    "tint": "#86a6c6"
+  },
+  "assets/img/books/tasheel-al-nahw-2.jpg": {
+    "tight": "assets/img/books/tight/tasheel-al-nahw-2.jpg?v=35bb9fd3",
+    "ratio": 1.295,
+    "tint": "#783f4a"
+  },
+  "assets/img/books/tasheel-al-nahw.jpg": {
+    "tight": "assets/img/books/tight/tasheel-al-nahw.jpg?v=cabab179",
+    "ratio": 1.297,
+    "tint": "#212a4f"
+  },
+  "assets/img/books/tasheel-al-sarf.jpg": {
+    "tight": "assets/img/books/tight/tasheel-al-sarf.jpg?v=f695d058",
+    "ratio": 1.333,
+    "tint": "#8f5850"
+  },
+  "assets/img/books/taysir-mustalah-al-hadith.jpg": {
+    "tight": "assets/img/books/tight/taysir-mustalah-al-hadith.jpg?v=320ce9a5",
+    "ratio": 1.438,
+    "tint": "#1e222c"
+  },
+  "assets/img/books/urdu-ka-asan-qaida.jpg": {
+    "tight": "assets/img/books/tight/urdu-ka-asan-qaida.jpg?v=63cf7474",
+    "ratio": 1.314,
+    "tint": "#5a3f46"
+  },
+  "assets/img/books/urdu-khushkhati.jpg": {
+    "tight": "assets/img/books/tight/urdu-khushkhati.jpg?v=0676a9f0",
+    "ratio": 1.311,
+    "tint": "#cf4e59"
+  },
+  "assets/img/books/usul-al-shashi-2.jpg": {
+    "tight": "assets/img/books/tight/usul-al-shashi-2.jpg?v=b8ae3606",
+    "ratio": 1.356,
+    "tint": "#6b544d"
+  },
+  "assets/img/books/usul-al-shashi-3.jpg": {
+    "tight": "assets/img/books/tight/usul-al-shashi-3.jpg?v=d8f97a8e",
+    "ratio": 1.314,
+    "tint": "#b8856f"
+  },
+  "assets/img/books/usul-al-shashi-4.jpg": {
+    "tight": "assets/img/books/tight/usul-al-shashi-4.jpg?v=66c1ba79",
+    "ratio": 1.31,
+    "tint": "#9d9c92"
+  },
+  "assets/img/books/usul-al-shashi.jpg": {
+    "tight": "assets/img/books/tight/usul-al-shashi.jpg?v=54fc32dd",
+    "ratio": 1.305,
+    "tint": "#a3a3a9"
+  },
+  "assets/img/books/zad-al-talibin.jpg": {
+    "tight": "assets/img/books/tight/zad-al-talibin.jpg?v=203c5c3f",
+    "ratio": 1.535,
+    "tint": "#528289"
+  }
+}

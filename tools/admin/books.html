@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bookstore dashboard</title>
+  <meta name="robots" content="noindex">
+  <!-- bookstore.json's paths (assets/img/books/…) are relative to the site root. -->
+  <base href="/">
+  <!-- Served by tools/admin_server.py at /__admin/books only; the public site
+       never refers to it. -->
+  <link rel="icon" href="/assets/img/logo_gold_web.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Gilda+Display&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/__admin/books.css">
+</head>
+<body>
+
+<header class="dash-head">
+  <div>
+    <p class="dash-kicker">Admin · Bookstore</p>
+    <h1 class="dash-title">Book dashboard</h1>
+  </div>
+  <nav class="dash-links">
+    <a href="/bookstore.html">Bookstore page ↗</a>
+    <a href="/">Home ↗</a>
+  </nav>
+</header>
+
+<section class="dash-stats" data-slot="stats" aria-label="Summary"></section>
+
+<div class="dash-tools">
+  <label class="dash-search"><span class="sr">Search</span>
+    <input type="search" data-filter="q" placeholder="Search title, edition, subject, id…" autocomplete="off">
+  </label>
+  <div class="dash-chips" data-slot="groups" role="group" aria-label="Subject group"></div>
+  <label class="dash-select"><span class="sr">Show</span>
+    <select data-filter="need">
+      <option value="">Every listing</option>
+      <option value="photo">No photograph</option>
+      <option value="link">No payment link</option>
+      <option value="price">No price</option>
+      <option value="sold">Sold out</option>
+      <option value="featured">Featured</option>
+    </select>
+  </label>
+  <button class="btn btn--gold" type="button" data-act="add">+ Add a book</button>
+</div>
+
+<main class="dash-main">
+  <table class="dash-table">
+    <thead>
+      <tr>
+        <th scope="col" class="c-pic"><span class="sr">Picture</span></th>
+        <th scope="col">Book</th>
+        <th scope="col">Subject</th>
+        <th scope="col">Years</th>
+        <th scope="col" class="c-price">Price</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody data-slot="rows"></tbody>
+  </table>
+  <p class="dash-empty" data-slot="empty" hidden>No book matches.</p>
+</main>
+
+<aside class="drawer" data-slot="drawer" aria-label="Edit book" hidden></aside>
+
+<div class="dash-bar" role="toolbar" aria-label="Saving">
+  <span class="dash-status" data-slot="status" role="status">Loading…</span>
+  <button class="btn" type="button" data-act="discard">Discard</button>
+  <button class="btn btn--gold" type="button" data-act="save" title="Save (Ctrl+S)">Save</button>
+</div>
+
+<script src="/assets/js/curriculum.js"></script>
+<script src="/__admin/books.js"></script>
+</body>
+</html>

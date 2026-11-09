@@ -1,0 +1,254 @@
+{
+  "achhi-baatein.jpg": {
+    "rotate": 0,
+    "box": [
+      0.1264,
+      0.0669,
+      0.883,
+      0.9464
+    ]
+  },
+  "al-fawaid-al-makkiyya.jpg": {
+    "rotate": 0,
+    "box": [
+      0.1141,
+      0.0713,
+      0.8815,
+      0.9373
+    ]
+  },
+  "al-hidaya.jpg": {
+    "rotate": -1.5,
+    "box": [
+      0.118,
+      0.0797,
+      0.891,
+      0.9136
+    ]
+  },
+  "al-muqaddima-al-jazariyya.jpg": {
+    "rotate": 0,
+    "box": [
+      0.1484,
+      0.0816,
+      0.8577,
+      0.9267
+    ]
+  },
+  "durus-al-balagha-2.jpg": {
+    "rotate": 0,
+    "box": [
+      0.1039,
+      0.0983,
+      0.9165,
+      0.9006
+    ]
+  },
+  "durus-al-balagha.jpg": {
+    "rotate": -1.5,
+    "box": [
+      0.0936,
+      0.1068,
+      0.889,
+      0.9148
+    ]
+  },
+  "durus-al-lugha.jpg": {
+    "rotate": -1.5,
+    "box": [
+      0.0587,
+      0.1119,
+      0.9041,
+      0.9705
+    ]
+  },
+  "ghazv-i-fikri.jpg": {
+    "rotate": 0,
+    "box": [
+      0.1468,
+      0.0795,
+      0.8562,
+      0.9155
+    ]
+  },
+  "hidayat-al-nahw.jpg": {
+    "rotate": 0,
+    "box": [
+      0.0686,
+      0.1072,
+      0.9255,
+      0.8734
+    ]
+  },
+  "ilm-al-sarf-akhirin.jpg": {
+    "rotate": 0,
+    "box": [
+      0.1347,
+      0.0613,
+      0.883,
+      0.9392
+    ]
+  },
+  "jami-al-tirmidhi.jpg": {
+    "rotate": 0,
+    "box": [
+      0.0738,
+      0.0561,
+      0.9236,
+      0.9651
+    ]
+  },
+  "mabadi-al-usul.jpg": {
+    "rotate": 0.5,
+    "box": [
+      0.1352,
+      0.0594,
+      0.848,
+      0.9264
+    ]
+  },
+  "mishkat-al-masabih.jpg": {
+    "rotate": 0,
+    "box": [
+      0.132,
+      0.0733,
+      0.8813,
+      0.8658
+    ]
+  },
+  "muin-al-faraid.jpg": {
+    "rotate": 0,
+    "box": [
+      0.1223,
+      0.0586,
+      0.8737,
+      0.9278
+    ]
+  },
+  "nur-al-yaqin.jpg": {
+    "rotate": 1,
+    "box": [
+      0.0776,
+      0.1463,
+      0.8894,
+      0.9156
+    ]
+  },
+  "qasas-al-nabiyyin.jpg": {
+    "rotate": 0,
+    "box": [
+      0.0843,
+      0.0625,
+      0.8347,
+      0.9423
+    ]
+  },
+  "riyad-al-salihin.jpg": {
+    "rotate": -1,
+    "box": [
+      0.122,
+      0.0733,
+      0.888,
+      0.9228
+    ]
+  },
+  "sahih-al-bukhari-2.jpg": {
+    "rotate": 2,
+    "box": [
+      0.1217,
+      0.0822,
+      0.8651,
+      0.8847
+    ]
+  },
+  "sahih-muslim-3.jpg": {
+    "rotate": 0,
+    "box": [
+      0.162,
+      0.0611,
+      0.8113,
+      0.7318
+    ]
+  },
+  "sahih-muslim.jpg": {
+    "rotate": 0,
+    "box": [
+      0.103,
+      0.08,
+      0.8783,
+      0.8848
+    ]
+  },
+  "sharh-al-aqida-al-tahawiyya.jpg": {
+    "rotate": 0,
+    "box": [
+      0.0884,
+      0.0869,
+      0.9123,
+      0.8992
+    ]
+  },
+  "sunan-abi-dawud-2.jpg": {
+    "rotate": -1.5,
+    "box": [
+      0.1243,
+      0.0795,
+      0.868,
+      0.8905
+    ]
+  },
+  "sunan-abi-dawud.jpg": {
+    "rotate": 0,
+    "box": [
+      0.139,
+      0.0588,
+      0.8506,
+      0.86
+    ]
+  },
+  "tajweed-for-beginners.jpg": {
+    "rotate": -1,
+    "box": [
+      0.1237,
+      0.0624,
+      0.8799,
+      0.9295
+    ]
+  },
+  "talim-al-islam.jpg": {
+    "rotate": -0.5,
+    "box": [
+      0.1382,
+      0.0649,
+      0.8757,
+      0.9288
+    ]
+  },
+  "tasheel-al-sarf.jpg": {
+    "rotate": 0,
+    "box": [
+      0.0872,
+      0.0807,
+      0.9076,
+      0.9021
+    ]
+  },
+  "urdu-khushkhati.jpg": {
+    "rotate": 0,
+    "box": [
+      0.0667,
+      0.0997,
+      0.8961,
+      0.916
+    ]
+  },
+  "usul-al-shashi.jpg": {
+    "rotate": 0,
+    "box": [
+      0.102,
+      0.0895,
+      0.8979,
+      0.8705
+    ]
+  }
+}

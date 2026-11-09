@@ -1,5 +1,5 @@
 {
-  "note": "Articles and videos, each kept as a separate list for brothers and sisters. The switch in each section head swaps between them. Articles show the first one featured, with a carousel of them all beneath it (clicking a card features it), so put the newest first. Each article opens on its own page, article.html?id=<id>: give every article an 'id' that is unique across both lists (lowercase words joined by hyphens, and keep it once published, since links use it). 'body' is the article's text on that page, a list read top to bottom: a plain string is a paragraph, {\"heading\": \"…\"} is a section heading, and {\"quote\": \"…\", \"source\": \"…\"} is a quotation set apart ('source' optional). A paragraph or quotation may carry **bold**, _italic_ and [linked words](https://…); put a backslash before * _ [ ] or \\ to show one as it is. The article editor (python3 tools/admin_server.py, see CLAUDE.md) writes all of this for you. An article's 'href' (leave it empty normally) sends it to another address instead of its page. A video's 'href' links the card; its 'thumbnail' is an image path; leave it empty for the masjid photo or a plain board. 'kicker' is the small line above each heading. Set 'moreHref' (and optionally 'moreLabel') on articles or videos to show an 'All …' link in the section head. An empty list shows a 'nothing yet' card.",
+  "note": "Articles and videos, each kept as a separate list for brothers and sisters. The switch in each section head swaps between them. Articles show the first one featured, with a carousel of them all beneath it (clicking a card features it), so put the newest first. Each article opens on its own page, article.html?id=<id>: give every article an 'id' that is unique across both lists (lowercase words joined by hyphens, and keep it once published, since links use it). 'body' is the article's text on that page, a list read top to bottom: a plain string is a paragraph, {\"heading\": \"…\"} is a section heading, and {\"quote\": \"…\", \"source\": \"…\"} is a quotation set apart ('source' optional). A paragraph or quotation may carry **bold**, _italic_ and [linked words](https://…); put a backslash before * _ [ ] or \\ to show one as it is. The article editor (python3 tools/admin_server.py, see CLAUDE.md) writes all of this for you. An article's 'href' (leave it empty normally) sends it to another address instead of its page. A video's 'href' is where it plays: a YouTube or Vimeo link, or a video file (.mp4, .webm), plays in a popup over the page when its card is clicked; any other address opens as a link; left empty, the popup shows the card's picture. Its 'thumbnail' is an image path; leave it empty for the masjid photo or a plain board. 'kicker' is the small line above each heading. Set 'moreHref' (and optionally 'moreLabel') on articles or videos to show an 'All …' link in the section head. An empty list shows a 'nothing yet' card.",
   "audiences": {
     "brothers": "Brothers",
     "sisters": "Sisters"
@@ -135,7 +135,7 @@
   "videos": {
     "kicker": "",
     "heading": "Videos",
-    "brothers": [
+    "items": [
       {
         "title": "TODO: Video title",
         "subject": "TODO: Subject",
@@ -162,40 +162,6 @@
       },
       {
         "title": "TODO: Video title",
-        "subject": "TODO: Subject",
-        "duration": "00:00",
-        "date": "TODO: Date",
-        "thumbnail": "",
-        "href": ""
-      }
-    ],
-    "sisters": [
-      {
-        "title": "TODO: Sisters' video title",
-        "subject": "TODO: Subject",
-        "duration": "00:00",
-        "date": "TODO: Date",
-        "thumbnail": "",
-        "href": ""
-      },
-      {
-        "title": "TODO: Sisters' video title",
-        "subject": "TODO: Subject",
-        "duration": "00:00",
-        "date": "TODO: Date",
-        "thumbnail": "",
-        "href": ""
-      },
-      {
-        "title": "TODO: Sisters' video title",
-        "subject": "TODO: Subject",
-        "duration": "00:00",
-        "date": "TODO: Date",
-        "thumbnail": "",
-        "href": ""
-      },
-      {
-        "title": "TODO: Sisters' video title",
         "subject": "TODO: Subject",
         "duration": "00:00",
         "date": "TODO: Date",

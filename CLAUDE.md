@@ -5,468 +5,224 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 A static informational website for the seven-year Alimiyyah program at Jamiyah Islamiyyah Abu Bakr
-(a masjid). Plain HTML/CSS/vanilla JS — **no build step, no dependencies, no framework, no tests, no
-package.json**.
-
-Note: the repo lives on a WSL path accessed from Windows, so `git` may refuse it with "dubious
-ownership". Fix with `git config --global --add safe.directory '%(prefix)///wsl.localhost/Ubuntu/home/zubai/projects/alimiyyah_website'`.
-
-It may gain online enrolment/payment later, which is why content is data-driven rather than hardcoded.
+(a masjid). Plain HTML/CSS/vanilla JS — **no build step, no dependencies, no framework, no tests**.
+Content is data-driven (`content/*.json`) so enrolment/payment can be added later.
 
 ## Running it
 
 ```sh
-python3 -m http.server 8000     # then open http://localhost:8000
+python3 -m http.server 8000     # http://localhost:8000
+python3 tools/admin_server.py   # http://127.0.0.1:8001, the site plus its local editors
 ```
 
-**A server is mandatory.** The page `fetch`es `content/*.json`, which browsers block on `file://` —
-double-clicking `index.html` shows an error banner instead of the site. Any static server works.
+**A server is mandatory**: the pages `fetch` `content/*.json`, which `file://` blocks. Deployment is
+uploading the folder as-is (`tools/` and `.admin-backups/` can be left out).
 
-There is nothing to build, lint or test. Deployment is uploading the folder as-is (`tools/` and
-`.admin-backups/` can be left out; they do nothing on a static host).
+**Bump the `?v=` query on the CSS/JS links whenever you change those files** — in `index.html`,
+`article.html`, `teacher.html`, `bookstore.html` and `book.html` (all load `styles.css`; check each
+page's script tags). The static server sends no cache headers, and a stale JS under a new CSS renders
+plausible-looking but wrong markup that has been mistaken for layout bugs. JSON is fetched with
+`cache: "no-cache"` and needs no bump.
 
-To write articles or change the bookshelf, run the admin server instead (see *The local editors*
-below):
+## Design sources
 
-```sh
-python3 tools/admin_server.py   # http://127.0.0.1:8001: "Edit curriculum" on the home page,
-                                # "Edit article" on any article's page
-```
+- **`design/canvas-daynight/index.html` is the authoritative design** for the home page: light and dark
+  modes laid out after mockup B, "Night Masjid" (`design/canvas-modern/b-night.html`). Its corner
+  Light|Dark switcher is mockup-only; the site has the header's sun/moon toggle.
+- Area-specific decisions that are built: `canvas-glass` (the kitab bookshelf's structure only),
+  `canvas-spines` (bindings, slip on hover, folio on click), `canvas-expand/widen.html` (the folio),
+  `canvas-details` (gold panel titles, grooves instead of gold rules in light), `canvas-article`
+  (option 1, the banner; **the article column's side margins stay empty on purpose**),
+  `canvas-teacher` (option 2, the card opened), `canvas-library/best-2-bento.html` (bookstore bento),
+  `canvas-store-title` (option 2, the masthead), `canvas-filters` (option 6, subject groups only),
+  `canvas-video` (option 4, the popup), `canvas-testimonies` (niche option 1), `canvas-gold` theme 12
+  (light palette), `canvas-oak` round 2 option 1 (the boards).
+- **Everything else in `design/` is historical** (aged-leaf ground, khatim dividers, plaques, arches,
+  the green canvas-glass palette, the wall and ledges, other spine/filter/store options). Don't restore it.
+- Where a canvas has `generate*.py`, edit the generator, not the generated `.html`.
 
-**Bump the `?v=` query on the CSS and JS links in `index.html` (and `article.html`, which loads the same `styles.css`) whenever you change those files.** The
-static server sends no cache headers, so browsers keep old copies; a stale `main.js`/`curriculum.js`
-under a new `styles.css` renders plausible-looking but wrong markup (old spines, unstyled Details,
-carousel arrows stacked around the slides) and has already been mistaken for layout bugs. The JSON is
-fetched with `cache: "no-cache"`, so content edits don't need this.
+### Look
 
-## The mockup is the specification
-
-**`design/canvas-daynight/index.html` is the authoritative design.** It is the page in two modes,
-**light and dark**, both laid out after mockup B, "Night Masjid", of `design/canvas-modern/`
-(`b-night.html`): a centred header over a full-height banner, centred section heads (a ✦ eyebrow,
-letter-spaced display capitals, an italic lede), fee panels and timing tiles, a teacher mosaic, an
-featured article over a carousel of articles, three videos across. **Alumni is the exception**: in both modes
-it keeps the site's mihrab niches, hung straight on the page (the wooden wall behind them was removed
-in both). Each mode keeps its own colours — dark is B's espresso and gold; light is the palette below
-on a **pale tint of the shelf's wood** (#f2dec6 → #e9cdae, plain, no grain) with **every section title
-in dark brown**. In the rounds that led there, a ground of the shelf's exact wood (cream titles) and a
-grained tint were tried and dropped. The switcher in that mockup's corner is mockup-only; the site has
-the header's sun/moon toggle. The other mockups in `canvas-modern/` (A, C–F) are historical.
-
-Before that, **`design/canvas-glass/`, the artboard "B3 · revised" (`WatercolourMounted.dc.html`) on the
-canvas's *Light blends* page, was the authoritative design**; its layout is superseded, but its kitab
-bookshelf stands. It was reached in rounds, and the canvas keeps them:
-
-- *Six directions* — the first modern explorations (glass, bento, motion, photo hero).
-- *Combined* — the banner and teachers of 1, the shelf of 2, the testimonies of 6, in three binding
-  traditions. **B (Islamic kitab)** won: its bindings, centred intro statement and two-panel Details.
-- *Light blends* — B on soft white/green grounds. B3 (mint pools) won, then was revised: the shelf went
-  full-bleed and bolted, the pools moved to the margins so they never tint a card, and Details went green.
-  (The site has since been recoloured brown and gold; see below. Follow the canvas for layout, not colour.)
-
-The `.dc.html` files are generated by `generate.py`, `generate_combined.py` and `generate_light.py` in
-that folder; edit the generators, not the output. The seeded `alimiyyah-modern-directions.html` is the
-published canvas.
-
-Everything older in `design/` is **historical** — `canvas-modernize`, `canvas-bookshelf`,
-`canvas-arches`, `canvas-placement`, `canvas-forms`, `canvas/` and `wesbite_design.png`. Its layout,
-the aged-leaf ground, the khatim dividers, the plaques and the arches don't stand. Don't restore them.
-
-`design/canvas-article/` settled **the article page**, in two rounds: round 1 (`generate.py`, five
-options) chose **option 1, the banner** — the home page's banner, shorter, carrying the article's
-subject, title and byline, over one 680px column; round 2 (`generate_sides.py`) tried five ways to fill
-the column's empty margins (marginalia, rails, contents, a wooden bay, breakouts) and **none was taken:
-the sides stay empty on purpose**. Don't fill them. The other options of both rounds are historical.
-
-`design/canvas-details/` settled the two Details cards, and **both rounds are built**. Round 1
-(`index.html`) gave them a real title: **option 1**, a Cormorant display line in bright gold
-(`.card__title`), where they had only the small uppercase kicker. Round 2 (`grooves.html`) took the gold
-out of the rules inside them, which were too faint on the board and competed with the figures: **option
-2**, a routed channel, under the title, between the timing groups and at the foot of the tiers, and
-**option 3**, a chisel run that fades out at both ends, between the family-discount rows. The other
-options on both pages — the kitab cartouche, the engraved head band, the incised hairline — are
-historical. The cards themselves have since been re-laid as B's two panels and a timing tile per group;
-what survives of those rounds is the gold display title on the board (`.panel__title`) and grooves cut
-into the board instead of gold rules (`.discounts__row`, `.tile__row`) in light mode.
-
-`design/canvas-expand/` settled the book's full view (the *folio*), and **round 3, `widen.html`, is
-built**. Round 1 (`index.html`) offered five manuscript treatments; **option 4, the jadwal** (ruled
-frame in gold, ink and red on an aged leaf), won. Round 2 (`jadwal.html`) reworked it: cover down the
-whole left side, subject above the title, the Urdu on the title's line, the author beneath, no margin
-column and no mention of the year. Round 3 made the reading bay widen across its row, because a
-half-row cover was cut to a strip that read as stretched. Rounds 1 and 2 are historical, and both
-wrongly pair Second Year with Third; on the site it stands on the right beside First Year.
-
-`design/canvas-spines/` settled the spines and how a book is opened, in three rounds, and **the
-choices of rounds 2 and 3 are built**. Round 1 (`index.html`) offered four green-and-gold bindings;
-**1, tooled goatskin**, won. Round 2 (`goatskin.html`) shared its green and gold four ways; **3, the
-emerald panel**, won. Round 3 (`hover.html`) replaced the small card that opened in the shelf with a
-preview on hover and the folio on click; **3, the pulled slip**, won. Round 4 (`colours.html`) kept that
-binding and tried ten sets of leathers; **1 (lapis), 2 (ink), 3 (oxblood), 5 (navy and black in silver),
-7 (aubergine), 8 (petrol) and 9 (slate in copper)** were chosen and are built as the values of a year's `color`. The rest of
-round 4, and the green of rounds 1–3, are historical. So are the other options of rounds 1–3.
-
-**The light palette is not the canvas-glass green.** It is *Chocolate & Bright Gold*, theme 12 (round
-3) of `design/canvas-gold/`: the brand brown `--rust` rgb(189, 93, 15) for the dots, the active dash and
-the chip bullet (round buttons and carousel arrows are cream with a brown chevron, see below);
-**all text on the light ground and the cream panels is `--brown-ink`, the dark brown #462c16** — section
-titles (as a gradient through it), body copy, the program panel, teacher names, the slip. Small
-labels on the ground are gold darkened to #7d5006 (~5:1). `--brown-ink` is its own token, *not*
-`--wood`: text must never follow the wood. The darker board (`--board` → `--board-deep`) carries the
-Details panels and tiles, the article panel, the plain video tiles and the footer, with bright gold
-titles and a rust edge; gold buttons with `--espresso` ink. The other themes in `design/canvas-gold/`
-are historical. The wooden shelf and the book leathers were never recoloured.
-
-**The logo** is `assets/img/logo_{black,gold,white}.png` (4236px masters); the page uses trimmed 520px
-copies, `logo_black_web.png` and `logo_gold_web.png` (`convert logo_X.png -trim +repage -resize 520x
--strip logo_X_web.png`). Black goes on the light ground (the section dividers in light mode), gold on
-everything dark: the dividers in dark mode, and the footer in *both* modes (the header has no logo), because the
-banner photo and the footer board are dark in light mode too.
-
-**Dark mode** is B's own: an espresso ground (#26140a → #1a0d04 under two faint warm glows), gold
-gradient capitals, and panels of dark glass (`rgba(255, 236, 210, 0.045)`) edged in faint gold, with
-a gold line along their tops. Its tokens are in `[data-theme="dark"]` in section 1 of `styles.css`, and
-its panel overrides are all in section 12; light needs no selector, it is the default.
-
-**Every wooden surface is rgb(161, 101, 65)** (`--wood`, `design/canvas-oak/`): the bays and the
-niche mouldings. **The panels that carry text are cut from a darker board of it** — `--board` #6b3f26 →
-`--board-deep` #3c2213, for the Details panels and tiles and the footer; the wells and the niche
-recesses stay dark too. That is option 1 of `design/canvas-oak/` (round 2, "Deeper boards"),
-chosen because cream copy and gold figures read at only 4.8:1 straight on the wall and at 11.3:1 on the
-board. The other four options there — a cream inset, an oiled glaze, engraved bands and a brass plate —
-and round 1's dark-gold text (`golds.html`, rejected: text on white stays dark brown) are historical.
-
-The grain is SVG noise in data URIs, not images, held in `:root` as `--grain-streaks`,
-`--grain-rings`, `--grain-pores` (together `--grain`, sized by `--grain-size`) and the upright
-`--grain-v` for the wells; each is black-with-alpha laid over a gradient, so the same grain finishes any
-shade. They were produced by `design/canvas-wood/generate.py` (finish 1, walnut) with their black
-softened for this lighter wood — streaks `0.85/-0.4`, rings `0.12`, pores `0.7/-0.42`; at full strength
-every surface came out about a third darker than the colour asked for. To retune, change the generator,
-regenerate, and soften the finish-1 URLs the same way. A `background` that uses `var(--grain)` must
-list `var(--grain-size)` in its `background-size` at the same position, or the gradient under it tiles.
-`design/canvas-wood/` itself (walnut, mahogany, oak) is historical.
+- **Light** (default, no selector): a pale tint of the shelf's wood (#f2dec6 → #e9cdae, plain, no
+  grain). **All text on the light ground and cream panels is `--brown-ink` #462c16** — its own token,
+  never `--wood`. Section titles are a dark-brown gradient. Small labels on the ground are #7d5006.
+  `--rust` rgb(189,93,15) for dots, active dash, chip bullets. Darker board (`--board` #6b3f26 →
+  `--board-deep` #3c2213) carries Details, article panel, plain video tiles and the footer, with bright
+  gold titles; gold buttons with `--espresso` ink.
+- **Dark** (`[data-theme="dark"]`, tokens in section 1 of `styles.css`, panel overrides in section 12):
+  espresso ground (#26140a → #1a0d04), gold gradient capitals, dark-glass panels edged in faint gold.
+- **Every wooden surface is `--wood` rgb(161,101,65)** (bays, niche mouldings); text-bearing panels use
+  the darker board (cream on raw wood is only 4.8:1). The shelf and book leathers are never recoloured.
+- **Grain** is SVG noise in data URIs in `:root` (`--grain-*`, `--grain-v`), generated by
+  `design/canvas-wood/generate.py` (finish 1) and softened. A `background` using `var(--grain)` must
+  list `var(--grain-size)` at the same position in `background-size`, or the gradient tiles.
+- **Logo**: `assets/img/logo_{black,gold}_web.png` (520px trims of the 4236px masters). Black on the
+  light ground (section dividers in light), gold on everything dark, including the footer in both modes.
+  The header has no logo.
+- Section titles are Gilda Display capitals (`--title`); other display text is Cormorant.
 
 ## Architecture
 
 ### Content is data, markup is a shell
 
-`index.html` contains no copy, no book lists, no teacher names. It provides empty elements tagged
-`data-slot="…"`; `assets/js/main.js` fetches the five `content/*.json` files and fills them in.
-`article.html` is the one other page, a shell filled the same way by `assets/js/article.js` (see
-*The article page* below). Adding a
-book, teacher, testimony, article, video or price is a JSON edit only. (The few strings in the HTML —
-"Curriculum", "Details", "Articles" — are fallbacks.)
+Pages contain no copy; empty elements tagged `data-slot="…"` are filled by a script from
+`content/*.json`. Changing what's displayed usually means editing **the JSON shape and its render
+function**, not the HTML (the few strings in HTML are fallbacks).
 
-Changing what is displayed therefore usually means editing **both** the JSON shape and the matching
-render function in `main.js` — not the HTML. JSON fields that shape presentation:
+| Page | Script | Data |
+|---|---|---|
+| `index.html` | `main.js` (+ `carousel.js`, `curriculum.js`, `bookstore.js`, `nav.js`) | all six JSON files |
+| `article.html?id=` | `article.js` | `media.json` |
+| `teacher.html?id=` | `teacher.js` | `teachers.json` |
+| `bookstore.html?group=` | `bookstore.js` (after `curriculum.js`) | `bookstore.json` |
+| `book.html?id=&print=&paid=1` | `book.js` (after `curriculum.js`) | `bookstore.json` |
 
-- `hero.titleEmphasis` — the word of `hero.title` set in italic (gold in light; in dark the whole title is gold).
-- Every section head is `kicker` (the ✦ eyebrow; the ✦ are CSS) and `heading`, with no lede:
-  `introduction.kicker/label`, `details.kicker/heading`, `curriculum.kicker/label`, `teachers.kicker/heading`,
-  `articles`/`videos.kicker/heading` in `media.json`, `testimonies.kicker/heading`. An empty kicker hides.
-- `timings.groups[]` — **one tile per group**, labelled with its `label` and `years`, with a grooved
-  row per `rows[]` entry (days and time). No sun/moon icon.
-- `fees.discounts` fills the second Details panel; without rows the panel stays hidden and Fees takes
-  the width.
-- The first teacher is the large tile of the mosaic. A name starting `TODO` renders as a dashed tile.
-- Each article's `id` (unique across both lists) gives it its page, `article.html?id=<id>`, which the
-  featured article's title and Read button open; `body` is that page's text, a list of blocks (a
-  string is a paragraph, `{"heading"}` a section heading, `{"quote", "source"}` a quotation). A
-  non-empty `href` sends the article to that address instead of its page. A paragraph or quotation
-  may carry `**bold**`, `_italic_` and `[words](address)` (a backslash keeps `\ * _ [ ]` literal);
-  headings and sources are plain. `inline()` in `article.js` renders it, escaping everything else,
-  and allows only web, mail and phone links.
+**Duplicated code that must be kept in step** (the page scripts are self-contained on purpose):
 
-### The article page
+- The header, menu and footer markup is copied across all five HTML pages. Change one, change all.
+- The footer's contact lines are rendered by each page script: `main.js`, `article.js`, `teacher.js`, `bookstore.js`, `book.js`.
+- `inline()` (the `**bold**`/`_italic_`/`[link](href)` renderer, web/mail/phone links only) lives in
+  `article.js`, `teacher.js` and `tools/admin/editor.js` (with its inverse `toMarkup()`).
+- `printsOf()` in `bookstore.js` and `book.js`.
+- `BINDINGS` in `curriculum.js`, `tools/admin/shelf.js`, `tools/admin/bookstore.js` and
+  `tools/admin_server.py`. Add a binding in all four.
+- The theme key `alimiyyah.theme`: the inline `<head>` script (sets `data-theme` before first paint)
+  and `nav.js`.
 
-`article.html` + `article.js` (self-contained, loaded after `nav.js`; it shares no code with
-`main.js`, so the footer's contact lines are rendered by both). It reads `?id=`, finds the article in
-either list of `media.json`, and fills: the banner (`.a-hero`, the `.hero` with the tint evened out for
-a centred title) with a "← Articles" link back to `index.html#articles`, the subject chip, the title
-and author · read time; the excerpt as an italic `.lede`; the `body` blocks into `.prose` (a 680px
-column; a quotation sits between hairlines parted by the testimonies' quote mark, drawn as two
-backgrounds so the ground shows through); then, under a section rule, **the other articles of the
-same list** (up to four, `.more`, the home page's `.slider__card` board cards as links, numbered by
-their place in the list). An unknown id shows "Article not found". Its styles are at the end of
-section 11 of `styles.css`. The header, menu and footer markup is copied from `index.html` with its
-links pointed at `index.html#…`; change one, change both.
+### Script globals (load order matters)
 
-### The local editors (articles and bookshelf)
+- `carousel.js` → `window.createCarousel({mount, items, render, perView, label, controls})`, returns
+  `{go, layout, destroy}`. Before `main.js`.
+- `curriculum.js` → `window.renderCurriculum(mount, data)` and `renderCurriculum.drawnCover`. Before
+  `main.js`, `bookstore.js`, `book.js`.
+- `bookstore.js` → `window.renderBookstore(data, all)` (+ `.tab()`, `bookstore:tab` event). Before `main.js`.
+- `main.js` exposes `renderTeachers`, `renderMedia`, `renderTestimonies` for the editors; calling them
+  again destroys the previous carousels.
+- `nav.js`: full-screen menu (focus trap, Escape) and the theme toggle.
 
-`tools/admin_server.py` (standard library only) serves the site like `http.server`, with
-`Cache-Control: no-store` so no `?v=` bump is needed while it runs, and adds two things: it appends
-an editor and `tools/admin/editor.css` to a page **as it sends it** (`editor.js` to `article.html`,
-`shelf.js` to `index.html` and `/`; the files on disk never have them), and it answers `GET`/`PUT` at
-`/__admin/articles` and `/__admin/curriculum` (the `RESOURCES` table: each names its file, what the
-editor is sent, and how a save is checked and applied). **The public site therefore has no editor and
-nothing that can write**: keep every admin line out of the site's HTML and JS. It binds to 127.0.0.1 and refuses a `Host` or `Origin` that isn't this machine (DNS
-rebinding, other pages' requests).
+### JSON fields that shape presentation
 
-An article save sends every article list; the server checks it (ids are lowercase-hyphen slugs, unique across
-the lists; a title; body blocks of the three shapes), replaces only `articles.brothers`/`sisters`,
-keeps the rest of `media.json` untouched, and writes it as `json.dumps(indent=2, ensure_ascii=False)`,
-which reproduces the file byte for byte. A curriculum save sends and replaces `years` (each needs a
-name and books; each book a title and a `book_size` of small, medium or large), keeping `label`,
-`kicker` and `note`. Either copies the old file to `.admin-backups/` (the last 30 of each,
-gitignored) and writes atomically. Each load carries a hash of the file; a save against a changed file
-gets a 409 and the editor asks before overwriting.
+- Section heads: `kicker` (✦ eyebrow; empty hides) + `heading`/`label`, no lede.
+- `hero.titleEmphasis`: the italic word of `hero.title`.
+- `timings.groups[]`: one tile per group (`label`, optional `years`), a row per `rows[]` entry.
+- `fees.discounts`: the second Details panel, hidden without rows. `fees.cta` (`{label, href}`, `null`
+  hides) is the hook for future enrolment.
+- Teachers: `width` 1–4, `height` 1–3 (omitted at 1), `bioBeside` (width ≥2), `id` (slug → page),
+  `body` (strings = paragraphs, `{"heading"}`). Cards stand in list order, packed dense.
+- Articles (`media.json` `articles.brothers`/`sisters`): `id` unique across both lists, `body` blocks
+  (string, `{"heading"}`, `{"quote","source"}`), a non-empty `href` replaces the page. Videos are one
+  list, `videos.items`.
+- Curriculum: each year's `color` (a binding) binds its books; a book's `book_size`
+  small/medium/large picks from `SIZES`; `description` (slip, ~two sentences, clamped at six lines) vs
+  `long` (folio only). A title starting `TODO` renders a dashed placeholder everywhere.
+- Bookstore books: one posting per book (`years` lists every year it's taught), `subject`, `edition`,
+  `price` (text), `description`, `cover`, `featured`, `size` (`large` 2×2 / `medium` 2×1), `tint`,
+  `id`, `buyHref`, `soldOut`. A book in several editions has `prints: [{edition, price, cover,
+  buyHref, soldOut}]` instead of those five fields. `subjectGroups` (hand-edited, not by the editor)
+  makes the bookstore tabs; `layouts` gives a tab its own `order`/`large`/`medium`.
 
-`tools/admin/editor.js` turns the page itself into the editor: the title and excerpt edit in place,
-each body block (`.adm-block`) is its element as `article.js` draws it, made `contenteditable`, with
-tools in the left margin (type ¶/H/❝, up, down, delete). A bar at the foot formats (B, I, link) and
-adds blocks, and a side panel holds the list, position, subject, author, read time, id and `href`, and
-switches, creates and deletes articles; edits to several articles are saved together. Enter splits a
-paragraph, Backspace at its start joins it to the one before, and pasting is plain text, one paragraph
-per line. The editor keeps its own copy of `inline()` for loading and `toMarkup()` for saving; **change
-the markup in `article.js` and change both there**. "Done" reloads the page, so what shows is
-`article.js`'s own rendering of what was saved.
+### Selling books
 
-`tools/admin/shelf.js` opens a panel beside the shelf (the page narrows for it above 1100px) with a
-year's name, binding and books in order, and the picked book's fields: title, Urdu title, subject,
-author, description (the slip), `long` (the folio), size, its own binding or the year's, cover path
-(with a thumbnail that says whether the file exists) and its year. It adds, reorders, moves and
-deletes books. While it is open, a click on a spine is caught on the shelf in the capture phase and
-picks that book instead of opening the folio ("Open full view" lets one through). Every change
-redraws the shelf with the site's own `window.renderCurriculum`, so spines, slip and folio preview
-the edit exactly. `long`, `cover` and `color` are dropped from a book when emptied; its list of
-binding names copies `BINDINGS` in `curriculum.js`, so **add a binding there, add it here**.
+**No backend; nothing on the site takes a payment.** Each book (or print) has a Stripe Payment Link
+(`buyHref`, must start `https://buy.stripe.com/`) that redirects to `book.html?id=<id>&paid=1`
+(`&print=<n>` for a print). `?paid=1` is cosmetic; the emailed receipt is the proof. Stock isn't
+counted (`soldOut` by hand). Stripe charges the link's price, so keep `price` equal to it. **No secret
+key or server code belongs in the repo.**
 
-### Script load order matters
+### Book photographs
 
-`carousel.js` and `curriculum.js` attach exactly one global each and must load before `main.js`:
+`tools/covers.py` (Pillow, numpy) cuts each photograph to the book and writes
+`assets/img/books/tight/<name>.jpg` plus `tight/covers.json` (crop, aspect, colour). **Run it after
+adding or replacing a photograph**, and deploy `tight/` after editing an image. Hand crops/rotations
+from *Edit image* live in `tools/cover_edits.json`; the originals are never changed.
 
-- `carousel.js` → `window.createCarousel({mount, items, render, perView, label, controls})`
-- `curriculum.js` → `window.renderCurriculum(mountEl, data)`
-- `nav.js` is self-contained: the full-screen menu (Escape closes, Tab stays inside, focus goes to its
-  ✕ and back to the opener) and the light/dark toggle. **The theme is set before first paint** by the
-  inline script in `index.html`'s `<head>` — the stored choice (`alimiyyah.theme`), else
-  `prefers-color-scheme` — as `data-theme` on `<html>`; `nav.js` flips it and stores it. Keep the key the
-  same in both places.
+### The local editors (`tools/admin_server.py`)
 
-One carousel serves Articles, Videos and Alumni; its arrows hide when every slide fits. It pages by whole screenfuls, sizes slides in px from the
-measured viewport (re-layouts on resize and `document.fonts.ready`), and sets `tabindex="-1"` on
-off-screen slides. It returns `{go, layout, destroy}`; `destroy()` removes the carousel, its arrows and
-its resize listener, so a section can rebuild it with other items. **`controls`** is an element to put
-the arrows in — a section head, say. **No section passes it any more: every carousel's arrows flank
-its slides**, vertically centred on the cards, in a `:has()`
-grid whose side columns are `--arrow-col` (48px, 40px below 640px). (Videos and Alumni used to put
-theirs in the section head; the option and its `.carousel-controls` styling are kept, unused.) The arrows themselves are cream
-with a dark brown chevron in light mode, and dark glass with a gold chevron in dark. Don't give `.carousel__viewport` horizontal padding: slide widths are
-measured from its box. Its vertical padding (16px top, 64px bottom, cancelled by negative margins)
-exists so the cards' hover lift and shadow aren't clipped into a hard line; keep the top shallow or
-it covers the arrows in the section head.
+Standard library only. It serves the site with `Cache-Control: no-store`, **injects** the editors
+(`tools/admin/*.js`, `editor.css`) into pages as it sends them, and answers `GET`/`PUT
+/__admin/<resource>` (the `RESOURCES` table: articles, curriculum, teachers, videos, testimonies,
+bookstore, plus `/__admin/cover`). **The bookstore dashboard** is a page of the server's own,
+`/__admin/books` (`tools/admin/books.{html,js,css}`, linked from the bookstore editor's launch
+buttons): every book with each print on its own row, edited in a drawer and saved through
+`/__admin/bookstore`. Its photo upload, `PUT /__admin/photo`, writes a new JPEG under an unused name
+(`<id>.jpg`, else `<id>-v2.jpg`…, never over an existing photograph) and runs `covers.py` on it at once. **The public site must have no editor code: keep every admin line
+out of the site's HTML and JS.** It binds 127.0.0.1 and rejects foreign `Host`/`Origin`.
 
-**The viewport also drags.** One pointer path serves mouse, pen and finger (the old touch-only swipe
-is gone): the track follows the drag live with its transition off (`.carousel__track--dragging`),
-rubber-bands past either end, and snaps to a page on release. A first move that is mostly vertical
-hands the gesture back to the page, which is what `touch-action: pan-y` on the viewport is for, and a
-drag of more than 6px swallows the click that follows so it can't open the card underneath. A
-horizontal wheel — a trackpad, or shift + wheel — pages too, throttled to one page per 420ms;
-vertical wheel is left to the page. `.carousel--draggable` (set in `apply`, only when there is more
-than one page) carries the grab cursor.
+Each save is validated, replaces only its own keys (keeping e.g. `note`, `subjectGroups`), backs up
+to `.admin-backups/` (last 30), writes atomically as `json.dumps(indent=2, ensure_ascii=False)`, and
+gets a 409 if the file's hash changed since load (articles and videos share `media.json`'s hash). Each
+editor redraws with the site's own render function, so the preview is exact. On `bookstore.html` the
+bookstore editor edits the open tab's layout.
 
-### The page, top to bottom (`styles.css`, numbered sections)
+## Things that bite
 
-- **Header** — B's: a round menu button on the left (no mark or name: both were removed) and, on the right, the sun/moon toggle beside an
-  outline "View Curriculum" pill (hidden below 980px). It sits `absolute` over
-  the banner and scrolls away with it. The round buttons over the photograph are dark glass in both
-  modes. The menu is a full-screen overlay of the links (`.menu`); it becomes visible at once on open
-  (only its fade-out is delayed) so focus can land on its ✕.
-- **Hero** — full height (`max(640px, 100vh)`), `hero-masjid.jpg` under a tint dark down the left for
-  the text; the title in capitals, subtitle and CTA.
-  **The banner blends into the ground**: `.hero::after` is a tall eased gradient drawn over the photo
-  that ends in exactly `--hero-fade`, the top colour of each mode's ground. Change a ground and change
-  `--hero-fade` with it, or a line reappears.
-- **Section heads** (`.section__head`) — centred: ✦ eyebrow, the title in letter-spaced Gilda Display
-  capitals (`--title`; chosen over ten candidates, the rest of the display text stays Cormorant) filled with `--g-title` (a dark-brown gradient in light, gold in dark), italic lede.
-  **Sections are divided by `.section-rule`**: in light a 4px deep-gold bar with a lit edge (thin gold
-  lines were too faint on the tint), in dark B's 1px gold line. The line is parted in the middle for
-  the logo (black in light, gold in dark). It is all backgrounds on the `<hr>`, set by the `--rule-*`
-  tokens; the box is as tall as the logo, with negative margins so the line stays where it was.
-- **Our Program** — a cream panel in a gilt hairline (dark glass in dark).
-- **Bookshelf** (`.library`) — see below.
-- **Details** — Fees (two tiers) and Family discounts as two panels, then "Class Timings" and a tile
-  per group of class times. Light: the dark board, gold figures, grooves for rules. Dark: glass.
-- **Teachers** (`.mosaic`) — the first teacher two rows tall, the rest in a four-column grid (two below
-  980px, one below 560px). Light: the cream card in a double gold frame drawn with inset shadows, the
-  name the focus, a gold hairline over the lead's bio. Dark: board tiles darkening to their foot.
-  No monogram, no star.
-- **Articles & Videos** — from `content/media.json`, which keeps a `brothers` and a `sisters` list for
-  each. Each head holds a Brothers | Sisters segmented control (two buttons, `aria-pressed`). **The two
-  controls are one choice**: either rebuilds *both* sections (`renderMedia`; each section's handle is
-  `destroy()`ed first), and the choice is remembered in `localStorage` (`alimiyyah.audience`, wrapped
-  in try/catch). An empty list shows a "No sisters' videos yet." card. An optional
-  `moreHref`/`moreLabel` shows an "All …" link under the control.
-  - **Articles** (`renderArticles`): the featured article on top — a board panel beside the article
-    (subject chip, read time, a count, title, author, excerpt, a Read button when there is an `href`) —
-    and beneath it a carousel (the shared `carousel.js`) of every article as a board card, four across
-    (three below 1200px, two below 880px, one below 560px). The featured card is marked with
-    `aria-current` and a gold ring; clicking a card features it (and scrolls the feature back into
-    view if it is above the screen).
-  - **Videos** are a carousel of 16:9 cards, three across (two below 1040px, one below 700px), caption
-    beneath; without a `thumbnail` they alternate the masjid photo and a plain board.
-- **Testimonies** (`.niches`) — each testimony is a **mihrab niche** (`.niche-slot` > `.niche` moulding >
-  `.niche__recess` + `.niche__sill`), three to a page, hung straight on the page's ground. The pointed
-  arch is one SVG path in a 100×600 box,
-  held as four data-URI tokens on `.niche-slot` (`--niche-mask`, `--niche-shade`, `--niche-edge`,
-  `--niche-rim`) and laid on at `100% auto`, so the arch keeps its proportions at any width; the recess's
-  inner shadow is a blurred stroke inside that SVG because `box-shadow` can't follow a mask. The drop
-  shadow is a `filter` on `.niche-slot`, the parent, since a mask clips its own element's shadow. To
-  change the shape, change the path in all four tokens and `--niche-pad` (where the text starts, as % of
-  the width). Niche option 1 of `design/canvas-testimonies/index.html`. In dark the moulding is dark with
-  a gold rim and the sill a glowing gold line.
-- **Footer** — the mark, and a Contact column of address, email and phone, each by a round icon. Light:
-  the dark board. Dark: a darker band under a gold hairline.
-- **Motion** — `.rv` rises as it scrolls into view using `animation-timeline: view()` inside
-  `@supports`, so browsers without view timelines just show everything. `prefers-reduced-motion`
+- **The banner blends into the ground**: `.hero::after` ends in exactly `--hero-fade`. Change a
+  mode's ground, change `--hero-fade` with it.
+- **Carousel**: don't give `.carousel__viewport` horizontal padding (slide widths are measured from
+  its box). Its vertical padding (cancelled by negative margins) keeps hover shadows unclipped. Arrows
+  flank the slides; the `controls` option is kept but unused. It drags (pointer), pages on horizontal
+  wheel, and a >6px drag swallows the following click.
+- **Bookshelf** (`curriculum.js`):
+  - Years pair two to a row; seven years make four boards. Each well scrolls sideways, never wraps
+    (`justify-content: safe center`).
+  - The 300px well height is derived from the tallest spine (268) + headband + hover lift. Grow
+    `SIZES` → grow the well.
+  - Pointing at a spine shows the slip (one per shelf, appended to `<body>`, `aria-hidden`, ignores
+    touch); clicking opens the folio in place of the well. Where bays pair (≥881px) the reading bay
+    widens across the row — **881 must stay in step with the 880px breakpoint**.
+  - Spines are SVG drawn at the book's exact size (`drawSpine`); titles are fitted by measuring
+    (`fitText`/`widen`) after render and on `document.fonts.ready`.
+  - Keyboard: each well is `role="group"` with a roving `tabindex`; arrows/Home/End move, Enter/Space
+    opens, Escape closes. Don't reintroduce `tablist`/`tab`/`tabpanel`.
+- **Niches**: the arch is one SVG path in four data-URI tokens on `.niche-slot` plus `--niche-pad`;
+  change all five together. The drop shadow is a `filter` on the parent because a mask clips its own.
+- **Bookstore medium tiles** use `contain: size` so they don't grow their row.
+- **Motion**: `.rv` uses `animation-timeline: view()` inside `@supports`; `prefers-reduced-motion`
   switches all animation off.
-
-### Curriculum bookshelf
-
-**There is no wall any more**: the bays stand straight on the page under a section head. (The
-full-bleed bolted wall and the ledges of spare books in its margins went with the canvas-glass layout.)
-
-`curriculum.js` pairs years two to a row and gives a lone trailing year a whole row — **seven years
-produce four boards**. A bay is B's rounded frame with a gold line along its top — wood in light,
-glass in dark — a dark well, a glowing gold line for the plank (`.bay__plank`) and the year
-(`.bay__year`).
-
-- **A book is a slot (`.book`) holding its spine, a `<button>`.** There is no small card any more.
-  **Pointing at a spine (or tabbing to it) draws out the slip**, a preview beside the book; **clicking
-  it (Enter or Space) opens the folio**. The slot keeps the spine's footprint and never moves, so the
-  slip is placed against the slot, not the spine, which leans out on hover.
-- **The slip** (`.slip`, `createSlip`) is a ruled leaf in the folio's paper and jadwal (a dark leaf in
-  dark mode) with a ribbon marker, red in light and lapis blue in dark: subject, title with the Urdu beside it, the author beneath in grey (as written, not capitals), `description`, and
-  "Click to see more" ("Press Enter to see more" when it came from the keyboard). There is **one per
-  shelf, appended to `<body>`** and placed in page coordinates, so the well's sideways scroll can't clip
-  it. It sits on the book's right, or its left when the right is too near the edge of the screen
-  (`.slip--left`), and is clamped inside the viewport on phones. It is only a preview: `aria-hidden`,
-  `pointer-events: none`, never focused; the folio carries the text for everyone. The first one waits
-  120ms (so a pointer crossing the shelf doesn't flash slips), and moving along the shelf after that
-  swaps them at once. Touch is ignored (`pointerType === "touch"`), so a tap goes straight to the folio.
-  It follows its book when the well scrolls, and hides on blur, Escape and when the folio opens.
-  `renderCurriculum` destroys the previous shelf's slip before building a new one. Option 3 of
-  `design/canvas-spines/hover.html`.
-- **The folio** (`.folio`, `buildFolio`): the book at full size *in place of the bay's well* (the well
-  is `hidden`; plank and year label stay). A jadwal leaf: cover down the left, then subject, title with
-  the Urdu on the same line, author, `long` (or `description`) and a decorative catchword. Focus goes to
-  its ✕; Escape or ✕ closes it with focus back on the spine, whose `aria-expanded` tracks it. Opening
-  any other book closes the folio. **Where bays are paired (≥881px) the reading bay takes the
-  row**: `shelf--reading-l`/`-r` set the tracks to `calc()` lengths (so they animate) and the neighbour
-  narrows to `--narrow` 232px. That 881px must stay in step with the 880px breakpoint. The cover column
-  is 200–280px and the cover is capped at 1.45× its width (`32cqi`, the folio is an inline-size
-  container), so it runs the full height at full width but never draws out on mid-size screens. A book
-  without `cover` gets its binding drawn face-on as a 300×400 SVG (`drawnCover`, the spine's drawing
-  laid out as a cover, title in Georgia because webfonts don't reach an SVG in an `<img>`), with empty alt.
-- **Spines are Islamic bindings in dark leathers and metal tooling**: the *emerald panel* (option 3) of
-  `design/canvas-spines/goatskin.html` in its layout, a variation on round 1's "tooled goatskin". A tooled
-  frame with a braid down both edges, a lighter panel inside them, a pendant at the head, the title in a
-  dark ogee cartouche with a double line and a finial at each point, a lozenge, the subject, a fillet
-  at the foot, and a leather-and-metal chevron headband on `::before`. Flat, no raised bands.
-  No stars. The ornament is an SVG `drawSpine` draws **at the book's exact size** (`.spine__art`), so
-  nothing stretches; the title and subject are HTML over it (`.spine__box`) in solid colour, not a gilt
-  gradient, for readability. The other options in `design/canvas-spines/` are historical.
-- **Titles are fitted by measuring** (`fitText`): 14.5px Cormorant bold, shrunk at most 3px on one
-  line, else wrapped to two lines down the spine and shrunk to at most 10.5px. It runs after render
-  and again on `document.fonts.ready`, and skips boxes that aren't laid out (a hidden well).
-- **Size comes from `--w`/`--h`, the binding from `color`.** Both are data. Each book's `book_size`
-  (`small`/`medium`/`large`, default medium) picks from `SIZES` (52×236, 56×252, 60×268). **Each year's `color`
-  binds all its books** (a book's own `color` overrides it; none does now), picking from `BINDINGS`: `lapis`, `ink`, `lapis-silver`, `ink-silver`, `petrol`, `slate`, `oxblood` or
-  `aubergine` (default lapis). A binding is a metal from `METALS` (gold, silver, copper: the tooling, lettering and headband)
-  and six shades of [edge leather, lighter panel]; the shade is taken by the book's *position in its
-  year*, so neighbours in one colour still differ and a book keeps its binding on every load.
-  `drawSpine` and `drawnCover` draw in the binding's metal; the CSS reads `--c` (leather), `--hb`,
-  `--hm`, `--hm-pale` (headband) and `--ink`, `--ink-sub` (lettering), set on the spine by `buildBook`.
-  One year to a binding: I lapis, II petrol, III ink, IV oxblood, V aubergine, VI ink-silver, VII
-  petrol again (VII stands alone on its board; `slate` and `lapis-silver` are unused).
-- **The 300px well height is derived**: the tallest spine (268) plus its 4px headband and the hover
-  lift. Make `large` taller in `SIZES` and the well must grow with it.
-- **A well scrolls sideways; it never wraps.** `justify-content: safe center` keeps the left-hand
-  books reachable once a centred row overflows.
-- **Descriptions in `curriculum.json` should stay short, about two sentences**: the slip shows
-  `description` and clamps it at six lines. The longer text belongs in `long`, which only the folio
-  shows (blank lines split paragraphs).
-- **Hover leans the book out** (`rotate(-6deg)` about its bottom-left corner). Not on TODO spines.
-- **Keyboard**: each well is a `role="group"` with one tab stop (roving `tabindex`); arrows and
-  Home/End move within it and the slip follows the focus (the well scrolls first, then focus moves with
-  `preventScroll`, so the slip is placed where the book ends up). Escape puts the slip away. The folio
-  sits outside the well and handles its own Escape. Opening is Enter or Space, never an arrow. Don't
-  reintroduce `tablist`/`tab`/`tabpanel`.
-- **A placeholder is detected from the data**: `isTodo()` tests the title for a leading `TODO`. Those
-  spines are dashed outlines reading TODO, can't be opened or previewed, and carry `aria-disabled`
-  instead of `aria-expanded`.
 
 ## Verifying changes
 
-Headless Chrome is the fastest way to check a visual change without a browser (on Windows use
-`chrome.exe --headless=new`; on Linux a Playwright `chrome-headless-shell` works):
+Headless Chrome (Playwright's `chrome-headless-shell` on Linux):
 
 ```sh
 chrome --headless=new --disable-gpu --hide-scrollbars --window-size=1440,5600 \
   --virtual-time-budget=12000 --screenshot=out.png http://127.0.0.1:8000/
 ```
 
-Gotchas:
-
-- **The hero plays in on load**, and a screenshot can land mid-animation: a faint subtitle or a missing
-  CTA is usually that, not a bug. Raise `--virtual-time-budget` before chasing it.
-- **Headless Chrome clamps the window to ~485 CSS px minimum.** To test phone widths, load the page in
-  an `<iframe>` of the target width inside a wrapper page and measure
-  `contentDocument.documentElement.scrollWidth` vs `clientWidth`.
-- `--screenshot` cannot run JS, so to capture an interactive state (a slip, an open folio, the mobile drawer)
-  write a temporary `__preview.html` wrapper whose script clicks the target after a delay. **Delete
-  these harness files afterwards** — `__preview.html`, `__frame.html`.
-- **The theme follows the system** when nothing is stored, and headless Chrome may report dark. To
-  shoot one mode, set `localStorage["alimiyyah.theme"]` in a harness first, or screenshot a temporary
-  copy of `index.html` with the head script's choice hard-coded.
-- **The banner is `100vh` tall**, so a tall `--window-size` makes it fill the screenshot. Shoot a
-  temporary copy with `.hero { min-height: 860px !important }` for a full-page view.
-
-Worth re-running after any layout change: the overflow sweep across
-360/390/480/640/720/768/880/900/1024/1200/1440px. `.hero__img` always reports a few px past the
-edge — its drift animation scales it inside the banner's `overflow: hidden` — and is not a fault; `body { overflow-x: hidden }` hides overflow from the eye but not from the sweep's
-per-element check.
-
-The bookshelf's keyboard model is not visible in a screenshot. Drive it from an `__frame.html` harness
-with `--dump-dom`: dispatch `pointerenter` (with `pointerType: "mouse"`) at a spine and assert
-`.slip--on` and its text, then `pointerleave` and assert it goes; dispatch `ArrowRight`/`End`/`Escape`
-at a `.bay__well` and assert focus and the roving `tabindex`; click a spine and assert the folio, the
-row's `shelf--reading-*` class, `aria-expanded` and focus on `.folio__close`; Escape and assert focus
-is back on the spine. Worth doing after any change to `curriculum.js`. Only Second Year has real books,
-so to test a folio giving way to a book in another bay, open one in First Year. Headless Chrome's
-animation clock does not advance under `--dump-dom`, so the row's track transition and the slip's
-slide-in stay at their start: call `getAnimations().forEach(a => a.finish())` before measuring, or read
-classes rather than positions. To screenshot a slip, put the page in a tall `<iframe>` inside a clipped
-box and shift the iframe rather than scrolling it, pin `.hero`'s height inside it, and give the shot
-a generous `--virtual-time-budget` (30000+), or it lands before the slip slides in.
+- The hero animates in on load; a faint subtitle or missing CTA is usually a too-short
+  `--virtual-time-budget`.
+- The banner is `100vh`; for a full-page shot use a temporary copy with
+  `.hero { min-height: 860px !important }`.
+- The window is clamped to ~485px wide: test phone widths in an `<iframe>` inside a wrapper page.
+- The theme follows the system when nothing is stored; set `localStorage["alimiyyah.theme"]` in a
+  harness to shoot one mode.
+- Interactive states (slip, folio, menu) need a temporary `__preview.html`/`__frame.html` harness that
+  dispatches events (`--dump-dom` to assert classes, focus, `aria-expanded`). The animation clock
+  doesn't advance under `--dump-dom`: call `getAnimations().forEach(a => a.finish())` before measuring.
+  **Delete harness files afterwards.**
+- After layout changes, sweep for overflow at 360/390/480/640/720/768/880/900/1024/1200/1440px.
+  `.hero__img` always reports a few px over (its drift animation) and is not a fault.
 
 ## Known placeholder state
 
-- `assets/img/hero-masjid.jpg` is a **low-resolution crop taken from the old mockup PNG**, meant to be
-  replaced with a real file at the same path. The hero photo is upscaled to
-  full width, so a real photo (≥2400px wide) will sharpen the banner a lot.
-- `assets/img/ground-*.svg` and `divider-khatim.svg` belong to the old aged-leaf page, and
-  `ledge-stack-*.svg` to the removed shelf ledges; none is referenced. Delete them unless those come back.
-- Every article's `body` in `media.json` is a single `TODO:` paragraph awaiting the real text, and
-  the ids (`brothers-1` … `sisters-5`) are placeholders to replace with real slugs.
-- Anything in `content/*.json` marked `TODO:` awaits real content from the masjid — most of the
-  curriculum (only Second Year is specified), teachers 4–7, testimonies 3–4, every article and video
-  in `media.json`, and the footer contact details. Do not invent curriculum book lists, teacher
-  details, articles or videos. Every year holds six books; apart from Second Year's five real ones,
-  each is a deliberate "Placeholder Book N" entry (not `TODO`, so it can be opened) awaiting the real
-  title. A title starting `TODO` would render as a dashed slot instead.
-- No book has a `cover` photograph or a `long` description yet, so every folio shows a drawn binding
-  and the short card text. Photographs go at `assets/img/books/<slug>.jpg`, ideally 3:4, named by
-  `cover`. `author` is empty everywhere, so the author line is omitted (a `TODO` author is hidden too).
-- `fees.cta` in `program.json` is the hook for future purchasing: set it to
-  `{"label": "…", "href": "…"}` and a gold button renders at the foot of the Fees panel; it stays hidden
-  while `null`.
-- `years` on a `timings.groups[]` entry ("Years I – IV") is optional.
+- `assets/img/hero-masjid.jpg` is a low-resolution placeholder; replace with a real photo (≥2400px)
+  at the same path.
+- `assets/img/ground-*.svg`, `divider-khatim.svg`, `ledge-stack-*.svg` are unreferenced leftovers.
+- Anything marked `TODO:` in `content/*.json` awaits the masjid: teacher bios and teachers 4–7
+  (`teacher-6`/`-7` are placeholder ids), testimonies 3–4, every article (ids `brothers-1`… are
+  placeholders) and video, footer contacts, the bookstore's `lede` and `pickup`. **Do not invent
+  books, teacher details, articles or videos.**
+- The curriculum and bookstore follow `Madresa Book Price List 2024.xlsx`, except (as the masjid
+  asked) Riyad al-Salihin in Fourth and Fifth, al-Fawa'id al-Makkiyya in Fifth, al-Hidaya in Fifth and
+  Sixth. Tarjamat al-Qur'an and Shama'il al-Tirmidhi are kept in the curriculum but, unpriced, not sold.
+  A book not on the list is not added.
+- Covers in `assets/img/books/` are the masjid's photographs (600×800); books without one show the
+  drawn binding. Extra editions are `<slug>-2.jpg`, ….
+- **Durūs al-Balāgha's three prints are $6/$7/$8 as a test of the price range; restore $7.00.**
+- No book has a Stripe link yet, so no Buy button shows.
 
-## Deviations from the mockup (deliberate, keep them)
+## Deliberate deviations from the mockup
 
-- Videos and Alumni are **carousels** (arrows flanking the cards, page dots beneath) using the shared
-  `carousel.js`, where the mockup scrolls the videos natively and has no dots.
-- The mockup's corner switcher (Light | Dark) is a mockup tool; the site has only the header toggle.
-- Content is the JSON's, so the site shows the `TODO:` placeholders the mockup paraphrases, and the
-  eyebrow of each section comes from its `kicker`.
+- Videos and Alumni are carousels with page dots.
+- Alumni keeps the mihrab niches, hung straight on the ground (no wooden wall).
+- Content comes from the JSON, so `TODO:` placeholders show.

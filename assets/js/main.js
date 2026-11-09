@@ -1,6 +1,6 @@
 /* =====================================================================
    main.js - loads content/*.json and renders every data-driven section.
-   Everything on the page comes from those five files; edit them, not
+   Everything on the page comes from those six files; edit them, not
    the HTML.
    ===================================================================== */
 (function () {
@@ -14,6 +14,7 @@
     book:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5v-13ZM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5v-13Z"/></svg>',
     quote: '<svg class="testimony__mark" viewBox="0 0 40 32" fill="currentColor" aria-hidden="true"><path d="M0 32V19C0 8 6 1.5 16 0l1.6 4C11.6 5.8 9 9.4 8.8 14H16v18H0zm22 0V19C22 8 28 1.5 38 0l1.6 4C33.6 5.8 31 9.4 30.8 14H38v18H22z"/></svg>',
     play:  '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>',
+    close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     home:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/></svg>',
     mail:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="M4 7l8 6 8-6"/></svg>',
     phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg>'
@@ -173,7 +174,10 @@
   }
 
   /* ---------------------------- teachers ---------------------------- */
-  // A mosaic: the first teacher large, the rest in a grid beside and below.
+  // A mosaic of cards in the order of the list; a card spans its teacher's
+  // width in columns (1-4) and height in rows (1-3), one of each by default.
+  // A card bigger than one cell is set like the lead (larger name, ruled bio);
+  // one two or more wide may set its bio beside the name (bioBeside).
   function renderTeachers(data) {
     var mount = slot("teachers");
     if (!mount) return;
@@ -181,19 +185,31 @@
     setText("teachers-kicker", data.kicker);
     mount.textContent = "";
 
-    (data.teachers || []).forEach(function (t, i) {
-      var card = el("article", "teacher" + (i === 0 ? " teacher--lead" : "") + (isTodo(t.name) ? " teacher--todo" : ""));
+    // A teacher with an id opens their page (teacher.html); a placeholder doesn't.
+    (data.teachers || []).forEach(function (t) {
+      var href = t.id && !isTodo(t.name) ? "teacher.html?id=" + encodeURIComponent(t.id) : "";
+      var w = span(t.width, 4), h = span(t.height, 3);
+      var card = el("article", "teacher" + (w > 1 ? " teacher--w" + w : "") + (h > 1 ? " teacher--h" + h : "") +
+        (w > 1 || h > 1 ? " teacher--lead" : "") + (w > 1 && t.bioBeside ? " teacher--beside" : "") +
+        (isTodo(t.name) ? " teacher--todo" : "") + (href ? " teacher--link" : ""));
       if (t.honorific) card.appendChild(el("p", "teacher__honorific", esc(t.honorific)));
-      card.appendChild(el("h3", "teacher__name", esc(t.name)));
+      card.insertAdjacentHTML("beforeend", linkedTitle("h3", "teacher__name", t.name, href));
       if (t.bio) card.appendChild(el("p", "teacher__bio", esc(t.bio)));
       mount.appendChild(card);
     });
   }
+  window.renderTeachers = renderTeachers;
+
+  // A whole number of grid tracks, from 1 up to max.
+  function span(n, max) {
+    n = Math.round(+n) || 1;
+    return Math.min(Math.max(n, 1), max);
+  }
 
   /* ------------------------ articles & videos ----------------------- */
-  // Each section holds a brothers' and a sisters' list. The two sections share
-  // one choice: either switch rebuilds both sections. The choice is remembered
-  // per viewer, and the page works without storage.
+  // The articles hold a brothers' and a sisters' list, chosen by the switch in
+  // their head; the videos are one list. The choice is remembered per viewer,
+  // and the page works without storage.
   var AUDIENCE_KEY = "alimiyyah.audience";
 
   function savedAudience() {
@@ -293,27 +309,183 @@
   }
 
   // Videos: a carousel of wide cards, the caption beneath the picture.
+  // Without a thumbnail, alternate the masjid photo and a plain board.
+  function videoArt(v, i) {
+    return v.thumbnail ? "" : i % 2 ? " board" + (i % 4 === 3 ? " board--rust" : "") : " vid__art--photo";
+  }
+
+  // A card plays its video in the popup when its href is one the popup can
+  // play, or when it has none yet; any other href is a plain link.
   function videoCard(v, i) {
     var card = el("article", "vid");
-    // Without a thumbnail, alternate the masjid photo and a plain board.
-    var thumb = el("div", "vid__art" + (v.thumbnail ? "" : i % 2 ? " board" + (i % 4 === 3 ? " board--rust" : "") : " vid__art--photo"),
+    var thumb = el("div", "vid__art" + videoArt(v, i),
       '<span class="vid__play">' + ICONS.play + "</span>" +
       (v.date || v.duration ? '<span class="vid__time">' + esc([v.date, v.duration].filter(Boolean).join(" · ")) + "</span>" : ""));
     if (v.thumbnail) thumb.style.backgroundImage = "url(" + JSON.stringify(v.thumbnail) + ")";
     card.appendChild(thumb);
-    card.insertAdjacentHTML("beforeend",
-      linkedTitle("h3", "vid__title", v.title, v.href) +
-      (v.subject ? '<p class="vid__meta">' + esc(v.subject) + "</p>" : ""));
+    if (v.href && !playable(v.href)) {
+      card.insertAdjacentHTML("beforeend", linkedTitle("h3", "vid__title", v.title, v.href));
+    } else {
+      var title = el("h3", "vid__title");
+      var play = el("button", "stretched", esc(v.title));
+      play.type = "button";
+      play.setAttribute("aria-haspopup", "dialog");
+      play.addEventListener("click", function () { openVideo(v, i, thumb, play); });
+      title.appendChild(play);
+      card.appendChild(title);
+    }
+    if (v.subject) card.appendChild(el("p", "vid__meta", esc(v.subject)));
     return card;
   }
 
-  function renderMedia(data) {
+  /* --------------------------- video popup -------------------------- */
+  // A video plays over the page: its card's picture grows out of the
+  // carousel into a large frame on the dimmed ground, the caption beneath
+  // it, and goes back into the card on close (option 4 of design/canvas-video/).
+  // YouTube and Vimeo links play in their own player, a video file in the
+  // browser's; a video without an href shows its picture.
+  function playable(href) {
+    var s = String(href || "").trim();
+    var m = s.match(/^https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/i);
+    if (m) return { frame: "https://www.youtube-nocookie.com/embed/" + m[1] + "?autoplay=1&rel=0" };
+    m = s.match(/^https?:\/\/(?:www\.|player\.)?vimeo\.com\/(?:video\/)?(\d+)/i);
+    if (m) return { frame: "https://player.vimeo.com/video/" + m[1] + "?autoplay=1" };
+    if (/^(?!javascript:)[^<>"]+\.(mp4|webm|ogv|m4v)([?#].*)?$/i.test(s)) return { file: s };
+    return null;
+  }
+
+  var player = null;   // the popup's elements, built on first use
+  var playing = null;  // what it shows: { v, art, opener }
+  var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function buildPlayer() {
+    var root = el("div", "vp");
+    root.hidden = true;
+    root.innerHTML =
+      '<div class="vp__scrim" data-vp-close></div>' +
+      '<div class="vp__box" role="dialog" aria-modal="true" aria-labelledby="vp-title">' +
+        '<button class="round vp__close" type="button" data-vp-close aria-label="Close video">' + ICONS.close + "</button>" +
+        '<div class="vp__frame"><div class="vp__poster"><span class="vid__play">' + ICONS.play + "</span></div></div>" +
+        '<div class="vp__cap"><div><h2 class="vp__title" id="vp-title"></h2><p class="vp__subject"></p></div>' +
+        '<p class="vp__meta"></p></div>' +
+      "</div>";
+    document.body.appendChild(root);
+    root.addEventListener("click", function (e) {
+      if (e.target.closest("[data-vp-close]")) closeVideo();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (playing && e.key === "Escape") closeVideo();
+    });
+    return {
+      root: root,
+      frame: root.querySelector(".vp__frame"),
+      poster: root.querySelector(".vp__poster"),
+      close: root.querySelector(".vp__close"),
+      inert: []
+    };
+  }
+
+  // Grows the frame out of `rect` (a card's picture), or shrinks it back into
+  // it; calls `done` at once when there is nothing on screen to fly from.
+  function fly(rect, back, done) {
+    var to = player.frame.getBoundingClientRect();
+    if (still || !rect || !rect.width || rect.bottom < 0 || rect.top > window.innerHeight || !player.frame.animate) {
+      done(false);
+      return;
+    }
+    var from = "translate(" + (rect.left - to.left) + "px, " + (rect.top - to.top) + "px) " +
+      "scale(" + rect.width / to.width + ", " + rect.height / to.height + ")";
+    var steps = [{ transform: from }, { transform: "none" }];
+    var anim = player.frame.animate(back ? steps.reverse() : steps,
+      { duration: back ? 320 : 520, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)", fill: "both" });
+    anim.onfinish = function () { done(true); anim.cancel(); };
+  }
+
+  function openVideo(v, i, art, opener) {
+    if (playing || (player && !player.root.hidden)) return;
+    player = player || buildPlayer();
+    var rect = art.getBoundingClientRect();
+    playing = { v: v, art: art, opener: opener };
+
+    player.poster.className = "vp__poster" + videoArt(v, i);
+    player.poster.style.backgroundImage = v.thumbnail ? "url(" + JSON.stringify(v.thumbnail) + ")" : "";
+    player.root.querySelector(".vp__title").textContent = v.title || "";
+    player.root.querySelector(".vp__subject").textContent = v.subject || "";
+    player.root.querySelector(".vp__meta").innerHTML = [v.date, v.duration].filter(Boolean).map(esc)
+      .join('<i aria-hidden="true"></i>');
+
+    // The rest of the page is out of reach while the popup is open.
+    player.inert = Array.prototype.filter.call(document.body.children, function (n) {
+      return n !== player.root && !n.inert;
+    });
+    player.inert.forEach(function (n) { n.inert = true; });
+    document.documentElement.classList.add("vp-lock");
+    player.root.classList.remove("vp--closing", "vp--fading");
+    player.root.hidden = false;
+    player.close.focus({ preventScroll: true });
+
+    // The player goes in once the frame has landed, so the picture is what flies.
+    var src = playable(v.href);
+    fly(rect, false, function () {
+      if (!src || playing === null || playing.v !== v) return;
+      var media;
+      if (src.frame) {
+        media = el("iframe", "vp__media");
+        media.src = src.frame;
+        media.title = v.title || "Video";
+        media.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+        media.allowFullscreen = true;
+        media.referrerPolicy = "strict-origin-when-cross-origin";
+      } else {
+        media = el("video", "vp__media");
+        media.src = src.file;
+        media.controls = true;
+        media.autoplay = true;
+        media.playsInline = true;
+      }
+      player.frame.appendChild(media);
+    });
+  }
+
+  function closeVideo() {
+    if (!playing) return;
+    var was = playing;
+    playing = null;
+    var media = player.frame.querySelector(".vp__media");
+    if (media) media.remove();                 // stops it; the picture flies back
+    player.root.classList.add("vp--closing");
+
+    function hide() {
+      player.root.hidden = true;
+      player.root.classList.remove("vp--closing", "vp--fading");
+      player.inert.forEach(function (n) { n.inert = false; });
+      player.inert = [];
+      document.documentElement.classList.remove("vp-lock");
+      if (was.opener.isConnected) was.opener.focus({ preventScroll: true });
+    }
+    if (still) { hide(); return; }
+    fly(was.art.isConnected ? was.art.getBoundingClientRect() : null, true, function (flew) {
+      if (flew) { hide(); return; }
+      player.root.classList.add("vp--fading");  // the card is off screen: fade out instead
+      setTimeout(hide, 220);
+    });
+  }
+
+  // The carousels of the last renderMedia, destroyed when it runs again (the
+  // videos editor redraws with it). `only` shows that library of articles
+  // instead of the remembered one. Returns each section's current handle by key.
+  var mediaSections = [];
+
+  function renderMedia(data, only) {
     var names = data.audiences || {};
-    var audience = savedAudience();
+    var audience = only || savedAudience();
+    var handles = {};
+    mediaSections.forEach(function (s) { if (s.handle) s.handle.destroy(); });
 
     // `render` fills the mount and returns a handle to destroy on the next swap.
+    // A section with `split` keeps a list per audience; the others keep `items`.
     var sections = [
-      { key: "articles", noun: "articles", render: renderArticles },
+      { key: "articles", noun: "articles", split: true, render: renderArticles },
       {
         key: "videos", noun: "videos",
         render: function (mount, items, label) {
@@ -327,6 +499,7 @@
         }
       }
     ].filter(function (s) { return data[s.key] && slot(s.key); });
+    mediaSections = sections;
 
     // An optional link to the full list, e.g. "articles": {"moreHref": "articles/"}.
     sections.forEach(function (s) {
@@ -348,13 +521,15 @@
       s.handle = null;
       mount.textContent = "";
 
-      var items = data[s.key][audience] || [];
-      var label = name(audience) + "' " + s.noun;
+      var items = (s.split ? data[s.key][audience] : data[s.key].items) || [];
+      var label = s.split ? name(audience) + "' " + s.noun : s.noun.charAt(0).toUpperCase() + s.noun.slice(1);
       if (items.length) {
         s.handle = s.render(mount, items, label);
       } else {
         mount.appendChild(el("p", "media-empty", "No " + esc(label.toLowerCase()) + " yet."));
       }
+
+      handles[s.key] = s.handle;
 
       if (swap) {
         mount.classList.remove("media-swap");
@@ -365,7 +540,7 @@
 
     // A two-button segmented control in each head; the pressed side is the library shown.
     var groups = sections.map(function (s) {
-      var mount = slot(s.key + "-audience");
+      var mount = s.split && slot(s.key + "-audience");
       if (!mount) return null;
       var g = el("div", "seg");
       g.setAttribute("role", "group");
@@ -395,21 +570,27 @@
       audience = next;
       try { localStorage.setItem(AUDIENCE_KEY, audience); } catch (e) { /* storage blocked: not remembered */ }
       sync();
-      sections.forEach(function (s) { build(s, true); });
+      sections.forEach(function (s) { if (s.split) build(s, true); });
     }
 
     sync();
     sections.forEach(function (s) { build(s, false); });
+    return handles;
   }
+  window.renderMedia = renderMedia;
 
   /* --------------------------- testimonies -------------------------- */
+  // Calling it again replaces the carousel; it returns the carousel's handle.
+  var testimoniesCarousel = null;
+
   function renderTestimonies(data) {
     var mount = slot("testimonies");
-    if (!mount) return;
+    if (!mount) return null;
     setText("testimonies-kicker", data.kicker);
     setText("testimonies-heading", data.heading);
 
-    createCarousel({
+    if (testimoniesCarousel) testimoniesCarousel.destroy();
+    testimoniesCarousel = createCarousel({
       mount: mount,
       items: data.testimonies || [],
       label: "Alumni testimonies",
@@ -428,7 +609,9 @@
         return slotEl;
       }
     });
+    return testimoniesCarousel;
   }
+  window.renderTestimonies = renderTestimonies;
 
   /* ------------------------------ boot ------------------------------ */
   var yearSlot = slot("year");
@@ -442,6 +625,10 @@
       renderCurriculum(slot("curriculum"), data);
     }),
     loadJSON("content/teachers.json").then(renderTeachers),
+    // bookstore.js draws the featured books; it loads before this file.
+    loadJSON("content/bookstore.json").then(function (data) {
+      if (window.renderBookstore) window.renderBookstore(data, false);
+    }),
     loadJSON("content/media.json").then(renderMedia),
     loadJSON("content/testimonies.json").then(renderTestimonies)
   ]).catch(function (err) {
