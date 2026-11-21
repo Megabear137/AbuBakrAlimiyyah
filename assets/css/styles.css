@@ -1370,7 +1370,8 @@ main { position: relative; }
     0 24px 40px -24px rgba(40, 18, 4, 0.7);
   transition: transform 0.4s var(--ease-out);
 }
-.teacher:hover { transform: translateY(-4px); }
+/* Only a card that links lifts under the pointer. */
+.teacher--link:hover { transform: translateY(-4px); }
 /* The inner box stays unpositioned, so a name's stretched link covers the
    whole card. */
 .teacher__in { flex: 1 0 auto; }

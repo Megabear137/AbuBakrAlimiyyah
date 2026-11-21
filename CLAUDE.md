@@ -145,7 +145,8 @@ Every page also loads `nav.js` and `cart.js` (the cart's bag button and slip, wh
   figure and the rest), absent without rows. `fees.cta` (`{label, href}`, `null` hides) is the hook for
   future enrolment, centred under the discounts.
 - Teachers: `width` 1–4, `height` 1–3 (omitted at 1), `bioBeside` (width ≥2; honoured only where
-  the card itself is ≥44rem, a container query on `.teacher`, else the bio sits under the name), `id` (slug → page),
+  the card itself is ≥44rem, a container query on `.teacher`, else the bio sits under the name), `id` (slug → `teacher.html?id=`; the home page's cards don't link to it, by request, so the pages
+  are reached only by address),
   `body` (strings = paragraphs, `{"heading"}`). Cards stand in list order, packed dense.
 - Articles (`media.json` `articles.brothers`/`sisters`): `id` unique across both lists, `body` blocks
   (string, `{"heading"}`, `{"quote","source"}`), a non-empty `href` replaces the page. The article page

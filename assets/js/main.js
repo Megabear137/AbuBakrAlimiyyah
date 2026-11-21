@@ -208,18 +208,17 @@
     setText("teachers-kicker", data.kicker);
     mount.textContent = "";
 
-    // A teacher with an id opens their page (teacher.html); a placeholder doesn't.
+    // The cards don't link: teacher.html isn't opened from the home page.
     (data.teachers || []).forEach(function (t) {
-      var href = t.id && !isTodo(t.name) ? "teacher.html?id=" + encodeURIComponent(t.id) : "";
       var w = span(t.width, 4), h = span(t.height, 3);
       var card = el("article", "teacher" + (w > 1 ? " teacher--w" + w : "") + (h > 1 ? " teacher--h" + h : "") +
         (w > 1 || h > 1 ? " teacher--lead" : "") + (w > 1 && t.bioBeside ? " teacher--beside" : "") +
-        (isTodo(t.name) ? " teacher--todo" : "") + (href ? " teacher--link" : ""));
+        (isTodo(t.name) ? " teacher--todo" : ""));
       // The card is a size container; its inner box is what the CSS lays out
       // (the name block beside the bio, or above it, by the card's width).
       var inner = el("div", "teacher__in"), head = el("div", "teacher__head");
       if (t.honorific) head.appendChild(el("p", "teacher__honorific", esc(t.honorific)));
-      head.insertAdjacentHTML("beforeend", linkedTitle("h3", "teacher__name", t.name, href));
+      head.insertAdjacentHTML("beforeend", linkedTitle("h3", "teacher__name", t.name, ""));
       inner.appendChild(head);
       if (t.bio) inner.appendChild(el("p", "teacher__bio", esc(t.bio)));
       card.appendChild(inner);
