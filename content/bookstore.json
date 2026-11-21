@@ -625,7 +625,7 @@
       "prints": [
         {
           "edition": "Blue and white cover",
-          "price": "$6.00",
+          "price": "$7.00",
           "cover": "assets/img/books/durus-al-balagha.jpg"
         },
         {
@@ -635,7 +635,7 @@
         },
         {
           "edition": "Leather-look cover",
-          "price": "$8.00",
+          "price": "$7.00",
           "cover": "assets/img/books/durus-al-balagha-3.jpg"
         }
       ],

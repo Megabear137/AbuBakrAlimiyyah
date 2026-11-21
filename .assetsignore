@@ -1,0 +1,16 @@
+# Files in the repo that are not part of the website: Cloudflare (Workers
+# static assets) leaves these out when it publishes the site.
+.git
+.gitignore
+.assetsignore
+.admin-backups
+tools
+*.md
+*.xlsx
+*.zip
+__preview.html
+__frame.html
+# The full-size logos; the site uses the *_web.png copies.
+assets/img/logo_black.png
+assets/img/logo_gold.png
+assets/img/logo_white.png

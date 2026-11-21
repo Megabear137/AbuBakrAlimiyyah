@@ -698,8 +698,12 @@ main { position: relative; }
   mix-blend-mode: var(--splash-blend);
 }
 .splash-quick .splash__bism { display: none; }
+/* The ink is painted by its background, which covers only its own box, and
+   Amiri's U+FDFD reaches well below its line: the deep foot keeps the kasras
+   and the mīm's tail inked (they were cut off flat) and lifts the line. */
 .splash__ink {
   display: block;
+  padding-bottom: 0.5em;
   background: linear-gradient(105deg, var(--splash-ink) 42%, var(--splash-glint) 50%, var(--splash-ink) 58%) 100% 0 / 300% 100% no-repeat;
   -webkit-background-clip: text;
   background-clip: text;

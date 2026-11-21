@@ -15,8 +15,9 @@ python3 -m http.server 8000     # http://localhost:8000
 python3 tools/admin_server.py   # http://127.0.0.1:8001, the site plus its local editors
 ```
 
-**A server is mandatory**: the pages `fetch` `content/*.json`, which `file://` blocks. Deployment is
-uploading the folder as-is (`tools/` and `.admin-backups/` can be left out). Book reservations also need
+**A server is mandatory**: the pages `fetch` `content/*.json`, which `file://` blocks. Deployment: Cloudflare (Workers static assets) builds from GitHub; pushing to the
+`production` branch publishes, and `main` is where work happens. `.assetsignore` keeps `tools/`, the
+notes and other non-site files off the live site; add any new non-site file to it. Book reservations also need
 the Apps Script in `tools/reserve/` deployed in a Google account (its README); that part runs at Google,
 not on the host.
 
@@ -310,7 +311,6 @@ chrome --headless=new --disable-gpu --hide-scrollbars --window-size=1440,5600 \
   description. Don't add books beyond these.
 - Covers in `assets/img/books/` are the masjid's photographs (600×800); books without one show the
   drawn binding. Extra editions are `<slug>-2.jpg`, ….
-- **Durūs al-Balāgha's three prints are $6/$7/$8 as a test of the price range; restore $7.00.**
 - `pickup`, `hold` and `payWith` are the masjid's policy (the office, 9 am to 7 pm; 14 days; cash or
   debit).
 
