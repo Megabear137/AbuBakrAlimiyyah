@@ -539,14 +539,14 @@
           "cover": "assets/img/books/sunan-abi-dawud-3.jpg"
         },
         {
-          "title": "Sunan Ibn Māja",
-          "titleUrdu": "سنن ابن ماجه",
+          "title": "Jāmiʿ al-Tirmidhī",
+          "titleUrdu": "جامع الترمذي",
           "subject": "Hadith",
           "author": "",
-          "description": "Imam Ibn Majah's Sunan, the sixth of the six major books of hadith, valued for the many narrations found in it alone.",
+          "description": "Imam al-Tirmidhi's collection, which grades each hadith and records how the Companions and jurists acted on it.",
           "book_size": "large",
-          "long": "The Sunan of Imam Muhammad ibn Yazid ibn Majah al-Qazwini is arranged by the topics of law and conduct, opening with a chapter on following the Sunnah. Later scholars counted it among the six major books of hadith.\n\nIt contains many hadith not found in the other five, and its chapters are brief and well ordered. Students read it in the final year as part of their reading of the six books.",
-          "cover": "assets/img/books/sunan-ibn-maja.jpg"
+          "long": "The Jami' of Imam Muhammad ibn Isa al-Tirmidhi covers law, manners, tafsir, virtues and more. Unlike the other collections, it states after each hadith whether it is sahih, hasan or weak, and notes other narrations on the same subject.\n\nIt also records which Companions and jurists acted on each hadith and where they differed, which makes it a rich source for comparing the schools of law. It ends with a short work on the defects of hadith (Kitab al-Ilal). Students read it in full in the final year.",
+          "cover": "assets/img/books/jami-al-tirmidhi.jpg"
         },
         {
           "title": "Sunan al-Nasāʾī",
@@ -559,14 +559,14 @@
           "cover": "assets/img/books/sunan-al-nasai.jpg"
         },
         {
-          "title": "Jāmiʿ al-Tirmidhī",
-          "titleUrdu": "جامع الترمذي",
+          "title": "Sunan Ibn Māja",
+          "titleUrdu": "سنن ابن ماجه",
           "subject": "Hadith",
           "author": "",
-          "description": "Imam al-Tirmidhi's collection, which grades each hadith and records how the Companions and jurists acted on it.",
+          "description": "Imam Ibn Majah's Sunan, the sixth of the six major books of hadith, valued for the many narrations found in it alone.",
           "book_size": "large",
-          "long": "The Jami' of Imam Muhammad ibn Isa al-Tirmidhi covers law, manners, tafsir, virtues and more. Unlike the other collections, it states after each hadith whether it is sahih, hasan or weak, and notes other narrations on the same subject.\n\nIt also records which Companions and jurists acted on each hadith and where they differed, which makes it a rich source for comparing the schools of law. It ends with a short work on the defects of hadith (Kitab al-Ilal). Students read it in full in the final year.",
-          "cover": "assets/img/books/jami-al-tirmidhi.jpg"
+          "long": "The Sunan of Imam Muhammad ibn Yazid ibn Majah al-Qazwini is arranged by the topics of law and conduct, opening with a chapter on following the Sunnah. Later scholars counted it among the six major books of hadith.\n\nIt contains many hadith not found in the other five, and its chapters are brief and well ordered. Students read it in the final year as part of their reading of the six books.",
+          "cover": "assets/img/books/sunan-ibn-maja.jpg"
         },
         {
           "title": "Sharḥ Maʿānī al-Āthār",
