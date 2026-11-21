@@ -16,8 +16,7 @@ python3 tools/admin_server.py   # http://127.0.0.1:8001, the site plus its local
 ```
 
 **A server is mandatory**: the pages `fetch` `content/*.json`, which `file://` blocks. Deployment: Cloudflare (Workers static assets) builds from GitHub; pushing to the
-`production` branch publishes, and `main` is where work happens. `wrangler.jsonc` (worker `abubakr`, the repo root
-as its static assets) is what the build deploys; without it a bare `wrangler deploy` fails. `.assetsignore` keeps `tools/`, the
+`production` branch publishes, and `main` is where work happens. `.assetsignore` keeps `tools/`, the
 notes and other non-site files off the live site; add any new non-site file to it. Book reservations also need
 the Apps Script in `tools/reserve/` deployed in a Google account (its README); that part runs at Google,
 not on the host.
