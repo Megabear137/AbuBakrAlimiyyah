@@ -3,6 +3,7 @@
 .git
 .gitignore
 .assetsignore
+wrangler.jsonc
 .admin-backups
 tools
 *.md
