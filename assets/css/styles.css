@@ -2761,3 +2761,67 @@ main { position: relative; }
   .store-card--wide { min-height: 0; }
   .store-card__desc { display: none; }
 }
+
+/* Phones: fingers and small screens.
+   Tap targets reach about 44px. Where a control's look should stay as it is
+   (the back link, the footer's lines), padding grows the hit area and an
+   equal negative margin keeps the layout from moving. The carousel's dots
+   become 44px buttons with the dot drawn inside by ::before. */
+@media (max-width: 640px), (pointer: coarse) {
+  .carousel__dots { gap: 0; margin-top: 0.9rem; }
+  .carousel__dot,
+  .carousel__dot[aria-current="true"] {
+    position: relative;
+    width: 32px;
+    height: 44px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+  .carousel__dot[aria-current="true"] { width: 44px; }
+  .carousel__dot::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    border: 1.5px solid var(--rust);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: background 0.2s, width 0.2s;
+  }
+  .carousel__dot[aria-current="true"]::before { width: 24px; border-radius: 5px; background: var(--rust); }
+  [data-theme="dark"] .carousel__dot::before { border-color: var(--gold); }
+  [data-theme="dark"] .carousel__dot[aria-current="true"]::before { background: var(--gold); }
+
+  .back { padding-block: 14px; margin-block: -14px; }
+  .site-footer__line a { display: inline-block; padding-block: 9px; margin-block: -9px; }
+  .grads__years { gap: 0.15rem 0.1rem; }
+  .grads__years a { padding: 0.55rem 0.75rem; }
+  .store-groups__btn { padding-top: 0.45rem; padding-bottom: 0.55rem; }
+  .seg__btn { min-height: 44px; }
+}
+
+/* Phones: no small label below about 11.5px. The spaced capitals are the
+   site's look, so they grow a little and keep their spacing. */
+@media (max-width: 640px) {
+  .hero__kicker { font-size: 0.72rem; letter-spacing: 0.18em; }
+  .hero .btn,
+  .seg__btn,
+  .back,
+  .vid__time,
+  .store-card__years { font-size: 0.74rem; }
+  .slider__tags,
+  .slider__card em,
+  .a-hero .chip,
+  .store-card__sub,
+  .store-card__flag,
+  .store-filter__label,
+  .grad-col__head,
+  .b-prints__label,
+  .b-leaf__subject { font-size: 0.72rem; }
+  .track__years { font-size: 0.76rem; }
+  .store-groups__btn sup { font-size: 0.76rem; }
+  .store-card__years { opacity: 0.8; }
+}

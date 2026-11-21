@@ -106,12 +106,21 @@
     function line(icon, html) {
       mount.appendChild(el("span", "site-footer__line", '<i aria-hidden="true">' + icon + "</i>" + html));
     }
-    if (footer.address) line(ICONS.home, esc(footer.address));
+    // The address opens the map and the number dials: on a phone these are
+    // the two lines most people want to tap.
+    if (footer.address) {
+      line(ICONS.home, isTodo(footer.address) ? esc(footer.address)
+        : '<a href="https://www.google.com/maps/search/?api=1&amp;query=' +
+          encodeURIComponent(footer.address) + '" target="_blank" rel="noopener">' + esc(footer.address) + "</a>");
+    }
     if (footer.email) {
       line(ICONS.mail, isTodo(footer.email) ? esc(footer.email)
         : '<a href="mailto:' + esc(footer.email) + '">' + esc(footer.email) + "</a>");
     }
-    if (footer.phone) line(ICONS.phone, esc(footer.phone));
+    if (footer.phone) {
+      line(ICONS.phone, isTodo(footer.phone) ? esc(footer.phone)
+        : '<a href="tel:' + footer.phone.replace(/[^\d+]/g, "") + '">' + esc(footer.phone) + "</a>");
+    }
   }
 
   /* -------------------------------- boot -------------------------------- */
