@@ -201,6 +201,10 @@ body.adm-side { padding-bottom: 110px; }
 .adm-shelf .bay__well.adm-drop-into { outline: 2px dashed var(--gold); outline-offset: -4px; }
 .adm-testimonies .niche-slot { cursor: pointer; }
 .adm-testimonies .niche-slot.adm-picked { outline: 2px solid var(--gold); outline-offset: 6px; border-radius: 4px; }
+
+/* The graduates editor: a class on the page picks it. */
+.adm-graduates .grad-class { cursor: pointer; }
+.adm-graduates .grad-class.adm-picked { outline: 2px solid var(--gold); outline-offset: 8px; border-radius: 6px; }
 .adm-row--top { align-items: flex-start; }
 .adm-row--top > .adm-label { flex: 1; min-width: 0; }
 .adm-row--gap { justify-content: space-between; margin-top: 16px; }

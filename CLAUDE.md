@@ -129,7 +129,8 @@ Every page also loads `nav.js` and `cart.js` (the cart's bag button and slip, wh
 - `graduates.json`: `titles` (`brothers` Maulānā, `sisters` ʿĀlimah, set in italic before every name) and
   `classes[]` oldest first (`year`, `label`, `brothers[]`, `sisters[]`, names without the title; an
   empty side drops its column). The count line and the row of years are worked out from the list;
-  each class is `#class-<year>`. Hand-edited (no editor). From the masjid's Alumni/Graduates PDF,
+  each class is `#class-<year>`. Edited on `graduates.html` (`tools/admin/graduates.js`, names one per
+  line; the page's `graduates.js` exposes `renderGraduates` for its preview). From the masjid's Alumni/Graduates PDF,
   names as given, except its "Seventh Graduation" and "Eight" class labels were put right.
 - `hero.ctaSecondary` (`{label, href}`, `null` hides): the banner's cream second button (the bookstore).
 - `hero.kicker`: the masjid's name between gold rules over the title (empty hides).
@@ -207,7 +208,7 @@ from *Edit image* live in `tools/cover_edits.json`; the originals are never chan
 Standard library only. It serves the site with `Cache-Control: no-store`, **injects** the editors
 (`tools/admin/*.js`, `editor.css`) into pages as it sends them, and answers `GET`/`PUT
 /__admin/<resource>` (the `RESOURCES` table: articles, curriculum, teachers, videos, testimonies,
-bookstore, plus `/__admin/cover`). **The bookstore dashboard** is a page of the server's own,
+graduates, bookstore, plus `/__admin/cover`). **The bookstore dashboard** is a page of the server's own,
 `/__admin/books` (`tools/admin/books.{html,js,css}`, linked from the bookstore editor's launch
 buttons): every book with each print on its own row, edited in a drawer and saved through
 `/__admin/bookstore`. Its photo upload, `PUT /__admin/photo`, writes a new JPEG under an unused name
@@ -240,6 +241,10 @@ bookstore editor edits the open tab's layout.
     (`fitText`/`widen`) after render and on `document.fonts.ready`.
   - Keyboard: each well is `role="group"` with a roving `tabindex`; arrows/Home/End move, Enter/Space
     opens, Escape closes. Don't reintroduce `tablist`/`tab`/`tabpanel`.
+  - At ≤640px one year shows at a time under a row of wooden tabs (`.case__tabs`, pressed buttons
+    in a group, drawn always and shown only by the CSS; `.case--tabs .bay.is-current`). Switching
+    year closes the folio and fits the newly shown spines (`fitText` skips hidden ones). A well
+    that overflows fades at its right edge (`.bay__well--more`).
 - **Niches**: the arch is one SVG path in four data-URI tokens on `.niche-slot` plus `--niche-pad`;
   change all five together. The drop shadow is a `filter` on the parent because a mask clips its own.
 - **Bookstore medium tiles** use `contain: size` so they don't grow their row.

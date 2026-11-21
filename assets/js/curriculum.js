@@ -189,10 +189,64 @@
       mount.appendChild(row);
     }
 
+    // On a phone the seven shelves stacked ran to four screens, so one year
+    // stands at a time under a row of wooden tabs (option A of
+    // design/mobile-curriculum/, tabs of style 3). The tabs are always
+    // drawn; the CSS shows them, and hides the other years, only at 640px
+    // and below. They are pressed buttons in a group, not a tablist: the
+    // wells keep their own arrow keys.
+    var bays = mount.querySelectorAll(".bay");
+    var tabs = document.createElement("div");
+    tabs.className = "case__tabs";
+    tabs.setAttribute("role", "group");
+    tabs.setAttribute("aria-label", "Year");
+    years.forEach(function (year, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "case__tab";
+      b.textContent = String(i + 1);
+      b.setAttribute("aria-label", year.name);
+      tabs.appendChild(b);
+    });
+    function showYear(k) {
+      closeFolio(false);
+      slip.hide();
+      Array.prototype.forEach.call(bays, function (bay, i) { bay.classList.toggle("is-current", i === k); });
+      Array.prototype.forEach.call(tabs.children, function (b, i) { b.setAttribute("aria-pressed", i === k ? "true" : "false"); });
+      // A shelf hidden until now was never measured.
+      fitText(bays[k]);
+      edges(mount);
+    }
+    tabs.addEventListener("click", function (e) {
+      var b = e.target.closest(".case__tab");
+      if (b) showYear(Array.prototype.indexOf.call(tabs.children, b));
+    });
+    mount.classList.add("case--tabs");
+    mount.insertBefore(tabs, mount.firstChild);
+    if (bays.length) showYear(0);
+
+    // A shelf that runs on past its bay fades at the far edge.
+    mount.addEventListener("scroll", function (e) {
+      if (e.target.classList && e.target.classList.contains("bay__well")) edges(mount);
+    }, true);
+    if (!window._shelfEdges) {
+      window._shelfEdges = true;
+      window.addEventListener("resize", function () {
+        document.querySelectorAll(".case--tabs").forEach(edges);
+      });
+    }
+
     // The titles are fitted to their spines by measuring, so again once
     // the display face has arrived.
     fitText(mount);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitText(mount); });
+    edges(mount);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitText(mount); edges(mount); });
+  }
+
+  function edges(scope) {
+    Array.prototype.forEach.call(scope.querySelectorAll(".bay__well"), function (w) {
+      w.classList.toggle("bay__well--more", w.scrollWidth - w.clientWidth - w.scrollLeft > 4);
+    });
   }
 
 

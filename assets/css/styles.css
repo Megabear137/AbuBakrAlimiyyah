@@ -2885,3 +2885,46 @@ main { position: relative; }
 [data-theme="dark"] .mosaic--fold .teacher__honorific { font-size: 0.72rem; }
 [data-theme="dark"] .teacher__mark { color: var(--gold); }
 [data-theme="dark"] .mosaic--fold .teacher__head:has(.teacher__toggle:focus-visible) { outline-color: var(--gold); }
+
+/* The curriculum on a phone: one year at a time under a row of wooden tabs
+   standing on the bay's top edge (curriculum.js draws them; they show only
+   here). The open year's tab is the darker board, gilt along its top. */
+.case__tabs { display: none; }
+@media (max-width: 640px) {
+  .case--tabs .case__tabs {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    margin-bottom: -17px;               /* the case's 16px gap, and onto the bay's edge */
+    padding: 0 14px;
+  }
+  .case__tab {
+    flex: 1;
+    min-height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px 10px 0 0;
+    background: linear-gradient(180deg, #b8774f, var(--wood));
+    box-shadow: inset 0 1px 0 rgba(255, 236, 210, 0.35);
+    color: #fbeedd;
+    font: 600 1.3rem var(--display);
+    font-variant-numeric: lining-nums;
+    cursor: pointer;
+    transition: min-height 0.2s var(--ease-out);
+  }
+  .case__tab[aria-pressed="true"] {
+    min-height: 50px;
+    background: linear-gradient(180deg, var(--board), var(--board-deep));
+    box-shadow: inset 0 2px 0 var(--gold);
+    color: var(--gold);
+  }
+  .case__tab:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .case--tabs .bay:not(.is-current),
+  .case--tabs .shelf:not(:has(.is-current)) { display: none; }
+}
+
+/* A shelf that runs on past its bay fades at the far edge (curriculum.js). */
+.bay__well--more {
+  -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent 99%);
+  mask-image: linear-gradient(90deg, #000 80%, transparent 99%);
+}

@@ -10,7 +10,8 @@ The editors live in tools/admin/ and nothing on the public site refers to
 them. This server alone adds them to the pages, on the way out (the files on
 disk are never touched): editor.js to article.html, shelf.js, teachers.js,
 videos.js, testimonies.js and bookstore.js to index.html, bookstore.js
-to bookstore.html, and cover.js (Edit image) to book.html. The bookstore
+to bookstore.html, graduates.js to graduates.html, and cover.js (Edit image)
+to book.html. The bookstore
 dashboard, /__admin/books (tools/admin/books.html), is a page of its own that
 lists every book and print and edits them through the bookstore's address;
 a photograph uploaded there is saved under a new name in assets/img/books/
@@ -25,7 +26,8 @@ shelf replaces the years of content/curriculum.json; saving the teachers
 replaces the heading, kicker and teachers of content/teachers.json; saving the
 videos replaces the heading, kicker and videos of media.json; saving the
 testimonies replaces the heading, kicker and testimonies of
-content/testimonies.json; saving the bookstore replaces the heading, kicker,
+content/testimonies.json; saving the graduates replaces the heading, kicker,
+titles and classes of content/graduates.json; saving the bookstore replaces the heading, kicker,
 lede, visitLabel, pickup, hold, payWith, reserveTo, books and layouts (each subject
 tab's order and large and medium cards) of content/bookstore.json. Everything
 else in each file stays as it is. Editing a book's image (on book.html)
@@ -58,7 +60,7 @@ MAX_REQUEST = 4 * 1024 * 1024
 
 JS, CSS = "text/javascript; charset=utf-8", "text/css; charset=utf-8"
 ASSETS = {"editor.js": JS, "shelf.js": JS, "teachers.js": JS, "videos.js": JS, "testimonies.js": JS,
-          "bookstore.js": JS, "cover.js": JS, "editor.css": CSS, "books.js": JS, "books.css": CSS}
+          "bookstore.js": JS, "graduates.js": JS, "cover.js": JS, "editor.css": CSS, "books.js": JS, "books.css": CSS}
 # The bookstore dashboard, a page of the admin server's own.
 DASHBOARD = "/__admin/books"
 MAX_PHOTO = 40 * 1024 * 1024
@@ -66,6 +68,7 @@ PHOTO_LONG_SIDE = 1600
 # The page, and the editors added to it as it is sent.
 HOME_EDITORS = ("shelf.js", "teachers.js", "videos.js", "testimonies.js", "bookstore.js")
 PAGES = {"/article.html": ("editor.js",), "/bookstore.html": ("bookstore.js",), "/book.html": ("cover.js",),
+         "/graduates.html": ("graduates.js",),
          "/index.html": HOME_EDITORS, "/": HOME_EDITORS}
 LOCAL_HOSTS = {"127.0.0.1", "localhost", "::1"}
 
@@ -348,6 +351,48 @@ def apply_videos(payload, data):
 
 # What each editor reads and writes: its file, the part of it sent to the
 # editor, and how a save is checked and applied.
+def check_graduates(payload, data):
+    """Returns the first problem with the edited graduates, or None."""
+    for field in ("heading", "kicker"):
+        if not isinstance(payload.get(field), str):
+            return field + " must be text"
+    titles = payload.get("titles")
+    if not isinstance(titles, dict) or set(titles) - {"brothers", "sisters"} or \
+            not all(isinstance(v, str) for v in titles.values()):
+        return "titles must be the brothers' and sisters' titles, as text"
+    classes = payload.get("classes")
+    if not isinstance(classes, list):
+        return "expected a list of classes"
+    seen = set()
+    for n, c in enumerate(classes, 1):
+        where = "class %d" % n
+        if not isinstance(c, dict):
+            return where + " is not an object"
+        year = c.get("year")
+        # The year names the class's anchor, graduates.html#class-<year>.
+        if not isinstance(year, str) or not year.strip() or re.search(r"\s", year):
+            return where + " needs a year, without spaces"
+        if year in seen:
+            return "the year %s is used by two classes" % year
+        seen.add(year)
+        where = "the class of " + year
+        if "label" in c and not isinstance(c["label"], str):
+            return where + ": the label must be text"
+        for side in ("brothers", "sisters"):
+            names = c.get(side, [])
+            if not isinstance(names, list) or not all(isinstance(x, str) and x.strip() for x in names):
+                return where + ": %s must be a list of names" % side
+        if not (set(c) <= {"year", "label", "brothers", "sisters"}):
+            return where + ": unexpected field %s" % sorted(set(c) - {"year", "label", "brothers", "sisters"})[0]
+    return None
+
+
+def apply_graduates(payload, data):
+    # The note keeps its place and its value.
+    for field in ("heading", "kicker", "titles", "classes"):
+        data[field] = payload[field]
+
+
 RESOURCES = {
     "/__admin/articles": {
         "file": ROOT / "content" / "media.json",
@@ -380,6 +425,13 @@ RESOURCES = {
                               for k in ("heading", "kicker", "testimonies")}, "cta": d.get("cta")},
         "check": check_testimonies,
         "apply": apply_testimonies,
+    },
+    "/__admin/graduates": {
+        "file": ROOT / "content" / "graduates.json",
+        "read": lambda d: {"heading": d.get("heading", ""), "kicker": d.get("kicker", ""),
+                           "titles": d.get("titles", {}), "classes": d.get("classes", [])},
+        "check": check_graduates,
+        "apply": apply_graduates,
     },
     "/__admin/bookstore": {
         "file": ROOT / "content" / "bookstore.json",

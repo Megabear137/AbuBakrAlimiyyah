@@ -38,6 +38,7 @@
 
   /* ------------------------------ the list ----------------------------- */
   var SIDES = [["brothers", "Brothers"], ["sisters", "Sisters"]];
+  var drawn = false;
 
   function renderGraduates(data) {
     var classes = data.classes || [];
@@ -91,12 +92,16 @@
       mount.appendChild(sec);
     });
 
-    // A link straight to a class (graduates.html#class-2019) lands once it is drawn.
-    if (location.hash) {
+    // A link straight to a class (graduates.html#class-2019) lands once it is
+    // drawn; only the first time, so the editor's redraws don't jump there.
+    if (location.hash && !drawn) {
       var target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
       if (target) target.scrollIntoView();
     }
+    drawn = true;
   }
+  // The local editor (tools/admin/graduates.js) redraws with it.
+  window.renderGraduates = renderGraduates;
 
   /* ------------------------------ footer ------------------------------ */
   function renderFooter(footer) {
