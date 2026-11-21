@@ -81,10 +81,11 @@
 
   function subjectOf(b) { return String(b.subject || "").trim(); }
 
-  // A book's prints: its "prints" (each an edition, price, cover, buyHref
-  // and soldOut of its own), or, without them, the book itself as its one
-  // print. The first is the one the tile shows in front.
-  var PRINT = ["edition", "price", "cover", "buyHref", "soldOut"];
+  // A book's prints: its "prints" (each an edition, price, cover and
+  // soldOut of its own), or, without them, the book itself as its one
+  // print. The first is the one the tile shows in front. (As book.js and
+  // cart.js read them; keep the three in step.)
+  var PRINT = ["edition", "price", "cover", "soldOut"];
   function printsOf(b) {
     if (Array.isArray(b.prints) && b.prints.length) return b.prints;
     var one = {};
@@ -291,6 +292,25 @@
     setText("bookstore-lede", data.lede);
   }
 
+  // bookstore.html: the librarian's message under the masthead
+  // (design/canvas-store-message/, option 2b): `message.body` is its
+  // paragraphs, `message.closing` the du'a beneath. Hidden without a body.
+  // Drawn once on load, not by renderAll: the bookstore editor redraws with
+  // its own fields only, which leave the message out.
+  function renderLetter(msg) {
+    var mount = slot("bookstore-letter");
+    if (!mount) return;
+    var body = msg && Array.isArray(msg.body) ?
+      msg.body.filter(function (p) { return typeof p === "string" && p.trim(); }) : [];
+    mount.textContent = "";
+    mount.hidden = !body.length;
+    if (!body.length) return;
+    var text = el("div", "store-letter__body");
+    body.forEach(function (p) { text.appendChild(el("p", "", esc(p))); });
+    mount.appendChild(text);
+    if (msg.closing) mount.appendChild(el("p", "store-letter__closing", esc(msg.closing)));
+  }
+
   function renderBookstore(data, all) {
     var grid = slot("bookstore");
     if (!grid) return;
@@ -311,7 +331,7 @@
     if (!shown.length) grid.appendChild(el("p", "media-empty", "No books yet."));
     setText("bookstore-kicker", data.kicker);
     setText("bookstore-heading", data.heading);
-    setText("bookstore-visit-label", data.visitLabel || "Visit the Bookstore");
+    setText("bookstore-visit-label", data.visitLabel || "Visit Bookstore");
   }
   global.renderBookstore = renderBookstore;
   // The tab bookstore.html shows ("" for All), for the admin editor.
@@ -347,7 +367,10 @@
   if (yearSlot) yearSlot.textContent = String(new Date().getFullYear());
 
   Promise.all([
-    loadJSON("content/bookstore.json").then(function (data) { renderBookstore(data, true); }),
+    loadJSON("content/bookstore.json").then(function (data) {
+      renderLetter(data.message);
+      renderBookstore(data, true);
+    }),
     loadJSON("content/program.json").then(function (data) { renderFooter(data.footer); })
   ]).catch(function (err) {
     console.error("Content failed to load.", err);

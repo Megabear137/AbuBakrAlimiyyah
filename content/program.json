@@ -1,25 +1,26 @@
 {
   "site": {
-    "name": "Jamiyah Islamiyyah Abu Bakr",
-    "tagline": "Alimiyyah Program"
+    "name": "Jāmiʿah Islāmiyah Abū Bakr",
+    "tagline": "Ālimiyyah Program"
   },
   "hero": {
-    "title": "The Seven-Year Alimiyyah Program",
-    "titleEmphasis": "Alimiyyah",
-    "subtitle": "Qur'an, hadith, fiqh and Arabic — taught the traditional way, text by text, with a teacher.",
+    "kicker": "Jāmiʿah Islāmiyah Abū Bakr",
+    "title": "Ālimiyyah Program",
+    "titleEmphasis": "Ālimiyyah",
+    "subtitle": "A full course of study in Qur'an, hadith, fiqh, Arabic and the sciences that serve them, taught in the traditional way: text by text, with a teacher, in the company of fellow students.",
     "ctaPrimary": {
       "label": "View Curriculum",
       "href": "#curriculum"
+    },
+    "ctaSecondary": {
+      "label": "Visit Bookstore",
+      "href": "bookstore.html"
     }
   },
   "introduction": {
     "kicker": "",
-    "label": "Introduction",
-    "body": "A full course of study in Qur'an, hadith, fiqh, Arabic and the sciences that serve them, taught in the traditional way: text by text, with a teacher, in the company of fellow students."
-  },
-  "program": {
-    "heading": "Our Program",
-    "body": "Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Throughout this course, students will attain a mastery of the Arabic language, through which they will gain a deep understanding of the Qur'an and Hadith."
+    "label": "Our Program",
+    "body": "Our Alimiyya program is a seven year program, from which the first four years are part time and the last three years are full time. Throughout this course, students will learn the Arabic language, through which they will gain a deep understanding of the Qur'an, Hadith, and Fiqh."
   },
   "details": {
     "kicker": "",
@@ -90,8 +91,8 @@
     "cta": null
   },
   "footer": {
-    "address": "TODO: masjid street address, city, postal code",
-    "email": "TODO: info@example.org",
-    "phone": "TODO: (000) 000-0000"
+    "address": "2665 Lawrence Avenue East, Scarborough, ON M1P 2S2",
+    "email": "alimiyyah@smacanada.ca",
+    "phone": "(416) 750-2253"
   }
 }

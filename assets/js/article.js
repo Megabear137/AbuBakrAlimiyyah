@@ -107,7 +107,7 @@
   }
 
   function renderArticle(a) {
-    document.title = a.title + " — Jamiyah Islamiyyah Abu Bakr";
+    document.title = a.title + " — Jāmiʿah Islāmiyah Abū Bakr";
     slot("article-title").textContent = a.title;
     if (a.subject) slot("article-subject").innerHTML = '<span class="chip">' + esc(a.subject) + "</span>";
     // Author and read time, a dot between them.
@@ -118,7 +118,11 @@
       slot("article-meta").innerHTML = '<p class="meta">' +
         meta.join('<span class="meta__dot" aria-hidden="true"></span>') + "</p>";
     }
-    if (a.excerpt) slot("article-lede").textContent = a.excerpt;
+    // Every article opens with the basmalah (Amiri's single glyph U+FDFD), not
+    // its excerpt; the excerpt is still the home page card's text.
+    var lede = slot("article-lede");
+    lede.classList.add("lede--bism");
+    lede.innerHTML = '<span lang="ar" role="img" aria-label="Bismillāh al-Raḥmān al-Raḥīm">\uFDFD</span>';
     renderBody(slot("article-body"), a.body);
   }
 

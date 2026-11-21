@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Article — Jamiyah Islamiyyah Abu Bakr</title>
+  <title>Article — Jāmiʿah Islāmiyah Abū Bakr</title>
   <meta name="color-scheme" content="light dark">
 
   <!-- Light or dark before first paint: the viewer's last choice, else the
@@ -20,10 +20,10 @@
   </script>
 
   <link rel="icon" href="assets/img/logo_gold_web.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Gilda+Display&family=Instrument+Sans:wght@400;500;600&family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=88">
+  <!-- The basmalah that opens the article (Amiri's U+FDFD), fetched at once. -->
+  <link rel="preload" href="assets/fonts/amiri-400-arabic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
+  <link rel="stylesheet" href="assets/css/styles.css?v=127">
 </head>
 <body id="top">
 
@@ -107,18 +107,19 @@
     <div class="site-footer__grid">
       <a class="brand brand--footer" href="index.html">
         <img class="brand__mark" src="assets/img/logo_gold_web.png" alt="" width="80" height="58">
-        <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
+        <span class="brand__name">Jāmiʿah Islāmiyah Abū Bakr</span>
       </a>
       <div>
         <h2 class="site-footer__heading">Contact</h2>
         <address class="site-footer__contact" data-slot="footer-contact"></address>
       </div>
     </div>
-    <p class="site-footer__legal">&copy; <span data-slot="year"></span> Jamiyah Islamiyyah Abu Bakr</p>
+    <p class="site-footer__legal">&copy; <span data-slot="year"></span> Jāmiʿah Islāmiyah Abū Bakr</p>
   </div>
 </footer>
 
-<script src="assets/js/nav.js?v=3"></script>
-<script src="assets/js/article.js?v=2"></script>
+<script src="assets/js/nav.js?v=5"></script>
+<script src="assets/js/cart.js?v=3"></script>
+<script src="assets/js/article.js?v=4"></script>
 </body>
 </html>

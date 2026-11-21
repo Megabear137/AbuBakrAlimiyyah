@@ -26,7 +26,7 @@ replaces the heading, kicker and teachers of content/teachers.json; saving the
 videos replaces the heading, kicker and videos of media.json; saving the
 testimonies replaces the heading, kicker and testimonies of
 content/testimonies.json; saving the bookstore replaces the heading, kicker,
-lede, visitLabel, buyLabel, pickup, thanks, books and layouts (each subject
+lede, visitLabel, pickup, hold, payWith, reserveTo, books and layouts (each subject
 tab's order and large and medium cards) of content/bookstore.json. Everything
 else in each file stays as it is. Editing a book's image (on book.html)
 saves its rotation and crop in tools/cover_edits.json and remakes its tight
@@ -76,12 +76,12 @@ BOOK_TEXT = ("title", "titleUrdu", "subject", "author", "description", "long", "
 BOOK_SIZES = ("small", "medium", "large")
 TEACHER_TEXT = ("honorific", "name", "bio")
 TESTIMONY_TEXT = ("quote", "name", "graduated")
-VIDEO_TEXT = ("title", "subject", "duration", "date", "thumbnail", "href")
-STORE_HEAD = ("heading", "kicker", "lede", "visitLabel", "buyLabel", "pickup", "thanks")
-STORE_TEXT = ("title", "edition", "subject", "price", "description", "cover", "color", "buyHref")
-PRINT_TEXT = ("edition", "price", "cover", "buyHref")
-# A book is bought through its Stripe Payment Link; nothing else is accepted.
-STRIPE_LINK = "https://buy.stripe.com/"
+VIDEO_TEXT = ("title", "duration", "thumbnail", "href")
+YOUTUBE_RE = re.compile(r"^https?://(?:www\.|m\.)?(?:youtube\.com/(?:watch\?(?:[^#]*&)?v=|embed/|shorts/|live/)|youtu\.be/)([\w-]{11})", re.I)
+VIMEO_RE = re.compile(r"^https?://(?:www\.|player\.)?vimeo\.com/(?:video/)?(\d+)", re.I)
+STORE_HEAD = ("heading", "kicker", "lede", "visitLabel", "pickup", "hold", "payWith", "reserveTo")
+STORE_TEXT = ("title", "edition", "subject", "price", "description", "cover", "color")
+PRINT_TEXT = ("edition", "price", "cover")
 # The bindings assets/js/curriculum.js draws (its BINDINGS); keep in step.
 BINDINGS = ("lapis", "ink", "lapis-silver", "ink-silver", "petrol", "slate", "oxblood", "aubergine")
 
@@ -235,6 +235,10 @@ def check_bookstore(payload, data):
     for field in STORE_HEAD:
         if not isinstance(payload.get(field), str):
             return field + " must be text"
+    # Where the cart posts a reservation: the Google Apps Script web app
+    # (tools/reserve/); empty, no book can be reserved.
+    if payload["reserveTo"] and not payload["reserveTo"].startswith("https://"):
+        return "the reservations address must start with https://"
     books = payload.get("books")
     if not isinstance(books, list):
         return "expected a list of books"
@@ -258,10 +262,8 @@ def check_bookstore(payload, data):
             return where + ": featured must be true or false"
         if "soldOut" in b and not isinstance(b["soldOut"], bool):
             return where + ": soldOut must be true or false"
-        if b.get("buyHref") and not b["buyHref"].startswith(STRIPE_LINK):
-            return where + ": the payment link must start with " + STRIPE_LINK
-        # A book of several prints: each its own edition, price, picture,
-        # payment link and soldOut.
+        # A book of several prints: each its own edition, price, picture
+        # and soldOut.
         if "prints" in b:
             if not isinstance(b["prints"], list) or not b["prints"]:
                 return where + ": prints must be a list of prints"
@@ -274,8 +276,6 @@ def check_bookstore(payload, data):
                         return there + ": %s must be text" % field
                 if "soldOut" in p and not isinstance(p["soldOut"], bool):
                     return there + ": soldOut must be true or false"
-                if p.get("buyHref") and not p["buyHref"].startswith(STRIPE_LINK):
-                    return there + ": the payment link must start with " + STRIPE_LINK
         # The id gives the book its page, book.html?id=<id>; optional.
         if "id" in b:
             if not isinstance(b["id"], str) or not ID_RE.match(b["id"]):
@@ -375,8 +375,9 @@ RESOURCES = {
     },
     "/__admin/testimonies": {
         "file": ROOT / "content" / "testimonies.json",
-        "read": lambda d: {k: d.get(k, [] if k == "testimonies" else "")
-                           for k in ("heading", "kicker", "testimonies")},
+        # `cta` (the way to graduates.html) is read so the preview draws it, never written.
+        "read": lambda d: {**{k: d.get(k, [] if k == "testimonies" else "")
+                              for k in ("heading", "kicker", "testimonies")}, "cta": d.get("cta")},
         "check": check_testimonies,
         "apply": apply_testimonies,
     },
@@ -506,6 +507,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         path = urlsplit(self.path).path
         if path == "/__admin/cover":
             return self.get_cover()
+        if path == "/__admin/duration":
+            return self.get_duration()
         if path in (DASHBOARD, DASHBOARD + "/"):
             return self.send_bytes(200, (ADMIN / "books.html").read_bytes(), "text/html; charset=utf-8")
         if path in RESOURCES:
@@ -525,6 +528,43 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             page = page[:at] + tags + page[at:] if at >= 0 else page + tags
             return self.send_bytes(200, page.encode("utf-8"), "text/html; charset=utf-8")
         super().do_GET()
+
+    def get_duration(self):
+        """A YouTube or Vimeo video's length, as the videos editor shows it:
+        {"duration": "10:09"}. Read from the video's own page at YouTube (no
+        API key) or Vimeo's oEmbed; only the link is sent."""
+        from urllib.parse import parse_qs, quote
+        from urllib.request import Request, urlopen
+        href = (parse_qs(urlsplit(self.path).query).get("href") or [""])[0].strip()
+        yt, vimeo = YOUTUBE_RE.match(href), VIMEO_RE.match(href)
+        if not yt and not vimeo:
+            return self.send_json(400, {"error": "not a YouTube or Vimeo link"})
+        try:
+            if yt:
+                url = "https://www.youtube.com/watch?v=" + yt.group(1)
+            else:
+                url = "https://vimeo.com/api/oembed.json?url=" + quote("https://vimeo.com/" + vimeo.group(1), safe="")
+            req = Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept-Language": "en"})
+            with urlopen(req, timeout=15) as r:
+                body = r.read(4 * 1024 * 1024).decode("utf-8", "replace")
+        except OSError as err:
+            return self.send_json(502, {"error": "couldn't reach the video (%s)" % err})
+        seconds = None
+        if yt:
+            at = body.find('"videoDetails"')
+            m = re.search(r'"lengthSeconds":"(\d+)"', body[at:] if at >= 0 else body)
+            if m:
+                seconds = int(m.group(1))
+        else:
+            try:
+                seconds = int(json.loads(body).get("duration"))
+            except (ValueError, TypeError, AttributeError):
+                pass
+        if not seconds:
+            return self.send_json(404, {"error": "the video's length wasn't found (a live stream, or private?)"})
+        h, rest = divmod(seconds, 3600)
+        text = "%d:%02d:%02d" % (h, rest // 60, rest % 60) if h else "%d:%02d" % (rest // 60, rest % 60)
+        self.send_json(200, {"duration": text, "seconds": seconds})
 
     def cover_source(self, name):
         """The photograph named, or None (and an error sent)."""

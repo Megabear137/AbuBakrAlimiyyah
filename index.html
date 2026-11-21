@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jamiyah Islamiyyah Abu Bakr — Alimiyyah Program</title>
-  <meta name="description" content="A seven year Alimiyyah program in Qur'an, hadith, fiqh and Arabic, taught in the traditional way at Jamiyah Islamiyyah Abu Bakr.">
+  <title>Jāmiʿah Islāmiyah Abū Bakr — Ālimiyyah Program</title>
+  <meta name="description" content="A seven year Ālimiyyah program in Qur'an, hadith, fiqh and Arabic, taught in the traditional way at Jāmiʿah Islāmiyah Abū Bakr.">
   <meta name="color-scheme" content="light dark">
 
   <!-- Light or dark before first paint: the viewer's last choice, else the
@@ -19,20 +19,53 @@
       document.documentElement.setAttribute("data-theme", t);
     })();
   </script>
+  <!-- The loading splash (splash.js): the page waits behind the ground until
+       it is ready. The logo fills on the first home page of a visit; a later
+       one waits without it. No JS, no splash; if splash.js never runs, the
+       splash lifts after 10s. -->
+  <script>
+    (function () {
+      var root = document.documentElement, seen = false;
+      try {
+        seen = sessionStorage.getItem("alimiyyah.splash") === "1";
+        sessionStorage.setItem("alimiyyah.splash", "1");
+      } catch (e) {}
+      root.classList.add("splash-on", "splash-hold");
+      if (seen) root.classList.add("splash-quick");
+      setTimeout(function () { root.classList.remove("splash-on", "splash-hold", "splash-quick"); }, 10000);
+    })();
+  </script>
 
   <link rel="icon" href="assets/img/logo_gold_web.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Gilda+Display&family=Instrument+Sans:wght@400;500;600&family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=88">
+  <!-- Fetched at once, not when the script fills the title: the italic is
+       otherwise found only after content/*.json loads, and swaps in late. -->
+  <link rel="preload" href="assets/fonts/cormorant-garamond-400-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/cormorant-garamond-400-600-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/cormorant-garamond-400-600-italic-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- The splash's bismillah (Amiri's U+FDFD), written as soon as it is in. -->
+  <link rel="preload" href="assets/fonts/amiri-400-arabic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
+  <link rel="stylesheet" href="assets/css/styles.css?v=127">
 </head>
 <body id="top">
+
+<!-- The loading splash: the bismillah, written in from the right, over the
+     logo, a faint ghost under its rising fill, and the glint. Shown only
+     while <html> has splash-on (see <head>). -->
+<div class="splash" aria-hidden="true">
+  <div class="splash__bism"><span class="splash__ink" lang="ar" dir="rtl">&#xFDFD;</span><span class="splash__quill"></span></div>
+  <div class="splash__mark">
+    <div class="splash__logo splash__logo--ghost"></div>
+    <div class="splash__fill"><div class="splash__veil"></div></div>
+    <div class="splash__glint"></div>
+  </div>
+</div>
 
 <a class="skip-link" href="#main">Skip to content</a>
 
 <!-- ============================== HEADER ============================== -->
 <!-- Over the banner: a round menu button, the mark in the middle, and the
-     light/dark toggle beside an outline pill. It scrolls away with the banner. -->
+     light/dark toggle beside an outline pill. It stays at the top of the screen. -->
 <header class="site-header">
   <div class="wrap site-header__inner">
     <button class="round" type="button" data-menu-open aria-controls="site-menu" aria-expanded="false" aria-label="Open menu">
@@ -68,27 +101,25 @@
 
 <main id="main">
   <!-- ============================== HERO ============================== -->
-  <section class="hero" aria-labelledby="hero-title">
+  <section class="hero hero--centre" aria-labelledby="hero-title">
     <div class="hero__img" aria-hidden="true"></div>
     <div class="wrap hero__body">
-      <h1 class="hero__title in" id="hero-title" data-slot="hero-title">The Seven-Year Alimiyyah Program</h1>
+      <img class="hero__logo in" src="assets/img/logo_gold_web.png" width="520" height="376" alt="">
+      <p class="hero__kicker in" data-slot="hero-kicker">Jāmiʿah Islāmiyah Abū Bakr</p>
+      <h1 class="hero__title in" id="hero-title" data-slot="hero-title"><em>Ālimiyyah</em><span class="hero__rest">Program</span></h1>
       <p class="hero__sub in" data-slot="hero-subtitle"></p>
       <div class="hero__cta in" data-slot="hero-cta"></div>
     </div>
   </section>
 
-  <!-- ========================== INTRODUCTION ========================== -->
+  <!-- ========================== OUR PROGRAM =========================== -->
   <section class="section intro" id="about" aria-labelledby="intro-heading">
     <div class="wrap">
       <div class="section__head rv">
         <p class="section__eyebrow" data-slot="intro-kicker"></p>
-        <h2 class="section__heading" id="intro-heading" data-slot="intro-label">Introduction</h2>
+        <h2 class="section__heading" id="intro-heading" data-slot="intro-label">Our Program</h2>
       </div>
       <p class="intro__statement rv" data-slot="intro-body"></p>
-      <div class="program rv">
-        <h2 class="program__heading" data-slot="program-heading">Our Program</h2>
-        <p class="program__body" data-slot="program-body"></p>
-      </div>
     </div>
   </section>
 
@@ -100,6 +131,7 @@
       <div class="section__head rv">
         <p class="section__eyebrow" data-slot="curriculum-kicker"></p>
         <h2 class="section__heading" id="curriculum-heading" data-slot="curriculum-label">Curriculum</h2>
+        <p class="section__hint"><span class="section__hint-hover" data-slot="curriculum-hint"></span><span class="section__hint-touch" data-slot="curriculum-hint-touch"></span></p>
       </div>
       <div class="case" data-slot="curriculum"></div>
     </div>
@@ -127,15 +159,7 @@
         <p class="section__eyebrow" data-slot="details-kicker"></p>
         <h2 class="section__heading" id="details-heading" data-slot="details-heading">Details</h2>
       </div>
-      <div class="details rv">
-        <section class="panel" aria-labelledby="fees-heading">
-          <h3 class="panel__title" id="fees-heading" data-slot="fees-heading">Fees</h3>
-          <div data-slot="fees"></div>
-        </section>
-        <section class="panel panel--discounts" data-slot="discounts" hidden></section>
-      </div>
-      <h3 class="details__sub rv" data-slot="timings-heading">Class Timings</h3>
-      <div class="tiles rv" data-slot="timings"></div>
+      <div class="tracks rv" data-slot="details"></div>
     </div>
   </section>
 
@@ -152,7 +176,7 @@
         <h2 class="section__heading" id="bookstore-heading" data-slot="bookstore-heading">Bookstore</h2>
       </div>
       <div class="store rv" data-slot="bookstore"></div>
-      <p class="store__foot rv"><a class="btn btn--gold" href="bookstore.html"><span data-slot="bookstore-visit-label">Visit the Bookstore</span> <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a></p>
+      <p class="store__foot rv"><a class="btn btn--gold" href="bookstore.html"><span data-slot="bookstore-visit-label">Visit Bookstore</span> <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a></p>
     </div>
   </section>
 
@@ -187,7 +211,7 @@
           <a class="more-link" data-slot="videos-more" hidden></a>
         </div>
       </div>
-      <div data-slot="videos"></div>
+      <div class="videos" data-slot="videos"></div>
     </div>
   </section>
 
@@ -202,6 +226,7 @@
         <h2 class="section__heading" id="alumni-heading" data-slot="testimonies-heading">Alumni Testimonies</h2>
       </div>
       <div class="niches" data-slot="testimonies"></div>
+      <p class="testimonies__cta" data-slot="testimonies-cta" hidden></p>
     </div>
   </section>
 
@@ -213,21 +238,23 @@
     <div class="site-footer__grid">
       <a class="brand brand--footer" href="#top">
         <img class="brand__mark" src="assets/img/logo_gold_web.png" alt="" width="80" height="58">
-        <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
+        <span class="brand__name">Jāmiʿah Islāmiyah Abū Bakr</span>
       </a>
       <div>
         <h2 class="site-footer__heading">Contact</h2>
         <address class="site-footer__contact" data-slot="footer-contact"></address>
       </div>
     </div>
-    <p class="site-footer__legal">&copy; <span data-slot="year"></span> Jamiyah Islamiyyah Abu Bakr</p>
+    <p class="site-footer__legal">&copy; <span data-slot="year"></span> Jāmiʿah Islāmiyah Abū Bakr</p>
   </div>
 </footer>
 
 <script src="assets/js/carousel.js?v=5"></script>
-<script src="assets/js/curriculum.js?v=19"></script>
-<script src="assets/js/nav.js?v=3"></script>
-<script src="assets/js/bookstore.js?v=17"></script>
-<script src="assets/js/main.js?v=29"></script>
+<script src="assets/js/curriculum.js?v=20"></script>
+<script src="assets/js/nav.js?v=5"></script>
+<script src="assets/js/cart.js?v=3"></script>
+<script src="assets/js/bookstore.js?v=21"></script>
+<script src="assets/js/splash.js?v=2"></script>
+<script src="assets/js/main.js?v=42"></script>
 </body>
 </html>

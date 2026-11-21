@@ -306,7 +306,7 @@
       .map(function (s) { return "<span>" + esc(s) + "</span>"; });
     slot("article-meta").innerHTML = meta.length
       ? '<p class="meta">' + meta.join('<span class="meta__dot" aria-hidden="true"></span>') + "</p>" : "";
-    document.title = "Editing: " + (textOf(ui.title) || "Untitled") + " — Jamiyah Islamiyyah Abu Bakr";
+    document.title = "Editing: " + (textOf(ui.title) || "Untitled") + " — Jāmiʿah Islāmiyah Abū Bakr";
   }
 
   function paint() {

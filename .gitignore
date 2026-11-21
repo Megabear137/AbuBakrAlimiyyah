@@ -8,12 +8,6 @@ __frame.html
 out.png
 shot-*.png
 
-# Seeded design-canvas output: ~2.5MB of generated editor payload, rebuilt from
-# the .dc.html sources and canvas.json beside it. The sources are tracked; this
-# is not.
-design/canvas/*.html
-!design/canvas/*.dc.html
-
 # OS / editor noise
 .DS_Store
 Thumbs.db
@@ -22,7 +16,7 @@ desktop.ini
 .vscode/
 .idea/
 
-# Python bytecode from the canvas generators
+# Python bytecode
 __pycache__/
 
 # Copies of content/media.json kept by tools/admin_server.py before each save.

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Book — Jamiyah Islamiyyah Abu Bakr</title>
+  <title>Book — Jāmiʿah Islāmiyah Abū Bakr</title>
   <meta name="color-scheme" content="light dark">
 
   <!-- Light or dark before first paint: the viewer's last choice, else the
@@ -20,10 +20,8 @@
   </script>
 
   <link rel="icon" href="assets/img/logo_gold_web.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Gilda+Display&family=Instrument+Sans:wght@400;500;600&family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=88">
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
+  <link rel="stylesheet" href="assets/css/styles.css?v=127">
 </head>
 <body id="top" class="on-ground">
 
@@ -70,10 +68,9 @@
   <!-- =========================== THE BOOK ============================ -->
   <!-- book.js fills every slot from content/bookstore.json, finding the
        book by the ?id= in the address: its bookstore leaf opened into the
-       head of the page, the cover beside its colophon, the price and the
-       way to buy it (the book's Stripe Payment Link), and how it is
-       collected. Stripe sends the buyer back with &paid=1, which shows the
-       thanks in place of the button. Nothing here takes a payment. -->
+       head of the page, the cover beside its colophon, the price, the way
+       to reserve it (Add to cart: cart.js's slip sends the reservation)
+       and how it is collected. Nothing here takes a payment. -->
   <section class="b-head wrap">
     <div class="b-leaf">
       <div class="b-leaf__cover" data-slot="book-cover"></div>
@@ -100,19 +97,20 @@
     <div class="site-footer__grid">
       <a class="brand brand--footer" href="index.html">
         <img class="brand__mark" src="assets/img/logo_gold_web.png" alt="" width="80" height="58">
-        <span class="brand__name">Jamiyah Islamiyyah Abu Bakr</span>
+        <span class="brand__name">Jāmiʿah Islāmiyah Abū Bakr</span>
       </a>
       <div>
         <h2 class="site-footer__heading">Contact</h2>
         <address class="site-footer__contact" data-slot="footer-contact"></address>
       </div>
     </div>
-    <p class="site-footer__legal">&copy; <span data-slot="year"></span> Jamiyah Islamiyyah Abu Bakr</p>
+    <p class="site-footer__legal">&copy; <span data-slot="year"></span> Jāmiʿah Islāmiyah Abū Bakr</p>
   </div>
 </footer>
 
-<script src="assets/js/nav.js?v=3"></script>
-<script src="assets/js/curriculum.js?v=19"></script>
-<script src="assets/js/book.js?v=5"></script>
+<script src="assets/js/nav.js?v=5"></script>
+<script src="assets/js/cart.js?v=3"></script>
+<script src="assets/js/curriculum.js?v=20"></script>
+<script src="assets/js/book.js?v=7"></script>
 </body>
 </html>

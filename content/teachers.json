@@ -7,7 +7,7 @@
       "id": "kasim-ingar",
       "honorific": "Moulana",
       "name": "Kasim Ingar",
-      "bio": "Imam of our masjid, and teacher for over 36 years. Imam of our masjid, and teacher for over 36 years Imam of",
+      "bio": "Moulana Kasim Ingar has served as the Imām of Masjid Abū Bakr since its grand opening in 2010. It is only through his great efforts and sacrifices that this institute has been able to grow to the size that it is today. He studied the Islamic sciences at the esteemed Dār al-ʿUlūm Falāḥ-e-Dārain Tadkeshwar, from which he graduated in ????. He has been teaching since ???? and currently teaches the full-time classes at Jāmiʿah Islāmiyah Abū Bakr.",
       "body": [
         "TODO: The teacher's biography, for their own page."
       ],
@@ -18,7 +18,7 @@
       "id": "hanif-luharvi",
       "honorific": "Sheikh",
       "name": "Hanif Luharvi",
-      "bio": "Short Bio",
+      "bio": "Sheikh Hanif Luharvi began his studies at Jāmiʿah Ḥusayniyyah Rander and completed them at Maẓāhir al-ʿUlūm Saharanpur in ????. He has been teaching since ????, and currently teaches the science of Ḥadīth at several Islamic institutes across Toronto.",
       "body": [],
       "width": 2,
       "bioBeside": true
@@ -27,7 +27,7 @@
       "id": "zuber-motala",
       "honorific": "Moulana",
       "name": "Zuber Motala",
-      "bio": "Short bio",
+      "bio": "Moulana Zuber Motala graduated from Jāmiʿah Qāsimiyyah Kharod, Gujarat in 2003 and has been teaching since then. He currently teaches the full-time classes and serves as the Principal of the Ālimiyyah Program.",
       "body": [
         "TODO: The teacher's biography, for their own page."
       ],
@@ -38,7 +38,7 @@
       "id": "salim-chauhan",
       "honorific": "Moulana",
       "name": "Salim Chauhan",
-      "bio": "Bio",
+      "bio": "Moulana Salim Chauhan graduated from Dār al-ʿUlūm Falāḥ-e-Dārain Tadkeshwar in 1984, and has been teaching since 1987. He currently teaches full-time and part-time classes at Jāmiʿah Islāmiyah Abū Bakr.",
       "body": [
         "TODO: The teacher's biography, for their own page."
       ],
@@ -49,7 +49,7 @@
       "id": "aiyub-degiya",
       "honorific": "Mufti",
       "name": "Aiyub Degiya",
-      "bio": "TODO: Short line about this teacher.",
+      "bio": "Mufti Aiyub Degiya graduated from Jāmiʿat al-Qirāʾāt Kapletha in 2010 and began teaching shortly afterwards. He currently teaches full-time and part-time classes at Jāmiʿah Islāmiyah Abū Bakr.",
       "body": [
         "TODO: The teacher's biography, for their own page."
       ],
@@ -60,7 +60,7 @@
       "id": "omer-khurshid",
       "honorific": "Sheikh",
       "name": "Omer Khurshid",
-      "bio": "TODO: Short line about this teacher.",
+      "bio": "Sheikh Omer Khurshid graduated from this very institute in 2017, and furthered his studies at the University of Madīnah's Faculty of Ḥadīth, from which he graduated in 2024. He currently teaches the full-time students at Jāmiʿah Islāmiyah Abū Bakr.",
       "body": [
         "TODO: The teacher's biography, for their own page."
       ],
@@ -69,18 +69,18 @@
     },
     {
       "id": "nouman-dasu",
-      "honorific": "Qari ",
+      "honorific": "Qari",
       "name": "Nouman Dasu",
-      "bio": "",
+      "bio": "Qari Nouman Dasu studied the Islamic sciences at Dār al-ʿUlūm Falāḥ-e-Dārain Tadkeshwar and has been teaching since 2007. He currently teaches the science of Tajwīd to full-time students and serves as the Principal of the Ḥifẓ Program.",
       "body": [],
       "width": 2,
       "bioBeside": true
     },
     {
-      "id": "teacher-7",
+      "id": "shoaib-ingar",
       "honorific": "Mufti",
       "name": "Shoaib Ingar",
-      "bio": "TODO: Short line about this teacher.",
+      "bio": "Mufti Shoaib Ingar graduated from Dār al-ʿUlūm Bury, England in 2008 and completed his Iftāʾ at Dār al-ʿUlūm Falāḥ-e-Dārain Tadkeshwar in 2009. He began teaching shortly afterwards, and currently teaches the part-time Ālimiyyah and full-time Ḥifẓ classes.",
       "body": [
         "TODO: The teacher's biography, for their own page."
       ],
@@ -91,16 +91,16 @@
       "id": "idris-ingar",
       "honorific": "Qari",
       "name": "Idris Ingar",
-      "bio": "",
+      "bio": "Qari Idris Ingar graduated from Dār al-ʿUlūm Zakariyyā in 2017 and began teaching shortly afterwards. He currently teaches Tajwīd and the recitation of the Holy Qurʾān to part-time and full-time students.",
       "body": [],
       "width": 2,
       "bioBeside": true
     },
     {
-      "id": "teacher-6",
+      "id": "umar-patel",
       "honorific": "Mufti",
       "name": "Umar Patel",
-      "bio": "TODO: Short line about this teacher.",
+      "bio": "Mufti Umar Patel graduated from Jāmiʿah Islāmiyyah Taʿlīm al-Dīn Dabhel in 2020 and completed his Iftāʾ at Jāmiʿah ʿUlūm al-Qurʾān Jambusar in 2022. He began teaching shortly afterwards, and currently teaches part-time and full-time classes at Jāmiʿah Islāmiyah Abū Bakr.",
       "body": [
         "TODO: The teacher's biography, for their own page."
       ],
@@ -108,10 +108,10 @@
       "bioBeside": true
     },
     {
-      "id": "fahim",
+      "id": "fahimuddin-databhai",
       "honorific": "Moulana",
-      "name": "Fahim",
-      "bio": "",
+      "name": "Fahimuddin Databhai",
+      "bio": "Moulana Fahimuddin Databhai began his studies at Jāmiʿat al-Qirāʾāt Kapletha and completed them at Jāmiʿah Islāmiyah Abū Bakr in 2019. He began teaching shortly afterwards, and currently teaches the part-time Ālimiyyah class at Jāmiʿah Islāmiyah Abū Bakr.",
       "body": [],
       "width": 2,
       "bioBeside": true

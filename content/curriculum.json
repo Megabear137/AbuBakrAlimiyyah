@@ -1,6 +1,8 @@
 {
   "label": "Curriculum",
   "kicker": "",
+  "hint": "Hover over a book to see a summary, and click it to see its full details.",
+  "hintTouch": "Tap a book to see its full details.",
   "note": "The books, years and prices follow the masjid's price list (2026/27). Fields: title (English), titleUrdu (Urdu/Arabic script, may be empty), subject, author (may be empty), description, book_size (small, medium or large — how big the book stands on the shelf; defaults to medium). Each year has a color, the binding of all its books: lapis, ink, lapis-silver, ink-silver, petrol, slate, oxblood or aubergine (defaults to lapis); a book may carry its own color to differ from its year. Optional, for the full view a reader opens with See more: cover (path to a photograph of the book, ideally about 3:4, e.g. assets/img/books/achi-baatain.jpg — without one the binding is drawn instead) and long (a longer description; blank lines separate paragraphs; without it the description is used).",
   "years": [
     {
@@ -8,14 +10,34 @@
       "color": "lapis",
       "books": [
         {
-          "title": "Achchhī Bāteṉ",
-          "titleUrdu": "اچھی باتیں",
-          "subject": "Urdu",
+          "title": "Tashīl al-Naḥw",
+          "titleUrdu": "تسهيل النحو",
+          "subject": "Nahwa",
           "author": "",
-          "description": "The first Urdu reader of the course. Short lessons on good manners and conduct teach students to read Urdu and give them its basic words and grammar.",
+          "description": "A primer of Arabic grammar (nahw) that sets out the basic rules of the sentence simply, with plenty of exercises.",
+          "book_size": "large",
+          "long": "Tashil al-Nahw (\"Making Grammar Easy\") introduces nahw, the grammar of how Arabic words combine into sentences. It begins with the three kinds of word (noun, verb and particle) and moves on to phrases, the nominal and verbal sentence, and case endings (i'rab) and what governs them.\n\nEach rule is explained briefly, illustrated with examples and followed by exercises, so that students can analyse simple sentences on their own. It lays the foundation for every Arabic text studied later in the course.",
+          "cover": "assets/img/books/tasheel-al-nahw.jpg"
+        },
+        {
+          "title": "Tashīl al-Ṣarf",
+          "titleUrdu": "تسهيل الصرف",
+          "subject": "Sarf",
+          "author": "",
+          "description": "A primer of Arabic morphology (sarf): how words are built from their roots and how verbs change their forms.",
+          "book_size": "large",
+          "long": "Tashil al-Sarf (\"Making Morphology Easy\") teaches sarf, the study of word patterns. Students learn to find the root letters of a word, to conjugate verbs in the past and present tenses, the imperative and prohibition, and to recognise the derived nouns built on each verb.\n\nThe book drills these patterns through tables and exercises until they become second nature. With them, a student can recognise and look up almost any Arabic word, which is essential for reading the classical texts.",
+          "cover": "assets/img/books/tasheel-al-sarf.jpg"
+        },
+        {
+          "title": "Qaṣaṣ al-Nabiyyīn (Part 1)",
+          "titleUrdu": "قصص النبيين",
+          "subject": "Arabic",
+          "author": "",
+          "description": "The first part of Shaykh Abul Hasan Ali Nadwi's stories of the prophets, written for young readers in simple, flowing Arabic. Students read real Arabic narrative from their first year.",
           "book_size": "medium",
-          "long": "Achhi Baatein (\"Good Things\") is a beginner's Urdu reader made up of short lessons on good character, manners and everyday Islamic conduct. Each lesson is simple enough for a new reader and carries a moral the students can act on.\n\nStudents learn to read Urdu script fluently, build a working vocabulary and meet the basics of Urdu grammar. Urdu matters in the course because many of the commentaries and explanations used in later years are written in it.",
-          "cover": "assets/img/books/achhi-baatein.jpg"
+          "long": "Qasas al-Nabiyyin was written by Shaykh Abul Hasan Ali Nadwi to give beginners stories of the prophets in Arabic that is easy to follow but still natural and eloquent. Its sentences are short, its vocabulary repeats, and the language grows richer from part to part.\n\nIn class each story is read, translated and discussed, so students learn new words, see the grammar they are studying at work in real sentences, and come to know the lives of the prophets and the lessons in them. Later parts of the series continue the stories, and the last part tells the life of the Prophet ﷺ.",
+          "cover": "assets/img/books/qasas-al-nabiyyin.jpg"
         },
         {
           "title": "Urdū kā Āsān Qāʿida",
@@ -36,7 +58,17 @@
           "cover": "assets/img/books/talim-al-islam.jpg"
         },
         {
-          "title": "Durūs al-Lugha al-ʿArabiyya",
+          "title": "Achchhī Bāteṉ",
+          "titleUrdu": "اچھی باتیں",
+          "subject": "Urdu",
+          "author": "",
+          "description": "The first Urdu reader of the course. Short lessons on good manners and conduct teach students to read Urdu and give them its basic words and grammar.",
+          "book_size": "medium",
+          "long": "Achhi Baatein (\"Good Things\") is a beginner's Urdu reader made up of short lessons on good character, manners and everyday Islamic conduct. Each lesson is simple enough for a new reader and carries a moral the students can act on.\n\nStudents learn to read Urdu script fluently, build a working vocabulary and meet the basics of Urdu grammar. Urdu matters in the course because many of the commentaries and explanations used in later years are written in it.",
+          "cover": "assets/img/books/achhi-baatein.jpg"
+        },
+        {
+          "title": "Durūs al-Lugha al-ʿArabiyya (Book 1)",
           "titleUrdu": "دروس اللغة العربية",
           "subject": "Arabic",
           "author": "",
@@ -53,36 +85,6 @@
           "description": "Practice in Urdu handwriting: students copy the letters, their joined forms and whole words until they write Urdu neatly and clearly.",
           "book_size": "small",
           "cover": "assets/img/books/urdu-khushkhati.jpg"
-        },
-        {
-          "title": "Qaṣaṣ al-Nabiyyīn",
-          "titleUrdu": "قصص النبيين",
-          "subject": "Arabic",
-          "author": "",
-          "description": "The first part of Shaykh Abul Hasan Ali Nadwi's stories of the prophets, written for young readers in simple, flowing Arabic. Students read real Arabic narrative from their first year.",
-          "book_size": "medium",
-          "long": "Qasas al-Nabiyyin was written by Shaykh Abul Hasan Ali Nadwi to give beginners stories of the prophets in Arabic that is easy to follow but still natural and eloquent. Its sentences are short, its vocabulary repeats, and the language grows richer from part to part.\n\nIn class each story is read, translated and discussed, so students learn new words, see the grammar they are studying at work in real sentences, and come to know the lives of the prophets and the lessons in them. Later parts of the series continue the stories, and the last part tells the life of the Prophet ﷺ.",
-          "cover": "assets/img/books/qasas-al-nabiyyin.jpg"
-        },
-        {
-          "title": "Tashīl al-Naḥw",
-          "titleUrdu": "تسهيل النحو",
-          "subject": "Nahwa",
-          "author": "",
-          "description": "A primer of Arabic grammar (nahw) that sets out the basic rules of the sentence simply, with plenty of exercises.",
-          "book_size": "large",
-          "long": "Tashil al-Nahw (\"Making Grammar Easy\") introduces nahw, the grammar of how Arabic words combine into sentences. It begins with the three kinds of word (noun, verb and particle) and moves on to phrases, the nominal and verbal sentence, and case endings (i'rab) and what governs them.\n\nEach rule is explained briefly, illustrated with examples and followed by exercises, so that students can analyse simple sentences on their own. It lays the foundation for every Arabic text studied later in the course.",
-          "cover": "assets/img/books/tasheel-al-nahw.jpg"
-        },
-        {
-          "title": "Tashīl al-Ṣarf",
-          "titleUrdu": "تسهيل الصرف",
-          "subject": "Sarf",
-          "author": "",
-          "description": "A primer of Arabic morphology (sarf): how words are built from their roots and how verbs change their forms.",
-          "book_size": "large",
-          "long": "Tashil al-Sarf (\"Making Morphology Easy\") teaches sarf, the study of word patterns. Students learn to find the root letters of a word, to conjugate verbs in the past and present tenses, the imperative and prohibition, and to recognise the derived nouns built on each verb.\n\nThe book drills these patterns through tables and exercises until they become second nature. With them, a student can recognise and look up almost any Arabic word, which is essential for reading the classical texts.",
-          "cover": "assets/img/books/tasheel-al-sarf.jpg"
         },
         {
           "title": "Tajweed Made Easy",
@@ -117,11 +119,11 @@
           "cover": "assets/img/books/asan-nahw.jpg"
         },
         {
-          "title": "Qaṣaṣ al-Nabiyyīn",
+          "title": "Qaṣaṣ al-Nabiyyīn (Part 2)",
           "titleUrdu": "قصص النبيين",
           "subject": "Arabic",
           "author": "",
-          "description": "Shaykh Abul Hasan Ali Nadwi's stories of the prophets, written for young readers in simple, flowing Arabic that grows richer from part to part.",
+          "description": "The second part of Shaykh Abul Hasan Ali Nadwi's stories of the prophets, in simple, flowing Arabic that grows richer from part to part.",
           "book_size": "medium",
           "long": "Qasas al-Nabiyyin was written by Shaykh Abul Hasan Ali Nadwi to give beginners stories of the prophets in Arabic that is easy to follow but still natural and eloquent. Its sentences are short, its vocabulary repeats, and the language grows richer from part to part.\n\nIn class each story is read, translated and discussed, so students learn new words, see the grammar they are studying at work in real sentences, and come to know the lives of the prophets and the lessons in them. Later parts of the series continue the stories, and the last part tells the life of the Prophet ﷺ.",
           "cover": "assets/img/books/qasas-al-nabiyyin.jpg"
@@ -169,13 +171,40 @@
       "color": "ink",
       "books": [
         {
-          "title": "Al-Fiqh al-Muyassar",
-          "titleUrdu": "الفقه الميسر",
+          "title": "Nūr al-Īḍāḥ",
+          "titleUrdu": "نور الإيضاح",
           "subject": "Fiqh",
-          "author": "Shafīq al-Raḥmān al-Nadwī",
-          "description": "Shafiq al-Rahman al-Nadwi's simplified Hanafi fiqh in Arabic. This part, on worship, covers purity, prayer, zakat, fasting and hajj in short, clear lessons.",
+          "author": "Imām Ḥasan al-Shurunbulālī",
+          "description": "Imam Hasan al-Shurunbulali's short Hanafi text on the fiqh of worship: purity, prayer, zakat, fasting and hajj.",
+          "book_size": "small",
+          "cover": "assets/img/books/nur-al-idah.jpg"
+        },
+        {
+          "title": "Qaṣaṣ al-Nabiyyīn (Part 3)",
+          "titleUrdu": "قصص النبيين",
+          "subject": "Arabic",
+          "author": "",
+          "description": "The third part of Shaykh Abul Hasan Ali Nadwi's stories of the prophets, in simple, flowing Arabic that grows richer from part to part.",
           "book_size": "medium",
-          "cover": "assets/img/books/al-fiqh-al-muyassar.jpg"
+          "long": "Qasas al-Nabiyyin was written by Shaykh Abul Hasan Ali Nadwi to give beginners stories of the prophets in Arabic that is easy to follow but still natural and eloquent. Its sentences are short, its vocabulary repeats, and the language grows richer from part to part.\n\nIn class each story is read, translated and discussed, so students learn new words, see the grammar they are studying at work in real sentences, and come to know the lives of the prophets and the lessons in them. Later parts of the series continue the stories, and the last part tells the life of the Prophet ﷺ.",
+          "cover": "assets/img/books/qasas-al-nabiyyin.jpg"
+        },
+        {
+          "title": "Durūs al-Lugha al-ʿArabiyya (Book 3)",
+          "titleUrdu": "دروس اللغة العربية",
+          "subject": "Arabic",
+          "author": "",
+          "description": "The last of Dr V. Abdur Rahim's three books for the Islamic University of Madinah, which teach Arabic through Arabic, one lesson at a time.",
+          "book_size": "medium"
+        },
+        {
+          "title": "Fayḍ-e-Ṣiddīq",
+          "titleUrdu": "فیض صدیق",
+          "subject": "",
+          "author": "",
+          "description": "TODO: description.",
+          "book_size": "medium",
+          "cover": "assets/img/books/faiz-e-siddiq.jpg"
         },
         {
           "title": "ʿIlm al-Naḥw",
@@ -203,15 +232,6 @@
           "description": "A short collection of hadith chosen by Maulana Ashiq Ilahi Bulandshahri, mostly from Mishkat al-Masabih, which gives students their first Arabic hadith to read, translate and memorise.",
           "book_size": "small",
           "cover": "assets/img/books/zad-al-talibin.jpg"
-        },
-        {
-          "title": "Jamāl al-Qurʾān",
-          "titleUrdu": "جمال القرآن",
-          "subject": "Tajwid",
-          "author": "Maulānā Ashraf ʿAlī Thānwī",
-          "description": "Maulana Ashraf Ali Thanwi's short Urdu treatise on tajwid, which sets out the rules of recitation in brief lessons.",
-          "book_size": "small",
-          "cover": "assets/img/books/jamal-al-quran.jpg"
         }
       ]
     },
@@ -219,6 +239,15 @@
       "name": "Fourth Year",
       "color": "oxblood",
       "books": [
+        {
+          "title": "Tarjamat al-Qurʾān",
+          "titleUrdu": "ترجمة القرآن الكريم",
+          "subject": "Tafseer",
+          "author": "",
+          "description": "The translation of the Qur'an, word by word and verse by verse, so that students understand the Book of Allah directly in Arabic. It is studied over two years.",
+          "book_size": "large",
+          "long": "In Tarjamat al-Qur'an students go through the Qur'an and translate it themselves, word by word and then verse by verse. Along the way they explain the grammar and morphology of difficult words and note the context of each passage.\n\nThe class brings together everything learned in the earlier years of Arabic. It gives students a working understanding of the whole Qur'an, and of its most common vocabulary and expressions, before they begin formal tafsir."
+        },
         {
           "title": "Riyāḍ al-Ṣāliḥīn",
           "titleUrdu": "رياض الصالحين",
@@ -230,13 +259,13 @@
           "cover": "assets/img/books/riyad-al-salihin.jpg"
         },
         {
-          "title": "Mukhtaṣar al-Qudūrī",
-          "titleUrdu": "مختصر القدوري",
-          "subject": "Fiqh",
-          "author": "Imām Abū al-Ḥusayn al-Qudūrī",
-          "description": "Imam al-Quduri's concise text of Hanafi law, from purity to inheritance: the first complete book of fiqh in Arabic that students read.",
-          "book_size": "medium",
-          "cover": "assets/img/books/mukhtasar-al-quduri.jpg"
+          "title": "Hidāyat al-Naḥw",
+          "titleUrdu": "هداية النحو",
+          "subject": "Nahwa",
+          "author": "",
+          "description": "A classic textbook of Arabic grammar (nahw) in the Dars-i Nizami, setting out the rules of the noun, the verb and the particle in concise Arabic.",
+          "book_size": "small",
+          "cover": "assets/img/books/hidayat-al-nahw.jpg"
         },
         {
           "title": "ʿIlm al-Ṣīgha",
@@ -248,15 +277,6 @@
           "cover": "assets/img/books/ilm-al-sigha.jpg"
         },
         {
-          "title": "Hidāyat al-Naḥw",
-          "titleUrdu": "هداية النحو",
-          "subject": "Nahwa",
-          "author": "",
-          "description": "A classic textbook of Arabic grammar (nahw) in the Dars-i Nizami, setting out the rules of the noun, the verb and the particle in concise Arabic.",
-          "book_size": "small",
-          "cover": "assets/img/books/hidayat-al-nahw.jpg"
-        },
-        {
           "title": "Mabādiʾ al-Uṣūl",
           "titleUrdu": "مبادئ الأصول",
           "subject": "Usul Fiqh",
@@ -264,6 +284,33 @@
           "description": "Mufti Saeed Ahmad Palanpuri's short introduction to the principles of jurisprudence (usul al-fiqh), preparing students for Usul al-Shashi.",
           "book_size": "small",
           "cover": "assets/img/books/mabadi-al-usul.jpg"
+        },
+        {
+          "title": "Durūs al-Lugha al-ʿArabiyya (Book 3)",
+          "titleUrdu": "دروس اللغة العربية",
+          "subject": "Arabic",
+          "author": "",
+          "description": "The last of Dr V. Abdur Rahim's three books for the Islamic University of Madinah, which teach Arabic through Arabic, one lesson at a time.",
+          "book_size": "medium"
+        },
+        {
+          "title": "Qaṣaṣ al-Nabiyyīn (Part 4)",
+          "titleUrdu": "قصص النبيين",
+          "subject": "Arabic",
+          "author": "",
+          "description": "The fourth part of Shaykh Abul Hasan Ali Nadwi's stories of the prophets, in simple, flowing Arabic that grows richer from part to part.",
+          "book_size": "medium",
+          "long": "Qasas al-Nabiyyin was written by Shaykh Abul Hasan Ali Nadwi to give beginners stories of the prophets in Arabic that is easy to follow but still natural and eloquent. Its sentences are short, its vocabulary repeats, and the language grows richer from part to part.\n\nIn class each story is read, translated and discussed, so students learn new words, see the grammar they are studying at work in real sentences, and come to know the lives of the prophets and the lessons in them. Later parts of the series continue the stories, and the last part tells the life of the Prophet ﷺ.",
+          "cover": "assets/img/books/qasas-al-nabiyyin.jpg"
+        },
+        {
+          "title": "Mukhtaṣar al-Qudūrī",
+          "titleUrdu": "مختصر القدوري",
+          "subject": "Fiqh",
+          "author": "Imām Abū al-Ḥusayn al-Qudūrī",
+          "description": "Imam al-Quduri's concise text of Hanafi law, from purity to inheritance: the first complete book of fiqh in Arabic that students read.",
+          "book_size": "medium",
+          "cover": "assets/img/books/mukhtasar-al-quduri.jpg"
         }
       ]
     },
@@ -286,7 +333,7 @@
           "titleUrdu": "ترجمة القرآن الكريم",
           "subject": "Tafseer",
           "author": "",
-          "description": "The translation of the Qur'an, word by word and verse by verse, so that students understand the Book of Allah directly in Arabic.",
+          "description": "The translation of the Qur'an, word by word and verse by verse, so that students understand the Book of Allah directly in Arabic. It is studied over two years.",
           "book_size": "large",
           "long": "In Tarjamat al-Qur'an students go through the Qur'an and translate it themselves, word by word and then verse by verse. Along the way they explain the grammar and morphology of difficult words and note the context of each passage.\n\nThe class brings together everything learned in the earlier years of Arabic. It gives students a working understanding of the whole Qur'an, and of its most common vocabulary and expressions, before they begin formal tafsir."
         },
@@ -328,15 +375,6 @@
           "description": "Imam Ibn al-Jazari's famous poem on tajwid, which gathers the rules of recitation into about a hundred verses that students memorise.",
           "book_size": "small",
           "long": "Al-Muqaddima al-Jazariyya was composed by Imam Muhammad ibn al-Jazari, the great authority on the readings of the Qur'an. In about a hundred lines of verse it covers the points of articulation and qualities of the letters, heavy and light pronunciation, noon and meem sakin, prolongation, stopping, and how certain words are written in the Uthmani script.\n\nBecause it is in verse, it is memorised, and each line is then explained. It gives students a firm, precise grasp of tajwid in Arabic and a text they can carry with them.",
-          "cover": "assets/img/books/al-muqaddima-al-jazariyya.jpg"
-        },
-        {
-          "title": "Khulāṣat al-Bayān",
-          "titleUrdu": "خلاصة البيان في تجويد القرآن",
-          "subject": "Tajwid",
-          "author": "Qārī Ḍiyāʾ al-Dīn Aḥmad Ilāhābādī",
-          "description": "Qari Zia al-Din Ahmad Allahabadi's Urdu manual of tajwid. This edition also carries the texts of al-Muqaddima al-Jazariyya and Tuhfat al-Atfal.",
-          "book_size": "small",
           "cover": "assets/img/books/khulasat-al-bayan.jpg"
         },
         {
@@ -567,15 +605,6 @@
           "book_size": "medium",
           "long": "Imam Muhammad ibn al-Hasan al-Shaybani was a student of both Imam Abu Hanifa and Imam Malik, and he heard the Muwatta' from Imam Malik himself. In his narration he follows many of the hadith with his own comment, saying either that he takes it or how the Hanafis understand it, and gives the position of Imam Abu Hanifa.\n\nIt shows the Hanafi school working directly with the hadith of Madinah, and is one of its earliest and most important sources. Students read it in the final year alongside Imam Malik's own narration.",
           "cover": "assets/img/books/muwatta-imam-muhammad.jpg"
-        },
-        {
-          "title": "Nūr al-Īḍāḥ",
-          "titleUrdu": "نور الإيضاح",
-          "subject": "Fiqh",
-          "author": "Imām Ḥasan al-Shurunbulālī",
-          "description": "Imam Hasan al-Shurunbulali's short Hanafi text on the fiqh of worship: purity, prayer, zakat, fasting and hajj.",
-          "book_size": "small",
-          "cover": "assets/img/books/nur-al-idah.jpg"
         }
       ]
     }

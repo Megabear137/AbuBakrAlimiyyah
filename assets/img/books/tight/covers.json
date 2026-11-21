@@ -49,6 +49,11 @@
     "ratio": 1.515,
     "tint": "#c05999"
   },
+  "assets/img/books/asan-mantiq.jpg": {
+    "tight": "assets/img/books/tight/asan-mantiq.jpg?v=17fad2c7",
+    "ratio": 1.603,
+    "tint": "#b5aa87"
+  },
   "assets/img/books/asan-nahw.jpg": {
     "tight": "assets/img/books/tight/asan-nahw.jpg?v=41c3f34f",
     "ratio": 1.542,
@@ -85,9 +90,9 @@
     "tint": "#9da2a9"
   },
   "assets/img/books/faiz-e-siddiq.jpg": {
-    "tight": "assets/img/books/tight/faiz-e-siddiq.jpg?v=295d5af2",
-    "ratio": 1.249,
-    "tint": "#899095"
+    "tight": "assets/img/books/tight/faiz-e-siddiq.jpg?v=81ec5aa6",
+    "ratio": 1.624,
+    "tint": "#889095"
   },
   "assets/img/books/ghazv-i-fikri.jpg": {
     "tight": "assets/img/books/tight/ghazv-i-fikri.jpg?v=51a7417b",
@@ -148,6 +153,11 @@
     "tight": "assets/img/books/tight/mabadi-al-usul.jpg?v=c584be12",
     "ratio": 1.611,
     "tint": "#1d1f25"
+  },
+  "assets/img/books/matn-al-aqida-al-tahawiyya.jpg": {
+    "tight": "assets/img/books/tight/matn-al-aqida-al-tahawiyya.jpg?v=c98fa04e",
+    "ratio": 1.559,
+    "tint": "#5d5957"
   },
   "assets/img/books/mishkat-al-masabih-2.jpg": {
     "tight": "assets/img/books/tight/mishkat-al-masabih-2.jpg?v=63e0afad",
@@ -294,10 +304,15 @@
     "ratio": 1.517,
     "tint": "#bc9a7b"
   },
+  "assets/img/books/talim-al-arabiyya.jpg": {
+    "tight": "assets/img/books/tight/talim-al-arabiyya.jpg?v=7f661e4d",
+    "ratio": 1.332,
+    "tint": "#b6c4a0"
+  },
   "assets/img/books/talim-al-haq.jpg": {
-    "tight": "assets/img/books/tight/talim-al-haq.jpg?v=7a260310",
-    "ratio": 1.816,
-    "tint": "#3b4742"
+    "tight": "assets/img/books/tight/talim-al-haq.jpg?v=52dede8e",
+    "ratio": 1.5,
+    "tint": "#3a4743"
   },
   "assets/img/books/talim-al-islam.jpg": {
     "tight": "assets/img/books/tight/talim-al-islam.jpg?v=fdf96e06",

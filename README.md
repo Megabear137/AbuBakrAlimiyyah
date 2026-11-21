@@ -1,6 +1,6 @@
-# Jamiyah Islamiyyah Abu Bakr — Alimiyyah Program
+# Jāmiʿah Islāmiyah Abū Bakr — Ālimiyyah Program
 
-A static, information-only website for the masjid's seven-year Alimiyyah program.
+A static, information-only website for the masjid's seven-year Ālimiyyah program.
 Plain HTML, CSS and JavaScript — no build step, no dependencies, no framework.
 
 ## Running it locally
@@ -106,5 +106,4 @@ assets/js/curriculum.js    the year accordion and book selector
 assets/js/carousel.js      shared carousel used by teachers and testimonies
 assets/js/nav.js           mobile menu and active-link highlighting
 content/*.json             all site content
-design/wesbite_design.png  the original design mockup, for reference
 ```

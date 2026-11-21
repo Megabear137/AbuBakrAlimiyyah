@@ -51,15 +51,21 @@
 
   /* ------------------------------ hero ------------------------------- */
   function renderHero(hero) {
+    // The small line over the title (the masjid's name); empty hides it.
+    var kicker = slot("hero-kicker");
+    if (kicker) kicker.textContent = hero.kicker || "";
     setText("hero-subtitle", hero.subtitle);
 
     // One word of the title can be set apart - `titleEmphasis` (italic; gold in
     // light mode, where in dark the whole title is gold).
     var title = slot("hero-title");
     if (title && hero.title) {
-      var html = esc(hero.title);
-      if (hero.titleEmphasis) {
-        html = html.replace(esc(hero.titleEmphasis), "<em>" + esc(hero.titleEmphasis) + "</em>");
+      // The rest of the title, around the emphasis, is its own span.
+      var html = esc(hero.title), em = hero.titleEmphasis ? esc(hero.titleEmphasis) : "";
+      var at = em ? html.indexOf(em) : -1;
+      if (at >= 0) {
+        var rest = function (t) { t = t.trim(); return t ? '<span class="hero__rest">' + t + "</span>" : ""; };
+        html = rest(html.slice(0, at)) + "<em>" + em + "</em>" + rest(html.slice(at + em.length));
       }
       title.innerHTML = html;
     }
@@ -73,6 +79,13 @@
       a.href = cta.href;
       mount.appendChild(a);
     }
+    // A second, cream button beside it (the bookstore); null hides it.
+    var two = hero.ctaSecondary;
+    if (two && two.label && two.href) {
+      var b = el("a", "btn btn--cream", esc(two.label) + " " + ICONS.arrow);
+      b.href = two.href;
+      mount.appendChild(b);
+    }
   }
 
   /* ----------------------------- program ---------------------------- */
@@ -83,79 +96,89 @@
       setText("intro-label", data.introduction.label);
       setText("intro-body", data.introduction.body);
     }
-    if (data.program) {
-      setText("program-heading", data.program.heading);
-      setText("program-body", data.program.body);
-    }
     if (data.details) {
       setText("details-kicker", data.details.kicker);
       setText("details-heading", data.details.heading);
     }
-    if (data.timings) {
-      setText("timings-heading", data.timings.heading);
-      renderTimings(data.timings);
-    }
-    if (data.fees) {
-      setText("fees-heading", data.fees.heading);
-      renderFees(data.fees);
-      renderDiscounts(data.fees.discounts);
-    }
+    renderDetails(data.fees, data.timings);
     renderFooter(data.footer);
   }
 
-  // One tile per group, a row for each of its times, like a board of prayer times.
-  function renderTimings(timings) {
-    var mount = slot("timings");
+  // Details: newspaper columns, one per track (its years, its fee with the
+  // currency sign raised small, its class times on dotted leaders), and the
+  // family discounts beneath as large percentages. fees.tiers and
+  // timings.groups are paired by label (else by position); a tier with no
+  // group still gets a column. design/canvas-details-style/round-2.html, option 11 (Gazette).
+  function renderDetails(fees, timings) {
+    var mount = slot("details");
     if (!mount) return;
     mount.textContent = "";
+    fees = fees || {};
+    timings = timings || {};
 
-    (timings.groups || []).forEach(function (group) {
-      mount.appendChild(el("div", "tile",
-        (group.years ? '<p class="tile__years">' + esc(group.years) + "</p>" : "") +
-        '<h4 class="tile__label">' + esc(group.label) + "</h4>" +
-        (group.rows || []).map(function (row) {
-          return '<p class="tile__row"><span>' + esc(row.days) + "</span><b>" + esc(row.time) + "</b></p>";
-        }).join("")));
+    var groups = timings.groups || [], tiers = fees.tiers || [], used = [];
+    function labelled(list, label) {
+      for (var i = 0; i < list.length; i++) if (list[i] && list[i].label === label) return i;
+      return -1;
+    }
+    var tracks = groups.map(function (g, i) {
+      var k = labelled(tiers, g.label);
+      if (k < 0 && tiers[i] && !used[i] && labelled(groups, tiers[i].label) < 0) k = i;
+      if (k >= 0) used[k] = true;
+      return { label: g.label, years: g.years, rows: g.rows || [], tier: tiers[k] };
     });
-  }
+    tiers.forEach(function (t, k) { if (!used[k]) tracks.push({ label: t.label, rows: [], tier: t }); });
 
-  function renderFees(fees) {
-    var mount = slot("fees");
-    if (!mount) return;
-    mount.textContent = "";
+    // "$125" -> a small raised "$" before "125"; anything without a figure as is.
+    function price(amount) {
+      var m = /^([^\d\s]*)\s*(\d.*)$/.exec(String(amount || ""));
+      return m && m[1] ? '<span class="track__cur">' + esc(m[1]) + "</span>" + esc(m[2]) : esc(amount);
+    }
 
-    var tiers = fees.tiers || [];
-    if (tiers.length) {
-      var box = el("div", "fees");
-      tiers.forEach(function (tier) {
-        box.appendChild(el("div", "fee",
-          '<p class="fee__label">' + esc(tier.label) + "</p>" +
-          '<p class="fee__amount">' + esc(tier.amount) + "</p>" +
-          '<p class="fee__note">' + esc([tier.period, tier.note].filter(Boolean).join(" · ")) + "</p>"));
+    if (tracks.length) {
+      var cols = el("div", "tracks__cols");
+      tracks.forEach(function (t) {
+        var tier = t.tier || {}, html = "";
+        if (t.years) html += '<p class="track__years">' + esc(t.years) + "</p>";
+        html += '<h3 class="track__name">' + esc(t.label) + "</h3>";
+        if (tier.amount) {
+          html += '<p class="track__fee"><span class="track__amt">' + price(tier.amount) + "</span>" +
+            '<span class="track__per">' + [tier.period, tier.note].filter(Boolean).map(esc).join("<br>") + "</span></p>";
+        }
+        if (t.rows.length) {
+          html += '<ul class="track__rows">' + t.rows.map(function (row) {
+            return "<li><span>" + esc(row.days) + '</span><i aria-hidden="true"></i><span>' + esc(row.time) + "</span></li>";
+          }).join("") + "</ul>";
+        }
+        cols.appendChild(el("article", "track", html));
       });
-      mount.appendChild(box);
+      mount.appendChild(cols);
     }
 
-    // Optional purchase / enrolment link - set `cta` in program.json when ready.
+    // The percentage is drawn above its count but read after it.
+    var d = fees.discounts;
+    if (d && d.rows && d.rows.length) {
+      var disc = el("div", "tracks__disc", '<h3 class="tracks__disc-label">' + esc(d.label || "Family discounts") + "</h3>");
+      var list = el("ul", "tracks__pcts");
+      d.rows.forEach(function (row) {
+        var m = /^\s*(\d+(?:\.\d+)?\s*%)\s*(.*)$/.exec(String(row.value || ""));
+        list.appendChild(el("li", "", "<b>" + esc(row.count) + "</b>" + (m
+          ? '<span class="tracks__pct">' + esc(m[1]) + '</span><span class="tracks__off">' + esc(m[2]) + "</span>"
+          : '<span class="tracks__off">' + esc(row.value) + "</span>")));
+      });
+      disc.appendChild(list);
+      mount.appendChild(disc);
+    }
+
+    // Optional enrolment link - set `cta` in program.json when ready.
     if (fees.cta && fees.cta.href && fees.cta.label) {
-      var a = el("a", "btn btn--gold fees__cta", esc(fees.cta.label) + " " + ICONS.arrow);
+      var p = el("p", "tracks__cta");
+      var a = el("a", "btn btn--gold", esc(fees.cta.label) + " " + ICONS.arrow);
       a.href = fees.cta.href;
-      mount.appendChild(a);
+      p.appendChild(a);
+      mount.appendChild(p);
     }
-  }
-
-  function renderDiscounts(d) {
-    var mount = slot("discounts");
-    if (!mount || !d || !d.rows || !d.rows.length) return;
-    mount.textContent = "";
-    mount.appendChild(el("h3", "panel__title panel__title--sm", esc(d.label || "Family discounts")));
-    var list = el("dl", "discounts");
-    d.rows.forEach(function (row) {
-      list.appendChild(el("div", "discounts__row",
-        "<dt>" + esc(row.count) + "</dt><dd>" + esc(row.value) + "</dd>"));
-    });
-    mount.appendChild(list);
-    mount.hidden = false;
+    mount.hidden = !mount.firstChild;
   }
 
   function renderFooter(footer) {
@@ -192,9 +215,14 @@
       var card = el("article", "teacher" + (w > 1 ? " teacher--w" + w : "") + (h > 1 ? " teacher--h" + h : "") +
         (w > 1 || h > 1 ? " teacher--lead" : "") + (w > 1 && t.bioBeside ? " teacher--beside" : "") +
         (isTodo(t.name) ? " teacher--todo" : "") + (href ? " teacher--link" : ""));
-      if (t.honorific) card.appendChild(el("p", "teacher__honorific", esc(t.honorific)));
-      card.insertAdjacentHTML("beforeend", linkedTitle("h3", "teacher__name", t.name, href));
-      if (t.bio) card.appendChild(el("p", "teacher__bio", esc(t.bio)));
+      // The card is a size container; its inner box is what the CSS lays out
+      // (the name block beside the bio, or above it, by the card's width).
+      var inner = el("div", "teacher__in"), head = el("div", "teacher__head");
+      if (t.honorific) head.appendChild(el("p", "teacher__honorific", esc(t.honorific)));
+      head.insertAdjacentHTML("beforeend", linkedTitle("h3", "teacher__name", t.name, href));
+      inner.appendChild(head);
+      if (t.bio) inner.appendChild(el("p", "teacher__bio", esc(t.bio)));
+      card.appendChild(inner);
       mount.appendChild(card);
     });
   }
@@ -309,9 +337,45 @@
   }
 
   // Videos: a carousel of wide cards, the caption beneath the picture.
-  // Without a thumbnail, alternate the masjid photo and a plain board.
+  // Without a picture, alternate the masjid photo and a plain board.
   function videoArt(v, i) {
-    return v.thumbnail ? "" : i % 2 ? " board" + (i % 4 === 3 ? " board--rust" : "") : " vid__art--photo";
+    return picture(v) ? "" : i % 2 ? " board" + (i % 4 === 3 ? " board--rust" : "") : " vid__art--photo";
+  }
+
+  // The picture: the thumbnail given, else a YouTube video's own. YouTube's
+  // hqdefault always exists but is 480px and letterboxed (the cover crop
+  // trims the bars); maxresdefault is sharper but missing on some videos,
+  // where YouTube answers with a 120×90 grey stand-in, so it is tried first
+  // and used only if it loads larger than that.
+  var YOUTUBE = /^https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/i;
+  var sharp = {};  // YouTube id → the sharpest picture found so far
+
+  function youtubeId(href) {
+    var m = String(href || "").trim().match(YOUTUBE);
+    return m ? m[1] : "";
+  }
+
+  function picture(v) {
+    if (v.thumbnail) return v.thumbnail;
+    var id = youtubeId(v.href);
+    return id ? sharp[id] || "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg" : "";
+  }
+
+  // Shows v's picture on `node`, swapping in the sharper one when it arrives.
+  function paint(node, v) {
+    var src = picture(v);
+    node.style.backgroundImage = src ? "url(" + JSON.stringify(src) + ")" : "";
+    var id = !v.thumbnail && youtubeId(v.href);
+    if (!id || sharp[id]) return;
+    var was = node.style.backgroundImage;
+    var big = new Image();
+    big.onload = function () {
+      if (big.naturalWidth <= 120) return;
+      sharp[id] = big.src;
+      // Only if the node still shows this video (the popup's poster is reused).
+      if (node.style.backgroundImage === was) node.style.backgroundImage = "url(" + JSON.stringify(big.src) + ")";
+    };
+    big.src = "https://i.ytimg.com/vi/" + id + "/maxresdefault.jpg";
   }
 
   // A card plays its video in the popup when its href is one the popup can
@@ -320,8 +384,8 @@
     var card = el("article", "vid");
     var thumb = el("div", "vid__art" + videoArt(v, i),
       '<span class="vid__play">' + ICONS.play + "</span>" +
-      (v.date || v.duration ? '<span class="vid__time">' + esc([v.date, v.duration].filter(Boolean).join(" · ")) + "</span>" : ""));
-    if (v.thumbnail) thumb.style.backgroundImage = "url(" + JSON.stringify(v.thumbnail) + ")";
+      (v.duration ? '<span class="vid__time">' + esc(v.duration) + "</span>" : ""));
+    paint(thumb, v);
     card.appendChild(thumb);
     if (v.href && !playable(v.href)) {
       card.insertAdjacentHTML("beforeend", linkedTitle("h3", "vid__title", v.title, v.href));
@@ -334,7 +398,6 @@
       title.appendChild(play);
       card.appendChild(title);
     }
-    if (v.subject) card.appendChild(el("p", "vid__meta", esc(v.subject)));
     return card;
   }
 
@@ -346,9 +409,9 @@
   // browser's; a video without an href shows its picture.
   function playable(href) {
     var s = String(href || "").trim();
-    var m = s.match(/^https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/i);
-    if (m) return { frame: "https://www.youtube-nocookie.com/embed/" + m[1] + "?autoplay=1&rel=0" };
-    m = s.match(/^https?:\/\/(?:www\.|player\.)?vimeo\.com\/(?:video\/)?(\d+)/i);
+    var id = youtubeId(s);
+    if (id) return { frame: "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0" };
+    var m = s.match(/^https?:\/\/(?:www\.|player\.)?vimeo\.com\/(?:video\/)?(\d+)/i);
     if (m) return { frame: "https://player.vimeo.com/video/" + m[1] + "?autoplay=1" };
     if (/^(?!javascript:)[^<>"]+\.(mp4|webm|ogv|m4v)([?#].*)?$/i.test(s)) return { file: s };
     return null;
@@ -366,7 +429,7 @@
       '<div class="vp__box" role="dialog" aria-modal="true" aria-labelledby="vp-title">' +
         '<button class="round vp__close" type="button" data-vp-close aria-label="Close video">' + ICONS.close + "</button>" +
         '<div class="vp__frame"><div class="vp__poster"><span class="vid__play">' + ICONS.play + "</span></div></div>" +
-        '<div class="vp__cap"><div><h2 class="vp__title" id="vp-title"></h2><p class="vp__subject"></p></div>' +
+        '<div class="vp__cap"><h2 class="vp__title" id="vp-title"></h2>' +
         '<p class="vp__meta"></p></div>' +
       "</div>";
     document.body.appendChild(root);
@@ -408,11 +471,9 @@
     playing = { v: v, art: art, opener: opener };
 
     player.poster.className = "vp__poster" + videoArt(v, i);
-    player.poster.style.backgroundImage = v.thumbnail ? "url(" + JSON.stringify(v.thumbnail) + ")" : "";
+    paint(player.poster, v);
     player.root.querySelector(".vp__title").textContent = v.title || "";
-    player.root.querySelector(".vp__subject").textContent = v.subject || "";
-    player.root.querySelector(".vp__meta").innerHTML = [v.date, v.duration].filter(Boolean).map(esc)
-      .join('<i aria-hidden="true"></i>');
+    player.root.querySelector(".vp__meta").textContent = v.duration || "";
 
     // The rest of the page is out of reach while the popup is open.
     player.inert = Array.prototype.filter.call(document.body.children, function (n) {
@@ -493,7 +554,7 @@
             mount: mount,
             items: items,
             label: label,
-            perView: function () { var w = window.innerWidth; return w < 700 ? 1 : w < 1040 ? 2 : 3; },
+            perView: function () { return window.innerWidth < 700 ? 1 : 2; },
             render: videoCard
           });
         }
@@ -609,6 +670,19 @@
         return slotEl;
       }
     });
+
+    // The way to graduates.html under the niches; a null `cta` hides it.
+    var ctaSlot = slot("testimonies-cta");
+    if (ctaSlot) {
+      ctaSlot.textContent = "";
+      var cta = data.cta;
+      ctaSlot.hidden = !(cta && cta.label && cta.href);
+      if (!ctaSlot.hidden) {
+        var a = el("a", "btn btn--gold", esc(cta.label) + " " + ICONS.arrow);
+        a.href = cta.href;
+        ctaSlot.appendChild(a);
+      }
+    }
     return testimoniesCarousel;
   }
   window.renderTestimonies = renderTestimonies;
@@ -622,6 +696,8 @@
     loadJSON("content/curriculum.json").then(function (data) {
       setText("curriculum-label", data.label);
       setText("curriculum-kicker", data.kicker);
+      setText("curriculum-hint", data.hint);
+      setText("curriculum-hint-touch", data.hintTouch);
       renderCurriculum(slot("curriculum"), data);
     }),
     loadJSON("content/teachers.json").then(renderTeachers),
@@ -638,5 +714,8 @@
       "a local web server instead (see CLAUDE.md).");
     banner.style.cssText = "padding:8rem 1rem 2rem;text-align:center;color:#8a2b2b";
     document.getElementById("main").prepend(banner);
+  }).then(function () {
+    // Drawn (or failed): splash.js lifts the loading splash.
+    document.dispatchEvent(new Event("content:ready"));
   });
 })();

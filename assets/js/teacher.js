@@ -74,7 +74,7 @@
 
   /* ----------------------------- the teacher ---------------------------- */
   function renderTeacher(t) {
-    document.title = [t.honorific, t.name].filter(Boolean).join(" ") + " — Jamiyah Islamiyyah Abu Bakr";
+    document.title = [t.honorific, t.name].filter(Boolean).join(" ") + " — Jāmiʿah Islāmiyah Abū Bakr";
     slot("teacher-honorific").textContent = t.honorific || "";
     slot("teacher-name").textContent = t.name;
     slot("teacher-bio").textContent = t.bio || "";
@@ -97,10 +97,14 @@
     others.forEach(function (t) {
       var href = teacherHref(t);
       var card = el("article", "teacher" + (isTodo(t.name) ? " teacher--todo" : "") + (href ? " teacher--link" : ""));
-      if (t.honorific) card.appendChild(el("p", "teacher__honorific", esc(t.honorific)));
-      card.appendChild(el("h3", "teacher__name",
+      // The mosaic's markup (main.js): the inner box, the name block, the bio.
+      var inner = el("div", "teacher__in"), head = el("div", "teacher__head");
+      if (t.honorific) head.appendChild(el("p", "teacher__honorific", esc(t.honorific)));
+      head.appendChild(el("h3", "teacher__name",
         href ? '<a class="stretched" href="' + esc(href) + '">' + esc(t.name) + "</a>" : esc(t.name)));
-      if (t.bio) card.appendChild(el("p", "teacher__bio", esc(t.bio)));
+      inner.appendChild(head);
+      if (t.bio) inner.appendChild(el("p", "teacher__bio", esc(t.bio)));
+      card.appendChild(inner);
       mount.appendChild(card);
     });
     slot("teacher-more").hidden = false;

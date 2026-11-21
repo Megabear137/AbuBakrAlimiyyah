@@ -12,29 +12,22 @@ These books still have no photograph, so the site draws a plain binding in their
 | Book | Year | In the bookstore? |
 |---|---|---|
 | Tajweed Made Easy | 1st | yes |
-| Bahishti Zewar (بہشتی زیور) | 2nd | yes, and it's featured on the home page |
 | Muwatta Imam Malik (مؤطا امام مالک) | 7th | yes |
-| Tarjamat al-Qur'an | 5th | no (no price) |
-| Shama'il al-Tirmidhi | 7th | no (no price) |
 
 Photograph each book's front cover, straight on and filling the frame. A 3:4 shape works best.
 
 ## 2. Prices
 
-Every book on the price list has a price. Two curriculum books aren't on the list, so they aren't
-in the bookstore:
-
-- **Tarjamat al-Qur'an** (5th Year)
-- **Shama'il al-Tirmidhi** (7th Year)
-
-Send prices for these to add them to the bookstore, or confirm they shouldn't be sold.
+Every book on the price list has a price. Tarjamat al-Qur'an (4th and 5th Years) and Shama'il al-Tirmidhi
+(7th Year) are taught but have no book of their own, so they aren't sold. The photographed books
+that aren't on the list are in the bookstore priced TODO (section 6).
 
 **Editions all share one price.** Where the bookstore sells several editions of a book, each
 edition uses the list's single price. If any edition costs more or less, give its price:
 
 | Book | Price | Editions |
 |---|---|---|
-| Tasheel al-Nahw | $9 | blue (version 2.2); maroon (Jamiah Islamiyah Abu Bakr) |
+| Tasheel al-Nahw | $9 | blue (version 2.2); maroon (Jāmiʿah Islāmiyah Abū Bakr) |
 | Jamal al-Qur'an | $3 | Qira'at Academy; Zinat al-Furqan notes (Maktaba Rahmaniyya) |
 | Durus al-Balagha | $7 | blue and white; blue and cream; leather-look |
 | Usul al-Shashi | $10 | light blue; wood-grain; brown leather-look; lilac |
@@ -62,21 +55,21 @@ full set or for one volume.
 
 ## 4. Online payment
 
-No book has a Stripe Payment Link yet, so no book page has a Buy button. Each of the 67 postings
+No book has a Stripe Payment Link yet, so no book page has a Buy button. Each of the 79 postings
 needs its own link (one per edition). The steps are in CLAUDE.md under *Selling books*.
 
 ## 5. Curriculum text to review
 
-- **Descriptions I wrote.** Each of the 20 books added from the price list has a short description
+- **Descriptions I wrote.** Each of the 18 books added from the price list has a short description
   I wrote. Please check these: Urdu ka Asan Qaida, Ta'lim al-Islam, Urdu Khushkhati, Tajweed Made
-  Easy, Asan Nahw, Ilm al-Sarf (Awwalin and Akhirin), Bahishti Zewar, Tajweed for Beginners,
+  Easy, Asan Nahw, Ilm al-Sarf (Awwalin and Akhirin), Tajweed for Beginners,
   al-Fiqh al-Muyassar, Ilm al-Nahw, Zad al-Talibin, Jamal al-Qur'an, Mukhtasar al-Quduri, Ilm
-  al-Sigha, Hidayat al-Nahw, Mabadi al-Usul, Khulasat al-Bayan, al-Siraji and Nur al-Idah. I also
+  al-Sigha, Hidayat al-Nahw, Mabadi al-Usul, al-Siraji and Nur al-Idah. I also
   reworded Durus al-Lugha (now the complete course), Sharh al-Aqida al-Tahawiyya and Taysir
   Mustalah al-Hadith.
 - **Longer descriptions (optional).** These books have only the short description, so their full
   view repeats it. A longer description of a paragraph or two would fill it out, like the older
-  books have. This applies to all 20 new books listed above.
+  books have. This applies to all 18 new books listed above.
 - **Authors (optional).** Where no author is given, the author line is left off. The authors are
   missing for Achhi Baatein, Urdu ka Asan Qaida, Durus al-Lugha, Urdu Khushkhati, Qasas
   al-Nabiyyin, Tasheel al-Nahw, Tasheel al-Sarf, Tajweed Made Easy, Asan Nahw, Riyad al-Salihin,
@@ -86,21 +79,26 @@ needs its own link (one per edition). The steps are in CLAUDE.md under *Selling 
   and both Muwattas.
 - **Qasas al-Nabiyyin:** which part or parts are studied? The price list just says "قصص النبیین".
 
-## 6. Photographs of books not on the price list
+## 6. Photographed books not on the price list
 
-These were photographed but aren't on the price list, so they aren't on the site. Send prices and
-years for any that should be added. Those marked *(saved)* are already cut to
-`assets/img/books/<name>.jpg`, ready to use:
+These were photographed but aren't on the price list. They're in the bookstore with the price TODO
+and no year, so they show only under *All years*. For each, send its price and the years it's taught
+in, or say it shouldn't be sold:
 
-- Faiz-e-Siddiq (فیض صدیق) *(saved: faiz-e-siddiq)*
-- Asan Sarf, parts 1 and 3 (آسان صرف) *(saved: asan-sarf, asan-sarf-part-3)*
-- al-Qira'a al-Wadiha, part 1 (القراءة الواضحة) *(saved: al-qiraa-al-wadiha)*
-- Tamrin al-Nahw, part 2 (تمرين النحو) *(saved: tamrin-al-nahw)*
-- Kitab al-Nahw (كتاب النحو) *(saved: kitab-al-nahw)*
-- Ta'lim al-Haq (تعليم الحق) *(saved: talim-al-haq)*
-- Tarikh-e-Islam (تاریخ اسلام) *(saved: tarikh-e-islam)*
-- Tadrib al-Nahw (تدريب النحو) *(saved: tadrib-al-nahw)*
-- Arabi ka Mu'allim, part 4 (عربی کا معلم) *(saved: arabi-ka-muallim)*
+- Asan Sarf, part 1 (آسان صرف)
+- Asan Sarf, part 3
+- al-Qira'a al-Wadiha, part 1 (القراءة الواضحة)
+- Tamrin al-Nahw, part 2 (تمرين النحو)
+- Kitab al-Nahw (كتاب النحو)
+- Tadrib al-Nahw (تدريب النحو)
+- Arabi ka Mu'allim, part 4 (عربی کا معلم)
+- Ta'lim al-Arabiyya, al-Kitab al-Asasi, Book 2, Part 1 (تعليم العربية)
 - Asan Mantiq / Taysir al-Mantiq (آسان منطق / تیسیر المنطق)
-- Ta'lim al-Arabiyya, al-Kitab al-Asasi, Book 2, Part 1
-- Matn al-Aqida al-Tahawiyya (the list has the Sharh, which was added)
+- Matn al-Aqida al-Tahawiyya (متن العقيدة الطحاوية); the Sharh is already sold
+- Ta'lim al-Haq (تعليم الحق)
+- Tarikh-e-Islam (تاریخ اسلام)
+- Faiz-e-Siddiq (فیض صدیق)
+
+Descriptions are wanted for Kitab al-Nahw, Tadrib al-Nahw, Asan Mantiq, Ta'lim al-Haq,
+Tarikh-e-Islam and Faiz-e-Siddiq (they read "TODO: description."). The others have a short one I
+wrote; please check them.

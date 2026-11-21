@@ -4,7 +4,7 @@
    and to bookstore.html, so the public site never carries it. "Edit
    bookstore" opens a panel beside the cards: pick a book (click its card,
    or choose it from the list) and edit its name, edition, subject, years,
-   price, description, page id, Stripe payment link, picture, binding (a
+   price, description, page id, picture, binding (a
    book sold in several prints has an edition, price, picture, payment link
    and "sold out" for each, added, reordered and removed in the panel), its
    card's size (normal; medium: two by one; large: two by two) and a
@@ -17,7 +17,7 @@
    layout: with a tab open (Language, Hadith, ...), dragging cards and the
    card size change only that tab (layouts[tab] in the JSON, by id), and
    All is the list's own order and sizes. Saving writes the heading,
-   kicker, lede, visitLabel, buyLabel, pickup, thanks, books and layouts of
+   kicker, lede, visitLabel, pickup, hold, payWith, reserveTo, books and layouts of
    content/bookstore.json through the server; nothing is written until Save.
    ===================================================================== */
 (function () {
@@ -32,7 +32,7 @@
   var mount = document.querySelector('[data-slot="bookstore"]');
   // bookstore.html has the filter and shows every book; the home page, the featured.
   var all = !!document.querySelector('[data-slot="bookstore-filters"]');
-  var store = null;            // {version, heading, kicker, lede, visitLabel, buyLabel, pickup, thanks, books} as last loaded or saved
+  var store = null;            // {version, heading, kicker, lede, visitLabel, pickup, hold, payWith, reserveTo, books} as last loaded or saved
   var sel = -1;                // the picked book (-1: none)
   var selPrint = 0;            // the picked print of a book of several
   var dirty = false, on = false, timer = 0;
@@ -58,7 +58,7 @@
   // payment link and soldOut in "prints"; a book of one keeps them itself.
   // The fields the panel edits for a print are those of the picked print,
   // or of the book.
-  var PRINT = ["edition", "price", "cover", "buyHref", "soldOut"];
+  var PRINT = ["edition", "price", "cover", "soldOut"];
   function target() {
     var b = book();
     if (!b) return null;
@@ -195,7 +195,7 @@
     if (heading) heading.textContent = store.heading || "Bookstore";
     if (kicker) kicker.textContent = store.kicker;
     if (lede) lede.textContent = store.lede;
-    if (visit) visit.textContent = store.visitLabel || "Visit the Bookstore";
+    if (visit) visit.textContent = store.visitLabel || "Visit Bookstore";
     decorate();
   }
 
@@ -345,11 +345,11 @@
       '<label class="adm-label">Introduction<textarea data-s="lede" rows="3">' + esc(store.lede) + "</textarea>" +
       "<small>The line under the heading on the Bookstore page.</small></label>" +
       text("Button", store.visitLabel, ' data-s="visitLabel"', "The home page’s button to the Bookstore page.") +
-      text("Buy button", store.buyLabel, ' data-s="buyLabel" placeholder="Buy"', "On each book’s page, opening its Stripe payment link.") +
       '<label class="adm-label">Collecting a book<textarea data-s="pickup" rows="3">' + esc(store.pickup) + "</textarea>" +
-      "<small>On each book’s page, under the button: where and when bought books are collected.</small></label>" +
-      '<label class="adm-label">After paying<textarea data-s="thanks" rows="2">' + esc(store.thanks) + "</textarea>" +
-      "<small>Shown in place of the button when Stripe sends the buyer back (the link’s redirect ends &amp;paid=1).</small></label>" +
+      "<small>On each book’s page and in the receipt: where and when reserved books are collected.</small></label>" +
+      text("Held for", store.hold, ' data-s="hold" placeholder="14 days"', "How long a reserved book is kept; in the cart and the receipt. Empty hides it.") +
+      text("Pay with", store.payWith, ' data-s="payWith" placeholder="Cash or card"', "How a reserved book is paid for at the masjid; in the cart and the receipt. Empty hides it.") +
+      text("Reservations address", store.reserveTo, ' data-s="reserveTo" placeholder="https://script.google.com/macros/s/…/exec" spellcheck="false"', "The Apps Script web app the cart sends reservations to (tools/reserve/README.md). Empty: no book can be added to the cart.") +
       '<div class="adm-label">Books<ol class="adm-books">' +
       list.map(function (bk, i) {
         return '<li class="adm-books__row' + (i === sel ? " is-picked" : "") + '">' +
@@ -402,7 +402,6 @@
   // the picked print's, with the prints to pick between.
   function printFields(b) {
     var p = target(), many = !!b.prints, n = selPrint + 1;
-    var redirect = "book.html?id=" + esc(b.id || "…") + (many ? "&amp;print=" + n : "") + "&amp;paid=1";
     var head = '<div class="adm-label">Prints';
     if (many) {
       head += '<div class="adm-seg" role="group" aria-label="Print">' +
@@ -415,7 +414,7 @@
           '<button class="adm-tool" type="button" data-pmove="1" aria-label="Move this print later"' + (selPrint === b.prints.length - 1 ? " disabled" : "") + ">→</button>" +
           '<button class="adm-btn" type="button" data-p="add-print">+ Add a print</button>' +
           '<button class="adm-btn adm-btn--danger" type="button" data-p="remove-print">Remove print ' + n + "</button></div>" +
-        "<small>Each print has its own edition, price, picture and payment link. The card fans out the first three pictures, the first in front, and shows the range of prices; the book’s page lets the buyer choose.</small></div>" +
+        "<small>Each print has its own edition, price and picture, and is reserved on its own. The card fans out the first three pictures, the first in front, and shows the range of prices; the book’s page lets the buyer choose.</small></div>" +
         '<h3 class="adm-panel__head">Print ' + n + "</h3>";
     } else {
       head += '<button class="adm-btn" type="button" data-p="add-print">+ Add another print</button>' +
@@ -423,9 +422,7 @@
     }
     return head +
       text("Edition", p.edition, ' data-f="edition"', many ? "What tells this print from the others; on the book’s page under the title." : "The line under the title, telling one edition from another; empty hides it.") +
-      text("Price", p.price, ' data-f="price" placeholder="$12.00"', "As it should read. Empty hides it. Stripe charges the price set on the payment link.") +
-      text("Stripe payment link", p.buyHref, ' data-f="buyHref" placeholder="https://buy.stripe.com/…" spellcheck="false"',
-        "Empty: no Buy button. Set the link’s redirect to " + redirect + ".") +
+      text("Price", p.price, ' data-f="price" placeholder="$12.00"', "Written like $12.00; empty hides it. Only a print with a price can be reserved.") +
       '<label class="adm-check"><input type="checkbox" data-f="soldOut"' + (p.soldOut ? " checked" : "") + "> Sold out</label>" +
       '<label class="adm-label">Picture<input data-f="cover" value="' + esc(p.cover) + '" placeholder="assets/img/books/name.jpg" spellcheck="false">' +
       "<small data-cover-note>Ideally 3:4. Leave empty and the binding below is drawn instead.</small></label>" +
@@ -540,7 +537,7 @@
 
   function onInput(e) {
     var t = e.target;
-    if (t.dataset.s) { store[t.dataset.s] = /^(lede|pickup|thanks)$/.test(t.dataset.s) ? t.value.replace(/\s+/g, " ") : t.value; changed(); return; }
+    if (t.dataset.s) { store[t.dataset.s] = /^(lede|pickup)$/.test(t.dataset.s) ? t.value.replace(/\s+/g, " ") : t.value; changed(); return; }
     var f = t.dataset.f, b = book();
     if (b && t.dataset.year != null) {
       // Kept in the order of the boxes.
@@ -555,7 +552,6 @@
     if (PRINT.indexOf(f) >= 0) {
       var p = target();
       if (f === "soldOut") { if (t.checked) p.soldOut = true; else delete p.soldOut; }
-      else if (f === "buyHref") { p.buyHref = t.value.trim(); if (!p.buyHref) delete p.buyHref; }
       else if (f === "cover") { p.cover = t.value.trim(); showCover(); }
       else p[f] = t.value.replace(/\s+/g, " ");
       if (f === "edition" && b.prints) {
@@ -662,8 +658,7 @@
     for (var i = 0; i < store.books.length; i++) {
       var b = store.books[i], where = "book " + (i + 1);
       if (!String(b.title || "").trim()) return where + " has no title";
-      var links = (b.prints || [b]).map(function (p) { return p.buyHref; });
-      if (links.some(function (h) { return h && h.indexOf("https://buy.stripe.com/") !== 0; })) return where + ": the payment link must start with https://buy.stripe.com/";
+      if (store.reserveTo && store.reserveTo.indexOf("https://") !== 0) return "the reservations address must start with https://";
       if (b.id === "") delete b.id;
       if (b.id == null) continue;
       if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(b.id)) return where + ": the page id must be lowercase words joined by hyphens";
@@ -685,8 +680,8 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ version: store.version, force: !!force,
                              heading: store.heading, kicker: store.kicker, lede: store.lede,
-                             visitLabel: store.visitLabel, buyLabel: store.buyLabel, pickup: store.pickup,
-                             thanks: store.thanks, books: store.books, layouts: layouts() })
+                             visitLabel: store.visitLabel, pickup: store.pickup, hold: store.hold,
+                             payWith: store.payWith, reserveTo: store.reserveTo, books: store.books, layouts: layouts() })
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, ok: r.ok, json: j }; });
     }).then(function (res) {

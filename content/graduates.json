@@ -1,0 +1,273 @@
+{
+  "heading": "Graduates",
+  "kicker": "",
+  "note": "Every graduate, class by class, from the masjid's Alumni/Graduates list. The titles are put before every name. A class with no brothers or no sisters shows one column.",
+  "titles": {
+    "brothers": "Maulānā",
+    "sisters": "ʿĀlimah"
+  },
+  "classes": [
+    {
+      "year": "2015",
+      "label": "First Graduating Class",
+      "brothers": [
+        "Zishan Khalid"
+      ],
+      "sisters": [
+        "Atiyyah Munshi",
+        "Faheema Ingar",
+        "Fatima Bhaiyat",
+        "Hafsah Patel",
+        "Hajra Ingar",
+        "Mariam Feroze",
+        "Mubashshirah Hafejee",
+        "Samya Mohammed",
+        "Zaineb Bodhania"
+      ]
+    },
+    {
+      "year": "2016",
+      "label": "Second Graduating Class",
+      "brothers": [
+        "Bilal",
+        "Imran Din",
+        "Maaz Shaikh",
+        "Shadman Bhuiya"
+      ],
+      "sisters": [
+        "Hajra Jogiat",
+        "Hirah Ahmad",
+        "Juwairiyyah Khurshid",
+        "Maryam Desai",
+        "Mehnaz Shaikh",
+        "Mubassira Lokhat",
+        "Murshida Fatiwala",
+        "Naheer Patel",
+        "Sama Abbas",
+        "Sumayyah Kotwal"
+      ]
+    },
+    {
+      "year": "2017",
+      "label": "Third Graduating Class",
+      "brothers": [
+        "Ahmed Marwiya",
+        "Asif",
+        "Junaid Bhaiyat",
+        "Faizal Variawa",
+        "Mohammed Qadri",
+        "Sajid",
+        "Salman",
+        "Umar Khurshid"
+      ],
+      "sisters": [
+        "Asifa Pandor",
+        "Faaiza Bulbulia",
+        "Sulha Abovath",
+        "Yasmin Pandor",
+        "Zaneb Lokhat"
+      ]
+    },
+    {
+      "year": "2018",
+      "label": "Fourth Graduating Class",
+      "brothers": [
+        "Arslan Khalid",
+        "Habibullahs",
+        "Muhammad Manjra",
+        "Omer Patel"
+      ],
+      "sisters": [
+        "Aadila Kola",
+        "Fatima Bhaiyat",
+        "Fatima Javed",
+        "Haleema Lokhat",
+        "Halima Intwala",
+        "Masirah Khatri",
+        "Saajidah Patel",
+        "Nabila sayyad",
+        "Zainab bhagat",
+        "Samreen Kagdi",
+        "Zainab Shaikh"
+      ]
+    },
+    {
+      "year": "2019",
+      "label": "Fifth Graduating Class",
+      "brothers": [
+        "Hasan Nakhuda",
+        "Maaz Mulla",
+        "Usama Mahida",
+        "Yusuf Bhaiyat"
+      ],
+      "sisters": [
+        "Amena Mulla",
+        "Bushra Kola",
+        "Habeeba Patel",
+        "Humaira Mahida",
+        "Khadija Kasujee",
+        "Majida Hafejee",
+        "Mehrin Patel",
+        "Nafeesah Siddeek",
+        "Saleha Patel",
+        "Shehla Saleh",
+        "Tajala Alnoor",
+        "Taqwa Alnoor",
+        "Zainab Shaikh"
+      ]
+    },
+    {
+      "year": "2020",
+      "label": "Sixth Graduating Class",
+      "brothers": [
+        "Abid Masra",
+        "Faheem Dadabhai",
+        "Huzaifah Bhaiyat",
+        "Huzaifah Lakhi",
+        "Mohammed Bhaiyat",
+        "Saad Bhaiyat",
+        "Shahzer Khan",
+        "Shuaib Chauhan",
+        "Usman Bhodania"
+      ],
+      "sisters": [
+        "Arshia Asad",
+        "Fatima Choksi",
+        "Fatima Randera",
+        "Ishrath un Nisa",
+        "Sana Abbas"
+      ]
+    },
+    {
+      "year": "2021",
+      "label": "Seventh Graduating Class",
+      "brothers": [
+        "Ahmed Shaikh",
+        "Arslan Mughal",
+        "Hamza Asif Butt",
+        "Hujaifa Randera",
+        "Lukmaan Zafar",
+        "Mohammad Abovath",
+        "Mohammad Daud Khurshid",
+        "Salman Dadabhai"
+      ],
+      "sisters": [
+        "Abidah Desai",
+        "Aminah Mohamed",
+        "Barakah Nana",
+        "Hawa Mazlomyar",
+        "Humairah Shaikh",
+        "Humera Amla",
+        "Laila Chinar Khan",
+        "Maariyah Abowath",
+        "Madiha Desai",
+        "Maheen Mohammed",
+        "Mariah Shaikh",
+        "Nabilah Patel",
+        "Sadiyah Shaikh"
+      ]
+    },
+    {
+      "year": "2022",
+      "label": "Eighth Graduating Class",
+      "brothers": [
+        "Mohammad Bemat",
+        "Mohammad Bharucha",
+        "Mohammad Farokh",
+        "Mohammad Patel",
+        "Mohammed Sufi",
+        "Yaamin Ahmed",
+        "Zishan Khalid"
+      ],
+      "sisters": [
+        "Arifa Patel",
+        "Fatima Hatia",
+        "Nasima Limbada",
+        "Zaineb Patel"
+      ]
+    },
+    {
+      "year": "2023",
+      "label": "Ninth Graduating Class",
+      "brothers": [
+        "Humza Asad"
+      ],
+      "sisters": [
+        "Aisha Masood",
+        "Amina Manakh",
+        "Fasiha Desai",
+        "Khadijah Merchant",
+        "Nadiyah Bulbuliya",
+        "Nazifa Patel",
+        "Saimah Kasuji",
+        "Siddika Bhaimia",
+        "Sohana Garasia",
+        "Taqwa Nana",
+        "Taslima Chauhan",
+        "Zainab Desai"
+      ]
+    },
+    {
+      "year": "2024",
+      "label": "Tenth Graduating Class",
+      "brothers": [
+        "Bilal Mahida",
+        "Hamza Sufi",
+        "Hussain Patel",
+        "Muhammad Dadabhai",
+        "Muhammad Kola",
+        "Mir Farhan Ali",
+        "Saabir Hussain"
+      ],
+      "sisters": [
+        "Aaminah Patel",
+        "Amina Patel",
+        "Fahimah Patel",
+        "Fathima Desai",
+        "Mariyah Patel",
+        "Sumayya Hafeji",
+        "Uzma Ingar",
+        "Yasira Jogiyat",
+        "Zakiyya Shaikh"
+      ]
+    },
+    {
+      "year": "2025",
+      "label": "Eleventh Graduating Class",
+      "brothers": [
+        "Ahmed Kasujee",
+        "Amir Patel",
+        "Farhan Ingar",
+        "Mohammed Abdul Khaliq",
+        "Shehryar Dawud",
+        "Yaseen Texiwala"
+      ],
+      "sisters": [
+        "Asma Manjra",
+        "Fatimah Kola",
+        "Fatimah Pandor",
+        "Humaira Bulbuliya",
+        "Misba Patel",
+        "Riffat Sayed",
+        "Saariyah Abbas",
+        "Salwa Ahmed",
+        "Sameeha Hafeji",
+        "Zakira Bulbulia",
+        "Zeba Rentiya"
+      ]
+    },
+    {
+      "year": "2026",
+      "label": "Twelfth Graduating Class",
+      "brothers": [],
+      "sisters": [
+        "Aaminah Patel",
+        "Khansa Muti ur Rehman",
+        "Maria Fatima",
+        "Sharmin Shaikh",
+        "Zaheda Bhagat",
+        "Zainab Mangera"
+      ]
+    }
+  ]
+}

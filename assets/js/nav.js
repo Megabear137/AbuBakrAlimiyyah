@@ -28,6 +28,34 @@
     });
   }
 
+  /* ----------------------------- header ------------------------------ */
+  /* The header is fixed (styles.css section 4). Scrolled at all, it closes
+     up (--stuck); with the home page's banner scrolled out from under its
+     buttons, they take the cream of a page without a photograph (--past). */
+  var header = document.querySelector(".site-header");
+  var hero = document.querySelector(".hero");
+  if (header) {
+    // At most once a frame, and without reading layout: --past is set by an
+    // IntersectionObserver (the banner's foot under the top 60px), so a scroll
+    // only reads scrollY and touches the classes when they change.
+    var stuck = null, queued = false;
+    var sync = function () {
+      queued = false;
+      var now = window.scrollY > 8;
+      if (now !== stuck) header.classList.toggle("site-header--stuck", (stuck = now));
+    };
+    window.addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(sync); }
+    }, { passive: true });
+    sync();
+    if (hero && "IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        var e = entries[entries.length - 1];
+        header.classList.toggle("site-header--past", !e.isIntersecting && e.boundingClientRect.bottom < 60);
+      }, { rootMargin: "-60px 0px 0px 0px" }).observe(hero);
+    }
+  }
+
   /* ------------------------------ menu ------------------------------- */
   var menu = document.getElementById("site-menu");
   var opener = document.querySelector("[data-menu-open]");

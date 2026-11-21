@@ -142,15 +142,14 @@
       html +=
         '<hr class="adm-hr"><h2 class="adm-panel__head">Video ' + (sel + 1) + "</h2>" +
         text("Title", v.title, ' data-f="title"') +
-        text("Subject", v.subject, ' data-f="subject"', "The line under the title.") +
-        '<div class="adm-row adm-row--top">' +
-          text("Date", v.date, ' data-f="date"') +
-          text("Duration", v.duration, ' data-f="duration" placeholder="12:34"') +
-        "</div>" +
         text("Link", v.href, ' data-f="href" placeholder="https://www.youtube.com/watch?v=…" spellcheck="false"',
           "Where the card goes, such as the video on YouTube. Empty: the card links nowhere.") +
+        '<label class="adm-label">Duration<input data-f="duration" value="' + esc(v.duration) + '" placeholder="12:34">' +
+        "<small data-len-note>Read from the video when the link changes.</small></label>" +
+        '<div class="adm-row adm-row--gap"><span></span>' +
+        '<button class="adm-btn" type="button" data-p="length">Read from the video</button></div>' +
         '<label class="adm-label">Thumbnail<input data-f="thumbnail" value="' + esc(v.thumbnail) + '" placeholder="assets/img/videos/name.jpg" spellcheck="false">' +
-        "<small data-thumb-note>16:9. Leave empty for the masjid photo or a plain board.</small></label>" +
+        "<small data-thumb-note>16:9. Leave empty to use the YouTube video’s own picture (else the masjid photo or a plain board).</small></label>" +
         '<img class="adm-cover adm-cover--wide" alt="" hidden>' +
         '<div class="adm-row adm-row--gap"><span></span>' +
         '<button class="adm-btn adm-btn--danger" type="button" data-p="delete">Delete video</button></div>';
@@ -191,7 +190,60 @@
       if (row) row.textContent = label(v, sel);
     }
     if (f === "thumbnail") showThumb();
+    if (f === "href") {
+      clearTimeout(ui.lenTimer);
+      ui.lenTimer = setTimeout(function () { readLength(v); }, 600);
+    }
     changed();
+  }
+
+  // Fills a video's duration from the video itself: YouTube and Vimeo
+  // through the server (it reads their pages), a video file by loading its
+  // metadata here.
+  function readLength(v) {
+    var href = String(v.href || "").trim();
+    if (!href) return;
+    var file = /^(?!javascript:)[^<>"]+\.(mp4|webm|ogv|m4v)([?#].*)?$/i.test(href);
+    lenNote(v, "Reading the video's length…");
+    var got = file ? fileLength(href) : fetch("/__admin/duration?href=" + encodeURIComponent(href), { cache: "no-store" })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          if (!r.ok) throw new Error(j.error || "HTTP " + r.status);
+          return j.duration;
+        });
+      });
+    got.then(function (text) {
+      if (String(v.href || "").trim() !== href) return;   // the link changed meanwhile
+      v.duration = text;
+      var input = video() === v && ui.panel.querySelector('[data-f="duration"]');
+      if (input) input.value = text;
+      lenNote(v, "Read from the video: " + text + ".");
+      changed();
+    }, function (err) {
+      if (String(v.href || "").trim() === href) lenNote(v, "Couldn't read the length: " + err.message, true);
+    });
+  }
+
+  function fileLength(src) {
+    return new Promise(function (ok, fail) {
+      var media = document.createElement("video");
+      media.preload = "metadata";
+      media.onloadedmetadata = function () {
+        var s = Math.round(media.duration);
+        if (!isFinite(s) || !s) return fail(new Error("the file gives no length"));
+        var h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, pad = function (n) { return (n < 10 ? "0" : "") + n; };
+        ok((h ? h + ":" + pad(m) : m) + ":" + pad(s % 60));
+      };
+      media.onerror = function () { fail(new Error("no video at that path")); };
+      media.src = src;
+    });
+  }
+
+  function lenNote(v, text, bad) {
+    var note = video() === v && ui.panel.querySelector("[data-len-note]");
+    if (!note) return;
+    note.textContent = text;
+    note.classList.toggle("adm-bad", !!bad);
   }
 
   function onClick(e) {
@@ -210,11 +262,12 @@
     }
     if (t.dataset.p === "add") addVideo();
     else if (t.dataset.p === "delete") deleteVideo();
+    else if (t.dataset.p === "length") readLength(video());
   }
 
   // A new video goes first, where the newest belong.
   function addVideo() {
-    list().unshift({ title: "New video", subject: "", duration: "", date: "", thumbnail: "", href: "" });
+    list().unshift({ title: "New video", duration: "", thumbnail: "", href: "" });
     changed();
     sel = 0;
     draw();

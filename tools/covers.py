@@ -27,8 +27,7 @@ photograph as rotated (its bounding box grown to hold it, the corners filled
 with the table's colour). An edit replaces the edges found and CROP_FIX, and
 the photograph itself is never changed, so an edit can always be undone.
 
-Needs Pillow and numpy. design/canvas-library/generate_round5.py uses the
-same functions for the mockups.
+Needs Pillow and numpy.
 """
 import colorsys
 import hashlib
@@ -44,6 +43,8 @@ EDITS = Path(__file__).resolve().parent / "cover_edits.json"
 CROP_FIX = {
     "ilm-al-sarf-akhirin": (0.135, 0.07, 0.905, 0.95),
     "ilm-al-sigha": (0.08, 0.095, 0.915, 0.905),
+    "matn-al-aqida-al-tahawiyya": (0.124, 0.061, 0.876, 0.939),
+    "talim-al-arabiyya": (0.061, 0.062, 0.939, 0.938),
     "sharh-al-aqida-al-tahawiyya": (0.085, 0.09, 0.925, 0.91),
     "sunan-ibn-maja": (0.145, 0.07, 0.87, 0.80),
 }

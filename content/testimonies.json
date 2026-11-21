@@ -2,6 +2,10 @@
   "heading": "Alumni Testimonies",
   "kicker": "",
   "note": "Add or remove testimonies by editing this list.",
+  "cta": {
+    "label": "View All Graduates",
+    "href": "graduates.html"
+  },
   "testimonies": [
     {
       "quote": "I came expecting to memorise rulings and left having learned how the scholars arrived at them. That shift changed the way I read everything.",

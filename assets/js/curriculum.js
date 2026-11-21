@@ -19,7 +19,9 @@
    hand edits of tools/cover_edits.json), the whole photograph until the
    crops have loaded or where a photograph has none. Where bays are
    paired the reading bay widens across the row and its neighbour narrows.
-   Closing it returns focus to the spine.
+   Arrows at its foot (and the arrow keys) turn to the shelf's other books,
+   wrapping round; books still marked TODO are passed over. Closing it
+   returns focus to the spine of the book last shown.
 
    Spines are Islamic bindings, the "emerald panel" of
    design/canvas-spines/goatskin.html: a braided gilt border, a lighter
@@ -117,17 +119,36 @@
     mount._slip = slip;
     var folio = null;   // the open folio, shelf-wide
 
-    function openFolio(book) {
+    function openFolio(book, keep) {
       slip.hide();
+      var turning = !!(folio && keep);
       closeFolio(false);
       var bay = book.closest(".bay");
       var row = bay.parentNode;
       var well = bay.querySelector(".bay__well");
-      var el = buildFolio(book._book, book._index);
+      // The books of this shelf that can be opened, for the arrows.
+      var shelf = Array.prototype.filter.call(well.querySelectorAll(".book"), function (b) {
+        return !isTodo(b._book);
+      });
+      var at = shelf.indexOf(book);
+      var el = buildFolio(book._book, book._index, at, shelf.length);
+      if (turning) el.classList.add("folio--turn");
 
+      function step(by) {
+        openFolio(shelf[(at + by + shelf.length) % shelf.length], by < 0 ? ".folio__prev" : ".folio__next");
+      }
       el.querySelector(".folio__close").addEventListener("click", function () { closeFolio(true); });
+      if (shelf.length > 1) {
+        el.querySelector(".folio__prev").addEventListener("click", function () { step(-1); });
+        el.querySelector(".folio__next").addEventListener("click", function () { step(1); });
+      }
       el.addEventListener("keydown", function (e) {
         if (e.key === "Escape") { e.preventDefault(); closeFolio(true); }
+        else if (shelf.length > 1 && (e.key === "ArrowLeft" || e.key === "ArrowRight") &&
+                 !e.altKey && !e.ctrlKey && !e.metaKey) {
+          e.preventDefault();
+          step(e.key === "ArrowLeft" ? -1 : 1);
+        }
       });
 
       well.hidden = true;
@@ -135,9 +156,13 @@
       if (!row.classList.contains("shelf--single")) {
         row.classList.add(bay === row.firstElementChild ? "shelf--reading-l" : "shelf--reading-r");
       }
+      // The roving tab stop follows the book, so closing returns to it.
+      Array.prototype.forEach.call(well.querySelectorAll(".spine"), function (s) {
+        s.tabIndex = s === book._spine ? 0 : -1;
+      });
       book._spine.setAttribute("aria-expanded", "true");
       folio = { el: el, book: book, well: well, row: row };
-      el.querySelector(".folio__close").focus();
+      (el.querySelector(keep || ".folio__close") || el.querySelector(".folio__close")).focus({ preventScroll: turning });
     }
 
     function closeFolio(refocus) {
@@ -548,7 +573,7 @@
      subject, the title with its Urdu or Arabic name on the same line, the
      author, the description and a catchword. The year is not repeated: the
      bay's label is right beneath it. */
-  function buildFolio(data, i) {
+  function buildFolio(data, i, at, count) {
     var id = "folio-title-" + (++folioCount);
     var el = document.createElement("section");
     el.className = "folio";
@@ -575,7 +600,18 @@
         String(data.long || data.description || "").split(/\n\s*\n/).map(function (para) {
           return '<p class="folio__body">' + esc(para) + "</p>";
         }).join("") +
-        '<p class="folio__catch" aria-hidden="true">' + esc(catchword) + "</p>" +
+        '<div class="folio__foot">' +
+          (count > 1
+            ? '<div class="folio__turn">' +
+                '<button type="button" class="folio__prev" aria-label="Previous book on this shelf">' +
+                  '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+                '<span class="folio__count">' + (at + 1) + " of " + count + "</span>" +
+                '<button type="button" class="folio__next" aria-label="Next book on this shelf">' +
+                  '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+              "</div>"
+            : "") +
+          '<p class="folio__catch" aria-hidden="true">' + esc(catchword) + "</p>" +
+        "</div>" +
       "</div>";
     return el;
   }

@@ -6,15 +6,15 @@
    Masjid" (design/canvas-modern/b-night.html), as combined in
    design/canvas-daynight/: a centred header over a full-height banner that
    blends into the ground, centred section heads (a ✦ eyebrow, letter-
-   spaced display capitals, an italic lede), fee panels and timing tiles,
-   a teacher mosaic, a featured article over a carousel of the rest, three videos
+   spaced display capitals, an italic lede), the Details panel (a column
+   per track, the discounts beneath), a teacher mosaic, a featured article over a carousel of the rest, three videos
    across, and the testimonies in mihrab niches.
 
    Colour belongs to the mode. Light is Chocolate & Bright Gold (theme 12 of
    design/canvas-gold/) on a pale tint of the shelf's wood: dark-brown ink
-   (#462c16) for everything laid on the ground, wooden bays, cream cards,
-   and the dark board (--board) under the Details panels. Dark is B's
-   espresso ground with gold capitals and panels of dark glass.
+   (#462c16) for everything laid on the ground, wooden bays and cream cards
+   and panels. Dark is B's espresso ground with gold capitals and panels
+   of dark glass, and the Details panel in espresso.
    ---------------------------------------------------------------------
     1. Tokens
     2. Reset & base
@@ -107,6 +107,13 @@
   --menu-bg:     rgba(243, 225, 203, 0.97);
   --menu-fg:     var(--brown-ink);
   --menu-hover:  var(--rust-ink);
+  /* Buttons: a cream pill in a gilt hairline with brown ink, as the round
+     buttons are (design/canvas-buttons/browns.html, option 8); dark glass
+     in dark mode and over the photograph. */
+  --btn-bg:      linear-gradient(180deg, #fffaf2, #f6ead8);
+  --btn-bg-hi:   linear-gradient(180deg, #fffdf8, #fbf1e3);
+  --btn-ink:     var(--brown-ink);
+  --btn-lift:    inset 0 0 0 1px var(--gilt-edge), 0 12px 22px -14px rgba(70, 34, 6, 0.7);
 }
 [data-theme="dark"] {
   color-scheme: dark;
@@ -127,6 +134,10 @@
   --menu-bg:     rgba(20, 9, 2, 0.94);
   --menu-fg:     var(--gold-pale);
   --menu-hover:  var(--gold);
+  --btn-bg:      linear-gradient(180deg, rgba(255, 236, 210, 0.1), rgba(255, 236, 210, 0.05));
+  --btn-bg-hi:   linear-gradient(180deg, rgba(255, 236, 210, 0.16), rgba(255, 236, 210, 0.08));
+  --btn-ink:     var(--gold-pale);
+  --btn-lift:    inset 0 0 0 1px rgba(227, 179, 74, 0.45);
 }
 
 /* --------------------------- 2. Reset & base ----------------------- */
@@ -207,6 +218,22 @@ main { position: relative; }
 .section__eyebrow::before { content: "✦ "; }
 .section__eyebrow::after { content: " ✦"; }
 .section__eyebrow:empty { display: none; }
+/* A one-line hint under a title (the bookshelf's: hover for the slip, click
+   for the folio). Touch screens can't hover, so they get their own line. */
+.section__hint {
+  margin: 0.4rem auto 0;
+  max-width: 34rem;
+  color: var(--g-accent);
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-style: italic;
+}
+.section__hint-touch { display: none; }
+@media (hover: none) {
+  .section__hint-hover { display: none; }
+  .section__hint-touch { display: inline; }
+}
+.section__hint-hover:empty, .section__hint-touch:empty { display: none; }
 .section__heading {
   margin: 0.9rem 0 0.6rem;
   padding-left: 0.12em;                  /* balances the tracking after the last letter */
@@ -276,10 +303,23 @@ main { position: relative; }
 }
 .btn svg { width: 16px; height: 16px; }
 .btn:hover { transform: translateY(-2px); }
-.btn--gold {
-  background: linear-gradient(180deg, #f3cf6e, #d49a2a);
-  color: var(--espresso);
-  box-shadow: 0 12px 26px -12px rgba(70, 34, 6, 0.7);
+/* The primary button, and the pressed half of Brothers | Sisters: a cream
+   pill in a gilt hairline (--btn-* in section 1). On the cream leaf and
+   slip it is a shade whiter; over the photograph it is dark glass. */
+.btn--gold,
+.seg__btn[aria-pressed="true"] {
+  background: var(--btn-bg);
+  color: var(--btn-ink);
+  box-shadow: var(--btn-lift);
+}
+.btn--gold:hover { background: var(--btn-bg-hi); }
+:root:not([data-theme="dark"]) :is(.b-leaf, .cart__slip) .btn--gold { --btn-bg: linear-gradient(180deg, #fffdf8, #fbf3e6); }
+.hero .btn--gold {
+  --btn-bg: rgba(26, 13, 4, 0.35);
+  --btn-bg-hi: rgba(26, 13, 4, 0.5);
+  --btn-ink: var(--gold-pale);
+  --btn-lift: inset 0 0 0 1px rgba(227, 179, 74, 0.55);
+  backdrop-filter: blur(4px);
 }
 .btn--line { border: 1px solid rgba(227, 179, 74, 0.35); background: rgba(26, 13, 4, 0.3); color: var(--gold-pale); }
 .btn--sm { padding: 0.7rem 1.3rem; font-size: 0.66rem; }
@@ -348,16 +388,27 @@ main { position: relative; }
 }
 
 /* -------------------------- 4. Header & menu ----------------------- */
-/* Over the banner, and scrolling away with it: the round menu button, the
-   mark and name in the middle, the light/dark toggle and an outline pill. */
-.site-header { position: absolute; inset: 0 0 auto; z-index: 10; }
+/* Fixed to the top of the screen: the round menu button, the light/dark
+   toggle (and the cart's bag) and an outline pill. The bar itself is clear
+   and lets clicks through; only its buttons take them. Once the page is
+   scrolled (nav.js: .site-header--stuck) it closes up and the pill fades;
+   past the home page's banner (.site-header--past) the rounds turn to the
+   cream of .on-ground in light. Under the video popup (40), over the slip (30). */
+.site-header { position: fixed; inset: 0 0 auto; z-index: 35; pointer-events: none; }
+.site-header a,
+.site-header button { pointer-events: auto; }
 .site-header__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 1rem;
   height: 120px;
+  transition: height 0.35s var(--ease-out);
 }
+.site-header--stuck .site-header__inner { height: 84px; }
+.site-header__cta { transition: opacity 0.3s, visibility 0s linear 0s; }
+.site-header--stuck .site-header__cta { opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0s linear 0.3s; }
+.site-header--stuck .round { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .site-header__end { justify-self: end; display: flex; align-items: center; gap: 0.7rem; }
 .site-header .round {
   border-color: rgba(227, 179, 74, 0.3);
@@ -497,41 +548,202 @@ main { position: relative; }
 }
 .hero__sub:empty { display: none; }
 .hero__cta:empty { display: none; }
+.hero--centre .hero__cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+/* The banner's second button: a cream pill in a gilt hairline. */
+.hero .btn--cream { background: linear-gradient(180deg, #fff8ec, #f3e3c8); color: var(--brown-ink); box-shadow: inset 0 0 0 1px rgba(227, 179, 74, 0.7); }
+.hero .btn--cream:hover { background: linear-gradient(180deg, #fffdf6, #f7ead3); }
+/* Without a subtitle the button stands well below the title. */
+.hero__sub:empty + .hero__cta { margin-top: clamp(2.6rem, 6vh, 4rem); }
+/* The home page's banner (design/canvas-hero-title/, option 2, centred):
+   the masjid's name as a small eyebrow between two gold rules, the title's
+   emphasis (Ālimiyyah) very large in gold Cormorant italic, and the rest of
+   the title in widely spaced Gilda capitals beneath it. The photograph is
+   darkened at the centre instead of down the left. */
+.hero--centre .hero__img::after {
+  background:
+    radial-gradient(75% 65% at 50% 50%, rgba(36, 18, 5, 0.86), rgba(36, 18, 5, 0.62) 70%, rgba(36, 18, 5, 0.45)),
+    linear-gradient(180deg, rgba(36, 18, 5, 0.5), transparent 35%);
+}
+.hero--centre .hero__body { text-align: center; }
+.hero--centre .hero__sub { max-width: 38rem; margin-inline: auto; font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem); text-wrap: balance; }
+.hero__logo { display: block; width: clamp(72px, 6vw, 96px); height: auto; margin: 0 auto 1.4rem; }
+.hero__kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--gold-pale);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.hero__kicker::before, .hero__kicker::after { content: ""; flex: none; width: 44px; height: 1px; background: var(--gold); }
+.hero__kicker:empty { display: none; }
+.hero--centre .hero__title {
+  max-width: none;
+  margin-top: 1.2rem;
+  font-family: var(--title);
+  font-size: clamp(1.1rem, 0.8rem + 1vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+.hero--centre .hero__title em {
+  display: block;
+  color: var(--gold);
+  font-family: var(--display);
+  font-size: clamp(4.5rem, 2rem + 8vw, 9rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: 0;
+  text-transform: none;
+}
+/* The spaced capitals carry their spacing after the last letter too; the
+   indent puts the same before the first, so the line stays centred. */
+.hero__rest { display: block; margin-top: 1rem; padding-left: 0.32em; letter-spacing: 0.32em; }
+@media (max-width: 480px) {
+  .hero--centre .hero__title em { font-size: clamp(3.4rem, 1rem + 12vw, 4.5rem); }
+  .hero__kicker { gap: 10px; font-size: 0.6rem; letter-spacing: 0.2em; }
+  .hero__kicker::before, .hero__kicker::after { width: 28px; }
+}
+.hero .btn { gap: 0.55rem; padding: 0.72rem 1.35rem; font-size: 0.66rem; }
+.hero .btn svg { width: 13px; height: 13px; }
+
+/* The loading splash (index.html, splash.js; design/canvas-splash/, option
+   6): the page's own ground over everything while <html> has splash-on. The
+   logo fills from its foot as --splash-p goes 0 to 1 (a feathered edge over
+   a faint ghost of itself); is-full sends one glint across it, gold on the
+   black logo; is-done fades the splash as the logo grows a touch. While
+   splash-hold, the banner's entrance waits, so it rises as the splash
+   clears. splash-quick (a later home page in a visit) shows the ground
+   alone. The fade times here are splash.js's FADE.
+   The fill is the whole logo, still, under a veil that slides up off it:
+   one transform, so it runs on the compositor and keeps moving while
+   main.js draws the page behind (a mask gradient fed by a transitioned
+   --splash-p repainted on the main thread and froze with it), and nothing
+   else moves to fall out of step with it (a clipping box rising over a
+   counter-sinking logo did, in some browsers). The veil is the identity of
+   the fill's blend (white under multiply, black under lighten), so where it
+   lies the ground and the ghost show through unchanged. */
+.splash { display: none; }
+.splash-on .splash {
+  --splash-logo: url("../img/logo_black_web.png");
+  --splash-ghost: 0.1;
+  --splash-glint: rgba(238, 194, 90, 0.95);
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  background-color: var(--bg-color);
+  --splash-p: 0;
+  --splash-veil: #fff;
+  --splash-blend: multiply;
+  --splash-ink: var(--brown-ink);
+}
+/* Its width is also in .splash__bism's offset above it. */
+.splash__mark { position: relative; width: min(280px, 58vw); aspect-ratio: 520 / 376; }
+.splash-quick .splash__mark { display: none; }
+.splash__logo { position: absolute; inset: 0; background: var(--splash-logo) center / contain no-repeat; }
+.splash__logo--ghost { opacity: var(--splash-ghost); }
+/* The veil is the logo's height plus a 12% feathered foot (12/112 of it). */
+.splash__fill {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--splash-logo) center / contain no-repeat;
+  mix-blend-mode: var(--splash-blend);
+}
+.splash__veil {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 112%;
+  background: linear-gradient(var(--splash-veil) 89.3%, transparent);
+  transform: translateY(calc(var(--splash-p) * -100%));
+  transition: transform 0.9s cubic-bezier(0.3, 0.6, 0.35, 1);
+}
+/* The glint moves inside a layer cut to the logo, so it shows only in the letters. */
+.splash__glint {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-mask: url("../img/logo_black_web.png") center / contain no-repeat;
+  mask: url("../img/logo_black_web.png") center / contain no-repeat;
+}
+.splash__glint::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, var(--splash-glint) 50%, transparent 70%);
+  transform: translateX(-110%);
+}
+/* The bismillah (canvas-bismillah, option 5 written as option 4): Amiri's
+   single-glyph U+FDFD over the logo. splash.js adds is-writing once Amiri is
+   in; the quill (a veil in the ground's blend, as the logo's fill) then
+   slides off to the left, a feathered edge, so the line is written in from
+   the right on the compositor. The glint crosses it with the logo's. */
+.splash__bism {
+  /* Out of flow, so the logo alone is centred; it stands a gap above the
+     logo (half the mark's height, 376/520 of its width, over the middle). */
+  position: absolute;
+  inset: auto 0 calc(50% + min(280px, 58vw) * 0.3615 + min(14px, 2.4vw));
+  width: max-content;
+  margin-inline: auto;
+  overflow: hidden;
+  padding: 0.12em 0.3em;
+  font: 400 min(50px, 7.4vw)/1.25 "Amiri", serif;
+  white-space: nowrap;
+  mix-blend-mode: var(--splash-blend);
+}
+.splash-quick .splash__bism { display: none; }
+.splash__ink {
+  display: block;
+  background: linear-gradient(105deg, var(--splash-ink) 42%, var(--splash-glint) 50%, var(--splash-ink) 58%) 100% 0 / 300% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.splash__quill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 125%;
+  background: linear-gradient(to right, var(--splash-veil) 84%, transparent);
+  transition: transform 1.3s cubic-bezier(0.4, 0, 0.3, 1);
+}
+.splash.is-writing .splash__quill { transform: translateX(-100%); }
+.splash.is-full .splash__ink { animation: splash-ink-glint 1.05s cubic-bezier(0.45, 0, 0.35, 1) both; }
+.splash.is-done .splash__bism { animation: splash-settle 0.95s ease both; }
+@keyframes splash-ink-glint { to { background-position: 0 0; } }
+.splash.is-full .splash__glint::before { animation: splash-glint 1.05s cubic-bezier(0.45, 0, 0.35, 1) both; }
+.splash.is-done { animation: splash-out 0.8s 0.15s ease both; }
+/* Each layer grows, not the mark: a transform on the mark would isolate the
+   fill's blend from the ground, and its veil colour would show as a box. */
+.splash.is-done .splash__mark > * { animation: splash-settle 0.95s ease both; }
+.splash-quick .splash.is-done { animation-duration: 0.45s; animation-delay: 0s; }
+.splash-hold .hero .in,
+.splash-hold .hero__img { animation-play-state: paused; }
+@keyframes splash-glint { to { transform: translateX(110%); } }
+@keyframes splash-out { to { opacity: 0; visibility: hidden; } }
+@keyframes splash-settle { to { transform: scale(1.06); } }
 
 /* --------------------------- 6. Introduction ----------------------- */
 .intro { padding-top: clamp(3rem, 6vw, 70px); }
 
 .intro__statement {
-  max-width: 900px;
+  max-width: 1120px;
   margin-inline: auto;
   color: var(--g-text);
   font-family: var(--display);
-  font-size: clamp(1.7rem, 1.2rem + 1.5vw, 2.5rem);
+  font-size: clamp(1.375rem, 0.9rem + 1.125vw, 1.875rem);
   font-weight: 500;
-  line-height: 1.3;
+  line-height: 1.45;
   text-align: center;
   text-wrap: pretty;
 }
 
-/* Our Program: a cream panel in a gilt hairline, a gold line along its top. */
-.program {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 2rem;
-  align-items: center;
-  max-width: 900px;
-  margin: 3rem auto 0;
-  padding: 2rem 2.4rem;
-  border-radius: 22px;
-  border: 1px solid var(--gilt-edge);
-  background: rgba(255, 251, 244, 0.96);
-  box-shadow: 0 24px 44px -28px rgba(70, 34, 6, 0.6);
-}
-.program::before,
-.bay::before,
-.panel::before,
-.tile::before {                          /* the gold line along a panel's top */
+.bay::before {                           /* the gold line along a panel's top */
   content: "";
   position: absolute;
   z-index: 1;
@@ -541,17 +753,6 @@ main { position: relative; }
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
-.program__heading {
-  color: var(--gold-ink);
-  font-family: var(--display);
-  font-size: 1.9rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.program__body { color: var(--brown-ink); font-weight: 400; line-height: 1.8; }
-
 /* ---------------------- 7. Curriculum bookshelf -------------------- */
 /* The shelf stands straight on the page, under a section head like every
    other: seven years in bays paired two to a row (curriculum.js). */
@@ -621,20 +822,27 @@ main { position: relative; }
   box-shadow: 0 0 14px rgba(227, 179, 74, 0.55);
 }
 
+/* The year: Cormorant small capitals between two gold diamonds, the numeral
+   in lining figures (Cormorant's old-style 1 reads as an i). Option 4 of
+   design/canvas-shelf-label. */
 .bay__year {
   height: 58px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   color: #fbeedd;
-  font-size: 0.64rem;
+  font-family: "Cormorant SC", var(--display);
+  font-size: 1.15rem;
   font-weight: 600;
-  letter-spacing: 0.34em;
+  letter-spacing: 0.14em;
   text-shadow: 0 1px 2px rgba(40, 18, 4, 0.5);
-  text-transform: uppercase;
 }
-.bay__numeral { color: var(--gold-pale); font-family: var(--display); font-size: 1.25rem; letter-spacing: 0.1em; }
+.bay__year::before,
+.bay__year::after { content: ""; flex: none; width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); opacity: 0.8; }
+.bay__year::before { margin-right: 6px; }
+.bay__year::after { margin-left: 6px; }
+.bay__numeral { color: var(--gold-pale); font-family: var(--display); font-size: 1.35rem; font-weight: 600; font-variant-numeric: lining-nums; letter-spacing: 0; }
 
 /* Reading: when a book's folio is open, its bay takes the row. The neighbour
    narrows to --narrow rather than disappearing - its books stay on the shelf,
@@ -937,7 +1145,29 @@ main { position: relative; }
 .folio__body + .folio__body { margin-top: 0.7rem; }
 /* The catchword: a manuscript names the next page's first word at the foot
    of this one. Decoration, so it sits on the bottom of the leaf, unread. */
-.folio__catch { margin-top: auto; padding-top: 0.9rem; color: #8a2a20; font-family: var(--display); font-size: 1rem; font-style: italic; text-align: right; }
+.folio__foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 0.9rem; }
+.folio__catch { margin-left: auto; color: #8a2a20; font-family: var(--display); font-size: 1rem; font-style: italic; text-align: right; }
+
+/* Turning the leaf: prev and next round buttons with the place on the shelf
+   between them, at the foot of the text. Cream rounds in a gilt hairline,
+   as the site's buttons are. A turn fades the new leaf in without the drop. */
+.folio__turn { display: flex; align-items: center; gap: 0.6rem; }
+.folio__prev, .folio__next {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--btn-bg);
+  box-shadow: 0 0 0 1px var(--gilt), 0 3px 8px -3px rgba(60, 38, 14, 0.5);
+  color: var(--btn-ink);
+  transition: transform 0.2s var(--ease-out), background 0.2s;
+}
+.folio__prev:hover, .folio__next:hover { transform: scale(1.08); background: var(--btn-bg-hi); }
+.folio__prev:focus-visible, .folio__next:focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 3px; }
+.folio__count { color: #6a4a22; font-family: var(--display); font-size: 1rem; font-style: italic; font-variant-numeric: lining-nums; white-space: nowrap; }
+.folio--turn { animation: folio-turn 0.3s var(--ease-out) both; }
+@keyframes folio-turn { from { opacity: 0.35; } }
 
 @media (max-width: 640px) {
   .folio { grid-template-columns: minmax(0, 1fr); }
@@ -947,105 +1177,95 @@ main { position: relative; }
 }
 
 /* ----------------------------- 9. Details -------------------------- */
-/* Two panels (Fees, and Family discounts), a sub-heading, and a tile for each
-   class time, like a board of prayer times. In light they are cut from the
-   dark board: cream copy and gold figures need more under them than the
-   wood gives. Their rules are grooves cut into the board, not gold lines,
-   so the only gold is the figures. */
-.details { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.2rem; }
-.details:has(> .panel[hidden]) { grid-template-columns: minmax(0, 1fr); }
-
-.panel,
-.tile {
+/* No panel: a newspaper's columns laid on the ground, one per track (its
+   years, its name in italic ruled off beneath, its fee with the currency sign
+   raised small, its class times on dotted leaders) parted by a double upright
+   rule, the family discounts beneath as large figures under another double
+   rule. A heavy rule over a thin one at the head, one hairline at the foot:
+   brown ink in light, gold in dark (the --tr tokens are redefined in section
+   12). After design/canvas-details-style/round-2.html, option 11 (Gazette). */
+.tracks {
+  --tr-ink: var(--brown-ink);            /* the heavy and thin rules */
+  --tr-strong: var(--brown-ink);
+  --tr-muted: rgba(70, 44, 22, 0.75);
+  --tr-rule: rgba(70, 44, 22, 0.28);
+  --tr-leader: var(--gold-ink);
+  --tr-fig: var(--brown-ink);            /* the percentages */
+  --tr-cur: var(--g-accent);
   position: relative;
-  border-radius: 22px;
-  border: 1px solid rgba(189, 93, 15, 0.75);
-  background:
-    linear-gradient(180deg, rgba(255, 228, 184, 0.08), rgba(0, 0, 0, 0) 35%),
-    var(--grain),
-    linear-gradient(160deg, var(--board), var(--board-deep));
-  background-size: 100% 100%, var(--grain-size), 100% 100%;
-  box-shadow: inset 0 1px 0 rgba(255, 228, 184, 0.12), 0 30px 50px -30px rgba(40, 18, 4, 0.85);
-  color: var(--on-choc);
-}
-.panel { padding: clamp(1.6rem, 3vw, 2.4rem); }
-.panel__title {
-  margin-bottom: 1.4rem;
-  color: var(--gold-light);
-  font-family: var(--display);
-  font-size: 2rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.panel__title--sm { margin-bottom: 1rem; font-size: 1.4rem; }
-
-.fees { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
-.fee {
-  padding: 1.3rem 1.4rem;
-  border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.35);
-  background: rgba(20, 9, 2, 0.28);
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35), 0 1px 0 rgba(255, 228, 184, 0.08);
-}
-.fee__label,
-.discounts dt {
-  color: rgba(251, 238, 221, 0.74);
-  font-size: 0.66rem;
-  font-weight: 500;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-}
-.fee__amount { margin-top: 0.3rem; color: var(--gold); font-family: var(--display); font-size: 3.2rem; font-weight: 500; line-height: 1; }
-.fee__note { color: rgba(251, 238, 221, 0.74); font-size: 0.85rem; }
-
-/* The enrolment hook: hidden while fees.cta is null in program.json. */
-.fees__cta { margin-top: 1.5rem; }
-
-.discounts { margin: 0; }
-.discounts__row,
-.tile__row {                             /* a groove: a dark cut with a lit lip under it */
-  border-top: 1px solid rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0 1px 0 rgba(255, 228, 184, 0.1);
-}
-.discounts__row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 0.9rem 0; }
-.discounts dt { font-size: 0.72rem; letter-spacing: 0.24em; }
-.discounts dd { margin: 0; color: var(--gold-light); font-weight: 500; text-align: right; }
-
-.details__sub {
-  margin-top: 2.6rem;
+  max-width: 1040px;
+  margin-inline: auto;
+  padding-block: 2.2rem 1.6rem;
+  border-top: 3px solid var(--tr-ink);
+  border-bottom: 1px solid var(--tr-ink);
   color: var(--g-text);
-  font-family: var(--display);
-  font-size: 1.6rem;
+}
+.tracks::before { content: ""; position: absolute; top: 4px; inset-inline: 0; height: 1px; background: var(--tr-ink); }
+.tracks__cols { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+.track { padding: 0.2rem clamp(1.2rem, 4vw, 3rem); }
+.track + .track { border-left: 5px double var(--tr-ink); }
+.track__years {
+  color: var(--g-accent);
+  font-family: var(--sans);
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-align: center;
+  line-height: 1.3;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
+.track__name {
+  margin-top: 0.7rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--tr-rule);
+  color: var(--tr-strong);
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 4.2vw, 3.1rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.05;
+}
+.track__fee { display: flex; align-items: flex-end; gap: 0.8rem; margin-top: 1.4rem; }
+.track__amt {                            /* Gilda: its figures stand level, unlike Cormorant's */
+  display: inline-flex;
+  align-items: flex-start;
+  color: var(--tr-strong);
+  font-family: var(--title);
+  font-size: clamp(3.4rem, 6.6vw, 4.8rem);
+  line-height: 0.95;
+  white-space: nowrap;
+}
+.track__cur { margin: 0.18em 0.06em 0 0; color: var(--tr-cur); font-size: 0.42em; }
+.track__per { padding-bottom: 0.3rem; color: var(--tr-muted); font-size: 0.82rem; line-height: 1.4; }
+.track__rows { display: grid; gap: 0.75rem; margin: 1.7rem 0 0; padding: 0; list-style: none; }
+.track__rows li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.6rem; font-size: 0.92rem; }
+.track__rows span { white-space: nowrap; }
+.track__rows span:last-child { margin-left: auto; color: var(--tr-strong); font-weight: 500; }   /* drops to its own line, right, when it can't fit */
+.track__rows i { flex: 1; min-width: 1rem; border-bottom: 1px dotted var(--tr-leader); opacity: 0.55; }
 
-.tiles {
+.tracks__disc { margin-top: clamp(2rem, 4vw, 2.6rem); padding-top: 1.8rem; border-top: 5px double var(--tr-ink); text-align: center; }
+.tracks__disc-label { color: var(--tr-strong); font: italic 500 1.5rem/1.2 var(--display); }
+.tracks__pcts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 1.2rem;
-  margin-top: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  max-width: 720px;
+  margin: 1.1rem auto 0;
+  padding: 0;
+  list-style: none;
 }
-.tile { padding: 1.3rem 1.4rem; border-radius: 16px; }
-.tile__years { color: var(--gold); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; }
-.tile__label { margin: 0.3rem 0 0.8rem; color: var(--gold-light); font-family: var(--display); font-size: 1.6rem; font-weight: 600; }
-.tile__row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.2rem 1rem;
-  padding-top: 0.8rem;
-  color: rgba(251, 238, 221, 0.74);
-  font-size: 0.8rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+.tracks__pcts li { display: flex; flex-direction: column; align-items: center; }
+.tracks__pcts b { margin-top: 0.4rem; color: var(--tr-strong); font-size: 0.95rem; font-weight: 600; }
+.tracks__pct {
+  order: -1;                             /* drawn above its count, read after it */
+  color: var(--tr-fig);
+  font-family: var(--title);
+  font-size: clamp(2.4rem, 4.6vw, 3.1rem);
+  line-height: 1;
 }
-.tile__row + .tile__row { margin-top: 0.8rem; }
-.tile__row b { color: var(--gold-light); font-size: 1rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+.tracks__off { color: var(--tr-muted); font-size: 0.82rem; }
+
+/* The enrolment hook: absent while fees.cta is null in program.json. */
+.tracks__cta { margin-top: 2rem; text-align: center; }
 
 /* ---------------- 10. Carousels, teachers, testimonies ------------- */
 .carousel { display: block; }
@@ -1119,13 +1339,15 @@ main { position: relative; }
 /* Teachers: a mosaic on four equal columns. A card spans its teacher's
    width (1-4 columns, .teacher--w2..4) and height (1-3 rows, .teacher--h2..3)
    from teachers.json; the cards are packed densely so a big card further
-   down leaves no hole. Each is a cream card in a
+   down leaves no hole. Rows are at least 180px and grow to the tallest
+   card's text, so a bio is never cut off. Each is a cream card in a
    double gold frame drawn with inset shadows, the name the focus, and the
-   bio of the large card set off by a gold hairline. */
+   bio of the large card set off by a gold hairline. The text starts at the
+   top, so names line up along a row. */
 .mosaic {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: 200px;
+  grid-auto-rows: minmax(180px, auto);
   grid-auto-flow: dense;
   gap: 1.2rem;
 }
@@ -1133,9 +1355,8 @@ main { position: relative; }
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   padding: 1.4rem 1.5rem;
-  overflow: hidden;
+  container-type: inline-size;          /* the bio goes beside the name by the card's own width */
   border-radius: 18px;
   background: linear-gradient(160deg, #fffaf0, #f3e2c3);
   box-shadow:
@@ -1146,7 +1367,9 @@ main { position: relative; }
   transition: transform 0.4s var(--ease-out);
 }
 .teacher:hover { transform: translateY(-4px); }
-.teacher > * { position: relative; z-index: 1; }
+/* The inner box stays unpositioned, so a name's stretched link covers the
+   whole card. */
+.teacher__in { flex: 1 0 auto; }
 .teacher--lead { padding: 2rem; }
 .teacher--w2 { grid-column: span 2; }
 .teacher--w3 { grid-column: span 3; }
@@ -1156,25 +1379,24 @@ main { position: relative; }
 .teacher__honorific { color: var(--brown-ink); font-size: 0.92rem; font-weight: 600; letter-spacing: 0.04em; }
 .teacher__name { margin-top: 0.3rem; color: var(--brown-ink); font-family: var(--display); font-size: 1.7rem; font-weight: 600; line-height: 1.1; }
 .teacher--lead .teacher__name { font-size: 2.6rem; }
-.teacher__bio { margin-top: 0.3rem; color: var(--brown-ink); font-size: 0.88rem; font-weight: 400; }
+.teacher__bio { max-width: 70ch; margin-top: 0.3rem; color: var(--brown-ink); font-size: 0.88rem; font-weight: 400; text-wrap: pretty; }
 .teacher--lead .teacher__bio { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(154, 101, 8, 0.3); }
 /* A card two or more columns wide may set its bio to the right of the name
-   (bioBeside in teachers.json): the two centred in the card's height, parted
-   by a gold hairline that replaces the lead's rule above the bio (so this
-   must follow that rule). On phones, every card one column, the bio goes
-   back underneath. */
-@media (min-width: 561px) {
-  .teacher--beside {
+   (bioBeside in teachers.json), but only once the card is 44rem wide: a
+   narrower one keeps the bio underneath at its full width rather than
+   squeezing it into a strip. Beside, the name block and the bio are centred
+   in the card's height, parted by a gold hairline that replaces the lead's
+   rule above the bio (so this must follow that rule). */
+@container (min-width: 44rem) {
+  .teacher--beside .teacher__in {
     display: grid;
-    grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
-    align-content: center;
+    grid-template-columns: minmax(min-content, 1fr) minmax(0, 2.4fr);
+    align-items: center;
     column-gap: 2rem;
+    flex-grow: 0;
+    margin-block: auto;
   }
-  .teacher--beside > * { grid-column: 1; }
   .teacher--beside .teacher__bio {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    align-self: center;
     margin: 0;
     padding: 0.2rem 0 0.2rem 2rem;
     border-top: 0;
@@ -1300,9 +1522,12 @@ main { position: relative; }
   background-size: 100% 100%, 900px 450px, 100% 100%;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
+/* The way to graduates.html under the niches: testimonies.json's `cta`. */
+.testimonies__cta { margin-top: clamp(2.4rem, 5vw, 3.4rem); text-align: center; }
 
 /* ------------- 11. Articles, videos, footer & the article page -------- */
-/* Brothers / Sisters: two buttons in one pill; the pressed one is gold. */
+/* Brothers / Sisters: two buttons in one pill; the pressed one is dressed
+   as .btn--gold is (section 3). */
 .seg {
   display: inline-flex;
   padding: 4px;
@@ -1321,7 +1546,6 @@ main { position: relative; }
   text-transform: uppercase;
   transition: background 0.25s, color 0.25s;
 }
-.seg__btn[aria-pressed="true"] { background: linear-gradient(180deg, #f3cf6e, #d49a2a); color: var(--espresso); }
 
 /* Articles: the featured one on top - a board panel, the article beside it
    with its count - and beneath it a carousel of every article, the featured
@@ -1413,7 +1637,14 @@ main { position: relative; }
 .slider__card em { color: var(--gold); font-size: 0.6rem; font-style: normal; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; }
 .slider__card span { color: var(--gold-pale); font-family: var(--display); font-size: 1.15rem; font-weight: 500; line-height: 1.2; }
 
-/* Videos: a carousel, three across; the caption beneath the picture. */
+/* Videos: a carousel, two across; the caption beneath the picture. Where
+   the screen has room the carousel reaches up to 57px past the column on
+   each side, so a thumbnail is 1.7 times the old three-across one (337px
+   -> 573px at 1440). It always keeps 16px clear of the screen's edge. */
+.videos {
+  --bleed: clamp(0px, calc((100vw - min(var(--wrap), 100vw - 2 * var(--gutter))) / 2 - 24px), 57px);
+  margin-inline: calc(-1 * var(--bleed));
+}
 .vid { position: relative; }
 .vid__art {
   position: relative;
@@ -1435,13 +1666,17 @@ main { position: relative; }
   height: 54px;
   margin: auto;
   border-radius: 50%;
-  background: linear-gradient(180deg, #f3cf6e, #d49a2a);
-  color: var(--espresso);
-  box-shadow: 0 8px 20px -6px rgba(20, 9, 2, 0.6);
-  transition: transform 0.3s var(--ease-out);
+  /* Clear glass over the thumbnail, untinted, in both modes. */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.16);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(20, 9, 2, 0.55);
+  transition: transform 0.3s var(--ease-out), background-color 0.3s;
 }
 .vid:hover .vid__play { transform: scale(1.08); }
-.vid__play svg { width: 18px; height: 18px; margin-left: 3px; }
+.vid__play svg { width: 18px; height: 18px; margin-left: 3px; filter: drop-shadow(0 1px 2px rgba(20, 9, 2, 0.45)); }
 .vid__time {
   position: absolute;
   left: 10px;
@@ -1456,7 +1691,6 @@ main { position: relative; }
   text-transform: uppercase;
 }
 .vid__title { margin-top: 0.9rem; color: var(--g-text); font-size: 1.05rem; font-variant: small-caps; font-weight: 500; letter-spacing: 0.06em; }
-.vid__meta { color: var(--g-muted); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; }
 /* A card that plays in the popup: its title is a button stretched over the card. */
 .vid button.stretched { padding: 0; text-align: left; }
 .vid .stretched:focus-visible { outline: 0; }
@@ -1514,8 +1748,6 @@ main { position: relative; }
   animation: vp-in 0.4s 0.25s ease both;
 }
 .vp__title { color: var(--g-text); font-size: clamp(1.25rem, 1rem + 0.8vw, 1.6rem); font-variant: small-caps; font-weight: 500; letter-spacing: 0.06em; }
-.vp__subject { margin-top: 0.2rem; color: var(--g-muted); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; }
-.vp__subject:empty,
 .vp__meta:empty { display: none; }
 .vp__meta {
   display: flex;
@@ -1527,7 +1759,6 @@ main { position: relative; }
   letter-spacing: 0.24em;
   text-transform: uppercase;
 }
-.vp__meta i { width: 4px; height: 4px; border-radius: 50%; background: var(--g-mark); }
 .vp__close { position: fixed; top: 24px; right: 24px; z-index: 1; animation: vp-in 0.3s 0.2s ease both; }
 .vp__close svg { width: 16px; height: 16px; }
 .vp--closing .vp__scrim,
@@ -1593,11 +1824,13 @@ main { position: relative; }
 
 /* The article page (article.html): option 1 of design/canvas-article/. The
    home page's banner, shorter, carrying the article's subject, title and
-   byline over the photograph; beneath it the excerpt as an italic lede and
+   byline over the photograph; beneath it the basmalah (not the excerpt) and
    the text in a single 680px column on the ground; then the rest of the
    list as the home page's cards. The margins are left empty on purpose. */
 .a-hero { min-height: max(520px, 68vh); align-items: flex-end; }
-.a-hero .hero__img { inset: -20% 0 0; }
+/* The library's open case (option 3 of design/canvas-article-bg/), cropped
+   on the shelves inside the open doors. */
+.a-hero .hero__img { inset: -20% 0 0; background-image: url("../img/library-open-case.jpg"); background-position: center 40%; }
 .a-hero .hero__img::after {             /* evenly dark: the title is centred, not down the left */
   background:
     linear-gradient(90deg, rgba(36, 18, 5, 0.55), rgba(36, 18, 5, 0.75) 50%, rgba(36, 18, 5, 0.55)),
@@ -1634,6 +1867,9 @@ main { position: relative; }
 .lede { color: var(--g-text); font-family: var(--display); font-size: clamp(1.5rem, 1.2rem + 1vw, 1.9rem); font-style: italic; font-weight: 500; line-height: 1.4; text-align: center; }
 .lede::after { content: ""; display: block; width: 64px; height: 2px; margin: 2rem auto 2.4rem; background: linear-gradient(90deg, transparent, var(--gold-ink), transparent); }
 .lede:empty { display: none; }
+/* The basmalah that opens every article, in Amiri (its U+FDFD ligature). */
+.lede--bism { font: 400 clamp(1.5rem, 7.2vw, 3.6rem)/1.3 "Amiri", serif; }   /* the ligature is ~11em wide */
+.lede--bism::after { margin-top: 1.4rem; }
 
 .prose { color: var(--g-text); font-size: 1.06rem; line-height: 1.9; overflow-wrap: break-word; }
 .prose > * + * { margin-top: 1.3em; }
@@ -1719,18 +1955,20 @@ main { position: relative; }
   color: transparent;
 }
 /* The other teachers: the mosaic's small cards, three across. */
-.t-others { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 200px; gap: 1.2rem; }
+.t-others { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: minmax(180px, auto); gap: 1.2rem; }
 
 /* A page with no photograph under the header: cream rounds in light, as the
    carousel arrows are, instead of the dark glass meant for the photo. Dark
    mode keeps its glass (section 12). */
-.on-ground .site-header .round {
+.on-ground .site-header .round,
+.site-header.site-header--past .round {
   border-color: var(--gilt-edge);
   background: #fffaf2;
   color: var(--brown-ink);
   box-shadow: 0 10px 22px -14px rgba(70, 34, 6, 0.7);
 }
-.on-ground .site-header .round:hover { background: var(--gold-light); color: var(--espresso); }
+.on-ground .site-header .round:hover,
+.site-header.site-header--past .round:hover { background: var(--gold-light); color: var(--espresso); }
 .on-ground .site-header .btn--line { border-color: var(--g-line); background: rgba(255, 250, 242, 0.6); color: var(--brown-ink); }
 
 /* The bookstore: a bento grid. Tiles of two sizes, each washed in the
@@ -1823,6 +2061,48 @@ main { position: relative; }
 .store-mast__title { color: var(--g-text); font: 500 clamp(4rem, 2rem + 8vw, 9.5rem) var(--display); letter-spacing: -0.03em; line-height: 0.8; }
 .store-mast__lede { padding-bottom: 0.4rem; color: var(--g-muted); font: italic 1.25rem/1.45 var(--display); }
 @media (max-width: 760px) { .store-mast { grid-template-columns: minmax(0, 1fr); } }
+/* The librarian's message (design/canvas-store-message/, option 2b): a cream
+   panel in the teacher cards' double gold frame, the text one centred column
+   under a drop cap, the du'a centred beneath a short gold rule. Dark glass in
+   dark (section 12). */
+.store-letter {
+  margin: 0 0 2.2rem;
+  padding: clamp(1.8rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.4rem);
+  border-radius: 18px;
+  background: linear-gradient(160deg, #fffaf0, #f3e2c3);
+  box-shadow:
+    inset 0 0 0 1px var(--gold),
+    inset 0 0 0 6px #fbf3e2,
+    inset 0 0 0 7px rgba(201, 164, 87, 0.8),
+    0 24px 40px -24px rgba(40, 18, 4, 0.6);
+  color: var(--brown-ink);
+}
+.store-letter[hidden] { display: none; }
+.store-letter__body { max-width: 54rem; margin: 0 auto; font: 1.15rem/1.6 var(--display); }
+.store-letter__body p { text-wrap: pretty; }
+.store-letter__body p + p { margin-top: 0.8em; }
+.store-letter__body p:first-child::first-letter {
+  float: left;
+  margin: 0.06em 0.12em 0 0;
+  color: var(--gold-ink);
+  font: 3.9em/0.8 var(--title);
+}
+.store-letter__closing {
+  max-width: 54rem;
+  margin: 1.8rem auto 0;
+  color: var(--g-accent);
+  font: italic 1.3rem/1.45 var(--display);
+  text-align: center;
+  text-wrap: pretty;
+}
+.store-letter__closing::before {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 1px;
+  margin: 0 auto 1.4rem;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
 .store-filters { margin: 0 0 1.8rem; }
 .store-filters[hidden] { display: none; }
 .store-filter__label { margin-bottom: 0.45rem; color: var(--g-accent); font: 600 0.6rem var(--sans); letter-spacing: 0.26em; text-transform: uppercase; }
@@ -1864,8 +2144,8 @@ main { position: relative; }
 /* The book page (book.html): the book's bookstore leaf opened into the head
    of the page - the same jadwal of a gold rule and a red one - with the
    cover down the left and the colophon beside it, then the price, the way
-   to buy it (a gold button to its Stripe Payment Link, "Sold out", or the
-   thanks once Stripe sends the buyer back) and how it is collected. */
+   to reserve it ("Add to cart", "In your cart" or "Sold out") and how it
+   is collected. */
 .b-head { padding-top: 130px; }
 .b-leaf {
   position: relative;
@@ -1942,23 +2222,188 @@ main { position: relative; }
 .b-leaf__buy:empty { display: none; }
 .b-leaf__note { color: var(--leaf-muted); font-size: 0.74rem; letter-spacing: 0.04em; }
 .b-leaf__sold { color: var(--rubric); font: italic 600 1.5rem var(--display); }
-.b-leaf__thanks {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.8rem;
-  max-width: 28rem;
-  padding: 1rem 1.3rem;
-  border: 1px solid var(--leaf-gold);
-  border-radius: 10px;
-  background: rgba(176, 127, 34, 0.08);
-  font: italic 500 1.25rem/1.35 var(--display);
-  text-align: left;
-}
-.b-leaf__thanks i { flex: none; display: grid; place-items: center; width: 28px; height: 28px; margin-top: 0.1rem; border-radius: 50%; background: var(--leaf-gold); color: var(--leaf); }
-.b-leaf__thanks svg { width: 16px; height: 16px; }
+/* "In your cart": the chosen print is already in the cart. */
+.b-leaf__added { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--rubric); font: italic 600 1.2rem var(--display); }
+.b-leaf__added i { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--rubric); color: var(--leaf); }
+.b-leaf__added svg { width: 13px; height: 13px; }
 .b-leaf__pickup { max-width: 30rem; margin-top: 1.6rem; color: var(--leaf-muted); font-size: 0.95rem; line-height: 1.7; }
 .b-leaf [data-slot]:empty:not(.b-leaf__cover) { display: none; }
 .b-leaf .store-card__dots { margin-top: 1.4rem; }
+
+/* The cart (cart.js): a bag among the header's round buttons, with the count,
+   shown while the cart holds anything; it opens the reservation slip over
+   the dimmed page, a slip of the book page's leaf: the books, each with its
+   copies and price, the sum to pay at collection, then, below a
+   perforation, the reader's name and email and the Reserve button. Once
+   reserved, the slip keeps the books and the stub below shows the
+   reference. */
+.cart-btn { position: relative; }
+.cart-btn[hidden] { display: none; }
+.cart-btn svg { width: 19px; height: 19px; }
+.cart-btn__n {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--rust);
+  color: #fff;
+  font: 600 0.66rem/1 var(--sans);
+  font-variant-numeric: lining-nums tabular-nums;
+  box-shadow: 0 2px 6px rgba(30, 12, 2, 0.35);
+}
+
+.cart-lock { overflow: hidden; scrollbar-gutter: stable; }
+.cart { position: fixed; inset: 0; z-index: 60; display: flex; padding: 16px; overflow-y: auto; overscroll-behavior: contain; }
+.cart[hidden] { display: none; }
+.cart__scrim { position: fixed; inset: 0; background: rgba(20, 9, 2, 0.62); backdrop-filter: blur(3px); animation: vp-in 0.25s ease both; }
+.cart__slip {
+  --leaf: #f8efdd;
+  --leaf-2: #efe1c4;
+  --leaf-ink: var(--brown-ink);
+  --leaf-muted: rgba(70, 44, 22, 0.72);
+  --leaf-gold: #b07f22;
+  --rubric: #a3301c;
+  --f-edge: rgba(176, 127, 34, 0.45);
+  --f-rule: rgba(176, 127, 34, 0.25);
+  --f-fill: #fffaf1;
+  --f-bad: #b3261e;
+  position: relative;
+  width: min(500px, 100%);
+  margin: auto;
+  border-radius: 6px;
+  background: radial-gradient(130% 100% at 50% 0%, var(--leaf), var(--leaf-2));
+  box-shadow: 0 40px 70px -30px rgba(0, 0, 0, 0.8);
+  color: var(--leaf-ink);
+  animation: folio-in 0.4s var(--ease-out) both;
+}
+.cart__close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; }
+.cart__close svg { width: 14px; height: 14px; }
+.cart__head { padding: 1.7rem 4rem 1rem 1.7rem; }
+.cart__kicker { color: var(--rubric); font: 600 0.6rem var(--sans); letter-spacing: 0.28em; text-transform: uppercase; }
+.cart__title { margin-top: 0.25rem; font: 400 1.7rem/1.1 var(--title); letter-spacing: 0.05em; text-transform: uppercase; }
+.cart__title:focus { outline: 0; }
+.cart__meta { margin-top: 0.3rem; color: var(--leaf-muted); font: italic 1.1rem var(--display); }
+
+/* The books: the picture, the name and print, the copies and the line's sum. */
+.cart__lines { margin: 0; padding: 0 1.7rem; list-style: none; }
+.cart-line {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  grid-template-areas: "pic info x" "pic qty sum";
+  align-items: center;
+  gap: 0.45rem 0.9rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--f-rule);
+}
+.cart-line__pic { grid-area: pic; align-self: start; display: block; padding: 3px; border-radius: 2px; background: #fffaf1; box-shadow: inset 0 0 0 1px var(--leaf-gold), 0 8px 14px -10px rgba(40, 18, 4, 0.6); }
+.cart-line__pic img { display: block; width: 38px; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 1px; }
+.cart-line__pic img.is-tight { aspect-ratio: auto; }
+.cart-line__info { grid-area: info; min-width: 0; }
+.cart-line__title { display: block; color: inherit; font: 600 1.2rem/1.15 var(--display); text-decoration: none; overflow-wrap: break-word; }
+.cart-line__title:hover { text-decoration: underline; text-underline-offset: 3px; }
+.cart-line__sub { display: block; margin-top: 0.15rem; color: var(--leaf-muted); font-size: 0.78rem; font-variant-numeric: lining-nums tabular-nums; }
+.cart-line__x { grid-area: x; align-self: start; justify-self: end; margin-right: -6px; display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 50%; background: none; color: inherit; opacity: 0.55; cursor: pointer; }
+.cart-line__x:hover { opacity: 1; background: rgba(163, 48, 28, 0.1); color: var(--rubric); }
+.cart-line__x svg { width: 13px; height: 13px; }
+.cart-line__qty { grid-area: qty; justify-self: start; }
+.cart-line__qty--fixed { color: var(--leaf-muted); font: 600 0.85rem var(--sans); }
+.cart-line__sum { grid-area: sum; font: 600 0.92rem var(--sans); font-variant-numeric: lining-nums tabular-nums; text-align: right; }
+.qty { display: inline-flex; align-items: center; border: 1px solid var(--f-edge); border-radius: 999px; background: var(--f-fill); }
+.qty button { width: 32px; height: 30px; padding: 0; border: 0; border-radius: 999px; background: none; color: inherit; font: 500 1.05rem/1 var(--sans); cursor: pointer; }
+.qty button:hover:not(:disabled) { background: rgba(176, 127, 34, 0.14); }
+.qty button:disabled { opacity: 0.3; cursor: default; }
+.qty output { min-width: 1.6rem; font: 600 0.9rem var(--sans); font-variant-numeric: lining-nums tabular-nums; text-align: center; }
+.cart__sum { display: flex; justify-content: space-between; gap: 1rem; margin: 0 1.7rem; padding: 0.9rem 0 1.3rem; border-top: 1px solid var(--f-edge); font: 500 0.9rem var(--sans); }
+.cart__sum b { font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
+
+/* The perforation the stub tears along. */
+.cart__perf { height: 0; margin: 0 14px; border-top: 2px dashed var(--f-edge); }
+
+.cart__body { display: flex; flex-direction: column; gap: 0.95rem; padding: 1.4rem 1.7rem 1.8rem; }
+.cart__body--empty { align-items: center; padding-top: 0.6rem; text-align: center; }
+.cart__empty { color: var(--leaf-muted); font: italic 1.25rem var(--display); }
+.cart-field { display: flex; flex-direction: column; gap: 0.35rem; }
+.cart-field__label { font: 600 0.62rem var(--sans); letter-spacing: 0.24em; text-transform: uppercase; opacity: 0.8; }
+.cart-field__label em { font-style: normal; font-weight: 500; letter-spacing: 0.06em; text-transform: none; }
+.cart-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--f-edge);
+  border-radius: 10px;
+  background: var(--f-fill);
+  color: inherit;
+  font: 500 1rem var(--sans);
+}
+.cart-field input::placeholder { color: inherit; opacity: 0.4; }
+.cart-field input:focus { outline: 0; border-color: var(--rubric); box-shadow: 0 0 0 3px rgba(163, 48, 28, 0.16); }
+.cart-field input[aria-invalid="true"] { border-color: var(--f-bad); box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.14); }
+.cart-field__err { color: var(--f-bad); font: 500 0.8rem var(--sans); }
+.cart__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.is-sending .cart-field input { opacity: 0.6; pointer-events: none; }
+.cart__facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.4rem 1rem; margin: 0; padding: 0.8rem 0.95rem; border-radius: 10px; background: rgba(176, 127, 34, 0.1); font-size: 0.84rem; line-height: 1.5; }
+.cart__facts dt { padding-top: 0.15rem; color: var(--leaf-muted); font: 600 0.58rem var(--sans); letter-spacing: 0.2em; text-transform: uppercase; }
+.cart__facts dd { margin: 0; }
+.cart__fail { padding: 0.8rem 1rem; border: 1px solid rgba(179, 38, 30, 0.45); border-radius: 10px; background: rgba(179, 38, 30, 0.07); font-size: 0.86rem; line-height: 1.55; }
+.cart__go { justify-content: center; width: 100%; }
+.cart__go[aria-busy="true"] { opacity: 0.8; cursor: progress; }
+.cart__spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(1turn); } }
+.cart__note { color: var(--leaf-muted); font-size: 0.78rem; line-height: 1.6; text-align: center; }
+
+/* Reserved: the reference, to be shown at the counter. */
+.cart__done { align-items: center; text-align: center; }
+.cart__done .cart__facts { width: 100%; text-align: left; }
+.cart__seal { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--rubric); color: var(--leaf); }
+.cart__seal svg { width: 22px; height: 22px; }
+.cart__ref { font: 400 2.8rem/1 var(--title); letter-spacing: 0.12em; }
+.cart__ref small { display: block; margin-top: 0.45rem; color: var(--leaf-muted); font: 600 0.58rem var(--sans); letter-spacing: 0.28em; text-transform: uppercase; }
+.cart__said { font: italic 500 1.2rem/1.4 var(--display); }
+.cart__link { padding: 0.3rem; border: 0; background: none; color: inherit; font: 600 0.66rem var(--sans); letter-spacing: 0.24em; text-transform: uppercase; opacity: 0.7; cursor: pointer; }
+.cart__link:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+
+@media (max-width: 480px) {
+  .cart { padding: 10px; }
+  .cart__head { padding: 1.4rem 3.6rem 0.9rem 1.2rem; }
+  .cart__lines { padding: 0 1.2rem; }
+  .cart__sum { margin: 0 1.2rem; }
+  .cart__body { padding: 1.2rem 1.2rem 1.5rem; }
+}
+
+/* graduates.html: every class in the register (option 1 of
+   design/canvas-graduates/): the year in large gold italic over its label,
+   the brothers and sisters in two newspaper columns parted by a double rule,
+   a double rule between the classes. A row of years at the top jumps to each. */
+.grads { padding-top: 130px; }
+.grads .back { margin-bottom: 1.4rem; }
+.grads__count { color: var(--g-muted); font: italic 1.25rem/1.4 var(--display); letter-spacing: 0.04em; }
+.grads__count:empty { display: none; }
+.grads__years { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem 0.2rem; max-width: 46rem; margin: 1.6rem auto 0; }
+.grads__years a { padding: 0.2rem 0.65rem; border-radius: 999px; color: var(--g-accent); font: 600 1.2rem var(--display); font-variant-numeric: lining-nums; text-decoration: none; transition: background 0.2s; }
+.grads__years a:hover,
+.grads__years a:focus-visible { background: var(--btn-bg); color: var(--btn-ink); box-shadow: var(--btn-lift); }
+.grad-class { max-width: 900px; margin: 0 auto; padding: clamp(2.4rem, 5vw, 3.6rem) 0; border-top: 3px double var(--g-line); text-align: center; scroll-margin-top: 90px; }
+.grad-class:first-child { padding-top: 0.6rem; border-top: 0; }
+.grad-class__year { color: var(--g-accent); font: italic 500 clamp(3.6rem, 2.4rem + 4vw, 6rem)/0.9 var(--display); font-variant-numeric: lining-nums; }
+.grad-class__label { margin: 0.7rem 0 2rem; color: var(--g-text); font: 400 0.95rem var(--title); letter-spacing: 0.24em; text-transform: uppercase; }
+.grad-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); text-align: left; }
+.grad-cols--one { grid-template-columns: minmax(0, 24rem); justify-content: center; }
+.grad-col { padding: 0 clamp(1rem, 4vw, 3rem); }
+.grad-col + .grad-col { border-left: 3px double var(--g-line); }
+.grad-col__head { display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.7rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--g-line); color: var(--g-accent); font: 600 0.62rem var(--sans); letter-spacing: 0.28em; text-transform: uppercase; }
+.grad-col__names { margin: 0; padding: 0; list-style: none; }
+.grad-col__names li { color: var(--g-text); font: 500 1.3rem/1.75 var(--display); }
+.grad-col__title { color: var(--g-accent); font-style: italic; }
+@media (max-width: 560px) {
+  .grad-cols { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .grad-col { padding: 0; }
+  .grad-col + .grad-col { border-left: 0; }
+}
 
 /* ---------------------------- 12. Dark mode ------------------------ */
 /* The same page after dark (mockup B): an espresso ground, gold capitals,
@@ -1966,14 +2411,21 @@ main { position: relative; }
    come from the [data-theme="dark"] tokens in section 1; this redraws the
    panels, which keep their colours in light. */
 [data-theme="dark"] body { font-weight: 300; }
-[data-theme="dark"] .details__sub { font-weight: 500; }
 [data-theme="dark"] .section-rule {
   --rule-logo: url("../img/logo_gold_web.png");
   --rule-line: rgba(227, 179, 74, 0.55);
   --rule-edge: transparent;
   --rule-h: 1px;
 }
-[data-theme="dark"] .btn--gold { box-shadow: 0 10px 30px -10px rgba(227, 179, 74, 0.6); }
+/* The splash: the gold logo and bismillah, and a cream glint across them. */
+[data-theme="dark"].splash-on .splash {
+  --splash-logo: url("../img/logo_gold_web.png");
+  --splash-ghost: 0.13;
+  --splash-veil: #000;
+  --splash-blend: lighten;
+  --splash-glint: rgba(255, 246, 225, 0.9);
+  --splash-ink: var(--gold);
+}
 [data-theme="dark"] .round {
   border-color: rgba(227, 179, 74, 0.3);
   background: rgba(26, 13, 4, 0.4);
@@ -1989,6 +2441,11 @@ main { position: relative; }
     linear-gradient(90deg, rgba(26, 13, 4, 0.92) 0%, rgba(26, 13, 4, 0.7) 45%, rgba(26, 13, 4, 0.35)),
     linear-gradient(180deg, rgba(26, 13, 4, 0.5), transparent 40%);
 }
+[data-theme="dark"] .hero--centre .hero__img::after {
+  background:
+    radial-gradient(75% 65% at 50% 50%, rgba(26, 13, 4, 0.9), rgba(26, 13, 4, 0.7) 70%, rgba(26, 13, 4, 0.5)),
+    linear-gradient(180deg, rgba(26, 13, 4, 0.5), transparent 40%);
+}
 [data-theme="dark"] .hero__title {
   background: linear-gradient(180deg, #f7e0a4, #e3b34a 60%, #c48f2c);
   -webkit-background-clip: text;
@@ -1997,11 +2454,6 @@ main { position: relative; }
   text-shadow: none;
 }
 [data-theme="dark"] .hero__title em { color: inherit; font-style: italic; }
-
-/* Our Program */
-[data-theme="dark"] .program { border-color: var(--g-line); background: var(--g-card); box-shadow: none; }
-[data-theme="dark"] .program__heading { color: var(--gold); font-weight: 500; }
-[data-theme="dark"] .program__body { color: var(--g-muted); font-weight: 300; }
 
 /* The shelf: glass bays lit from above, a dark leaf for the slip and the folio. */
 [data-theme="dark"] .bay {
@@ -2050,68 +2502,67 @@ main { position: relative; }
 [data-theme="dark"] .folio__body { color: var(--g-muted); }
 [data-theme="dark"] .folio__close { background: var(--gold); color: #1c0e05; box-shadow: 0 0 0 2px #1c0e05, 0 0 0 3.5px rgba(227, 179, 74, 0.7), 0 4px 14px rgba(0, 0, 0, 0.6); }
 [data-theme="dark"] .folio__close:hover { background: var(--gold-light); }
+[data-theme="dark"] .folio__prev,
+[data-theme="dark"] .folio__next { box-shadow: 0 0 0 1px rgba(227, 179, 74, 0.6), 0 3px 8px -3px rgba(0, 0, 0, 0.7); }
+[data-theme="dark"] .folio__count { color: var(--g-muted); }
 
-/* Details: glass panels and tiles, gold figures, hairlines for rules. */
-[data-theme="dark"] .panel,
-[data-theme="dark"] .tile {
-  border-color: var(--g-line);
-  background: linear-gradient(160deg, rgba(255, 236, 210, 0.07), rgba(255, 236, 210, 0.02));
-  box-shadow: none;
-  color: var(--g-text);
+/* Details: gold rules, cream names, pale-gold percentages. */
+[data-theme="dark"] .tracks {
+  --tr-ink: var(--gold);
+  --tr-strong: #fbf1dc;
+  --tr-muted: rgba(243, 230, 211, 0.72);
+  --tr-rule: rgba(227, 179, 74, 0.28);
+  --tr-leader: var(--gold);
+  --tr-fig: var(--gold-pale);
+  --tr-cur: var(--gold);
 }
-[data-theme="dark"] .tile { background: var(--g-card); }
-[data-theme="dark"] .tile::before { display: none; }
-[data-theme="dark"] .panel__title { color: var(--g-text); font-weight: 500; letter-spacing: 0.1em; }
-[data-theme="dark"] .fee { border-color: var(--g-line); background: rgba(26, 13, 4, 0.45); box-shadow: none; }
-[data-theme="dark"] .fee__label,
-[data-theme="dark"] .fee__note,
-[data-theme="dark"] .discounts dt,
-[data-theme="dark"] .tile__row { color: var(--g-muted); }
-[data-theme="dark"] .discounts__row,
-[data-theme="dark"] .tile__row { border-top-color: var(--g-line); box-shadow: none; }
-[data-theme="dark"] .tile__label { color: var(--g-text); font-family: var(--sans); font-size: 1.15rem; font-weight: 500; letter-spacing: 0.04em; }
 
-/* Teachers: board tiles darkening to their foot, the name in cream. */
+/* Teachers: dark glass, edged in faint gold; the
+   names in the section titles' gold, the honorifics in small gold capitals
+   (design/canvas-teachers-dark/, option 1). */
 [data-theme="dark"] .teacher {
-  border: 1px solid var(--g-line);
-  background:
-    radial-gradient(120% 90% at 20% 10%, rgba(238, 194, 90, 0.22), transparent 60%),
-    linear-gradient(180deg, transparent 55%, rgba(20, 9, 2, 0.45)),
-    linear-gradient(155deg, var(--board), var(--board-deep));
-  box-shadow: none;
+  border: 1px solid rgba(227, 179, 74, 0.28);
+  background: linear-gradient(160deg, rgba(255, 236, 210, 0.08), rgba(255, 236, 210, 0.025));
+  box-shadow: 0 30px 50px -30px rgba(0, 0, 0, 0.8);
   outline: 0;
 }
-[data-theme="dark"] .teacher:nth-child(3n + 2) {
-  background:
-    radial-gradient(120% 90% at 80% 10%, rgba(247, 224, 164, 0.24), transparent 60%),
-    linear-gradient(180deg, transparent 55%, rgba(36, 18, 5, 0.4)),
-    linear-gradient(155deg, #a2521a, #5b2c0c);
+[data-theme="dark"] .teacher__honorific { color: var(--gold); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; }
+[data-theme="dark"] .teacher__name {
+  background: var(--g-title);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 500;
 }
-[data-theme="dark"] .teacher::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(20, 9, 2, 0.85)); pointer-events: none; }
-[data-theme="dark"] .teacher__honorific { color: #fff6ea; }
-[data-theme="dark"] .teacher__name { color: #fff6ea; font-weight: 500; }
 [data-theme="dark"] .teacher__bio { color: var(--g-muted); font-weight: 300; }
 [data-theme="dark"] .teacher--lead .teacher__bio { border-top: 0; padding-top: 0; margin-top: 0.3rem; }
-@media (min-width: 561px) {
-  [data-theme="dark"] .teacher--beside .teacher__bio { margin-top: 0; padding: 0.2rem 0 0.2rem 2rem; border-left-color: rgba(233, 196, 106, 0.25); }
+[data-theme="dark"] .teacher--link:has(.stretched:focus-visible) { outline: 2px solid var(--gold); }
+@container (min-width: 44rem) {
+  [data-theme="dark"] .teacher--beside .teacher__bio { margin-top: 0; padding: 0.2rem 0 0.2rem 2rem; border-left-color: rgba(227, 179, 74, 0.3); }
 }
-[data-theme="dark"] .teacher--todo,
-[data-theme="dark"] .teacher--todo:nth-child(3n + 2) {
+[data-theme="dark"] .teacher--todo {
   border-style: dashed;
   background: repeating-linear-gradient(135deg, rgba(255, 236, 210, 0.03) 0 10px, transparent 10px 20px);
+  box-shadow: none;
 }
-[data-theme="dark"] .teacher--todo .teacher__name { color: var(--g-muted); }
+[data-theme="dark"] .teacher--todo .teacher__name { background: none; color: var(--g-muted); }
 
-/* The teacher page: the card is a board tile, the name in gold capitals. */
-[data-theme="dark"] .t-card {
-  border: 1px solid var(--g-line);
-  background:
-    radial-gradient(120% 90% at 20% 10%, rgba(238, 194, 90, 0.22), transparent 60%),
-    linear-gradient(180deg, transparent 55%, rgba(20, 9, 2, 0.45)),
-    linear-gradient(155deg, var(--board), var(--board-deep));
-  box-shadow: 0 40px 70px -40px rgba(0, 0, 0, 0.9);
-  color: #fff6ea;
+/* The librarian's message on bookstore.html: the same glass, a gold drop cap. */
+[data-theme="dark"] .store-letter {
+  background: linear-gradient(160deg, rgba(255, 236, 210, 0.08), rgba(255, 236, 210, 0.025));
+  box-shadow: inset 0 0 0 1px rgba(227, 179, 74, 0.28), 0 30px 50px -30px rgba(0, 0, 0, 0.8);
+  color: var(--g-text);
 }
+[data-theme="dark"] .store-letter__body p:first-child::first-letter { color: var(--gold); }
+
+/* The teacher page: the card in the same glass, the name in gold capitals. */
+[data-theme="dark"] .t-card {
+  border: 1px solid rgba(227, 179, 74, 0.28);
+  background: linear-gradient(160deg, rgba(255, 236, 210, 0.08), rgba(255, 236, 210, 0.025));
+  box-shadow: 0 40px 70px -40px rgba(0, 0, 0, 0.9);
+  color: var(--g-text);
+}
+[data-theme="dark"] .t-card__honorific { color: var(--gold); }
 [data-theme="dark"] .t-card__name {
   background: var(--g-title);
   -webkit-background-clip: text;
@@ -2119,30 +2570,26 @@ main { position: relative; }
   color: transparent;
 }
 [data-theme="dark"] .t-card__bio { border-top-color: var(--g-line); color: var(--g-text); font-weight: 400; }
-[data-theme="dark"] .on-ground .site-header .round {
+[data-theme="dark"] .on-ground .site-header .round,
+[data-theme="dark"] .site-header.site-header--past .round {
   border-color: rgba(227, 179, 74, 0.3);
   background: rgba(26, 13, 4, 0.4);
   color: var(--gold-pale);
   box-shadow: none;
 }
-[data-theme="dark"] .on-ground .site-header .round:hover { border-color: var(--gold); background: rgba(26, 13, 4, 0.6); color: var(--gold); }
+[data-theme="dark"] .on-ground .site-header .round:hover,
+[data-theme="dark"] .site-header.site-header--past .round:hover { border-color: var(--gold); background: rgba(26, 13, 4, 0.6); color: var(--gold); }
 [data-theme="dark"] .on-ground .site-header .btn--line { border-color: rgba(227, 179, 74, 0.35); background: rgba(26, 13, 4, 0.3); color: var(--gold-pale); }
 
 /* Articles and videos */
 [data-theme="dark"] .seg { border-color: var(--g-line); background: none; box-shadow: none; }
 [data-theme="dark"] .seg__btn { color: var(--g-muted); }
-[data-theme="dark"] .seg__btn[aria-pressed="true"] { color: var(--espresso); }
+[data-theme="dark"] .seg__btn[aria-pressed="true"] { color: var(--btn-ink); }
 [data-theme="dark"] .slider__art,
 [data-theme="dark"] .slider__card,
 [data-theme="dark"] .vid__art { border-color: var(--g-line); }
 [data-theme="dark"] .slider__title { color: var(--gold-light); font-weight: 500; }
 [data-theme="dark"] .slider__text { font-weight: 300; }
-[data-theme="dark"] .vid__play {
-  border: 1px solid var(--gold);
-  background: rgba(20, 9, 2, 0.55);
-  color: var(--gold);
-  box-shadow: none;
-}
 [data-theme="dark"] .vid__title { color: var(--gold-light); font-weight: 400; }
 [data-theme="dark"] .vid:has(.stretched:focus-visible) .vid__art { outline-color: var(--gold); }
 [data-theme="dark"] .vp__scrim { background: rgba(26, 13, 4, 0.94); }
@@ -2151,6 +2598,7 @@ main { position: relative; }
 
 /* The article page */
 [data-theme="dark"] .prose h2 { color: var(--gold-light); font-weight: 500; }
+[data-theme="dark"] .lede--bism { color: var(--gold-light); }
 
 /* Carousel arrows and dots */
 [data-theme="dark"] .carousel__arrow {
@@ -2221,15 +2669,29 @@ main { position: relative; }
 }
 [data-theme="dark"] .b-leaf { box-shadow: 0 40px 60px -30px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 236, 210, 0.06); }
 [data-theme="dark"] .b-leaf__title { color: var(--gold-light); }
+[data-theme="dark"] .cart__slip {
+  --leaf: #2c1c0f;
+  --leaf-2: #21140a;
+  --leaf-ink: #f1e3c9;
+  --leaf-muted: rgba(241, 227, 201, 0.64);
+  --leaf-gold: #d9aa48;
+  --rubric: #e8906a;
+  --f-edge: rgba(217, 170, 72, 0.35);
+  --f-rule: rgba(217, 170, 72, 0.18);
+  --f-fill: rgba(0, 0, 0, 0.25);
+  --f-bad: #ff9a8a;
+  box-shadow: 0 40px 70px -30px rgba(0, 0, 0, 0.9), inset 0 0 0 1px rgba(217, 170, 72, 0.25);
+}
+[data-theme="dark"] .cart__title { color: var(--gold-light); }
+[data-theme="dark"] .cart-line__pic { background: #21140a; }
+[data-theme="dark"] .cart-field input:focus { box-shadow: 0 0 0 3px rgba(232, 144, 106, 0.2); }
+[data-theme="dark"] .cart__fail { border-color: rgba(255, 154, 138, 0.4); background: rgba(255, 154, 138, 0.08); }
 [data-theme="dark"] .store-card--link:has(.stretched:focus-visible) { outline-color: var(--gold); }
 
 /* ---------------------------- 13. Responsive ----------------------- */
 @media (max-width: 980px) {
   .site-header__cta { display: none; }
-  .details,
-  .slider,
-  .program { grid-template-columns: minmax(0, 1fr); }
-  .program { gap: 0.75rem; }
+  .slider { grid-template-columns: minmax(0, 1fr); }
   .slider__art { width: 100%; max-width: 320px; }
   .mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .teacher--lead { padding: 1.6rem; }
@@ -2246,9 +2708,10 @@ main { position: relative; }
 @media (max-width: 640px) {
   .carousel:has(> .carousel__arrow) { --arrow-col: 40px; }
   .bay__well { padding: 0 10px; }
-  .fees { grid-template-columns: minmax(0, 1fr); }
-  .program { padding: 1.6rem; }
-  .program__heading { white-space: normal; }
+  .tracks__cols { grid-auto-flow: row; }
+  .track { padding-inline: 0.2rem; }
+  .track + .track { margin-top: 2rem; padding-top: 2rem; border-left: 0; border-top: 5px double var(--tr-ink); }
+  .tracks__pcts { grid-template-columns: minmax(0, 1fr); }
   .vp__close { top: 16px; right: 16px; }
   .vp__poster .vid__play { width: 64px; height: 64px; }
   .vp__poster .vid__play svg { width: 22px; height: 22px; margin-left: 4px; }

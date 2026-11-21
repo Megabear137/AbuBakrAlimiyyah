@@ -18,8 +18,7 @@
   var YEARS = ["First Year", "Second Year", "Third Year", "Fourth Year", "Fifth Year", "Sixth Year", "Seventh Year"];
   var ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII"];
   // A print's own fields; a book of one print keeps them itself.
-  var PRINT = ["edition", "price", "cover", "buyHref", "soldOut"];
-  var STRIPE = "https://buy.stripe.com/";
+  var PRINT = ["edition", "price", "cover", "soldOut"];
 
   var store = null;            // bookstore.json's editable part, as loaded or saved
   var covers = {};             // assets/img/books/tight/covers.json
@@ -75,7 +74,7 @@
 
   // What a print lacks or is: for the filter, the tags and the counts.
   function needs(p) {
-    return { photo: !p.cover, link: !p.buyHref, price: !String(p.price || "").trim(), sold: !!p.soldOut };
+    return { photo: !p.cover, price: !String(p.price || "").trim(), sold: !!p.soldOut };
   }
 
   /* ---------------------------------- layouts -------------------------------- */
@@ -117,7 +116,7 @@
 
   /* ----------------------------------- stats --------------------------------- */
   function drawStats() {
-    var n = { photo: 0, link: 0, price: 0, sold: 0, featured: 0 }, listings = 0;
+    var n = { photo: 0, price: 0, sold: 0, featured: 0 }, listings = 0;
     store.books.forEach(function (b) {
       if (b.featured) n.featured++;
       printsOf(b).forEach(function (p) {
@@ -131,7 +130,6 @@
       ["", listings, "listings (prints)"],
       ["photo", n.photo, "without a photograph", true],
       ["price", n.price, "without a price", true],
-      ["link", n.link, "without a payment link"],
       ["sold", n.sold, "sold out"],
       ["featured", n.featured, "featured"]
     ];
@@ -178,8 +176,6 @@
     if (withBook && b.featured) t.push('<span class="tag tag--gold">Featured</span>');
     if (withBook && (b.size === "large" || b.size === "medium")) t.push('<span class="tag">' + b.size + "</span>");
     if (x.sold) t.push('<span class="tag tag--warn">Sold out</span>');
-    if (p.buyHref) t.push('<span class="tag tag--ok">Payment link</span>');
-    else t.push('<span class="tag">No payment link</span>');
     if (x.photo) t.push('<span class="tag tag--warn">No photo</span>');
     return '<div class="tags">' + t.join("") + "</div>";
   }
@@ -255,13 +251,10 @@
           field("Edition", 'data-pf="edition" placeholder="e.g. Maktaba al-Bushra, 2 vols"', p.edition, "The line under the title that tells this print from others.") +
           '<div class="grid2">' +
             field("Price", 'data-pf="price" placeholder="$12.00"' + (p.price && !priceOk(p.price) ? ' class="bad"' : ""), p.price,
-              "Keep equal to the Stripe link’s price.") +
+              "Written like $12.00. Only a print with a price can be reserved.") +
             '<label class="f"><span>Stock</span><span class="check" style="margin-top:6px"><input type="checkbox" data-pf="soldOut"' +
               (p.soldOut ? " checked" : "") + "> Sold out</span></label>" +
           "</div>" +
-          field("Stripe payment link", 'data-pf="buyHref" type="url" placeholder="' + STRIPE + '…"' +
-            (p.buyHref && p.buyHref.indexOf(STRIPE) !== 0 ? ' class="bad"' : ""), p.buyHref,
-            "Empty: no Buy button. Redirect to <code>book.html?id=" + esc(b.id || "…") + (many ? "&amp;print=" + (k + 1) : "") + "&amp;paid=1</code>.") +
           field("Photograph path", 'data-pf="cover" placeholder="assets/img/books/name.jpg"', p.cover, "Set by uploading; empty draws the binding.") +
         "</div>" +
       "</div></div>";
@@ -346,11 +339,7 @@
       var card = t.closest(".print"), k = +card.dataset.k, p = printAt(b, k);
       openPrint = k;
       if (pf === "soldOut") { if (t.checked) p.soldOut = true; else delete p.soldOut; }
-      else if (pf === "buyHref") {
-        p.buyHref = t.value.trim();
-        if (!p.buyHref) delete p.buyHref;
-        t.classList.toggle("bad", !!p.buyHref && p.buyHref.indexOf(STRIPE) !== 0);
-      } else if (pf === "cover") p.cover = t.value.trim();
+      else if (pf === "cover") p.cover = t.value.trim();
       else if (pf === "price") { p.price = t.value.trim(); t.classList.toggle("bad", !!p.price && !priceOk(p.price)); }
       else p[pf] = t.value.replace(/\s+/g, " ");
       return changed();
@@ -491,7 +480,6 @@
     for (var i = 0; i < store.books.length; i++) {
       var b = store.books[i], where = "“" + (b.title || "book " + (i + 1)) + "”";
       if (!String(b.title || "").trim()) return "book " + (i + 1) + " has no title";
-      if (printsOf(b).some(function (p) { return p.buyHref && p.buyHref.indexOf(STRIPE) !== 0; })) return where + ": the payment link must start with " + STRIPE;
       if (b.id === "") delete b.id;
       if (b.id == null) continue;
       if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(b.id)) return where + ": the page id must be lowercase words joined by hyphens";
@@ -509,7 +497,7 @@
     saving = true;
     status("Saving…");
     var body = { version: store.version, force: !!force, books: store.books, layouts: store.layouts || {} };
-    ["heading", "kicker", "lede", "visitLabel", "buyLabel", "pickup", "thanks"].forEach(function (f) { body[f] = store[f]; });
+    ["heading", "kicker", "lede", "visitLabel", "pickup", "hold", "payWith", "reserveTo"].forEach(function (f) { body[f] = store[f]; });
     fetch(API, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
       .then(function (r) {
         return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, ok: r.ok, json: j }; });
