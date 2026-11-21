@@ -247,6 +247,9 @@ bookstore editor edits the open tab's layout.
   `.t-others`); never give them a fixed row height again, the bios are paragraphs. Their markup is
   `.teacher > .teacher__in > (.teacher__head, .teacher__bio)`, built in both `main.js` and `teacher.js`;
   `.teacher__in` must stay unpositioned so the name's stretched link covers the card.
+  At ≤640px `foldTeachers` (main.js) folds the home page's cards into one accordion panel
+  (`.mosaic--fold`): each name is wrapped in a `.teacher__toggle` button while folded and unwrapped
+  above that width, and `.is-open` on a card shows its bio.
 - **Motion**: `.rv` uses `animation-timeline: view()` inside `@supports`; `prefers-reduced-motion`
   switches all animation off.
 - **The splash** (home page only) hides the page until the content, its fonts and the banner photo

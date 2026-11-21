@@ -233,6 +233,45 @@
       card.appendChild(inner);
       mount.appendChild(card);
     });
+    foldTeachers(mount);
+  }
+
+  // On a phone the cards fold into one panel of names, each opening its bio
+  // (an accordion): the full cards made the section five screens long. The
+  // name becomes a button only while folded, so the desktop cards are plain.
+  var PHONE = window.matchMedia("(max-width: 640px)");
+  var CHEVRON = '<span class="teacher__mark" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2 4.5l4 4 4-4"/></svg></span>';
+  function foldTeachers(mount) {
+    var on = PHONE.matches;
+    mount.classList.toggle("mosaic--fold", on);
+    Array.prototype.forEach.call(mount.querySelectorAll(".teacher"), function (card, i) {
+      var name = card.querySelector(".teacher__name"), bio = card.querySelector(".teacher__bio");
+      var btn = name && name.querySelector(".teacher__toggle");
+      card.classList.remove("is-open");
+      if (on && !btn && bio) {
+        btn = el("button", "teacher__toggle stretched");
+        btn.type = "button";
+        bio.id = "teacher-bio-" + i;
+        btn.setAttribute("aria-controls", bio.id);
+        while (name.firstChild) btn.appendChild(name.firstChild);
+        btn.insertAdjacentHTML("beforeend", CHEVRON);
+        name.appendChild(btn);
+      } else if (!on && btn) {
+        btn.removeChild(btn.querySelector(".teacher__mark"));
+        while (btn.firstChild) name.insertBefore(btn.firstChild, btn);
+        name.removeChild(btn);
+      }
+      if (btn && on) btn.setAttribute("aria-expanded", "false");
+    });
+    if (mount.dataset.fold) return;          // listen once, however often it is drawn
+    mount.dataset.fold = "1";
+    mount.addEventListener("click", function (e) {
+      var b = e.target.closest(".teacher__toggle");
+      if (!b) return;
+      var open = b.closest(".teacher").classList.toggle("is-open");
+      b.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    PHONE.addEventListener("change", function () { foldTeachers(mount); });
   }
   window.renderTeachers = renderTeachers;
 
