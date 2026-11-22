@@ -228,7 +228,7 @@ bookstore editor edits the open tab's layout.
   mode's ground, change `--hero-fade` with it.
 - **Carousel**: don't give `.carousel__viewport` horizontal padding (slide widths are measured from
   its box). Its vertical padding (cancelled by negative margins) keeps hover shadows unclipped. Arrows
-  flank the slides; the `controls` option is kept but unused. It drags (pointer), pages on horizontal
+  flank the slides, hidden at ≤640px (swipe and dots only); the `controls` option is kept but unused. It drags (pointer), pages on horizontal
   wheel, and a >6px drag swallows the following click.
 - **Bookshelf** (`curriculum.js`):
   - Years pair two to a row; seven years make four boards. Each well scrolls sideways, never wraps

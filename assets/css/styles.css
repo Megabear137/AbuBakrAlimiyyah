@@ -1176,9 +1176,17 @@ main { position: relative; }
 
 @media (max-width: 640px) {
   .folio { grid-template-columns: minmax(0, 1fr); }
-  .folio__cover { justify-self: start; width: min(100%, 190px); max-height: none; }
+  /* Centred, and narrow enough on a small phone to clear the close (40px and
+     its ring) that shares its row: hence 92px, its width on either side. */
+  .folio__cover { justify-self: center; width: min(100% - 92px, 190px); max-height: none; }
   .folio__cover img { height: auto; }
   .folio__text { padding-right: 0; }
+  /* The stacked leaf is taller than a phone's screen: the close rides down
+     with the reader, just below the fixed header's rounds (their foot is at
+     65px once the header is stuck), never under them where a tap would land
+     on the theme toggle. It shares the first row with the cover. */
+  .folio__close { position: sticky; top: 76px; grid-area: 1 / 1; justify-self: end; align-self: start; }
+  .folio__cover { grid-area: 1 / 1; }
 }
 
 /* ----------------------------- 9. Details -------------------------- */
@@ -2713,7 +2721,11 @@ main { position: relative; }
 }
 
 @media (max-width: 640px) {
-  .carousel:has(> .carousel__arrow) { --arrow-col: 40px; }
+  /* No arrows on a phone: the slides take the whole width and are swiped,
+     the dots beneath still showing where you are. */
+  .carousel:has(> .carousel__arrow) { grid-template-columns: minmax(0, 1fr); }
+  .carousel > .carousel__arrow { display: none; }
+  .carousel:has(> .carousel__arrow) .carousel__dots { grid-column: 1; }
   .bay__well { padding: 0 10px; }
   .tracks__cols { grid-auto-flow: row; }
   .track { padding-inline: 0.2rem; }
