@@ -163,7 +163,12 @@
       swallowClick = false;
       if (pageCount < 2) return;
       if (e.pointerType === "mouse" && e.button !== 0) return;
-      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, axis: null };
+      var now = performance.now();
+      drag = {
+        id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, axis: null,
+        // A sample ~80ms back, for the flick's speed when the finger lifts.
+        sx: e.clientX, st: now, lx: e.clientX, lt: now
+      };
     });
 
     viewport.addEventListener("pointermove", function (e) {
@@ -180,6 +185,10 @@
       }
       if (e.cancelable) e.preventDefault();
       drag.dx = dx;
+      var now = performance.now();
+      if (now - drag.st > 80) { drag.sx = drag.lx; drag.st = drag.lt; }
+      drag.lx = e.clientX;
+      drag.lt = now;
       var limit = maxShift();
       var shift = baseShift - dx;
       // Rubber band past either end, so the ends feel closed.
@@ -192,11 +201,18 @@
       if (!drag || e.pointerId !== drag.id) return;
       var dx = drag.dx;
       var dragged = drag.axis === "x";
+      // Speed of the last stretch of the swipe, px/ms; a finger that paused
+      // before lifting has none.
+      var dt = performance.now() - drag.st;
+      var v = dt > 0 && dt < 250 ? (drag.lx - drag.sx) / dt : 0;
       drag = null;
       track.classList.remove("carousel__track--dragging");
       if (!dragged) return;
       swallowClick = Math.abs(dx) > 6; // a drag must not open the card under it
-      if (Math.abs(dx) > Math.max(45, Math.min(slideWidth() * 0.4, 160))) {
+      // A quick flick turns the page however short it is; a slow drag must
+      // pass a fifth of a slide.
+      var flick = Math.abs(dx) > 18 && Math.abs(v) > 0.3 && (v < 0) === (dx < 0);
+      if (flick || Math.abs(dx) > Math.max(36, Math.min(slideWidth() * 0.2, 90))) {
         go(dx < 0 ? page + 1 : page - 1);
       } else {
         apply(Math.max(1, Math.min(opts.perView(), items.length)));
