@@ -769,6 +769,14 @@ main { position: relative; }
 /* A bay: a rounded wooden frame with a gold line along its top, a recessed
    dark well, a glowing gold line for the plank, and the year beneath. */
 .bay {
+  /* The well's wood, here so the light mode's edge fade can repeat it. */
+  --well-bg:
+    radial-gradient(60% 70% at 50% 0%, rgba(255, 222, 150, 0.2), transparent 70%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.55)),
+    var(--grain-v),
+    linear-gradient(90deg, var(--wood-dark), #633d24 50%, var(--wood-dark));
+  --well-bg-size: 100% 100%, 100% 100%, 450px 900px, 100% 100%;
+  --well-shadow: inset 0 10px 24px rgba(0, 0, 0, 0.6), inset 0 -2px 0 rgba(0, 0, 0, 0.4);
   position: relative;
   min-width: 0;
   padding: 12px 12px 0;
@@ -795,13 +803,9 @@ main { position: relative; }
   height: 300px;
   padding: 0 20px;
   border-radius: 14px 14px 0 0;
-  background:
-    radial-gradient(60% 70% at 50% 0%, rgba(255, 222, 150, 0.2), transparent 70%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.55)),
-    var(--grain-v),
-    linear-gradient(90deg, var(--wood-dark), #633d24 50%, var(--wood-dark));
-  background-size: 100% 100%, 100% 100%, 450px 900px, 100% 100%;
-  box-shadow: inset 0 10px 24px rgba(0, 0, 0, 0.6), inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+  background: var(--well-bg);
+  background-size: var(--well-bg-size);
+  box-shadow: var(--well-shadow);
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: thin;
@@ -1264,6 +1268,7 @@ main { position: relative; }
   line-height: 1;
 }
 .tracks__off { color: var(--tr-muted); font-size: 0.82rem; }
+.tracks__shared { display: none; }      /* the phone's one "off the total" (main.js) */
 
 /* The enrolment hook: absent while fees.cta is null in program.json. */
 .tracks__cta { margin-top: 2rem; text-align: center; }
@@ -2713,7 +2718,15 @@ main { position: relative; }
   .tracks__cols { grid-auto-flow: row; }
   .track { padding-inline: 0.2rem; }
   .track + .track { margin-top: 2rem; padding-top: 2rem; border-left: 0; border-top: 5px double var(--tr-ink); }
-  .tracks__pcts { grid-template-columns: minmax(0, 1fr); }
+  /* The discounts three across, hairlines between, their shared words
+     once beneath (option A of the phone mockups). */
+  .tracks__pcts { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0; margin-top: 0.9rem; }
+  .tracks__pcts li { padding: 0 0.3rem; }
+  .tracks__pcts li + li { border-left: 1px solid var(--tr-rule); }
+  .tracks__pct { font-size: 2.2rem; }
+  .tracks__pcts b { margin-top: 0.3rem; font-size: 0.8rem; line-height: 1.25; }
+  .tracks__pcts--shared .tracks__off { display: none; }
+  .tracks__shared { display: block; margin-top: 0.8rem; }
   .vp__close { top: 16px; right: 16px; }
   .vp__poster .vid__play { width: 64px; height: 64px; }
   .vp__poster .vid__play svg { width: 22px; height: 22px; margin-left: 4px; }
@@ -2920,10 +2933,31 @@ main { position: relative; }
   .case--tabs .shelf:not(:has(.is-current)) { display: none; }
 }
 
-/* A shelf that runs on past its bay fades at the far edge (curriculum.js). */
-.bay__well--more {
+/* A shelf that runs on past its bay fades at the far edge (curriculum.js).
+   In dark the whole well fades, into a bay nearly as dark as itself. In
+   light that showed the bay's paler grain through the well as streaks, so
+   the well stays whole and the books fade into a copy of its own wood laid
+   over its far edge (the well's box exactly: the bay's 12px padding, 300px
+   tall; its background doesn't scroll, so the two line up). */
+[data-theme="dark"] .bay__well--more {
   -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent 99%);
   mask-image: linear-gradient(90deg, #000 80%, transparent 99%);
+}
+html:not([data-theme="dark"]) .bay:has(> .bay__well--more:not([hidden]))::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  height: 300px;
+  border-radius: 14px 14px 0 0;
+  background: var(--well-bg);
+  background-size: var(--well-bg-size);
+  box-shadow: var(--well-shadow);
+  -webkit-mask-image: linear-gradient(90deg, transparent 80%, #000 99%);
+  mask-image: linear-gradient(90deg, transparent 80%, #000 99%);
+  pointer-events: none;
 }
 
 /* bookstore.html on a phone: a row for each subject, swiped sideways, the
@@ -2951,6 +2985,13 @@ main { position: relative; }
     scrollbar-width: none;
   }
   .store-row__books::-webkit-scrollbar { display: none; }
+  /* The home page's single row (option A of the phone mockups): its
+     dots follow the scroll, like the carousels' but not buttons. */
+  .store-row__dots { display: flex; justify-content: center; gap: 6px; margin-top: 0.2rem; }
+  .store-row__dots span { width: 7px; height: 7px; border: 1px solid var(--rust); border-radius: 50%; transition: width 0.3s var(--ease-out), background-color 0.3s; }
+  .store-row__dots span.is-on { width: 20px; border-radius: 4px; background: var(--rust); }
+  [data-theme="dark"] .store-row__dots span { border-color: var(--gold); }
+  [data-theme="dark"] .store-row__dots span.is-on { background: var(--gold); }
   .store--rows .store-card,
   .store--rows .store-card--lead {
     scroll-snap-align: start;

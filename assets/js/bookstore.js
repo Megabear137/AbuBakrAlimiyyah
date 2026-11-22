@@ -368,18 +368,47 @@
     mount.appendChild(more);
   }
 
+  // The home page's row on a phone, every book the same small size, with
+  // a dot for each screenful that follows the scroll (decoration only: the
+  // row is swiped, and each cover is a link).
+  function homeRow(grid, shown, books) {
+    var row = el("div", "store-row__books");
+    shown.forEach(function (b) { row.appendChild(card(b, books.indexOf(b), "normal")); });
+    var dots = el("div", "store-row__dots");
+    dots.setAttribute("aria-hidden", "true");
+    grid.append(row, dots);
+    function pages() { return Math.max(1, Math.ceil(row.scrollWidth / Math.max(1, row.clientWidth) - 0.05)); }
+    function mark() {
+      var n = dots.children.length, f = row.scrollLeft / Math.max(1, row.scrollWidth - row.clientWidth);
+      var at = Math.min(n - 1, Math.round(f * (n - 1)));
+      for (var k = 0; k < n; k++) dots.children[k].classList.toggle("is-on", k === at);
+    }
+    function draw() {
+      var n = pages();
+      if (dots.children.length !== n) {
+        dots.textContent = "";
+        for (var k = 0; k < n; k++) dots.appendChild(el("span", ""));
+      }
+      dots.hidden = n < 2;
+      mark();
+    }
+    row.addEventListener("scroll", mark, { passive: true });
+    if (global.ResizeObserver) new ResizeObserver(draw).observe(row);
+    draw();
+  }
+
   function renderBookstore(data, all) {
     var grid = slot("bookstore");
     if (!grid) return;
     last = [data, all];
     var books = data.books || [];
     grid.classList.toggle("store--all", !!all);
+    // Crossing the phone width draws the section the other way.
+    if (!grid._phoneWatch && PHONE.addEventListener) {
+      grid._phoneWatch = true;
+      PHONE.addEventListener("change", function () { if (last) renderBookstore(last[0], last[1]); });
+    }
     if (all) {
-      // Crossing the phone width draws the page the other way.
-      if (!grid._phoneWatch && PHONE.addEventListener) {
-        grid._phoneWatch = true;
-        PHONE.addEventListener("change", function () { if (last) renderBookstore(last[0], last[1]); });
-      }
       var chips = slot("bookstore-filters");
       if (chips) renderChips(chips, books, grid, data);
       renderAll(grid, books, data);
@@ -387,9 +416,14 @@
     }
     // Three rows of the featured books; the section head and the button
     // to bookstore.html are the page's own.
+    // On a phone they stand in one row, swiped sideways, as bare covers
+    // like bookstore.html's rows (design/mobile-bookstore/, option A).
     var shown = homeBooks(books);
+    var rows = PHONE.matches && shown.length > 1;
     grid.textContent = "";
-    shown.forEach(function (b) { grid.appendChild(card(b, books.indexOf(b))); });
+    grid.classList.toggle("store--rows", rows);
+    if (rows) homeRow(grid, shown, books);
+    else shown.forEach(function (b) { grid.appendChild(card(b, books.indexOf(b))); });
     if (!shown.length) grid.appendChild(el("p", "media-empty", "No books yet."));
     setText("bookstore-kicker", data.kicker);
     setText("bookstore-heading", data.heading);

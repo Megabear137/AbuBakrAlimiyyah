@@ -160,13 +160,21 @@
     if (d && d.rows && d.rows.length) {
       var disc = el("div", "tracks__disc", '<h3 class="tracks__disc-label">' + esc(d.label || "Family discounts") + "</h3>");
       var list = el("ul", "tracks__pcts");
+      var rests = [];
       d.rows.forEach(function (row) {
         var m = /^\s*(\d+(?:\.\d+)?\s*%)\s*(.*)$/.exec(String(row.value || ""));
+        rests.push(m ? m[2] : null);
         list.appendChild(el("li", "", "<b>" + esc(row.count) + "</b>" + (m
           ? '<span class="tracks__pct">' + esc(m[1]) + '</span><span class="tracks__off">' + esc(m[2]) + "</span>"
           : '<span class="tracks__off">' + esc(row.value) + "</span>")));
       });
       disc.appendChild(list);
+      // On a phone the figures stand three across, and words every row
+      // ends with ("off the total") are said once beneath (the CSS).
+      if (rests[0] && rests.every(function (r) { return r === rests[0]; })) {
+        list.classList.add("tracks__pcts--shared");
+        disc.appendChild(el("p", "tracks__off tracks__shared", esc(rests[0])));
+      }
       mount.appendChild(disc);
     }
 

@@ -143,7 +143,8 @@ Every page also loads `nav.js` and `cart.js` (the cart's bag button and slip, wh
   by position). An `amount`'s leading currency sign is drawn small and raised. `fees.heading` and
   `timings.heading` are no longer shown.
 - `fees.discounts`: large percentages beneath the tracks (a `value` starting `N%` is split into the
-  figure and the rest), absent without rows. `fees.cta` (`{label, href}`, `null` hides) is the hook for
+  figure and the rest), absent without rows. At ≤640px they stay in one row, and a rest every row
+  shares ("off the total") is said once beneath (`.tracks__shared`). `fees.cta` (`{label, href}`, `null` hides) is the hook for
   future enrolment, centred under the discounts.
 - Teachers: `width` 1–4, `height` 1–3 (omitted at 1), `bioBeside` (width ≥2; honoured only where
   the card itself is ≥44rem, a container query on `.teacher`, else the bio sits under the name), `id` (slug → `teacher.html?id=`; the home page's cards don't link to it, by request, so the pages
@@ -248,6 +249,9 @@ bookstore editor edits the open tab's layout.
 - **Niches**: the arch is one SVG path in four data-URI tokens on `.niche-slot` plus `--niche-pad`;
   change all five together. The drop shadow is a `filter` on the parent because a mask clips its own.
 - **Bookstore medium tiles** use `contain: size` so they don't grow their row.
+- **The bookstore on phones** (≤640px, `PHONE` in `bookstore.js`): `bookstore.html` draws a swiped row
+  per subject group, and the home page its books as one swiped row (`homeRow`) with dots that follow
+  the scroll (decoration, not buttons). Both use `.store--rows` and render again when crossing 640px.
 - **The bookstore page on a phone** (≤640px, `PHONE` in `bookstore.js`): no tabs; `renderRows` draws a
   swiped row per subject group (each in its tab's order) of bare covers (`.store--rows`), and a
   `?group=` link opens at its row. The page redraws when the width crosses 640px. The librarian's
