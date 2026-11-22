@@ -265,7 +265,7 @@ bookstore editor edits the open tab's layout.
   are in. `index.html`'s second `<head>` script sets `splash-on` and `splash-hold` on `<html>`
   before first paint, plus `splash-quick` (no logo, a short fade) if `sessionStorage["alimiyyah.splash"]`
   says this visit already saw it, and lifts everything after 10s should `splash.js` fail. Without JS
-  there is no splash. `splash-hold` pauses the banner's entrance (`.hero .in`, `.hero__img`), so the
+  there is no splash. `splash-hold` pauses the banner's entrance (`.hero .in`; the photo itself is still), so the
   title rises as the splash fades. The fill is `--splash-p` (a registered `@property`); its timings
   are in both the CSS and `splash.js` (`FILL`, `GLINT`, `FADE`). The bismillah over the logo (`.splash__bism`, Amiri's U+FDFD, the font preloaded) is
   written in the same way, a veil (`.splash__quill`) sliding off it to the left once `splash.js` sees
@@ -302,7 +302,6 @@ chrome --headless=new --disable-gpu --hide-scrollbars --window-size=1440,5600 \
   doesn't advance under `--dump-dom`: call `getAnimations().forEach(a => a.finish())` before measuring.
   **Delete harness files afterwards.**
 - After layout changes, sweep for overflow at 360/390/480/640/720/768/880/900/1024/1200/1440px.
-  `.hero__img` always reports a few px over (its drift animation) and is not a fault.
 
 ## Known placeholder state
 
