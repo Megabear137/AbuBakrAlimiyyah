@@ -282,8 +282,52 @@
     });
   }
 
+  // bookstore.html on a phone: no tabs, but a row for each subject group,
+  // swiped sideways, its books as bare covers (design/mobile-bookstore/,
+  // option C with card 2). Each row keeps its tab's order; every book is
+  // the same small size.
+  var PHONE = global.matchMedia ? global.matchMedia("(max-width: 640px)") : { matches: false };
+  function groupNames(books, data) {
+    var groups = (data.subjectGroups || []).filter(function (g) { return g && g.name; });
+    return groups.map(function (g) { return g.name; }).filter(function (n) {
+      return books.some(function (b) { return groupOf(b, groups) === n; });
+    });
+  }
+  function renderRows(grid, books, data, names) {
+    names.forEach(function (name, k) {
+      var shown = tabBooks(books, data, name);
+      var sec = el("section", "store-row");
+      var head = el("h2", "store-row__head", esc(name) + "<sup>" + shown.length + "</sup>");
+      head.id = "store-row-" + k;
+      sec.setAttribute("aria-labelledby", head.id);
+      var row = el("div", "store-row__books");
+      shown.forEach(function (t) { row.appendChild(card(t.book, books.indexOf(t.book), "normal")); });
+      sec.append(head, row);
+      grid.appendChild(sec);
+    });
+    // A link to one subject (bookstore.html?group=Fiqh) opens at its row.
+    var at = names.indexOf(filter.group);
+    if (at > 0 && !grid._rowsShown) {
+      // Once the page has loaded (a load resets the scroll), and to the row
+      // as it is then: the covers' arrival redraws them.
+      var go = function () { var r = grid.querySelectorAll(".store-row")[at]; if (r) r.scrollIntoView({ block: "start", behavior: "instant" }); };
+      if (document.readyState === "complete") setTimeout(go, 0); else global.addEventListener("load", function () { setTimeout(go, 0); });
+    }
+    grid._rowsShown = true;
+  }
+
   function renderAll(grid, books, data) {
     grid.textContent = "";
+    var names = groupNames(books, data);
+    var rows = PHONE.matches && names.length > 1;
+    grid.classList.toggle("store--rows", rows);
+    if (rows) {
+      renderRows(grid, books, data, names);
+      setText("bookstore-kicker", data.kicker);
+      setText("bookstore-heading", data.heading);
+      setText("bookstore-lede", data.lede);
+      return;
+    }
     var shown = tabBooks(books, data, filter.group);
     shown.forEach(function (t) { grid.appendChild(card(t.book, books.indexOf(t.book), t.size)); });
     if (!shown.length) grid.appendChild(el("p", "media-empty", books.length ? "No books match." : "No books yet."));
@@ -307,8 +351,21 @@
     if (!body.length) return;
     var text = el("div", "store-letter__body");
     body.forEach(function (p) { text.appendChild(el("p", "", esc(p))); });
+    text.id = "store-letter-body";
     mount.appendChild(text);
     if (msg.closing) mount.appendChild(el("p", "store-letter__closing", esc(msg.closing)));
+    // On a phone the message runs to a screen; it opens on its first lines
+    // and a button reads the rest (the CSS shows the button there only).
+    var more = el("button", "store-letter__more", "Read more");
+    more.type = "button";
+    more.setAttribute("aria-controls", text.id);
+    more.setAttribute("aria-expanded", "false");
+    more.addEventListener("click", function () {
+      var open = mount.classList.toggle("is-open");
+      more.setAttribute("aria-expanded", open ? "true" : "false");
+      more.textContent = open ? "Show less" : "Read more";
+    });
+    mount.appendChild(more);
   }
 
   function renderBookstore(data, all) {
@@ -318,6 +375,11 @@
     var books = data.books || [];
     grid.classList.toggle("store--all", !!all);
     if (all) {
+      // Crossing the phone width draws the page the other way.
+      if (!grid._phoneWatch && PHONE.addEventListener) {
+        grid._phoneWatch = true;
+        PHONE.addEventListener("change", function () { if (last) renderBookstore(last[0], last[1]); });
+      }
       var chips = slot("bookstore-filters");
       if (chips) renderChips(chips, books, grid, data);
       renderAll(grid, books, data);

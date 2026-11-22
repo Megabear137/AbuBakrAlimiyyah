@@ -2928,3 +2928,84 @@ main { position: relative; }
   -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent 99%);
   mask-image: linear-gradient(90deg, #000 80%, transparent 99%);
 }
+
+/* bookstore.html on a phone: a row for each subject, swiped sideways, the
+   books as bare covers with their titles and prices beneath (bookstore.js,
+   renderRows; design/mobile-bookstore/, option C with card 2). The
+   librarian's message opens on its first lines, with Read more. */
+.store-letter__more { display: none; }
+@media (max-width: 640px) {
+  .store-filters { display: none !important; }
+  .store.store--rows { display: block; }
+  .store-row { scroll-margin-top: 90px; }
+  .store-row + .store-row { margin-top: 1.9rem; }
+  .store-row__head { display: flex; align-items: baseline; gap: 0.45rem; margin-bottom: 0.7rem; color: var(--g-text); font: 500 1.75rem var(--display); }
+  .store-row__head sup { color: var(--g-muted); font: 400 0.76rem var(--sans); }
+  .store-row__books {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 42%;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 0 calc(-1 * var(--gutter, 16px));
+    padding: 4px var(--gutter, 16px) 20px;
+    scroll-padding: 0 var(--gutter, 16px);
+    scrollbar-width: none;
+  }
+  .store-row__books::-webkit-scrollbar { display: none; }
+  .store--rows .store-card,
+  .store--rows .store-card--lead {
+    scroll-snap-align: start;
+    padding: 0;
+    border-radius: 0;
+    overflow: visible;
+    background: none;
+    box-shadow: none;
+    color: var(--brown-ink);
+  }
+  .store--rows .store-card:hover,
+  .store--rows .store-card:focus-within { transform: none; box-shadow: none; }
+  .store--rows .store-card--link .stretched::before { border-radius: 4px; }
+  .store--rows .store-card__pic {
+    position: relative;
+    z-index: 0;
+    order: -1;
+    inset: auto;
+    width: 100%;
+    margin: 0 0 0.7rem;
+    border-radius: 2px 5px 5px 2px;
+    transform: none !important;
+    box-shadow: 0 16px 22px -12px rgba(20, 8, 2, 0.7), 0 2px 3px rgba(20, 8, 2, 0.2);
+  }
+  .store--rows .store-card__pic ~ .store-card__pic,
+  .store--rows .store-card__flag,
+  .store--rows .store-card__desc { display: none; }
+  .store--rows .store-card__sub { color: var(--g-accent); }
+  .store--rows .store-card__title { max-width: none; margin-top: 0.25rem; font-size: 1.12rem; font-weight: 600; line-height: 1.12; }
+  .store--rows .store-card__edition { max-width: none; font-size: 0.9rem; }
+  .store--rows .store-card__price,
+  .store--rows .store-card--lead .store-card__price { margin-top: 0.35rem; padding: 0; background: none; color: var(--rust); font-size: 0.92rem; }
+  .store--rows .store-card__price--todo { color: var(--g-muted); }
+  .store--rows .store-card--link:has(.stretched:focus-visible) { outline-offset: 4px; border-radius: 4px; }
+  [data-theme="dark"] .store--rows .store-card { color: #f3e6d3; box-shadow: none; }
+  [data-theme="dark"] .store--rows .store-card__sub { color: var(--gold-pale); }
+  [data-theme="dark"] .store--rows .store-card__price { background: none; color: var(--gold); }
+
+  .store-letter:not(.is-open) .store-letter__body { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; }
+  .store-letter:not(.is-open) .store-letter__body p + p,
+  .store-letter:not(.is-open) .store-letter__closing { display: none; }
+  .store-letter__more {
+    display: block;
+    margin: 0.6rem auto -0.6rem;
+    padding: 0.85rem 0.6rem;
+    border: 0;
+    background: none;
+    color: var(--g-accent);
+    font: 600 0.74rem var(--sans);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  [data-theme="dark"] .store-letter__more { color: var(--gold); }
+}

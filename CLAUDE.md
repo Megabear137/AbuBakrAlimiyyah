@@ -248,6 +248,10 @@ bookstore editor edits the open tab's layout.
 - **Niches**: the arch is one SVG path in four data-URI tokens on `.niche-slot` plus `--niche-pad`;
   change all five together. The drop shadow is a `filter` on the parent because a mask clips its own.
 - **Bookstore medium tiles** use `contain: size` so they don't grow their row.
+- **The bookstore page on a phone** (≤640px, `PHONE` in `bookstore.js`): no tabs; `renderRows` draws a
+  swiped row per subject group (each in its tab's order) of bare covers (`.store--rows`), and a
+  `?group=` link opens at its row. The page redraws when the width crosses 640px. The librarian's
+  message opens on five lines with a Read more button (`.store-letter__more`, hidden wider).
 - **Teacher cards** grow to their text (`grid-auto-rows: minmax(180px, auto)` on `.mosaic` and
   `.t-others`); never give them a fixed row height again, the bios are paragraphs. Their markup is
   `.teacher > .teacher__in > (.teacher__head, .teacher__bio)`, built in both `main.js` and `teacher.js`;
