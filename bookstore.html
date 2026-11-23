@@ -22,7 +22,7 @@
 
   <link rel="icon" href="assets/img/logo_gold_web.png">
   <link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
-  <link rel="stylesheet" href="assets/css/styles.css?v=144">
+  <link rel="stylesheet" href="assets/css/styles.css?v=149">
 </head>
 <body id="top" class="on-ground">
 
@@ -69,7 +69,8 @@
   <!-- ========================== THE BOOKSTORE ========================= -->
   <!-- bookstore.js fills every slot from content/bookstore.json: the subject
        masthead (the kicker, the heading #bookstore-heading and the lede), the
-       librarian's message, the subject groups to filter by, then the bento
+       librarian's message, the search by title or author, the subject groups
+       to filter by, then the bento
        grid of every book. -->
   <section class="section store-page" aria-labelledby="bookstore-heading">
     <div class="wrap">
@@ -79,6 +80,7 @@
         <p class="store-mast__lede" data-slot="bookstore-lede"></p>
       </div>
       <div class="store-letter" data-slot="bookstore-letter" hidden></div>
+      <search class="store-search" data-slot="bookstore-search" hidden></search>
       <div class="store-filters" data-slot="bookstore-filters" hidden></div>
       <div class="store" data-slot="bookstore"></div>
     </div>
@@ -105,6 +107,6 @@
 <script src="assets/js/nav.js?v=5"></script>
 <script src="assets/js/cart.js?v=3"></script>
 <script src="assets/js/curriculum.js?v=21"></script>
-<script src="assets/js/bookstore.js?v=26"></script>
+<script src="assets/js/bookstore.js?v=29"></script>
 </body>
 </html>

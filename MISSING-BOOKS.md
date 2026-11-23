@@ -70,13 +70,14 @@ needs its own link (one per edition). The steps are in CLAUDE.md under *Selling 
 - **Longer descriptions (optional).** These books have only the short description, so their full
   view repeats it. A longer description of a paragraph or two would fill it out, like the older
   books have. This applies to all 18 new books listed above.
-- **Authors (optional).** Where no author is given, the author line is left off. The authors are
-  missing for Achhi Baatein, Urdu ka Asan Qaida, Durus al-Lugha, Urdu Khushkhati, Qasas
-  al-Nabiyyin, Tasheel al-Nahw, Tasheel al-Sarf, Tajweed Made Easy, Asan Nahw, Riyad al-Salihin,
-  Ilm al-Sigha, Hidayat al-Nahw, al-Hidaya, Tarjamat al-Qur'an, Usul al-Shashi, al-Fawa'id
-  al-Makkiyya, al-Muqaddima al-Jazariyya, Mu'in al-Fara'id, Nur al-Yaqin, Nafhat al-Arab, Durus
-  al-Balagha, Ghazv-i Fikri, the six books of hadith, Sharh Ma'ani al-Athar, Shama'il al-Tirmidhi
-  and both Muwattas.
+- **Authors (please check).** Authors were added to the curriculum and the bookstore on
+  22 November 2026, most read off the covers of the masjid's photographs, the rest the classical
+  authors. Where no author is given, the author line is left off. Still without one: Tasheel
+  al-Sarf (the cover names only the Jāmiʿah), Urdu ka Asan Qaida and Urdu Khushkhati (publishers
+  only), Tajweed Made Easy (no photograph; which book is it?), Ta'lim al-Haq (no author on the
+  cover), Hidayat al-Nahw (its authorship is disputed) and Tarjamat al-Qur'an. Ghazv-i Fikri's
+  photograph is of Maulana Muhammad Ismail Rehan's *Nazariyati Jang ke Usul* (Usul al-Ghazw
+  al-Fikri), and that is the author given: is that the book taught?
 - **Qasas al-Nabiyyin:** which part or parts are studied? The price list just says "قصص النبیین".
 
 ## 6. Photographed books not on the price list

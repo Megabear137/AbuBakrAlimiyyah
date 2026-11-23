@@ -366,6 +366,7 @@
       html +=
         '<hr class="adm-hr"><h2 class="adm-panel__head">Book ' + (sel + 1) + "</h2>" +
         text("Title", b.title, ' data-f="title"') +
+        text("Author", b.author, ' data-f="author"', "On the book’s page under the title; the Bookstore page’s search finds books by it. Empty hides it.") +
         text("Subject", b.subject, ' data-f="subject" list="adm-store-subjects"',
           "The small line above the title. The Bookstore page filters by it.") +
         '<datalist id="adm-store-subjects">' + subjects().map(function (c) { return '<option value="' + esc(c) + '">'; }).join("") + "</datalist>" +

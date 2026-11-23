@@ -59,6 +59,7 @@
     {
       "id": "sahih-al-bukhari",
       "title": "Ṣaḥīḥ al-Bukhārī",
+      "author": "Imām Muḥammad ibn Ismāʿīl al-Bukhārī",
       "subject": "Hadith",
       "years": [
         "Seventh Year"
@@ -83,6 +84,7 @@
     {
       "id": "sahih-muslim",
       "title": "Ṣaḥīḥ Muslim",
+      "author": "Imām Muslim ibn al-Ḥajjāj",
       "subject": "Hadith",
       "years": [
         "Seventh Year"
@@ -112,6 +114,7 @@
     {
       "id": "sunan-abi-dawud",
       "title": "Sunan Abī Dāwūd",
+      "author": "Imām Abū Dāwūd al-Sijistānī",
       "subject": "Hadith",
       "years": [
         "Seventh Year"
@@ -140,6 +143,7 @@
     {
       "id": "sunan-al-nasai",
       "title": "Sunan al-Nasāʾī",
+      "author": "Imām Aḥmad ibn Shuʿayb al-Nasāʾī",
       "subject": "Hadith",
       "years": [
         "Seventh Year"
@@ -153,6 +157,7 @@
     {
       "id": "jami-al-tirmidhi",
       "title": "Jāmiʿ al-Tirmidhī",
+      "author": "Imām Abū ʿĪsā al-Tirmidhī",
       "subject": "Hadith",
       "years": [
         "Seventh Year"
@@ -166,6 +171,7 @@
     {
       "id": "sunan-ibn-maja",
       "title": "Sunan Ibn Māja",
+      "author": "Imām Ibn Māja al-Qazwīnī",
       "subject": "Hadith",
       "years": [
         "Seventh Year"
@@ -189,6 +195,7 @@
     {
       "id": "mishkat-al-masabih",
       "title": "Mishkāt al-Maṣābīḥ",
+      "author": "Walī al-Dīn Muḥammad ibn ʿAbd Allāh al-Khaṭīb al-Tibrīzī",
       "subject": "Hadith",
       "years": [
         "Sixth Year"
@@ -218,6 +225,7 @@
     {
       "id": "muwatta-imam-muhammad",
       "title": "Muwaṭṭaʾ al-Imām Muḥammad",
+      "author": "Imām Muḥammad ibn al-Ḥasan al-Shaybānī",
       "subject": "Hadith",
       "years": [
         "Seventh Year"
@@ -232,6 +240,7 @@
     {
       "id": "muwatta-imam-malik",
       "title": "Muwaṭṭaʾ al-Imām Mālik",
+      "author": "Imām Mālik ibn Anas",
       "subject": "Hadith",
       "years": [
         "Seventh Year"
@@ -245,6 +254,7 @@
     {
       "id": "riyad-al-salihin",
       "title": "Riyāḍ al-Ṣāliḥīn",
+      "author": "Imām Yaḥyā ibn Sharaf al-Nawawī",
       "subject": "Hadith",
       "years": [
         "Fourth Year",
@@ -259,6 +269,7 @@
     {
       "id": "sharh-maani-al-athar",
       "title": "Sharḥ Maʿānī al-Āthār",
+      "author": "Imām Abū Jaʿfar al-Ṭaḥāwī",
       "subject": "Usul Hadith",
       "years": [
         "Seventh Year"
@@ -283,6 +294,7 @@
     {
       "id": "zad-al-talibin",
       "title": "Zād al-Ṭālibīn",
+      "author": "Maulānā ʿĀshiq Ilāhī Bulandshahrī",
       "subject": "Hadith",
       "years": [
         "Third Year"
@@ -296,6 +308,7 @@
     {
       "id": "taysir-mustalah-al-hadith",
       "title": "Taysīr Muṣṭalaḥ al-Ḥadīth",
+      "author": "Dr Maḥmūd al-Ṭaḥḥān",
       "subject": "Usul Hadith",
       "years": [
         "Sixth Year"
@@ -309,6 +322,7 @@
     {
       "id": "al-fawz-al-kabir",
       "title": "Al-Fawz al-Kabīr",
+      "author": "Shāh Walī Allāh al-Dihlawī",
       "subject": "Usul Tafsir",
       "years": [
         "Sixth Year"
@@ -333,6 +347,7 @@
     {
       "id": "tafsir-al-jalalayn",
       "title": "Tafsīr al-Jalālayn",
+      "author": "Jalāl al-Dīn al-Maḥallī & Jalāl al-Dīn al-Suyūṭī",
       "subject": "Tafseer",
       "years": [
         "Sixth Year"
@@ -357,6 +372,7 @@
     {
       "id": "al-muqaddima-al-jazariyya",
       "title": "Al-Muqaddima al-Jazariyya",
+      "author": "Imām Shams al-Dīn Ibn al-Jazarī",
       "subject": "Tajwid",
       "years": [
         "Fifth Year"
@@ -381,6 +397,7 @@
     {
       "id": "al-fawaid-al-makkiyya",
       "title": "Al-Fawāʾid al-Makkiyya",
+      "author": "Qārī ʿAbd al-Raḥmān Makkī",
       "subject": "Tajwid",
       "years": [
         "Fifth Year"
@@ -394,6 +411,7 @@
     {
       "id": "jamal-al-quran",
       "title": "Jamāl al-Qurʾān",
+      "author": "Maulānā Ashraf ʿAlī Thānawī",
       "subject": "Tajwid",
       "years": [],
       "description": "Maulana Ashraf Ali Thanwi's short Urdu treatise on tajwid, which sets out the rules of recitation in brief lessons.",
@@ -415,6 +433,7 @@
     {
       "id": "tajweed-made-easy",
       "title": "Tajweed Made Easy",
+      "author": "",
       "subject": "Tajwid",
       "years": [
         "First Year"
@@ -428,6 +447,7 @@
     {
       "id": "tajweed-for-beginners",
       "title": "Tajweed for Beginners",
+      "author": "Qārī Ismāʿīl Essack",
       "subject": "Tajwid",
       "years": [
         "Second Year"
@@ -441,6 +461,7 @@
     {
       "id": "tasheel-al-nahw",
       "title": "Tashīl al-Naḥw",
+      "author": "Aamir Bashir, after Maulānā Mushtāq Aḥmad Charthāwalī",
       "subject": "Nahwa",
       "years": [
         "First Year"
@@ -465,6 +486,7 @@
     {
       "id": "hidayat-al-nahw",
       "title": "Hidāyat al-Naḥw",
+      "author": "",
       "subject": "Nahwa",
       "years": [
         "Fourth Year"
@@ -479,6 +501,7 @@
     {
       "id": "asan-nahw",
       "title": "Āsān Naḥw",
+      "author": "Muftī Saʿīd Aḥmad Pālanpūrī",
       "subject": "Nahwa",
       "years": [
         "Second Year"
@@ -492,6 +515,7 @@
     {
       "id": "ilm-al-nahw",
       "title": "ʿIlm al-Naḥw",
+      "author": "Maulānā Mushtāq Aḥmad Charthāwalī",
       "subject": "Nahwa",
       "years": [
         "Third Year"
@@ -505,6 +529,7 @@
     {
       "id": "tamrin-al-nahw",
       "title": "Tamrīn al-Naḥw",
+      "author": "Maulānā Sayyid ʿInāyatullāh Nadwī",
       "subject": "Nahwa",
       "edition": "Part 2",
       "years": [],
@@ -517,6 +542,7 @@
     {
       "id": "kitab-al-nahw",
       "title": "Kitāb al-Naḥw",
+      "author": "Maulānā Qārī ʿAbd al-Raḥmān Amritsarī",
       "subject": "Nahwa",
       "years": [],
       "price": "TODO",
@@ -528,6 +554,7 @@
     {
       "id": "tadrib-al-nahw",
       "title": "Tadrīb al-Naḥw",
+      "author": "Sayyid Ẓafar Aḥmad Jamīl Ḥusāmī",
       "subject": "Nahwa",
       "years": [],
       "price": "TODO",
@@ -539,6 +566,7 @@
     {
       "id": "tasheel-al-sarf",
       "title": "Tashīl al-Ṣarf",
+      "author": "",
       "subject": "Sarf",
       "years": [
         "First Year"
@@ -552,6 +580,7 @@
     {
       "id": "ilm-al-sarf-awwalin",
       "title": "ʿIlm al-Ṣarf (Awwalīn)",
+      "author": "Maulānā Mushtāq Aḥmad Charthāwalī",
       "subject": "Sarf",
       "years": [
         "Second Year"
@@ -565,6 +594,7 @@
     {
       "id": "ilm-al-sarf-akhirin",
       "title": "ʿIlm al-Ṣarf (Ākhirīn)",
+      "author": "Maulānā Mushtāq Aḥmad Charthāwalī",
       "subject": "Sarf",
       "years": [
         "Third Year"
@@ -578,6 +608,7 @@
     {
       "id": "ilm-al-sigha",
       "title": "ʿIlm al-Ṣīgha",
+      "author": "Muftī ʿInāyat Aḥmad Kākorawī; in Urdu by Muftī Muḥammad Rafīʿ ʿUthmānī",
       "subject": "Sarf",
       "years": [
         "Fourth Year"
@@ -591,6 +622,7 @@
     {
       "id": "asan-sarf",
       "title": "Āsān Ṣarf",
+      "author": "Muftī Saʿīd Aḥmad Pālanpūrī",
       "subject": "Sarf",
       "edition": "Part 1",
       "years": [],
@@ -603,6 +635,7 @@
     {
       "id": "asan-sarf-part-3",
       "title": "Āsān Ṣarf",
+      "author": "Muftī Saʿīd Aḥmad Pālanpūrī",
       "subject": "Sarf",
       "edition": "Part 3",
       "years": [],
@@ -615,6 +648,7 @@
     {
       "id": "durus-al-balagha",
       "title": "Durūs al-Balāgha",
+      "author": "Ḥifnī Nāṣif, Muḥammad Diyāb, Sulṭān Muḥammad & Muṣṭafā Ṭamūm",
       "subject": "Balagha",
       "years": [
         "Fifth Year"
@@ -644,6 +678,7 @@
     {
       "id": "qasas-al-nabiyyin",
       "title": "Qaṣaṣ al-Nabiyyīn",
+      "author": "Shaykh Abū al-Ḥasan ʿAlī Nadwī",
       "subject": "Arabic",
       "years": [
         "First Year",
@@ -660,6 +695,7 @@
     {
       "id": "durus-al-lugha",
       "title": "Durūs al-Lugha al-ʿArabiyya",
+      "author": "Dr V. ʿAbd al-Raḥīm",
       "subject": "Arabic",
       "years": [
         "First Year",
@@ -677,6 +713,7 @@
     {
       "id": "al-qiraa-al-wadiha",
       "title": "Al-Qirāʾa al-Wāḍiḥa",
+      "author": "Maulānā Waḥīd al-Zamān Kairānawī",
       "subject": "Arabic",
       "edition": "Part 1",
       "years": [],
@@ -689,6 +726,7 @@
     {
       "id": "talim-al-arabiyya",
       "title": "Taʿlīm al-ʿArabiyya: al-Kitāb al-Asāsī",
+      "author": "Umm al-Qurā University",
       "subject": "Arabic",
       "edition": "Book 2, Part 1",
       "years": [],
@@ -701,6 +739,7 @@
     {
       "id": "urdu-ka-asan-qaida",
       "title": "Urdū kā Āsān Qāʿida",
+      "author": "",
       "subject": "Urdu",
       "years": [
         "First Year"
@@ -715,6 +754,7 @@
     {
       "id": "arabi-ka-muallim",
       "title": "ʿArabī kā Muʿallim",
+      "author": "Maulvī ʿAbd al-Sattār Khān",
       "subject": "Arabic",
       "edition": "Part 4",
       "years": [],
@@ -728,6 +768,7 @@
     {
       "id": "urdu-khushkhati",
       "title": "Urdū Khushkhaṭī",
+      "author": "",
       "subject": "Urdu",
       "years": [
         "First Year"
@@ -741,6 +782,7 @@
     {
       "id": "achhi-baatein",
       "title": "Achchhī Bāteṉ",
+      "author": "Ḥakīm Sharāfat Ḥusayn Raḥīmābādī",
       "subject": "Urdu",
       "years": [
         "First Year",
@@ -755,6 +797,7 @@
     {
       "id": "nur-al-idah",
       "title": "Nūr al-Īḍāḥ",
+      "author": "Imām Ḥasan al-Shurunbulālī",
       "subject": "Fiqh",
       "years": [
         "Third Year"
@@ -768,6 +811,7 @@
     {
       "id": "mukhtasar-al-quduri",
       "title": "Mukhtaṣar al-Qudūrī",
+      "author": "Imām Abū al-Ḥusayn al-Qudūrī",
       "subject": "Fiqh",
       "years": [
         "Fourth Year"
@@ -782,6 +826,7 @@
     {
       "id": "al-hidaya",
       "title": "Al-Hidāya",
+      "author": "Imām Burhān al-Dīn al-Marghīnānī",
       "subject": "Fiqh",
       "years": [
         "Fifth Year",
@@ -797,6 +842,7 @@
     {
       "id": "al-fiqh-al-muyassar",
       "title": "Al-Fiqh al-Muyassar",
+      "author": "Shafīq al-Raḥmān al-Nadwī",
       "subject": "Fiqh",
       "years": [
         "Second Year"
@@ -810,6 +856,7 @@
     {
       "id": "usul-al-shashi",
       "title": "Uṣūl al-Shāshī",
+      "author": "Niẓām al-Dīn al-Shāshī",
       "subject": "Usul Fiqh",
       "years": [
         "Fifth Year"
@@ -843,6 +890,7 @@
     {
       "id": "mabadi-al-usul",
       "title": "Mabādiʾ al-Uṣūl",
+      "author": "Muftī Saʿīd Aḥmad Pālanpūrī",
       "subject": "Usul Fiqh",
       "years": [
         "Fourth Year"
@@ -856,6 +904,7 @@
     {
       "id": "al-siraji",
       "title": "Al-Sirājī",
+      "author": "Sirāj al-Dīn al-Sajāwandī",
       "subject": "Mirath",
       "years": [
         "Fifth Year"
@@ -869,6 +918,7 @@
     {
       "id": "muin-al-faraid",
       "title": "Muʿīn al-Farāʾiḍ",
+      "author": "Muftī Maḥmūd Ḥasan Ajmerī",
       "subject": "Mirath",
       "years": [
         "Fifth Year"
@@ -882,6 +932,7 @@
     {
       "id": "sharh-al-aqida-al-tahawiyya",
       "title": "Sharḥ al-ʿAqīda al-Ṭaḥāwiyya",
+      "author": "Imām Abū Jaʿfar al-Ṭaḥāwī",
       "subject": "Aqidah",
       "years": [
         "Sixth Year"
@@ -896,6 +947,7 @@
     {
       "id": "matn-al-aqida-al-tahawiyya",
       "title": "Matn al-ʿAqīda al-Ṭaḥāwiyya",
+      "author": "Imām Abū Jaʿfar al-Ṭaḥāwī",
       "subject": "Aqidah",
       "years": [],
       "price": "TODO",
@@ -907,6 +959,7 @@
     {
       "id": "nur-al-yaqin",
       "title": "Nūr al-Yaqīn",
+      "author": "Shaykh Muḥammad al-Khuḍarī Bek",
       "subject": "Sira",
       "years": [
         "Fifth Year"
@@ -920,6 +973,7 @@
     {
       "id": "talim-al-haq",
       "title": "Taʿlīm al-Ḥaq",
+      "author": "",
       "subject": "Islamic Studies",
       "years": [],
       "price": "TODO",
@@ -931,6 +985,7 @@
     {
       "id": "talim-al-islam",
       "title": "Taʿlīm al-Islām",
+      "author": "Muftī Muḥammad Kifāyatullāh Dehlawī",
       "subject": "Islamic Studies",
       "years": [
         "First Year",
@@ -946,6 +1001,7 @@
     {
       "id": "tarikh-e-islam",
       "title": "Tārīkh-e-Islām",
+      "author": "Maulānā ʿĀshiq Ilāhī Mīrṭhī",
       "subject": "History",
       "years": [],
       "price": "TODO",
@@ -957,6 +1013,7 @@
     {
       "id": "ghazv-i-fikri",
       "title": "Ghazv-i Fikrī",
+      "author": "Maulānā Muḥammad Ismāʿīl Rayḥān",
       "subject": "Fikr",
       "years": [
         "Sixth Year"
@@ -970,6 +1027,7 @@
     {
       "id": "nafhat-al-arab",
       "title": "Nafḥat al-ʿArab",
+      "author": "Maulānā Iʿzāz ʿAlī Amrohī",
       "subject": "Adab",
       "years": [
         "Fifth Year"
@@ -983,6 +1041,7 @@
     {
       "id": "asan-mantiq",
       "title": "Āsān Manṭiq",
+      "author": "Muftī Saʿīd Aḥmad Pālanpūrī, after Maulānā ʿAbdullāh Gangohī",
       "subject": "Mantiq",
       "years": [],
       "price": "TODO",
@@ -994,6 +1053,7 @@
     {
       "id": "faiz-e-siddiq",
       "title": "Fayḍ-e-Ṣiddīq",
+      "author": "Abū Muḥammad Khālid Falāḥī Kāpodrawī",
       "subject": "",
       "years": [
         "Third Year"

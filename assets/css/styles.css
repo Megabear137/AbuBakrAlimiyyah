@@ -2133,6 +2133,76 @@ main { position: relative; }
 .store-groups__btn sup { margin-left: 0.3rem; font: 400 0.7rem var(--sans); opacity: 0.7; }
 .store-groups__btn:hover { color: var(--g-text); }
 .store-groups__btn[aria-pressed="true"] { color: var(--g-text); font-weight: 600; border-bottom-color: var(--rust); }
+/* The search by title or author (bookstore.js, renderSearch): a cream pill
+   in a gilt hairline, as the buttons are (dark glass in dark mode, by the
+   --btn-* tokens), over the subjects. The count found under it. */
+.store-search { display: block; max-width: 27rem; margin: 0 0 1.5rem; }
+.store-search[hidden] { display: none; }
+.store-search__box {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0 0.35rem 0 1.05rem;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  box-shadow: var(--btn-lift);
+  color: var(--btn-ink);
+  transition: box-shadow 0.2s;
+}
+.store-search__box:focus-within { box-shadow: var(--btn-lift), 0 0 0 3px rgba(189, 93, 15, 0.28); }
+.store-search__icon { flex: none; width: 18px; height: 18px; opacity: 0.7; }
+.store-search__input {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: 500 1rem var(--sans);   /* 16px: a phone doesn't zoom in on it */
+  outline: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.store-search__input::placeholder { color: inherit; opacity: 0.6; }
+.store-search__input::-webkit-search-cancel-button { display: none; }
+.store-search__clear {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+.store-search__clear[hidden] { display: none; }
+.store-search__clear:hover { opacity: 1; background: rgba(125, 80, 6, 0.1); }
+.store-search__clear svg { width: 16px; height: 16px; }
+.store-search__status { margin: 0.55rem 0 0 1.1rem; color: var(--g-muted); font: italic 1.1rem var(--display); }
+.store-search__status:empty { display: none; }
+.store-search__none { grid-column: 1 / -1; }
+/* The author, under the title. */
+.store-card__by {
+  display: -webkit-box;
+  flex-shrink: 0;   /* overflow: hidden would let the card's column squeeze it under the next line */
+  max-width: 58%;
+  margin-top: 0.3rem;
+  overflow: hidden;
+  font: italic 0.95rem/1.2 var(--display);
+  opacity: 0.85;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;   /* a long one (four authors) in full on the book's page */
+  line-clamp: 2;
+}
+.store-card--lead .store-card__by { max-width: 44%; font-size: 1.05rem; }   /* clear of the picture, which starts near 45% */
+.store-card--wide .store-card__by { -webkit-line-clamp: 1; line-clamp: 1; }   /* a wide tile's height is fixed */
+[data-theme="dark"] .store-search__box:focus-within { box-shadow: var(--btn-lift), 0 0 0 3px rgba(227, 179, 74, 0.3); }
+[data-theme="dark"] .store-search__clear:hover { background: rgba(255, 236, 210, 0.1); }
 
 /* What the book page keeps of the old bookstore leaf: its paper and rules,
    the cover, the three red dots. */
@@ -2214,6 +2284,8 @@ main { position: relative; }
 .b-leaf__category::before { width: 12rem; }
 .b-leaf__price::before { width: 6rem; }
 .b-leaf__category { color: var(--leaf-muted); font: italic 1.25rem var(--display); }
+.b-leaf__author { margin-top: 0.7rem; font: italic 1.25rem/1.3 var(--display); text-wrap: balance; }
+.b-leaf__author:empty { display: none; }
 .b-leaf__edition { margin-top: 0.6rem; color: var(--leaf-muted); font: italic 1.1rem var(--display); }
 .b-leaf__desc { max-width: 32rem; margin-top: 1.2rem; font: 1.15rem/1.5 var(--display); }
 .b-leaf__price { font: 600 1.15rem var(--sans); font-variant-numeric: lining-nums tabular-nums; }
@@ -3039,7 +3111,9 @@ html:not([data-theme="dark"]) .bay:has(> .bay__well--more:not([hidden]))::after 
   .store--rows .store-card__desc { display: none; }
   .store--rows .store-card__sub { color: var(--g-accent); }
   .store--rows .store-card__title { max-width: none; margin-top: 0.25rem; font-size: 1.12rem; font-weight: 600; line-height: 1.12; }
-  .store--rows .store-card__edition { max-width: none; font-size: 0.9rem; }
+  .store--rows .store-card__edition,
+  .store--rows .store-card__by { max-width: none; font-size: 0.9rem; }
+  .store-search { max-width: none; }
   .store--rows .store-card__price,
   .store--rows .store-card--lead .store-card__price { margin-top: 0.35rem; padding: 0; background: none; color: var(--rust); font-size: 0.92rem; }
   .store--rows .store-card__price--todo { color: var(--g-muted); }

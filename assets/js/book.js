@@ -76,6 +76,9 @@
     function srcOf(p) { return p.cover ? (tight[p.cover] && tight[p.cover].tight) || p.cover : drawn; }
     slot("book-subject").textContent = b.subject || "";
     slot("book-title").textContent = b.title;
+    // An author still marked TODO is left off, as on the shelf.
+    var by = String(b.author || "").trim();
+    slot("book-author").textContent = isTodo(by) ? "" : by;
     slot("book-category").textContent = (Array.isArray(b.years) ? b.years : []).join(" · ");
     slot("book-description").textContent = b.description || "";
     slot("book-pickup").textContent = data.pickup || "";

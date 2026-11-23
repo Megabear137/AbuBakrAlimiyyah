@@ -33,11 +33,15 @@
   };
 
   var HOME_CELLS = 12;   // the home page's books fill three rows of four (a large one is four cells, a medium one two)
-  var filter = { group: "" };   // the subject group bookstore.html shows ("" = all)
+  // The subject group bookstore.html shows ("" = all) and what its search
+  // box holds ("" = no search). ?group= and ?q= set them on load.
+  var filter = { group: "", q: "" };
   try {
     var q = new URLSearchParams(location.search);
     filter.group = q.get("group") || "";
+    filter.q = (q.get("q") || "").trim();
   } catch (e) {}
+  if (!slot("bookstore-search")) filter.q = "";   // only bookstore.html searches
 
   // A book without a measured photograph is tinted by its binding.
   var TONES = { "lapis": "#1c3f7a", "ink": "#2e2c33", "lapis-silver": "#1c3f7a", "ink-silver": "#2e2c33",
@@ -80,6 +84,33 @@
   }
 
   function subjectOf(b) { return String(b.subject || "").trim(); }
+
+  /* The search (bookstore.html): by title and author. Both sides are folded
+     alike, so that the way a name is spelled in English doesn't matter:
+     no accents, ʿayn or hamza (Ṣaḥīḥ, sahih), no spaces or hyphens
+     (al-Bukhari, albukhari), ee and oo as i and u (Tasheel, Tashil), a
+     doubled letter as one, v as w (Ghazv, Ghazw), and a final -ah as -a
+     (Majah, Maja). The id goes in too, for its spellings (maani, sigha). */
+  function fold(s) {
+    return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
+      .replace(/[ʿʾʻ'’‘`]/g, "")
+      .replace(/[^a-z0-9؀-ۿ]+/g, " ")
+      .replace(/ah\b/g, "a")
+      .replace(/v/g, "w").replace(/ee/g, "i").replace(/oo|ou/g, "u")
+      .replace(/([a-z])\1+/g, "$1");
+  }
+  function words(q) { return fold(q).split(" ").filter(Boolean); }
+  function searchText(b) {
+    return fold([b.title, b.author, b.id].join(" ")).replace(/ /g, "");
+  }
+  // Every word of the search is somewhere in the book's title, author or id.
+  function hit(b) {
+    var ws = words(filter.q);
+    if (!ws.length) return true;
+    var hay = searchText(b);
+    return ws.every(function (w) { return hay.indexOf(w) >= 0; });
+  }
+  function searching() { return words(filter.q).length > 0; }
 
   // A book's prints: its "prints" (each an edition, price, cover and
   // soldOut of its own), or, without them, the book itself as its one
@@ -180,6 +211,7 @@
     var price = priceRange(prints);
     var many = prints.length > 1;
     var edition = many ? prints.length + " prints" : front.edition;
+    var by = isTodo(book.author) ? "" : String(book.author || "").trim();
     var c = el("article", "store-card" + (lead ? " store-card--lead" : "") + (size === "medium" ? " store-card--wide" : "") + (href ? " store-card--link" : ""));
     c.dataset.i = i;
     c.dataset.years = yearsOf(book).join("|");
@@ -189,6 +221,7 @@
       (book.subject ? '<p class="store-card__sub">' + esc(book.subject) + "</p>" : "") +
       '<h3 class="store-card__title">' +
         (href ? '<a class="stretched" href="' + esc(href) + '">' + esc(book.title) + "</a>" : esc(book.title)) + "</h3>" +
+      (by ? '<p class="store-card__by">' + esc(by) + "</p>" : "") +
       (edition ? '<p class="store-card__edition">' + esc(edition) + "</p>" : "") +
       (years ? '<p class="store-card__years">' + esc(years) + "</p>" : "") +
       (lead && book.description ? '<p class="store-card__desc">' + esc(book.description) + "</p>" : "") +
@@ -243,7 +276,8 @@
       row.setAttribute("role", "group");
       row.setAttribute("aria-label", "Subject");
       [""].concat(names).forEach(function (v) {
-        var n = books.filter(function (b) { return matches(b, v, groups); }).length;
+        // While searching, each count is of the books found.
+        var n = books.filter(function (b) { return matches(b, v, groups) && hit(b); }).length;
         var b = el("button", "store-groups__btn", esc(v || "All") + "<sup>" + n + "</sup>");
         b.type = "button";
         b.setAttribute("aria-pressed", String(v === filter.group));
@@ -295,7 +329,9 @@
   }
   function renderRows(grid, books, data, names) {
     names.forEach(function (name, k) {
-      var shown = tabBooks(books, data, name);
+      // While searching, only the books found, and no row without one.
+      var shown = tabBooks(books, data, name).filter(function (t) { return hit(t.book); });
+      if (!shown.length) return;
       var sec = el("section", "store-row");
       var head = el("h2", "store-row__head", esc(name) + "<sup>" + shown.length + "</sup>");
       head.id = "store-row-" + k;
@@ -307,7 +343,7 @@
     });
     // A link to one subject (bookstore.html?group=Fiqh) opens at its row.
     var at = names.indexOf(filter.group);
-    if (at > 0 && !grid._rowsShown) {
+    if (at > 0 && !grid._rowsShown && !searching()) {
       // Once the page has loaded (a load resets the scroll), and to the row
       // as it is then: the covers' arrival redraws them.
       var go = function () { var r = grid.querySelectorAll(".store-row")[at]; if (r) r.scrollIntoView({ block: "start", behavior: "instant" }); };
@@ -316,21 +352,90 @@
     grid._rowsShown = true;
   }
 
+  function noMatch() {
+    return el("p", "media-empty store-search__none",
+      "No book has a title or author like “" + esc(filter.q.trim()) + "”.");
+  }
+
+  /* bookstore.html: the search box over the subjects, built once (the
+     section is drawn again as the covers arrive and as the editor previews,
+     and the box keeps its text and focus). Each keystroke redraws the
+     books; a search begun in a subject tab looks in All. The line beneath
+     says how many were found, and is read out. Escape clears it. The
+     search is kept in the address (?q=), so a search can be shared. */
+  var SEARCH_ICON = '<svg class="store-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>';
+  function renderSearch(mount) {
+    if (mount._built) return mount._status;
+    mount._built = true;
+    mount.hidden = false;
+    mount.setAttribute("aria-label", "Books");
+    mount.innerHTML =
+      '<div class="store-search__box">' + SEARCH_ICON +
+        '<input class="store-search__input" id="store-search" type="search" placeholder="Search by title or author" ' +
+          'aria-label="Search books by title or author" autocomplete="off" spellcheck="false" enterkeyhint="search">' +
+        '<button class="store-search__clear" type="button" aria-label="Clear the search" hidden>' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button>' +
+      "</div>" +
+      '<p class="store-search__status" role="status"></p>';
+    var input = mount.querySelector("input"), clear = mount.querySelector(".store-search__clear");
+    input.value = filter.q;
+    clear.hidden = !filter.q;
+    function run(value) {
+      var was = searching();
+      filter.q = value;
+      clear.hidden = !value;
+      // A search looks in every subject; the tabs then narrow it.
+      if (!was && searching() && filter.group) {
+        filter.group = "";
+        mount.dispatchEvent(new CustomEvent("bookstore:tab", { bubbles: true, detail: { group: "" } }));
+      }
+      try {
+        var u = new URL(location.href);
+        if (value.trim()) u.searchParams.set("q", value.trim()); else u.searchParams.delete("q");
+        u.searchParams.delete("group");
+        history.replaceState(null, "", u);
+      } catch (e) {}
+      if (last) renderBookstore(last[0], last[1]);
+    }
+    input.addEventListener("input", function () { run(input.value); });
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && input.value) { e.preventDefault(); input.value = ""; run(""); }
+      if (e.key === "Enter") input.blur();   // a phone's keyboard closes on the results
+    });
+    clear.addEventListener("click", function () { input.value = ""; run(""); input.focus(); });
+    mount._status = mount.querySelector(".store-search__status");
+    return mount._status;
+  }
+
+  // "3 books found", or nothing without a search.
+  function searchStatus(books) {
+    var mount = slot("bookstore-search");
+    if (!mount) return;
+    var status = renderSearch(mount);
+    if (!searching()) { status.textContent = ""; return; }
+    var n = books.filter(hit).length;
+    status.textContent = n ? n + (n === 1 ? " book" : " books") + " found" : "No books found";
+  }
+
   function renderAll(grid, books, data) {
+    searchStatus(books);
     grid.textContent = "";
     var names = groupNames(books, data);
     var rows = PHONE.matches && names.length > 1;
     grid.classList.toggle("store--rows", rows);
     if (rows) {
       renderRows(grid, books, data, names);
+      if (!grid.firstChild) grid.appendChild(noMatch());
       setText("bookstore-kicker", data.kicker);
       setText("bookstore-heading", data.heading);
       setText("bookstore-lede", data.lede);
       return;
     }
-    var shown = tabBooks(books, data, filter.group);
-    shown.forEach(function (t) { grid.appendChild(card(t.book, books.indexOf(t.book), t.size)); });
-    if (!shown.length) grid.appendChild(el("p", "media-empty", books.length ? "No books match." : "No books yet."));
+    // While searching, the books found, each a normal card.
+    var find = searching();
+    var shown = tabBooks(books, data, filter.group).filter(function (t) { return hit(t.book); });
+    shown.forEach(function (t) { grid.appendChild(card(t.book, books.indexOf(t.book), find ? "normal" : t.size)); });
+    if (!shown.length) grid.appendChild(find ? noMatch() : el("p", "media-empty", books.length ? "No books match." : "No books yet."));
     setText("bookstore-kicker", data.kicker);
     setText("bookstore-heading", data.heading);
     setText("bookstore-lede", data.lede);

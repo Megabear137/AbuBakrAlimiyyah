@@ -152,7 +152,7 @@
   function matchesText(b) {
     var q = filter.q.trim().toLowerCase();
     if (!q) return true;
-    var hay = [b.title, b.subject, b.id, b.description, groupOf(b)].concat(printsOf(b).map(function (p) { return p.edition; }))
+    var hay = [b.title, b.author, b.subject, b.id, b.description, groupOf(b)].concat(printsOf(b).map(function (p) { return p.edition; }))
       .join(" ").toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "");
     return q.normalize("NFKD").replace(/[̀-ͯ]/g, "").split(/\s+/).every(function (w) { return hay.indexOf(w) >= 0; });
   }
@@ -278,6 +278,7 @@
 
       "<h3>The book</h3>" +
       field("Title", 'data-f="title"', b.title) +
+      field("Author", 'data-f="author"', b.author || "", "On the book’s page under the title; the Bookstore page’s search finds books by it.") +
       '<div class="grid2">' +
         field("Subject (category)", 'data-f="subject" list="dash-subjects"', b.subject,
           "Group: <b data-groupnote>" + esc(groupOf(b)) + "</b>. Groups are set by hand in bookstore.json.") +

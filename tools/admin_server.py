@@ -83,7 +83,7 @@ VIDEO_TEXT = ("title", "duration", "thumbnail", "href")
 YOUTUBE_RE = re.compile(r"^https?://(?:www\.|m\.)?(?:youtube\.com/(?:watch\?(?:[^#]*&)?v=|embed/|shorts/|live/)|youtu\.be/)([\w-]{11})", re.I)
 VIMEO_RE = re.compile(r"^https?://(?:www\.|player\.)?vimeo\.com/(?:video/)?(\d+)", re.I)
 STORE_HEAD = ("heading", "kicker", "lede", "visitLabel", "pickup", "hold", "payWith", "reserveTo")
-STORE_TEXT = ("title", "edition", "subject", "price", "description", "cover", "color")
+STORE_TEXT = ("title", "author", "edition", "subject", "price", "description", "cover", "color")
 PRINT_TEXT = ("edition", "price", "cover")
 # The bindings assets/js/curriculum.js draws (its BINDINGS); keep in step.
 BINDINGS = ("lapis", "ink", "lapis-silver", "ink-silver", "petrol", "slate", "oxblood", "aubergine")

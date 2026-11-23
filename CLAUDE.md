@@ -161,7 +161,8 @@ Every page also loads `nav.js` and `cart.js` (the cart's bag button and slip, wh
 - Curriculum: each year's `color` (a binding) binds its books; a book's `book_size`
   small/medium/large picks from `SIZES`; `description` (slip, ~two sentences, clamped at six lines) vs
   `long` (folio only). A title starting `TODO` renders a dashed placeholder everywhere.
-- Bookstore books: one posting per book (`years` lists every year it's taught), `subject`, `edition`,
+- Bookstore books: one posting per book (`years` lists every year it's taught), `subject`, `author`
+  (under the title on cards, clamped to two lines, one on wide tiles; in full on `book.html`), `edition`,
   `price` (text), `description`, `cover`, `featured`, `size` (`large` 2×2 / `medium` 2×1), `tint`,
   `id`, `soldOut`. A book in several editions has `prints: [{edition, price, cover, soldOut}]`
   instead of those four fields. `subjectGroups` (hand-edited, not by the editor) makes the bookstore
@@ -249,6 +250,11 @@ bookstore editor edits the open tab's layout.
 - **Niches**: the arch is one SVG path in four data-URI tokens on `.niche-slot` plus `--niche-pad`;
   change all five together. The drop shadow is a `filter` on the parent because a mask clips its own.
 - **Bookstore medium tiles** use `contain: size` so they don't grow their row.
+- **The bookstore's search** (`bookstore.html` only, `renderSearch` in `bookstore.js`, `?q=`) matches
+  every word against a book's title, author and id, all folded by `fold()` (no accents, ʿayn or
+  spaces; ee→i, oo→u, v→w, doubled letters single, final -ah→-a), so English spellings find the
+  transliterations. The box is built once and survives redraws; results are normal-size cards,
+  and starting a search jumps to All. On phones it filters the rows and drops empty ones.
 - **The bookstore on phones** (≤640px, `PHONE` in `bookstore.js`): `bookstore.html` draws a swiped row
   per subject group, and the home page its books as one swiped row (`homeRow`) with dots that follow
   the scroll (decoration, not buttons). Both use `.store--rows` and render again when crossing 640px.
